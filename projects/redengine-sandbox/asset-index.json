@@ -1,0 +1,3303 @@
+{
+  "asset_count": 202,
+  "assets": [
+    {
+      "asset": "painting_landscape",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_painting_landscape",
+      "position": [
+        -15.0,
+        1.4699999940395356,
+        15.98399999924004
+      ],
+      "description": "A framed landscape painting (sun, hills, clouds); origin at the wall face, center.",
+      "size_m": [
+        1.0,
+        0.699999988079071,
+        0.03200000151991844
+      ]
+    },
+    {
+      "asset": "painting_seascape",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_painting_seascape",
+      "position": [
+        -5.0,
+        1.4400000226497651,
+        15.981000000610948
+      ],
+      "description": "A wide framed seascape with a sailboat; origin at the wall face, center.",
+      "size_m": [
+        1.3899999856948853,
+        0.64000004529953,
+        0.03799999877810478
+      ]
+    },
+    {
+      "asset": "painting_abstract",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_painting_abstract",
+      "position": [
+        5.0,
+        1.6100000095367433,
+        15.98399999924004
+      ],
+      "description": "A framed abstract painting of color blocks (portrait); origin at the wall face, center.",
+      "size_m": [
+        0.7800000309944153,
+        0.9800000190734863,
+        0.03200000151991844
+      ]
+    },
+    {
+      "asset": "painting_portrait_oval",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_painting_portrait_oval",
+      "position": [
+        15.0,
+        1.545000011920929,
+        15.971500010229647
+      ],
+      "description": "An old-fashioned oval portrait in a gilt frame; origin at the wall face, center.",
+      "size_m": [
+        0.699999988079071,
+        0.8500000238418579,
+        0.057000018656253815
+      ]
+    },
+    {
+      "asset": "painting_still_life",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_painting_still_life",
+      "position": [
+        -15.0,
+        1.420000011920929,
+        6.983999997377396
+      ],
+      "description": "A dark still-life painting of fruit and a vase; origin at the wall face, center.",
+      "size_m": [
+        0.699999988079071,
+        0.6000000238418579,
+        0.03200000524520874
+      ]
+    },
+    {
+      "asset": "poster_movie",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_poster_movie",
+      "position": [
+        -5.0,
+        1.5700000178813935,
+        6.992249999660999
+      ],
+      "description": "An unframed movie poster (moon, silhouette, title bar); origin at the wall face, center.",
+      "size_m": [
+        0.6000000238418579,
+        0.8999999761581421,
+        0.015500000678002834
+      ]
+    },
+    {
+      "asset": "poster_world_map",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_poster_world_map",
+      "position": [
+        5.0,
+        1.4800000143051149,
+        6.99199999962002
+      ],
+      "description": "A wall map of the world (flat continents on blue); origin at the wall face, center.",
+      "size_m": [
+        1.2000000476837158,
+        0.7200000286102295,
+        0.01600000075995922
+      ]
+    },
+    {
+      "asset": "poster_motivational",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_poster_motivational",
+      "position": [
+        15.0,
+        1.430000002384186,
+        6.983999999240041
+      ],
+      "description": "A framed office 'motivational' poster: mountains and a caption bar; origin at the wall face, center.",
+      "size_m": [
+        0.8600000143051147,
+        0.6200000047683716,
+        0.03200000151991844
+      ]
+    },
+    {
+      "asset": "corkboard",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_corkboard",
+      "position": [
+        -15.0,
+        1.4550000083446504,
+        -2.019750000908971
+      ],
+      "description": "A framed cork bulletin board with pinned notes; origin at the wall face, center.",
+      "size_m": [
+        0.9700000286102295,
+        0.6700000166893005,
+        0.039500001817941666
+      ]
+    },
+    {
+      "asset": "wall_calendar",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_wall_calendar",
+      "position": [
+        -5.0,
+        1.3605000030994416,
+        -2.0059999995864928
+      ],
+      "description": "A paper wall calendar with one date circled; origin at the wall face, center.",
+      "size_m": [
+        0.3199999928474426,
+        0.48250001668930054,
+        0.024000000208616257
+      ]
+    },
+    {
+      "asset": "dartboard",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_dartboard",
+      "position": [
+        5.0,
+        1.420000011920929,
+        -2.0274999998509884
+      ],
+      "description": "A dartboard in a wooden cabinet; origin at the wall face, center.",
+      "size_m": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.054999999701976776
+      ]
+    },
+    {
+      "asset": "wall_mirror_round",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_wall_mirror_round",
+      "position": [
+        15.0,
+        1.5199999761581422,
+        -2.0225000008940697
+      ],
+      "description": "A round mirror with a metal rim; origin at the wall face, center.",
+      "size_m": [
+        0.800000011920929,
+        0.7999999523162842,
+        0.045000046491622925
+      ]
+    },
+    {
+      "asset": "certificate_frame",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_certificate_frame",
+      "position": [
+        -15.0,
+        1.2550000053644181,
+        -11.01600000075996
+      ],
+      "description": "A small framed certificate with a red seal; origin at the wall face, center.",
+      "size_m": [
+        0.3499999940395355,
+        0.27000001072883606,
+        0.03200000151991844
+      ]
+    },
+    {
+      "asset": "wall_banner",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_wall_banner",
+      "position": [
+        -5.0,
+        1.7400000047683717,
+        -11.029999998398125
+      ],
+      "description": "A hanging cloth banner (school-spirit style) on a rod; origin at the wall face, at the rod's height.",
+      "size_m": [
+        0.64000004529953,
+        1.3965435028076172,
+        0.03999999910593033
+      ]
+    },
+    {
+      "asset": "trophy_deer_head",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_trophy_deer_head",
+      "position": [
+        5.0,
+        1.3999999713897706,
+        -11.184039775282145
+      ],
+      "description": "A mounted deer head with antlers on a wooden plaque; origin at the wall face, at the plaque's center.",
+      "size_m": [
+        0.4553256034851074,
+        0.8022971749305725,
+        0.4419204592704773
+      ]
+    },
+    {
+      "asset": "gallery_trio",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_gallery_trio",
+      "position": [
+        14.95725005865097,
+        1.5620000314712525,
+        -11.01600000075996
+      ],
+      "description": "A ready-made trio of paintings (landscape flanked by an abstract and a still life), 2.5 m wide; origin at the wall face, center.",
+      "size_m": [
+        2.4095001220703125,
+        0.7920000553131104,
+        0.03200000151991844
+      ]
+    },
+    {
+      "asset": "pedestal",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_pedestal",
+      "position": [
+        -15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A museum display plinth (1 m by default); stand a small sculpture on it at y = height.",
+      "size_m": [
+        0.47999998927116394,
+        1.0,
+        0.47999998927116394
+      ]
+    },
+    {
+      "asset": "pedestal_low",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_pedestal_low",
+      "position": [
+        -5.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A short (0.6 m) display plinth.",
+      "size_m": [
+        0.5799999833106995,
+        0.5999999642372131,
+        0.5799999833106995
+      ]
+    },
+    {
+      "asset": "sculpture_stack",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_sculpture_stack",
+      "position": [
+        5.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A tabletop abstract sculpture: cube, sphere and spike stacked on a black base (0.6 m).",
+      "size_m": [
+        0.2800000011920929,
+        0.6100000143051147,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "sculpture_spiral",
+      "map": "maps/gallery-art-01.json",
+      "object": "asset_sculpture_spiral",
+      "position": [
+        15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A tabletop spiral of beads climbing a steel rod (0.6 m).",
+      "size_m": [
+        0.25999999046325684,
+        0.5499999523162842,
+        0.25999999046325684
+      ]
+    },
+    {
+      "asset": "sculpture_bust",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_bust",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A marble bust on a plinth (1.5 m tall in total).",
+      "size_m": [
+        0.5,
+        1.6099998950958252,
+        0.41999998688697815
+      ]
+    },
+    {
+      "asset": "statue_figure",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_statue_figure",
+      "position": [
+        -4.9997778087854385,
+        0.12,
+        16.0
+      ],
+      "description": "A bronze-style figure with raised arms on a low plinth (1.5 m tall).",
+      "size_m": [
+        0.6934973001480103,
+        1.4965144395828247,
+        0.6800000071525574
+      ]
+    },
+    {
+      "asset": "sculpture_cat",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_cat",
+      "position": [
+        4.972002383321524,
+        0.12,
+        16.011500000953674
+      ],
+      "description": "A glazed ceramic cat sitting upright (0.4 m).",
+      "size_m": [
+        0.29599523544311523,
+        0.4245304465293884,
+        0.21700000762939453
+      ]
+    },
+    {
+      "asset": "sculpture_bird",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_bird",
+      "position": [
+        15.0,
+        0.12,
+        15.99252549558878
+      ],
+      "description": "A glossy bird figurine on a little stand (0.35 m).",
+      "size_m": [
+        0.20857536792755127,
+        0.3499999940395355,
+        0.4150509834289551
+      ]
+    },
+    {
+      "asset": "sculpture_armillary",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_armillary",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "A brass armillary sphere (three bead rings around a core) on a stand (0.5 m).",
+      "size_m": [
+        0.36000001430511475,
+        0.47999998927116394,
+        0.36000001430511475
+      ]
+    },
+    {
+      "asset": "sculpture_twist_tower",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_twist_tower",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A tapering, twisting tower of stacked blocks on a black plinth (1.65 m).",
+      "size_m": [
+        0.5799999833106995,
+        1.5999999046325684,
+        0.5799999833106995
+      ]
+    },
+    {
+      "asset": "sculpture_monolith",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_sculpture_monolith",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A tall dark monolith with a brass band (1.7 m).",
+      "size_m": [
+        0.6200000047683716,
+        1.7000000476837158,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "trophy_cup",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_trophy_cup",
+      "position": [
+        15.0,
+        0.12,
+        6.999750003218651
+      ],
+      "description": "A gold trophy cup on a wooden base (0.36 m).",
+      "size_m": [
+        0.29808634519577026,
+        0.35749998688697815,
+        0.1704999953508377
+      ]
+    },
+    {
+      "asset": "bonsai",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_bonsai",
+      "position": [
+        -15.002499997615814,
+        0.12,
+        -2.0
+      ],
+      "description": "A bonsai tree in a blue pot (0.34 m).",
+      "size_m": [
+        0.3149999976158142,
+        0.3349999785423279,
+        0.18000000715255737
+      ]
+    },
+    {
+      "asset": "plant_snake",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_plant_snake",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A snake plant (tall, upright blade leaves) in a round pot (1.3 m).",
+      "size_m": [
+        0.3700000047683716,
+        1.269465446472168,
+        0.3700000047683716
+      ]
+    },
+    {
+      "asset": "plant_monstera",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_plant_monstera",
+      "position": [
+        4.9832813590765,
+        0.12,
+        -2.037341833114624
+      ],
+      "description": "A monstera with big flat leaves in a pot (1.1 m).",
+      "size_m": [
+        0.7472673654556274,
+        1.1145076751708984,
+        0.666785478591919
+      ]
+    },
+    {
+      "asset": "plant_cactus",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_plant_cactus",
+      "position": [
+        15.006499998271465,
+        0.12,
+        -2.0
+      ],
+      "description": "A small cactus with two arms and a pink flower in a pot (0.5 m).",
+      "size_m": [
+        0.28299999237060547,
+        0.5199999809265137,
+        0.20000000298023224
+      ]
+    },
+    {
+      "asset": "books_row",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_books_row",
+      "position": [
+        -15.000749997794628,
+        0.12,
+        -11.0
+      ],
+      "description": "A row of eight upright books; origin at the middle of the base of the row.",
+      "size_m": [
+        0.2616000175476074,
+        0.2669999897480011,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "picture_stand",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_picture_stand",
+      "position": [
+        -5.0,
+        0.10871852457523346,
+        -10.95591663569212
+      ],
+      "description": "A small standing photo frame for desks and shelves (0.28 m).",
+      "size_m": [
+        0.20000000298023224,
+        0.2574370503425598,
+        0.1568959802389145
+      ]
+    },
+    {
+      "asset": "hourglass",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_hourglass",
+      "position": [
+        5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A wood-framed hourglass (0.21 m).",
+      "size_m": [
+        0.11999999731779099,
+        0.20749999582767487,
+        0.11999999731779099
+      ]
+    },
+    {
+      "asset": "radio_retro",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_radio_retro",
+      "position": [
+        14.983206145465374,
+        0.12,
+        -11.010000001639128
+      ],
+      "description": "A retro tabletop radio (0.36 m).",
+      "size_m": [
+        0.3735877275466919,
+        0.3617922067642212,
+        0.15000000596046448
+      ]
+    },
+    {
+      "asset": "newtons_cradle",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_newtons_cradle",
+      "position": [
+        -15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A desk Newton's cradle (0.24 m).",
+      "size_m": [
+        0.2199999988079071,
+        0.22500000894069672,
+        0.11999999731779099
+      ]
+    },
+    {
+      "asset": "chess_set",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_chess_set",
+      "position": [
+        -5.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A chess board set up mid-game (a reduced set of pieces; 0.44 m square).",
+      "size_m": [
+        0.4399999976158142,
+        0.1340000033378601,
+        0.4399999976158142
+      ]
+    },
+    {
+      "asset": "grandfather_clock",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_grandfather_clock",
+      "position": [
+        5.0,
+        0.12,
+        -20.005999997258186
+      ],
+      "description": "A tall wooden grandfather clock with a pendulum (1.9 m).",
+      "size_m": [
+        0.5,
+        1.899999976158142,
+        0.31200000643730164
+      ]
+    },
+    {
+      "asset": "easel_canvas",
+      "map": "maps/gallery-art-02.json",
+      "object": "asset_easel_canvas",
+      "position": [
+        14.982368603348732,
+        0.11488246440887451,
+        -19.898492470383644
+      ],
+      "description": "A wooden painter's easel holding an unfinished landscape (1.7 m).",
+      "size_m": [
+        0.9352627992630005,
+        1.6897649765014648,
+        0.7315791845321655
+      ]
+    },
+    {
+      "asset": "vase_tall_branches",
+      "map": "maps/gallery-art-03.json",
+      "object": "asset_vase_tall_branches",
+      "position": [
+        -14.98905000090599,
+        0.12,
+        15.990227833390236
+      ],
+      "description": "A tall floor vase with blossom branches (1.8 m).",
+      "size_m": [
+        0.4553000032901764,
+        1.6549999713897705,
+        0.2897064983844757
+      ]
+    },
+    {
+      "asset": "candelabra",
+      "map": "maps/gallery-art-03.json",
+      "object": "asset_candelabra",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A brass three-candle candelabra with unlit candles (0.45 m).",
+      "size_m": [
+        0.2759999930858612,
+        0.4360000193119049,
+        0.14000000059604645
+      ]
+    },
+    {
+      "asset": "picture_frame",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_picture_frame",
+      "position": [
+        -15.0,
+        1.3500000041723252,
+        15.979500001296401
+      ],
+      "description": "A framed picture; origin at the wall face, center.",
+      "size_m": [
+        0.5600000023841858,
+        0.46000000834465027,
+        0.04099999740719795
+      ]
+    },
+    {
+      "asset": "wall_mirror",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_wall_mirror",
+      "position": [
+        -5.0,
+        1.6100000095367433,
+        15.983000000938773
+      ],
+      "description": "A framed wall mirror; origin at the wall face, center.",
+      "size_m": [
+        0.6800000071525574,
+        0.9800000190734863,
+        0.03399999812245369
+      ]
+    },
+    {
+      "asset": "vase",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_vase",
+      "position": [
+        5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A ceramic vase.",
+      "size_m": [
+        0.15000000596046448,
+        0.2800000011920929,
+        0.15000000596046448
+      ]
+    },
+    {
+      "asset": "flower_vase",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_flower_vase",
+      "position": [
+        15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A vase of flowers.",
+      "size_m": [
+        0.18000000715255737,
+        0.5979999899864197,
+        0.15000000596046448
+      ]
+    },
+    {
+      "asset": "candle",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_candle",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "A pillar candle with a flame.",
+      "size_m": [
+        0.05999999865889549,
+        0.16179999709129333,
+        0.05999999865889549
+      ]
+    },
+    {
+      "asset": "teddy_bear",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_teddy_bear",
+      "position": [
+        -5.0,
+        0.12,
+        6.9855000004172325
+      ],
+      "description": "A stuffed teddy bear, sitting, facing +Z.",
+      "size_m": [
+        0.25999999046325684,
+        0.3149999976158142,
+        0.19099999964237213
+      ]
+    },
+    {
+      "asset": "ball_soccer",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_ball_soccer",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A soccer ball.",
+      "size_m": [
+        0.2199999988079071,
+        0.22500000894069672,
+        0.2199999988079071
+      ]
+    },
+    {
+      "asset": "pillow",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_pillow",
+      "position": [
+        15.0,
+        0.12100000202655792,
+        7.0
+      ],
+      "description": "A square throw pillow.",
+      "size_m": [
+        0.44999998807907104,
+        0.13199999928474426,
+        0.44999998807907104
+      ]
+    },
+    {
+      "asset": "toy_block",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_toy_block",
+      "position": [
+        -15.0,
+        0.12,
+        -2.001500000245869
+      ],
+      "description": "A wooden toy block.",
+      "size_m": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05300000309944153
+      ]
+    },
+    {
+      "asset": "rubber_duck",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_rubber_duck",
+      "position": [
+        -5.0,
+        0.12200000219047069,
+        -2.0009999983012676
+      ],
+      "description": "A rubber duck facing +Z.",
+      "size_m": [
+        0.07999999821186066,
+        0.10300000756978989,
+        0.1380000114440918
+      ]
+    },
+    {
+      "asset": "succulent",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_succulent",
+      "position": [
+        4.997500000521541,
+        0.12,
+        -2.0
+      ],
+      "description": "A small succulent in a pot.",
+      "size_m": [
+        0.125,
+        0.13199999928474426,
+        0.10000000149011612
+      ]
+    },
+    {
+      "asset": "rug_round",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_rug_round",
+      "position": [
+        15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A round floor rug (walk-through, 1.6 m).",
+      "size_m": [
+        1.600000023841858,
+        0.017000000923871994,
+        1.600000023841858
+      ]
+    },
+    {
+      "asset": "curtain_pair",
+      "map": "maps/gallery-decor-01.json",
+      "object": "asset_curtain_pair",
+      "position": [
+        -15.0,
+        3.0400000762939454,
+        -11.059999998658895
+      ],
+      "description": "A pair of curtains on a rod; origin at the wall face, center of the rod.",
+      "size_m": [
+        1.7999999523162842,
+        1.9320001602172852,
+        0.05000000447034836
+      ]
+    },
+    {
+      "asset": "apple_red",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_apple_red",
+      "position": [
+        -15.0,
+        0.1208000023663044,
+        16.0
+      ],
+      "description": "A red apple with a stem.",
+      "size_m": [
+        0.07999999821186066,
+        0.08700117468833923,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "apple_green",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_apple_green",
+      "position": [
+        -5.0,
+        0.1208000023663044,
+        16.0
+      ],
+      "description": "A green apple.",
+      "size_m": [
+        0.07999999821186066,
+        0.08700117468833923,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "apple_gold",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_apple_gold",
+      "position": [
+        5.0,
+        0.1208000023663044,
+        16.0
+      ],
+      "description": "A golden apple.",
+      "size_m": [
+        0.07999999821186066,
+        0.08700117468833923,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "orange",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_orange",
+      "position": [
+        15.0,
+        0.1193400014936924,
+        16.0
+      ],
+      "description": "An orange.",
+      "size_m": [
+        0.07599999755620956,
+        0.0773400068283081,
+        0.07599999755620956
+      ]
+    },
+    {
+      "asset": "lemon",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_lemon",
+      "position": [
+        -15.0,
+        0.1204000011831522,
+        7.0
+      ],
+      "description": "A lemon.",
+      "size_m": [
+        0.09399999678134918,
+        0.06080000102519989,
+        0.06400000303983688
+      ]
+    },
+    {
+      "asset": "banana",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_banana",
+      "position": [
+        -4.993499998003244,
+        0.12000000186264514,
+        6.995999999344349
+      ],
+      "description": "A banana, curved, lying on its side (length along X).",
+      "size_m": [
+        0.2330000102519989,
+        0.03999999910593033,
+        0.04399999976158142
+      ]
+    },
+    {
+      "asset": "tomato",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_tomato",
+      "position": [
+        5.0,
+        0.12200000032782554,
+        7.0
+      ],
+      "description": "A ripe tomato.",
+      "size_m": [
+        0.08399999141693115,
+        0.07400000095367432,
+        0.08399999141693115
+      ]
+    },
+    {
+      "asset": "bread_loaf",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_bread_loaf",
+      "position": [
+        15.0,
+        0.12,
+        7.0
+      ],
+      "description": "A loaf of bread on its base.",
+      "size_m": [
+        0.25999999046325684,
+        0.12200000137090683,
+        0.11999999731779099
+      ]
+    },
+    {
+      "asset": "cereal_box",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_cereal_box",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0010000001639128
+      ],
+      "description": "A cereal box; recolor for a different brand.",
+      "size_m": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.07400000095367432
+      ]
+    },
+    {
+      "asset": "milk_carton",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_milk_carton",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A gable-top milk carton.",
+      "size_m": [
+        0.09234914183616638,
+        0.20551638305187225,
+        0.07199999690055847
+      ]
+    },
+    {
+      "asset": "soda_can",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_soda_can",
+      "position": [
+        5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "An aluminium soda can.",
+      "size_m": [
+        0.06700000166893005,
+        0.11599999666213989,
+        0.06700000166893005
+      ]
+    },
+    {
+      "asset": "wine_bottle",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_wine_bottle",
+      "position": [
+        15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A wine bottle.",
+      "size_m": [
+        0.07699999958276749,
+        0.3440000116825104,
+        0.07699999958276749
+      ]
+    },
+    {
+      "asset": "water_bottle",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_water_bottle",
+      "position": [
+        -15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A plastic water bottle.",
+      "size_m": [
+        0.06800000369548798,
+        0.22200000286102295,
+        0.06800000369548798
+      ]
+    },
+    {
+      "asset": "cookie_jar",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_cookie_jar",
+      "position": [
+        -5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A lidded jar.",
+      "size_m": [
+        0.1899999976158142,
+        0.26100000739097595,
+        0.1899999976158142
+      ]
+    },
+    {
+      "asset": "fruit_bowl",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_fruit_bowl",
+      "position": [
+        5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A bowl of apples; recolor the fruit.",
+      "size_m": [
+        0.30000001192092896,
+        0.24620115756988525,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "pizza_box",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_pizza_box",
+      "position": [
+        15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A flat takeaway pizza box.",
+      "size_m": [
+        0.4000000059604645,
+        0.041999999433755875,
+        0.4000000059604645
+      ]
+    },
+    {
+      "asset": "cake",
+      "map": "maps/gallery-food-01.json",
+      "object": "asset_cake",
+      "position": [
+        -15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "A two-layer frosted cake on a plate.",
+      "size_m": [
+        0.30000001192092896,
+        0.14399999380111694,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "chair_wooden_1",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_chair_wooden_1",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "Dining chair with a solid back panel; faces +Z.",
+      "size_m": [
+        0.41999998688697815,
+        0.9100000262260437,
+        0.41999998688697815
+      ]
+    },
+    {
+      "asset": "chair_wooden_2",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_chair_wooden_2",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "Slat-back dining chair with a cushion; faces +Z.",
+      "size_m": [
+        0.41999998688697815,
+        0.949999988079071,
+        0.41999998688697815
+      ]
+    },
+    {
+      "asset": "chair_folding",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_chair_folding",
+      "position": [
+        5.0,
+        0.12033605098724365,
+        16.001249998807907
+      ],
+      "description": "Folding chair with a fabric seat; faces +Z.",
+      "size_m": [
+        0.4356319308280945,
+        0.9003360271453857,
+        0.4025000035762787
+      ]
+    },
+    {
+      "asset": "chair_office",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_chair_office",
+      "position": [
+        15.0,
+        0.12,
+        15.990976333618164
+      ],
+      "description": "Swivel office chair; faces +Z.",
+      "size_m": [
+        0.5878363847732544,
+        1.032438039779663,
+        0.5969526767730713
+      ]
+    },
+    {
+      "asset": "stool_bar",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_stool_bar",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "Bar stool with a footrest.",
+      "size_m": [
+        0.3400000035762787,
+        0.75,
+        0.3400000035762787
+      ]
+    },
+    {
+      "asset": "side_table",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_side_table",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A small round side table.",
+      "size_m": [
+        0.5199999809265137,
+        0.550000011920929,
+        0.5199999809265137
+      ]
+    },
+    {
+      "asset": "lamp_floor",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_lamp_floor",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A floor lamp with a glowing shade.",
+      "size_m": [
+        0.3199999928474426,
+        1.6299999952316284,
+        0.3199999928474426
+      ]
+    },
+    {
+      "asset": "lamp_table",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_lamp_table",
+      "position": [
+        15.0,
+        0.12,
+        7.0
+      ],
+      "description": "A table lamp with a glowing shade.",
+      "size_m": [
+        0.2800000011920929,
+        0.4399999976158142,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "tv_stand",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_tv_stand",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0150000005960464
+      ],
+      "description": "Low TV console with two cupboards; faces +Z.",
+      "size_m": [
+        1.399999976158142,
+        0.5399999618530273,
+        0.44999998807907104
+      ]
+    },
+    {
+      "asset": "dresser",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_dresser",
+      "position": [
+        -5.0,
+        0.12,
+        -2.014999993145466
+      ],
+      "description": "A three-drawer dresser; faces +Z.",
+      "size_m": [
+        0.8999999761581421,
+        0.8500000238418579,
+        0.5099999904632568
+      ]
+    },
+    {
+      "asset": "ottoman",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_ottoman",
+      "position": [
+        5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A round upholstered footstool.",
+      "size_m": [
+        0.5199999809265137,
+        0.3199999928474426,
+        0.5199999809265137
+      ]
+    },
+    {
+      "asset": "bookcase_small",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_bookcase_small",
+      "position": [
+        15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A short bookcase with books already on it; faces +Z.",
+      "size_m": [
+        0.7400000095367432,
+        0.9300000071525574,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "coat_rack",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_coat_rack",
+      "position": [
+        -15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A standing coat rack with pegs.",
+      "size_m": [
+        0.4000000059604645,
+        1.774999976158142,
+        0.4000000059604645
+      ]
+    },
+    {
+      "asset": "umbrella_stand",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_umbrella_stand",
+      "position": [
+        -5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A tall bin for umbrellas, with one in it.",
+      "size_m": [
+        0.23000000417232513,
+        0.7639999985694885,
+        0.23000000417232513
+      ]
+    },
+    {
+      "asset": "beanbag",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_beanbag",
+      "position": [
+        5.0,
+        0.11039998650550842,
+        -10.969999983906746
+      ],
+      "description": "A slouchy bean bag chair.",
+      "size_m": [
+        0.8399999737739563,
+        0.7103999853134155,
+        0.8999999761581421
+      ]
+    },
+    {
+      "asset": "shelf_wall",
+      "map": "maps/gallery-furniture-01.json",
+      "object": "asset_shelf_wall",
+      "position": [
+        15.0,
+        1.275000001192093,
+        -11.109999999403954
+      ],
+      "description": "A wall shelf on brackets; origin at the wall face.",
+      "size_m": [
+        0.800000011920929,
+        0.17000000178813934,
+        0.2199999988079071
+      ]
+    },
+    {
+      "asset": "sandbox_crystal",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_crystal",
+      "position": [
+        -14.939999967813492,
+        0.12,
+        16.064999997615814
+      ],
+      "description": "Cluster of three faceted mineral spires.",
+      "size_m": [
+        1.0399999618530273,
+        1.5,
+        0.8100000023841858
+      ]
+    },
+    {
+      "asset": "sandbox_mushroom",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_mushroom",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "Broad colourful mushroom for gardens.",
+      "size_m": [
+        1.399999976158142,
+        1.034000039100647,
+        1.399999976158142
+      ]
+    },
+    {
+      "asset": "sandbox_frontier_sign",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_frontier_sign",
+      "position": [
+        5.0,
+        0.12,
+        16.0
+      ],
+      "description": "Freestanding wooden direction marker.",
+      "size_m": [
+        1.5,
+        1.5749999284744263,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "sandbox_workbench",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_workbench",
+      "position": [
+        15.0,
+        0.12,
+        16.0
+      ],
+      "description": "Heavy workbench with open shelf and a vice.",
+      "size_m": [
+        2.4000000953674316,
+        1.2000000476837158,
+        0.8999999761581421
+      ]
+    },
+    {
+      "asset": "sandbox_beacon",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_beacon",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "Solar research beacon with a luminous-looking blue cap.",
+      "size_m": [
+        0.800000011920929,
+        2.430000066757202,
+        0.800000011920929
+      ]
+    },
+    {
+      "asset": "sandbox_target",
+      "map": "maps/gallery-gameplay-01.json",
+      "object": "asset_sandbox_target",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "Freestanding three-ring target with solid rectangular backing.",
+      "size_m": [
+        1.100000023841858,
+        2.049999952316284,
+        0.5
+      ]
+    },
+    {
+      "asset": "mug_coffee",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_mug_coffee",
+      "position": [
+        -15.017500001937151,
+        0.12,
+        16.0
+      ],
+      "description": "A ceramic mug with a handle on +X.",
+      "size_m": [
+        0.11500000208616257,
+        0.09000000357627869,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "plate",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_plate",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A dinner plate.",
+      "size_m": [
+        0.25999999046325684,
+        0.018000001087784767,
+        0.25999999046325684
+      ]
+    },
+    {
+      "asset": "bowl",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_bowl",
+      "position": [
+        5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A deep bowl.",
+      "size_m": [
+        0.20000000298023224,
+        0.0949999988079071,
+        0.20000000298023224
+      ]
+    },
+    {
+      "asset": "pot",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_pot",
+      "position": [
+        15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A cooking pot with a lid and side handles.",
+      "size_m": [
+        0.320000022649765,
+        0.17399999499320984,
+        0.23000000417232513
+      ]
+    },
+    {
+      "asset": "frying_pan",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_frying_pan",
+      "position": [
+        -15.0,
+        0.12,
+        6.91499999165535
+      ],
+      "description": "A frying pan; handle points +Z.",
+      "size_m": [
+        0.25999999046325684,
+        0.04999999701976776,
+        0.4300000071525574
+      ]
+    },
+    {
+      "asset": "kettle",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_kettle",
+      "position": [
+        -5.0,
+        0.12,
+        6.9894529059529305
+      ],
+      "description": "A stovetop kettle with the spout toward +Z.",
+      "size_m": [
+        0.18000000715255737,
+        0.22346240282058716,
+        0.29350829124450684
+      ]
+    },
+    {
+      "asset": "toaster",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_toaster",
+      "position": [
+        4.9849999994039536,
+        0.12,
+        7.0
+      ],
+      "description": "A two-slot toaster.",
+      "size_m": [
+        0.33000001311302185,
+        0.18299999833106995,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "microwave",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_microwave",
+      "position": [
+        15.0,
+        0.12,
+        6.997499994933605
+      ],
+      "description": "A countertop microwave; door faces +Z.",
+      "size_m": [
+        0.5,
+        0.30000001192092896,
+        0.38499999046325684
+      ]
+    },
+    {
+      "asset": "coffee_maker",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_coffee_maker",
+      "position": [
+        -15.0,
+        0.12,
+        -1.9950000010430813
+      ],
+      "description": "A drip coffee maker with a glass pot.",
+      "size_m": [
+        0.20000000298023224,
+        0.3700000047683716,
+        0.25
+      ]
+    },
+    {
+      "asset": "cutting_board",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_cutting_board",
+      "position": [
+        -5.0,
+        0.12100000016391277,
+        -2.0
+      ],
+      "description": "A wooden cutting board.",
+      "size_m": [
+        0.4000000059604645,
+        0.02199999988079071,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "knife_block",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_knife_block",
+      "position": [
+        5.0,
+        0.11719227105379104,
+        -2.0
+      ],
+      "description": "A wooden knife block with handles.",
+      "size_m": [
+        0.11999999731779099,
+        0.24719226360321045,
+        0.11974221467971802
+      ]
+    },
+    {
+      "asset": "paper_towel_roll",
+      "map": "maps/gallery-kitchen-01.json",
+      "object": "asset_paper_towel_roll",
+      "position": [
+        15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A paper towel roll on a stand.",
+      "size_m": [
+        0.1599999964237213,
+        0.30000001192092896,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "lamp_floor_arc",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_floor_arc",
+      "position": [
+        -15.342000015079975,
+        0.12,
+        16.0
+      ],
+      "description": "An arching floor lamp with a marble base (unlit prop; ~2.6 m tall, reaches 0.7 m sideways).",
+      "size_m": [
+        1.0240000486373901,
+        2.4793999195098877,
+        0.36000004410743713
+      ]
+    },
+    {
+      "asset": "lamp_floor_torchiere",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_floor_torchiere",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A torchiere floor lamp with an upward-facing bowl (unlit prop; 1.8 m).",
+      "size_m": [
+        0.36000001430511475,
+        1.7599999904632568,
+        0.36000004410743713
+      ]
+    },
+    {
+      "asset": "lamp_floor_tripod",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_floor_tripod",
+      "position": [
+        4.9973402842879295,
+        0.12249791145324707,
+        16.019073590636253
+      ],
+      "description": "A wooden tripod floor lamp with a drum shade (unlit prop; 2.2 m).",
+      "size_m": [
+        0.4197918772697449,
+        1.664497971534729,
+        0.4421471953392029
+      ]
+    },
+    {
+      "asset": "lamp_floor_reading",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_floor_reading",
+      "position": [
+        14.787311419844627,
+        0.12,
+        16.0
+      ],
+      "description": "A slim reading floor lamp with a bent neck and cone head (unlit prop; 1.65 m).",
+      "size_m": [
+        0.7253772020339966,
+        2.3405404090881348,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "lamp_floor_paper",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_floor_paper",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "A tall paper-lantern floor lamp (unlit prop; 1.3 m).",
+      "size_m": [
+        0.32600000500679016,
+        1.2899999618530273,
+        0.32600000500679016
+      ]
+    },
+    {
+      "asset": "lamp_desk_articulated",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_desk_articulated",
+      "position": [
+        -5.020329736173153,
+        0.12,
+        7.0
+      ],
+      "description": "An architect-style desk lamp with a jointed steel arm (unlit prop; 0.5 m).",
+      "size_m": [
+        0.3346594572067261,
+        0.4864315986633301,
+        0.18000000715255737
+      ]
+    },
+    {
+      "asset": "lamp_desk_banker",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_desk_banker",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A classic banker's desk lamp: brass stem and a long green shade (unlit prop; 0.44 m).",
+      "size_m": [
+        0.3400000035762787,
+        0.42500001192092896,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "lamp_desk_gooseneck",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_desk_gooseneck",
+      "position": [
+        14.871966563165188,
+        0.12,
+        7.0
+      ],
+      "description": "A gooseneck desk lamp curving over to a cone head (unlit prop; 0.42 m).",
+      "size_m": [
+        0.41606688499450684,
+        0.3868347108364105,
+        0.1599999964237213
+      ]
+    },
+    {
+      "asset": "lamp_table_ceramic",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_table_ceramic",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A ceramic-bodied table lamp with a drum shade (unlit prop; 0.53 m).",
+      "size_m": [
+        0.27399998903274536,
+        0.5239999890327454,
+        0.27399998903274536
+      ]
+    },
+    {
+      "asset": "lamp_table_globe",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_table_globe",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A frosted-glass globe table lamp (unlit prop; 0.32 m).",
+      "size_m": [
+        0.2199999988079071,
+        0.3199999928474426,
+        0.2199999988079071
+      ]
+    },
+    {
+      "asset": "lamp_bedside_mushroom",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_bedside_mushroom",
+      "position": [
+        5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A whimsical mushroom bedside lamp (unlit prop; 0.27 m).",
+      "size_m": [
+        0.25999999046325684,
+        0.26500001549720764,
+        0.25999999046325684
+      ]
+    },
+    {
+      "asset": "lamp_wall_sconce",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_wall_sconce",
+      "position": [
+        15.0,
+        1.1999999982118608,
+        -2.1034999936819077
+      ],
+      "description": "A brass wall sconce with a small shade (unlit prop); origin at the wall face.",
+      "size_m": [
+        0.15399999916553497,
+        0.27399998903274536,
+        0.2069999873638153
+      ]
+    },
+    {
+      "asset": "lamp_lava",
+      "map": "maps/gallery-lamps-01.json",
+      "object": "asset_lamp_lava",
+      "position": [
+        -15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A retro lava lamp with wax blobs (unlit prop; 0.42 m).",
+      "size_m": [
+        0.11999999731779099,
+        0.39000001549720764,
+        0.11999999731779099
+      ]
+    },
+    {
+      "asset": "monitor",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_monitor",
+      "position": [
+        -15.0,
+        0.12,
+        15.979999996721745
+      ],
+      "description": "A desktop monitor with a lit screen; faces +Z.",
+      "size_m": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.17000000178813934
+      ]
+    },
+    {
+      "asset": "keyboard",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_keyboard",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A computer keyboard, keys toward +Z.",
+      "size_m": [
+        0.4399999976158142,
+        0.029000001028180122,
+        0.14000000059604645
+      ]
+    },
+    {
+      "asset": "mouse_computer",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_mouse_computer",
+      "position": [
+        5.0,
+        0.1209999992325902,
+        16.0
+      ],
+      "description": "A computer mouse.",
+      "size_m": [
+        0.053999997675418854,
+        0.029999997466802597,
+        0.08999999612569809
+      ]
+    },
+    {
+      "asset": "laptop",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_laptop",
+      "position": [
+        15.0,
+        0.12,
+        15.99213282763958
+      ],
+      "description": "A laptop, open; screen faces +Z.",
+      "size_m": [
+        0.3400000035762787,
+        0.23780474066734314,
+        0.26426565647125244
+      ]
+    },
+    {
+      "asset": "desk_phone",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_desk_phone",
+      "position": [
+        -15.0,
+        0.12,
+        7.009999997913837
+      ],
+      "description": "An office desk phone with handset.",
+      "size_m": [
+        0.20000000298023224,
+        0.10000000149011612,
+        0.23999999463558197
+      ]
+    },
+    {
+      "asset": "stapler",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_stapler",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A desktop stapler.",
+      "size_m": [
+        0.03999999910593033,
+        0.04450000077486038,
+        0.15000000596046448
+      ]
+    },
+    {
+      "asset": "paper_stack",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_paper_stack",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A neat stack of paper.",
+      "size_m": [
+        0.20999999344348907,
+        0.05000000074505806,
+        0.296999990940094
+      ]
+    },
+    {
+      "asset": "book",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_book",
+      "position": [
+        14.997000001370907,
+        0.12,
+        7.0
+      ],
+      "description": "A hardback book lying flat, spine toward -X.",
+      "size_m": [
+        0.16599999368190765,
+        0.029999999329447746,
+        0.23000000417232513
+      ]
+    },
+    {
+      "asset": "book_stack",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_book_stack",
+      "position": [
+        -15.011828131973743,
+        0.12,
+        -2.0049999989569187
+      ],
+      "description": "Three books stacked askew.",
+      "size_m": [
+        0.20012842118740082,
+        0.0950000062584877,
+        0.256160706281662
+      ]
+    },
+    {
+      "asset": "clipboard",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_clipboard",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A clipboard with a sheet of paper, lying flat.",
+      "size_m": [
+        0.23000000417232513,
+        0.024000000208616257,
+        0.3199999928474426
+      ]
+    },
+    {
+      "asset": "printer",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_printer",
+      "position": [
+        5.0,
+        0.12,
+        -2.0649999901652336
+      ],
+      "description": "An office printer with a paper tray; faces +Z.",
+      "size_m": [
+        0.47999998927116394,
+        0.25999999046325684,
+        0.5299999713897705
+      ]
+    },
+    {
+      "asset": "water_cooler",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_water_cooler",
+      "position": [
+        15.0,
+        0.12,
+        -2.0399999991059303
+      ],
+      "description": "A water cooler with a jug on top; faces +Z.",
+      "size_m": [
+        0.3400000035762787,
+        1.3700000047683716,
+        0.42000001668930054
+      ]
+    },
+    {
+      "asset": "coffee_machine",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_coffee_machine",
+      "position": [
+        -15.0,
+        0.12,
+        -11.035000003874302
+      ],
+      "description": "A big office coffee machine on a counter.",
+      "size_m": [
+        0.36000001430511475,
+        0.44999998807907104,
+        0.4700000286102295
+      ]
+    },
+    {
+      "asset": "cubicle_panel",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_cubicle_panel",
+      "position": [
+        -5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "A 1.4 m tall fabric cubicle panel, 1.6 m wide.",
+      "size_m": [
+        1.600000023841858,
+        1.4299999475479126,
+        0.4000000059604645
+      ]
+    },
+    {
+      "asset": "whiteboard",
+      "map": "maps/gallery-office-01.json",
+      "object": "asset_whiteboard",
+      "position": [
+        5.0,
+        1.6849999976158143,
+        -11.03999999910593
+      ],
+      "description": "A wall whiteboard with a marker tray; origin at the wall face, center of the board.",
+      "size_m": [
+        1.659999966621399,
+        1.0950000286102295,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "garden_gnome",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_garden_gnome",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A garden gnome with a red hat, facing +Z.",
+      "size_m": [
+        0.14000000059604645,
+        0.4300000071525574,
+        0.14000000059604645
+      ]
+    },
+    {
+      "asset": "flowerpot_terracotta",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_flowerpot_terracotta",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A terracotta pot with a flowering plant.",
+      "size_m": [
+        0.2800000011920929,
+        0.4699999988079071,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "watering_can",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_watering_can",
+      "position": [
+        5.0,
+        0.12,
+        15.896232172846794
+      ],
+      "description": "A watering can, spout toward +Z.",
+      "size_m": [
+        0.20000000298023224,
+        0.36850184202194214,
+        0.5147335529327393
+      ]
+    },
+    {
+      "asset": "wheelbarrow",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_wheelbarrow",
+      "position": [
+        15.0,
+        0.12,
+        16.108254939317703
+      ],
+      "description": "A wheelbarrow, wheel toward +Z.",
+      "size_m": [
+        0.6000000238418579,
+        0.5600000023841858,
+        1.576509952545166
+      ]
+    },
+    {
+      "asset": "birdhouse",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_birdhouse",
+      "position": [
+        -15.0,
+        0.12,
+        6.990000002086163
+      ],
+      "description": "A birdhouse on a post; entrance faces +Z.",
+      "size_m": [
+        0.3659789562225342,
+        1.7557766437530518,
+        0.36000001430511475
+      ]
+    },
+    {
+      "asset": "garden_lantern",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_garden_lantern",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A ground-standing lantern with a glowing lamp.",
+      "size_m": [
+        0.25999999046325684,
+        0.42000001668930054,
+        0.25999999046325684
+      ]
+    },
+    {
+      "asset": "bicycle",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_bicycle",
+      "position": [
+        5.0,
+        0.11999997019767761,
+        7.0
+      ],
+      "description": "A bicycle, front wheel toward +Z, leaning on nothing (stands on its wheels).",
+      "size_m": [
+        0.5,
+        0.8924999237060547,
+        1.6600000858306885
+      ]
+    },
+    {
+      "asset": "lawn_chair",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_lawn_chair",
+      "position": [
+        15.0,
+        0.12,
+        7.082690045237541
+      ],
+      "description": "A reclined lawn chair; faces +Z.",
+      "size_m": [
+        0.64000004529953,
+        0.8682315945625305,
+        0.8153800964355469
+      ]
+    },
+    {
+      "asset": "sun_umbrella",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_sun_umbrella",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A patio umbrella on a pole and base.",
+      "size_m": [
+        2.200000047683716,
+        2.569999933242798,
+        2.200000047683716
+      ]
+    },
+    {
+      "asset": "doghouse",
+      "map": "maps/gallery-outdoor-01.json",
+      "object": "asset_doghouse",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A doghouse; entrance faces +Z.",
+      "size_m": [
+        1.0011893510818481,
+        0.9169245958328247,
+        1.0
+      ]
+    },
+    {
+      "asset": "crate",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_crate",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "wooden shipping crate",
+      "size_m": [
+        0.5600000023841858,
+        0.5600000023841858,
+        0.5600000023841858
+      ]
+    },
+    {
+      "asset": "barrel",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_barrel",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "steel-banded barrel",
+      "size_m": [
+        0.6000000238418579,
+        0.8500000238418579,
+        0.6000000238418579
+      ]
+    },
+    {
+      "asset": "traffic_cone",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_traffic_cone",
+      "position": [
+        5.0,
+        0.1199999888241291,
+        16.0
+      ],
+      "description": "orange traffic cone",
+      "size_m": [
+        0.36000001430511475,
+        0.5850000381469727,
+        0.36000001430511475
+      ]
+    },
+    {
+      "asset": "box_stack",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_box_stack",
+      "position": [
+        14.988170482218266,
+        0.12,
+        15.99912716448307
+      ],
+      "description": "stack of cardboard boxes",
+      "size_m": [
+        0.4603509306907654,
+        0.8899999856948853,
+        0.44575566053390503
+      ]
+    },
+    {
+      "asset": "chair",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_chair",
+      "position": [
+        -15.0,
+        0.12,
+        7.000000007450581
+      ],
+      "description": "plain dining chair",
+      "size_m": [
+        0.41999998688697815,
+        0.9100000262260437,
+        0.42000001668930054
+      ]
+    },
+    {
+      "asset": "trash_can",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_trash_can",
+      "position": [
+        -5.0,
+        0.12000001396983861,
+        7.0
+      ],
+      "description": "kerbside trash can",
+      "size_m": [
+        0.47999998927116394,
+        0.6549999713897705,
+        0.47999998927116394
+      ]
+    },
+    {
+      "asset": "vending_machine",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_vending_machine",
+      "position": [
+        5.0,
+        0.12,
+        6.965000003576279
+      ],
+      "description": "snack/drink vending machine",
+      "size_m": [
+        0.699999988079071,
+        1.7999999523162842,
+        0.6700000166893005
+      ]
+    },
+    {
+      "asset": "bench",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_bench",
+      "position": [
+        15.0,
+        0.12,
+        7.021271333098412
+      ],
+      "description": "park bench",
+      "size_m": [
+        1.2000000476837158,
+        0.8322287797927856,
+        0.39254266023635864
+      ]
+    },
+    {
+      "asset": "fire_extinguisher",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_fire_extinguisher",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "red fire extinguisher (stands on the floor)",
+      "size_m": [
+        0.1899999976158142,
+        0.5949999690055847,
+        0.1899999976158142
+      ]
+    },
+    {
+      "asset": "filing_cabinet",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_filing_cabinet",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0149999856948853
+      ],
+      "description": "two-drawer metal filing cabinet",
+      "size_m": [
+        0.44999998807907104,
+        1.2999999523162842,
+        0.6299999952316284
+      ]
+    },
+    {
+      "asset": "potted_plant",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_potted_plant",
+      "position": [
+        4.995000004768372,
+        0.12,
+        -1.989999994635582
+      ],
+      "description": "leafy plant in a pot",
+      "size_m": [
+        0.6100000143051147,
+        0.8899999856948853,
+        0.5199999809265137
+      ]
+    },
+    {
+      "asset": "bookshelf",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_bookshelf",
+      "position": [
+        15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "tall bookshelf",
+      "size_m": [
+        0.9000000357627869,
+        1.600000023841858,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "sofa",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_sofa",
+      "position": [
+        -15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "three-seat sofa",
+      "size_m": [
+        1.959999918937683,
+        0.9700000286102295,
+        0.800000011920929
+      ]
+    },
+    {
+      "asset": "bed",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_bed",
+      "position": [
+        -5.0,
+        0.12,
+        -10.960000038146973
+      ],
+      "description": "double bed with pillows",
+      "size_m": [
+        1.600000023841858,
+        0.6000000238418579,
+        2.0799999237060547
+      ]
+    },
+    {
+      "asset": "dining_table",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_dining_table",
+      "position": [
+        5.0,
+        0.12,
+        -11.0
+      ],
+      "description": "dining table",
+      "size_m": [
+        1.600000023841858,
+        0.7799999713897705,
+        0.8999999761581421
+      ]
+    },
+    {
+      "asset": "tv",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_tv",
+      "position": [
+        15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "flat-screen TV on a stand",
+      "size_m": [
+        1.100000023841858,
+        1.0199999809265137,
+        0.25
+      ]
+    },
+    {
+      "asset": "kitchen_counter",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_kitchen_counter",
+      "position": [
+        -15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "kitchen counter run with cabinets",
+      "size_m": [
+        1.8600000143051147,
+        0.949999988079071,
+        0.6399999856948853
+      ]
+    },
+    {
+      "asset": "refrigerator",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_refrigerator",
+      "position": [
+        -5.0,
+        0.12,
+        -20.015000000596046
+      ],
+      "description": "two-door refrigerator",
+      "size_m": [
+        0.7699999809265137,
+        1.7999999523162842,
+        0.75
+      ]
+    },
+    {
+      "asset": "stove",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_stove",
+      "position": [
+        5.0,
+        0.12,
+        -20.01249998807907
+      ],
+      "description": "cooker with hobs",
+      "size_m": [
+        0.6000000238418579,
+        0.9200000166893005,
+        0.625
+      ]
+    },
+    {
+      "asset": "sink",
+      "map": "maps/gallery-prop-01.json",
+      "object": "asset_sink",
+      "position": [
+        15.0,
+        0.12,
+        -20.0
+      ],
+      "description": "sink with cabinet",
+      "size_m": [
+        0.6399999856948853,
+        1.0699999332427979,
+        0.5799999833106995
+      ]
+    },
+    {
+      "asset": "toilet",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_toilet",
+      "position": [
+        -15.0,
+        0.12,
+        16.054999999701977
+      ],
+      "description": "toilet",
+      "size_m": [
+        0.46000000834465027,
+        0.800000011920929,
+        0.5699999928474426
+      ]
+    },
+    {
+      "asset": "bathtub",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_bathtub",
+      "position": [
+        -5.0,
+        0.12,
+        16.0
+      ],
+      "description": "bathtub",
+      "size_m": [
+        1.7000000476837158,
+        0.75,
+        0.800000011920929
+      ]
+    },
+    {
+      "asset": "washer_dryer",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_washer_dryer",
+      "position": [
+        5.0,
+        0.12,
+        15.989999994635582
+      ],
+      "description": "washer/dryer",
+      "size_m": [
+        0.6700000166893005,
+        1.7000000476837158,
+        0.690000057220459
+      ]
+    },
+    {
+      "asset": "mailbox",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_mailbox",
+      "position": [
+        14.987500000745058,
+        0.12,
+        16.0
+      ],
+      "description": "post-mounted mailbox",
+      "size_m": [
+        0.17500001192092896,
+        1.0800000429153442,
+        0.3499999940395355
+      ]
+    },
+    {
+      "asset": "fence_section",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_fence_section",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "description": "one fence panel (prefer the `fence` macro for runs)",
+      "size_m": [
+        2.0799999237060547,
+        1.7999999523162842,
+        0.07999999821186066
+      ]
+    },
+    {
+      "asset": "coffee_table",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_coffee_table",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "low coffee table",
+      "size_m": [
+        1.0,
+        0.45000001788139343,
+        0.550000011920929
+      ]
+    },
+    {
+      "asset": "nightstand",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_nightstand",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "bedside table",
+      "size_m": [
+        0.49000000953674316,
+        0.5299999713897705,
+        0.4399999976158142
+      ]
+    },
+    {
+      "asset": "wardrobe",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_wardrobe",
+      "position": [
+        15.0,
+        0.12,
+        6.9825000166893005
+      ],
+      "description": "tall wardrobe",
+      "size_m": [
+        1.2000000476837158,
+        2.0,
+        0.6349999904632568
+      ]
+    },
+    {
+      "asset": "desk",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_desk",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "writing desk",
+      "size_m": [
+        1.399999976158142,
+        0.7699999809265137,
+        0.699999988079071
+      ]
+    },
+    {
+      "asset": "rug",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_rug",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "floor rug (walk-through)",
+      "size_m": [
+        2.0,
+        0.019999999552965164,
+        1.399999976158142
+      ]
+    },
+    {
+      "asset": "armchair",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_armchair",
+      "position": [
+        5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "upholstered armchair",
+      "size_m": [
+        0.940000057220459,
+        0.8700000047683716,
+        0.75
+      ]
+    },
+    {
+      "asset": "tree_oak",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_tree_oak",
+      "position": [
+        14.974999964237213,
+        0.12,
+        -1.9500000476837158
+      ],
+      "description": "broad oak tree (color = foliage)",
+      "size_m": [
+        3.1500000953674316,
+        4.599999904632568,
+        2.4000000953674316
+      ]
+    },
+    {
+      "asset": "tree_pine",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_tree_pine",
+      "position": [
+        -15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "pine tree (color = foliage)",
+      "size_m": [
+        2.299999952316284,
+        5.099999904632568,
+        2.299999952316284
+      ]
+    },
+    {
+      "asset": "bush",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_bush",
+      "position": [
+        -5.005000025033951,
+        0.16000002145767211,
+        -10.944999992847443
+      ],
+      "description": "round bush (color = foliage)",
+      "size_m": [
+        1.690000057220459,
+        1.0,
+        1.2100000381469727
+      ]
+    },
+    {
+      "asset": "flower_patch",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_flower_patch",
+      "position": [
+        5.0,
+        0.1680000078678131,
+        -11.0
+      ],
+      "description": "flower bed, walk-through (color = blooms)",
+      "size_m": [
+        0.6399999856948853,
+        0.3930000364780426,
+        0.6399999856948853
+      ]
+    },
+    {
+      "asset": "hedge",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_hedge",
+      "position": [
+        15.0,
+        0.12,
+        -11.0
+      ],
+      "description": "clipped hedge segment",
+      "size_m": [
+        1.7999999523162842,
+        1.100000023841858,
+        0.6000000238418579
+      ]
+    },
+    {
+      "asset": "boulder",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_boulder",
+      "position": [
+        -15.129999995231628,
+        0.15599999845027923,
+        -20.003499999642372
+      ],
+      "description": "large rock",
+      "size_m": [
+        1.2599999904632568,
+        0.6610000133514404,
+        0.8569999933242798
+      ]
+    },
+    {
+      "asset": "grill",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_grill",
+      "position": [
+        -5.179999992251396,
+        0.12,
+        -20.032499998807907
+      ],
+      "description": "barbecue grill",
+      "size_m": [
+        1.159999966621399,
+        1.3700000047683716,
+        0.5649999976158142
+      ]
+    },
+    {
+      "asset": "picnic_table",
+      "map": "maps/gallery-prop-02.json",
+      "object": "asset_picnic_table",
+      "position": [
+        5.0,
+        0.12,
+        -20.0
+      ],
+      "description": "picnic table with benches",
+      "size_m": [
+        1.7999999523162842,
+        0.7899999618530273,
+        1.4800000190734863
+      ]
+    },
+    {
+      "asset": "school_desk",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_school_desk",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A student desk with a book shelf underneath; front toward +Z.",
+      "size_m": [
+        0.6000000238418579,
+        0.7350000143051147,
+        0.44999998807907104
+      ]
+    },
+    {
+      "asset": "student_chair",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_student_chair",
+      "position": [
+        -5.0,
+        0.12,
+        16.002500005066395
+      ],
+      "description": "A molded plastic student chair; faces +Z.",
+      "size_m": [
+        0.4000000059604645,
+        0.8200000524520874,
+        0.38499999046325684
+      ]
+    },
+    {
+      "asset": "blackboard",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_blackboard",
+      "position": [
+        5.0,
+        1.745,
+        15.950000002980232
+      ],
+      "description": "A classroom blackboard with chalk tray; origin at the wall face, board center.",
+      "size_m": [
+        3.0999999046325684,
+        1.225000023841858,
+        0.09999999403953552
+      ]
+    },
+    {
+      "asset": "globe",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_globe",
+      "position": [
+        15.0,
+        0.12,
+        15.995999999344349
+      ],
+      "description": "A desktop globe on a stand.",
+      "size_m": [
+        0.3671460747718811,
+        0.5035730600357056,
+        0.2879999876022339
+      ]
+    },
+    {
+      "asset": "backpack",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_backpack",
+      "position": [
+        -15.0,
+        0.12,
+        6.987500000745058
+      ],
+      "description": "A student backpack standing on the floor; straps toward -Z.",
+      "size_m": [
+        0.30000001192092896,
+        0.45749998092651367,
+        0.22499999403953552
+      ]
+    },
+    {
+      "asset": "locker",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_locker",
+      "position": [
+        -5.0,
+        0.12,
+        6.9849999994039536
+      ],
+      "description": "A tall metal locker; door faces +Z.",
+      "size_m": [
+        0.3199999928474426,
+        1.7999999523162842,
+        0.39000001549720764
+      ]
+    },
+    {
+      "asset": "wall_clock",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_wall_clock",
+      "position": [
+        5.0,
+        1.2799999815225602,
+        6.9745000042021275
+      ],
+      "description": "A round analogue wall clock; origin at the wall face, center.",
+      "size_m": [
+        0.3199999928474426,
+        0.31999996304512024,
+        0.05100000649690628
+      ]
+    },
+    {
+      "asset": "flag_pole",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_flag_pole",
+      "position": [
+        14.759999997913837,
+        0.12,
+        7.0
+      ],
+      "description": "A floor-standing flag on a pole.",
+      "size_m": [
+        0.7599999904632568,
+        2.490000009536743,
+        0.2800000011920929
+      ]
+    },
+    {
+      "asset": "ball_basketball",
+      "map": "maps/gallery-school-01.json",
+      "object": "asset_ball_basketball",
+      "position": [
+        -15.0,
+        0.1225000050663948,
+        -2.0
+      ],
+      "description": "A basketball.",
+      "size_m": [
+        0.24500000476837158,
+        0.24500000476837158,
+        0.23999999463558197
+      ]
+    },
+    {
+      "asset": "shelf_gondola",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_shelf_gondola",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "description": "A double-sided store shelf unit with product blocks; 1.2 m wide, 0.6 deep.",
+      "size_m": [
+        1.1999999284744263,
+        1.5,
+        0.6000000238418579
+      ]
+    },
+    {
+      "asset": "cash_register",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_cash_register",
+      "position": [
+        -5.0,
+        0.12,
+        15.992499999701977
+      ],
+      "description": "A cash register; screen and keys face +Z.",
+      "size_m": [
+        0.4000000059604645,
+        0.400543749332428,
+        0.4150000214576721
+      ]
+    },
+    {
+      "asset": "checkout_counter",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_checkout_counter",
+      "position": [
+        5.0,
+        0.12,
+        16.0
+      ],
+      "description": "A checkout counter with a conveyor belt; cashier side toward +Z.",
+      "size_m": [
+        1.659999966621399,
+        1.0899999141693115,
+        0.6600000262260437
+      ]
+    },
+    {
+      "asset": "shopping_basket",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_shopping_basket",
+      "position": [
+        15.0,
+        0.09750000096857547,
+        16.0
+      ],
+      "description": "A hand shopping basket.",
+      "size_m": [
+        0.4049999713897705,
+        0.304999977350235,
+        0.2849999964237213
+      ]
+    },
+    {
+      "asset": "shopping_cart",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_shopping_cart",
+      "position": [
+        -15.0,
+        0.1199999962747097,
+        7.012832075357437
+      ],
+      "description": "A wire shopping cart, handle at -Z.",
+      "size_m": [
+        0.5199999809265137,
+        0.9950000047683716,
+        0.94566410779953
+      ]
+    },
+    {
+      "asset": "chip_bag",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_chip_bag",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A bag of chips standing upright.",
+      "size_m": [
+        0.20000000298023224,
+        0.2874999940395355,
+        0.05999999865889549
+      ]
+    },
+    {
+      "asset": "snack_box",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_snack_box",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "description": "A box of snacks/candy.",
+      "size_m": [
+        0.18199999630451202,
+        0.10000000149011612,
+        0.06199999898672104
+      ]
+    },
+    {
+      "asset": "drink_cooler",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_drink_cooler",
+      "position": [
+        15.0,
+        0.12,
+        6.995000004768372
+      ],
+      "description": "A glass-door drink cooler stocked with bottles; door faces +Z.",
+      "size_m": [
+        0.800000011920929,
+        1.9000000953674316,
+        0.7099999785423279
+      ]
+    },
+    {
+      "asset": "magazine_rack",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_magazine_rack",
+      "position": [
+        -15.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A freestanding magazine rack with magazines.",
+      "size_m": [
+        0.699999988079071,
+        1.20924973487854,
+        0.30000001192092896
+      ]
+    },
+    {
+      "asset": "chest_freezer",
+      "map": "maps/gallery-store-01.json",
+      "object": "asset_chest_freezer",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "description": "A low chest freezer with sliding glass lids.",
+      "size_m": [
+        1.4199999570846558,
+        0.8199999928474426,
+        0.7200000286102295
+      ]
+    }
+  ],
+  "reference_maps": [
+    {
+      "source": "examples/hello_world.json",
+      "map": "maps/reference-hello-world.json"
+    },
+    {
+      "source": "examples/house.json",
+      "map": "maps/reference-house.json"
+    },
+    {
+      "source": "examples/office.json",
+      "map": "maps/reference-office.json"
+    },
+    {
+      "source": "examples/orbit_walk.json",
+      "map": "maps/reference-orbit-walk.json"
+    },
+    {
+      "source": "examples/prop_hunt_yard.json",
+      "map": "maps/reference-prop-hunt-yard.json"
+    },
+    {
+      "source": "examples/room.json",
+      "map": "maps/reference-room.json"
+    },
+    {
+      "source": "examples/school.json",
+      "map": "maps/reference-school.json"
+    },
+    {
+      "source": "examples/store.json",
+      "map": "maps/reference-store.json"
+    },
+    {
+      "source": "examples/test_lab.json",
+      "map": "maps/reference-test-lab.json"
+    },
+    {
+      "source": "recipes/classroom_wing.json",
+      "map": "maps/reference-classroom-wing.json"
+    },
+    {
+      "source": "recipes/coin_run.json",
+      "map": "maps/reference-coin-run.json"
+    },
+    {
+      "source": "recipes/convenience_store.json",
+      "map": "maps/reference-convenience-store.json"
+    },
+    {
+      "source": "recipes/rooms_and_door.json",
+      "map": "maps/reference-rooms-and-door.json"
+    },
+    {
+      "source": "recipes/two_floor_house.json",
+      "map": "maps/reference-two-floor-house.json"
+    },
+    {
+      "source": "../RedDM/maps/main.json",
+      "map": "maps/reference-reddm.json"
+    },
+    {
+      "source": "../RiftRaze/maps/main.json",
+      "map": "maps/reference-riftraze.json"
+    }
+  ]
+}

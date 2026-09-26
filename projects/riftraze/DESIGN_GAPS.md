@@ -19,13 +19,17 @@
 
 ## Best next reusable improvements
 
-1. Momentum-preserving acceleration, air control and optional strafe-jump tuning. The prototype is
-   fast and responsive, but its current movement is direct-speed arena movement rather than a clone
-   of Quake's momentum model.
+1. Further playtesting and tuning of the new shared momentum, air acceleration, friction and speed
+   cap. It is an authored arena profile, not an exact reproduction of Quake physics.
 2. Projectile weapons, splash damage and self-knockback for rocket-jump-style routes. Current firearms
-   are hitscan and jump pads are vertical impulses.
+   are hitscan (the shotgun now uses multiple pellets) and jump pads are vertical impulses.
 3. Map-authored weapon/ammo/health pickups plus respawn timers, followed by an arena loadout UI.
 4. Directed launch volumes for authored horizontal arcs, added explicitly rather than overloading the
    predictable vertical jump-pad behavior.
 5. Team, capture-the-flag and round-elimination rule components that can be shared with RedDM and
    future games.
+
+## Shooter review pass
+Shattercore now uses one connected arena with upper galleries, real stair routes and two launch
+pads. The shared engine supports held automatic fire, deterministic shotgun pellets, aligned/open
+sights and connected arms. Both stair approaches have actual momentum-simulation checks.

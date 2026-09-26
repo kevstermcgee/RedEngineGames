@@ -20,9 +20,15 @@ in the game-local asset pack; they should move to the core only after another ga
 1. Team assignment and team spawn groups in `MatchSim`, status snapshots and the standard scoreboard.
 2. Friendly-fire policy plus team score and team win conditions in the data-driven match block.
 3. Per-firearm magazines/reserves, reload timings, loadout selection and direct-slot weapon input.
-4. Held automatic fire, deterministic spread/pellets, recoil recovery and server-side lag compensation.
+4. Gameplay recoil/recovery, movement-dependent rifle accuracy and server-side lag compensation.
 5. Character appearance variants driven by replicated team/skin ids.
 6. Imported mesh/texture pipeline with licenses and provenance in the asset catalog.
 
 The playable is intentionally honest about this boundary: it is a networked individual deathmatch
 prototype inspired by team deathmatch, not yet a complete team ruleset.
+
+## Shooter review pass
+Held automatic fire, deterministic shotgun pellets, aligned/open sights, connected arms, zoom
+sensitivity compensation and authored acceleration/friction now exist in the engine. The map
+uses offset industrial routes rather than a nine-room grid. These are tested prototype mechanics,
+not a claim of finished weapon art or CS-style team rules.

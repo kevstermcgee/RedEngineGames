@@ -1,0 +1,495 @@
+[
+  {
+    "name": "sandbox_crystal",
+    "tags": [
+      "sandbox",
+      "outdoor",
+      "alien"
+    ],
+    "desc": "Cluster of three faceted mineral spires.",
+    "collide": false,
+    "objects": [
+      {
+        "id": "spire_a",
+        "type": "cone",
+        "position": [
+          -0.28,
+          0.75,
+          0
+        ],
+        "material": {
+          "color": "#7ce1e0",
+          "roughness": 0.65
+        },
+        "radius": 0.3,
+        "height": 1.5
+      },
+      {
+        "id": "spire_b",
+        "type": "cone",
+        "position": [
+          0.24,
+          0.5,
+          0.12
+        ],
+        "material": {
+          "color": "#b6a0eb",
+          "roughness": 0.65
+        },
+        "radius": 0.22,
+        "height": 1.0
+      },
+      {
+        "id": "spire_c",
+        "type": "cone",
+        "position": [
+          0,
+          0.33,
+          -0.28
+        ],
+        "material": {
+          "color": "#5398c4",
+          "roughness": 0.65
+        },
+        "radius": 0.19,
+        "height": 0.66
+      }
+    ]
+  },
+  {
+    "name": "sandbox_mushroom",
+    "tags": [
+      "sandbox",
+      "outdoor",
+      "fantasy"
+    ],
+    "desc": "Broad colourful mushroom for gardens.",
+    "collide": false,
+    "objects": [
+      {
+        "id": "stem",
+        "type": "cylinder",
+        "position": [
+          0,
+          0.38,
+          0
+        ],
+        "material": {
+          "color": "#eee0c1",
+          "roughness": 0.65
+        },
+        "radius": 0.16,
+        "height": 0.76
+      },
+      {
+        "id": "cap",
+        "type": "sphere",
+        "position": [
+          0,
+          0.78,
+          0
+        ],
+        "material": {
+          "color": "#c2609b",
+          "roughness": 0.65
+        },
+        "radius": 0.7,
+        "scale": [
+          1,
+          0.36,
+          1
+        ]
+      },
+      {
+        "id": "spot",
+        "type": "sphere",
+        "position": [
+          0.25,
+          1.01,
+          0.12
+        ],
+        "material": {
+          "color": "#ffdbb5",
+          "roughness": 0.65
+        },
+        "radius": 0.12,
+        "scale": [
+          1,
+          0.2,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sandbox_frontier_sign",
+    "tags": [
+      "sandbox",
+      "outdoor",
+      "western"
+    ],
+    "desc": "Freestanding wooden direction marker.",
+    "objects": [
+      {
+        "id": "post",
+        "type": "box",
+        "position": [
+          0,
+          0.75,
+          0
+        ],
+        "size": [
+          0.15,
+          1.5,
+          0.15
+        ],
+        "material": {
+          "color": "#795737",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "board",
+        "type": "box",
+        "position": [
+          0,
+          1.4,
+          0
+        ],
+        "size": [
+          1.5,
+          0.35,
+          0.16
+        ],
+        "material": {
+          "color": "#cb9f63",
+          "roughness": 0.8
+        }
+      }
+    ]
+  },
+  {
+    "name": "sandbox_workbench",
+    "tags": [
+      "sandbox",
+      "furniture",
+      "workshop"
+    ],
+    "desc": "Heavy workbench with open shelf and a vice.",
+    "objects": [
+      {
+        "id": "top",
+        "type": "box",
+        "position": [
+          0,
+          0.95,
+          0
+        ],
+        "size": [
+          2.4,
+          0.16,
+          0.9
+        ],
+        "material": {
+          "color": "#b98b58",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "shelf",
+        "type": "box",
+        "position": [
+          0,
+          0.32,
+          0
+        ],
+        "size": [
+          2.2,
+          0.1,
+          0.7
+        ],
+        "material": {
+          "color": "#4a6770",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "leg0",
+        "type": "box",
+        "position": [
+          -1,
+          0.45,
+          -0.3
+        ],
+        "size": [
+          0.12,
+          0.9,
+          0.12
+        ],
+        "material": {
+          "color": "#43616b",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "leg1",
+        "type": "box",
+        "position": [
+          1,
+          0.45,
+          -0.3
+        ],
+        "size": [
+          0.12,
+          0.9,
+          0.12
+        ],
+        "material": {
+          "color": "#43616b",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "leg2",
+        "type": "box",
+        "position": [
+          -1,
+          0.45,
+          0.3
+        ],
+        "size": [
+          0.12,
+          0.9,
+          0.12
+        ],
+        "material": {
+          "color": "#43616b",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "leg3",
+        "type": "box",
+        "position": [
+          1,
+          0.45,
+          0.3
+        ],
+        "size": [
+          0.12,
+          0.9,
+          0.12
+        ],
+        "material": {
+          "color": "#43616b",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "vice",
+        "type": "box",
+        "position": [
+          0.8,
+          1.1,
+          0.1
+        ],
+        "size": [
+          0.3,
+          0.2,
+          0.35
+        ],
+        "material": {
+          "color": "#506b88",
+          "roughness": 0.8
+        }
+      }
+    ]
+  },
+  {
+    "name": "sandbox_beacon",
+    "tags": [
+      "sandbox",
+      "lamp",
+      "science"
+    ],
+    "desc": "Solar research beacon with a luminous-looking blue cap.",
+    "objects": [
+      {
+        "id": "base",
+        "type": "box",
+        "position": [
+          0,
+          0.1,
+          0
+        ],
+        "size": [
+          0.8,
+          0.2,
+          0.8
+        ],
+        "material": {
+          "color": "#304b63",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "pole",
+        "type": "cylinder",
+        "position": [
+          0,
+          1.1,
+          0
+        ],
+        "material": {
+          "color": "#526f89",
+          "roughness": 0.65
+        },
+        "radius": 0.08,
+        "height": 2
+      },
+      {
+        "id": "orb",
+        "type": "sphere",
+        "position": [
+          0,
+          2.15,
+          0
+        ],
+        "material": {
+          "color": "#7ee6ee",
+          "roughness": 0.65
+        },
+        "radius": 0.28,
+        "collide": false
+      }
+    ]
+  },
+  {
+    "name": "sandbox_target",
+    "tags": [
+      "sandbox",
+      "test",
+      "range"
+    ],
+    "desc": "Freestanding three-ring target with solid rectangular backing.",
+    "objects": [
+      {
+        "id": "foot",
+        "type": "box",
+        "position": [
+          0,
+          0.05,
+          0
+        ],
+        "size": [
+          0.8,
+          0.1,
+          0.5
+        ],
+        "material": {
+          "color": "#3c4d5c",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "post",
+        "type": "box",
+        "position": [
+          0,
+          0.8,
+          0
+        ],
+        "size": [
+          0.1,
+          1.6,
+          0.1
+        ],
+        "material": {
+          "color": "#596775",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "back",
+        "type": "box",
+        "position": [
+          0,
+          1.5,
+          0
+        ],
+        "size": [
+          1.1,
+          1.1,
+          0.12
+        ],
+        "material": {
+          "color": "#d4d7ca",
+          "roughness": 0.8
+        }
+      },
+      {
+        "id": "outer",
+        "type": "cylinder",
+        "position": [
+          0,
+          1.5,
+          0.08
+        ],
+        "material": {
+          "color": "#b7444f",
+          "roughness": 0.65
+        },
+        "radius": 0.45,
+        "height": 0.035,
+        "rotation": [
+          90,
+          0,
+          0
+        ],
+        "collide": false
+      },
+      {
+        "id": "middle",
+        "type": "cylinder",
+        "position": [
+          0,
+          1.5,
+          0.11
+        ],
+        "material": {
+          "color": "#eee2bb",
+          "roughness": 0.65
+        },
+        "radius": 0.3,
+        "height": 0.035,
+        "rotation": [
+          90,
+          0,
+          0
+        ],
+        "collide": false
+      },
+      {
+        "id": "bull",
+        "type": "cylinder",
+        "position": [
+          0,
+          1.5,
+          0.14
+        ],
+        "material": {
+          "color": "#b7444f",
+          "roughness": 0.65
+        },
+        "radius": 0.13,
+        "height": 0.035,
+        "rotation": [
+          90,
+          0,
+          0
+        ],
+        "collide": false
+      }
+    ]
+  }
+]

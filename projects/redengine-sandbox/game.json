@@ -1,0 +1,50 @@
+{
+  "game": 1,
+  "name": "RedEngineSandbox",
+  "engine": {
+    "path": "../../../RedEngine"
+  },
+  "blueprints": [],
+  "maps": [
+    "maps/00-arrival-hub.json",
+    "maps/frontier-crossroads.json",
+    "maps/workshop-motion-lab.json",
+    "maps/moon-garden.json",
+    "maps/gallery-art-01.json",
+    "maps/gallery-art-02.json",
+    "maps/gallery-art-03.json",
+    "maps/gallery-decor-01.json",
+    "maps/gallery-food-01.json",
+    "maps/gallery-furniture-01.json",
+    "maps/gallery-gameplay-01.json",
+    "maps/gallery-kitchen-01.json",
+    "maps/gallery-lamps-01.json",
+    "maps/gallery-office-01.json",
+    "maps/gallery-outdoor-01.json",
+    "maps/gallery-prop-01.json",
+    "maps/gallery-prop-02.json",
+    "maps/gallery-school-01.json",
+    "maps/gallery-store-01.json",
+    "maps/reference-hello-world.json",
+    "maps/reference-house.json",
+    "maps/reference-office.json",
+    "maps/reference-orbit-walk.json",
+    "maps/reference-prop-hunt-yard.json",
+    "maps/reference-room.json",
+    "maps/reference-school.json",
+    "maps/reference-store.json",
+    "maps/reference-test-lab.json",
+    "maps/reference-classroom-wing.json",
+    "maps/reference-coin-run.json",
+    "maps/reference-convenience-store.json",
+    "maps/reference-rooms-and-door.json",
+    "maps/reference-two-floor-house.json",
+    "maps/reference-reddm.json",
+    "maps/reference-riftraze.json"
+  ],
+  "server": {
+    "map": "maps/00-arrival-hub.json",
+    "port": 27017,
+    "spawn_group": "sandbox"
+  }
+}

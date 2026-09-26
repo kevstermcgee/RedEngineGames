@@ -1,47 +1,152 @@
 {
   "blueprint": 1,
-  "name": "RedDM — Foundry Nine",
-  "height": 4.2,
+  "name": "RedDM — Foundry Nine / Industrial Routes",
+  "height": 5,
   "rooms": [
-    {"id":"red_spawn","rect":[-18,-18,-6,-6]}, {"id":"north_lane","rect":[-6,-18,6,-6]}, {"id":"blue_spawn","rect":[6,-18,18,-6]},
-    {"id":"loading","rect":[-18,-6,-6,6]}, {"id":"reactor","rect":[-6,-6,6,6]}, {"id":"workshop","rect":[6,-6,18,6]},
-    {"id":"red_flank","rect":[-18,6,-6,18]}, {"id":"south_lane","rect":[-6,6,6,18]}, {"id":"blue_flank","rect":[6,6,18,18]}
+    {"id":"west_loading","rect":[-24,-8,-12,8],"floor":"#666c70"},
+    {"id":"freight_yard","rect":[-12,-14,4,8],"floor":"#8c887c"},
+    {"id":"assembly_hall","rect":[4,-14,16,8],"floor":"#777f87"},
+    {"id":"east_dispatch","rect":[16,-8,26,8],"floor":"#636e78"},
+    {"id":"service_lane","rect":[-12,-20,16,-14],"floor":"#a0937e"},
+    {"id":"maintenance","rect":[-12,8,16,15],"floor":"#68776d"}
   ],
   "doors": [
-    {"between":["red_spawn","north_lane"],"width":3.2,"kind":"arch"}, {"between":["north_lane","blue_spawn"],"width":3.2,"kind":"arch"},
-    {"between":["red_spawn","loading"],"width":2.4,"kind":"arch"}, {"between":["north_lane","reactor"],"width":3.8,"kind":"arch"},
-    {"between":["blue_spawn","workshop"],"width":2.4,"kind":"arch"}, {"between":["loading","reactor"],"width":3.8,"kind":"arch"},
-    {"between":["reactor","workshop"],"width":3.8,"kind":"arch"}, {"between":["loading","red_flank"],"width":2.4,"kind":"arch"},
-    {"between":["reactor","south_lane"],"width":3.8,"kind":"arch"}, {"between":["workshop","blue_flank"],"width":2.4,"kind":"arch"},
-    {"between":["red_flank","south_lane"],"width":3.2,"kind":"arch"}, {"between":["south_lane","blue_flank"],"width":3.2,"kind":"arch"}
+    {"between":["west_loading","freight_yard"],"width":2.6,"at":-4,"kind":"arch"},
+    {"between":["west_loading","freight_yard"],"width":2.6,"at":4,"kind":"arch"},
+    {"between":["freight_yard","assembly_hall"],"width":3.2,"at":-1,"kind":"arch"},
+    {"between":["assembly_hall","east_dispatch"],"width":2.6,"at":4,"kind":"arch"},
+    {"between":["assembly_hall","east_dispatch"],"width":2.6,"at":-4,"kind":"arch"},
+    {"between":["freight_yard","service_lane"],"width":2.8,"at":-3,"kind":"arch"},
+    {"between":["assembly_hall","service_lane"],"width":2.8,"at":2,"kind":"arch"},
+    {"between":["freight_yard","maintenance"],"width":2.8,"at":3,"kind":"arch"},
+    {"between":["assembly_hall","maintenance"],"width":2.8,"at":-2,"kind":"arch"}
   ],
-  "spawns": [
-    {"room":"red_spawn","group":"deathmatch","count":3}, {"room":"blue_spawn","group":"deathmatch","count":3},
-    {"room":"red_flank","group":"deathmatch","count":2}, {"room":"blue_flank","group":"deathmatch","count":2}
-  ],
-  "fill": [
-    {"room":"loading","kind":["crate","barrel"],"count":7,"seed":11},
-    {"room":"workshop","kind":["crate","barrel"],"count":7,"seed":19}
-  ],
+  "spawns": [{"room":"west_loading","group":"deathmatch","count":3},{"room":"east_dispatch","group":"deathmatch","count":3}],
+  "fill": [],
   "prefab_files": ["../assets/gameplay.json"],
   "extra": [
-    {"id":"reactor_landmark","type":"prefab","prefab":"reactor_core","position":[0,0,0]},
-    {"id":"cover_n_1","type":"prefab","prefab":"arena_cover","position":[-3,0,-12],"rotation":[0,30,0]},
-    {"id":"cover_n_2","type":"prefab","prefab":"arena_cover","position":[3,0,-12],"rotation":[0,-30,0]},
-    {"id":"cover_n_3","type":"prefab","prefab":"arena_cover","position":[0,0,-8],"rotation":[0,90,0]},
-    {"id":"cover_s_1","type":"prefab","prefab":"arena_cover","position":[-3,0,12],"rotation":[0,-30,0]},
-    {"id":"cover_s_2","type":"prefab","prefab":"arena_cover","position":[3,0,12],"rotation":[0,30,0]},
-    {"id":"cover_s_3","type":"prefab","prefab":"arena_cover","position":[0,0,8],"rotation":[0,90,0]}
+    {
+      "id": "freight_container",
+      "type": "box",
+      "size": [5,2.6,2.6],
+      "position": [-5,1.3,-0.5],
+      "material": {"color":"#445d69","roughness":0.75}
+    },
+    {
+      "id": "freight_low_pallet",
+      "type": "box",
+      "size": [2.4,1,1.4],
+      "position": [0,0.5,-8],
+      "material": {"color":"#9b7950","roughness":0.75}
+    },
+    {
+      "id": "freight_screen",
+      "type": "box",
+      "size": [0.4,2.8,4.5],
+      "position": [-8,1.4,-8],
+      "material": {"color":"#637078","roughness":0.75}
+    },
+    {
+      "id": "assembly_machine",
+      "type": "box",
+      "size": [3,1.5,2.5],
+      "position": [10,0.75,0],
+      "material": {"color":"#426657","roughness":0.75}
+    },
+    {"id":"assembly_press","type":"box","size":[2,3.5,2],"position":[12,1.75,-9],"material":{"color":"#8a654a","roughness":0.75}},
+    {
+      "id": "west_spawn_screen",
+      "type": "box",
+      "size": [1,2.5,5],
+      "position": [-17,1.25,0],
+      "material": {"color":"#576c7c","roughness":0.75}
+    },
+    {
+      "id": "east_spawn_screen",
+      "type": "box",
+      "size": [1,2.5,5],
+      "position": [21,1.25,0],
+      "material": {"color":"#895e4e","roughness":0.75}
+    },
+    {"id":"service_duct","type":"box","size":[4,1.2,1.8],"position":[1,0.6,-18.8],"material":{"color":"#858a8c","roughness":0.75}},
+    {
+      "id": "maintenance_toolbank",
+      "type": "box",
+      "size": [5,1.4,1.4],
+      "position": [2,0.7,13.6],
+      "material": {"color":"#476258","roughness":0.75}
+    },
+    {"id":"assembly_roof","type":"box","size":[12,0.3,22],"position":[10,5.15,-3],"material":{"color":"#424c54","roughness":0.75}},
+    {
+      "id": "maintenance_roof",
+      "type": "box",
+      "size": [28,0.25,7],
+      "position": [2,5.125,11.5],
+      "material": {"color":"#424c54","roughness":0.75}
+    },
+    {
+      "id": "service_pipe",
+      "type": "box",
+      "size": [22,0.35,0.35],
+      "position": [2,3.8,-19.4],
+      "material": {"color":"#6a6258","roughness":0.75},
+      "collide": false
+    },
+    {
+      "id": "column_-10_-12",
+      "type": "box",
+      "size": [0.5,5,0.5],
+      "position": [-10,2.5,-12],
+      "material": {"color":"#626a70","roughness":0.75}
+    },
+    {"id":"column_2_-12","type":"box","size":[0.5,5,0.5],"position":[2,2.5,-12],"material":{"color":"#626a70","roughness":0.75}},
+    {"id":"column_6_-12","type":"box","size":[0.5,5,0.5],"position":[6,2.5,-12],"material":{"color":"#626a70","roughness":0.75}},
+    {"id":"column_14_6","type":"box","size":[0.5,5,0.5],"position":[14,2.5,6],"material":{"color":"#626a70","roughness":0.75}}
   ],
   "scene": {
-    "background":{"sky_top":"#101421","sky_bottom":"#59242b"},
-    "ambient":{"color":"#8090b8","intensity":0.24},
-    "player":{"character":"human"},
-    "post":{"ao":0.9,"outline":0.28,"ao_radius":1.2,"enabled":true},
-    "match":{"min_players":2,"countdown_secs":5,"round_secs":480,"results_secs":12,"score_to_win":30,"join_in_progress":true,"ready_check":true},
-    "weapons":{"bat":{"damage":25},"revolver":{"damage":34,"ammo":"infinite"}},
-    "vars":{"match_started":0},
-    "rules":[{"id":"announce","when":{"start":true},"once":true,"do":[{"set":["match_started",1]},{"emit":"reddm_live"}]}],
-    "checks":{"perf":{"players":8,"secs":8,"windows":2,"sim_tick_p95_us":6000,"server_tick_p95_us":8000,"server_tick_p99_us":12000,"bytes_per_client_sec":16000,"largest_datagram":1200,"promoted_props_max":24}}
-  }
+    "background": {"sky_top":"#748da3","sky_bottom":"#c4c4b8"},
+    "ambient": {"color":"#c9d6e0","intensity":0.45},
+    "player": {
+      "character": "human",
+      "fov": 80,
+      "walk_speed": 4.8,
+      "sprint_speed": 4.8,
+      "crouch_multiplier": 0.45,
+      "jump_speed": 4.8,
+      "gravity": 19,
+      "acceleration": 40,
+      "air_acceleration": 0.5,
+      "friction": 14,
+      "max_speed": 4.8
+    },
+    "post": {"ao":0.9,"outline":0.28,"ao_radius":1.2,"enabled":true},
+    "match": {
+      "min_players": 2,
+      "countdown_secs": 5,
+      "round_secs": 480,
+      "results_secs": 12,
+      "score_to_win": 30,
+      "join_in_progress": true,
+      "ready_check": true
+    },
+    "weapons": {"bat":{"damage":25},"revolver":{"damage":34,"ammo":"infinite"},"starting":"rifle"},
+    "vars": {"match_started":0},
+    "rules": [{"id":"announce","when":{"start":true},"once":true,"do":[{"set":["match_started",1]},{"emit":"reddm_live"}]}],
+    "checks": {
+      "perf": {
+        "players": 8,
+        "secs": 8,
+        "windows": 2,
+        "sim_tick_p95_us": 6000,
+        "server_tick_p95_us": 8000,
+        "server_tick_p99_us": 12000,
+        "bytes_per_client_sec": 16000,
+        "largest_datagram": 1200,
+        "promoted_props_max": 24
+      },
+      "lint": {"max_errors":0,"max_warnings":0}
+    },
+    "camera": {"position":[-20,1.7,5],"target":[-12,1.7,4],"fov":80}
+  },
+  "ceiling": false
 }

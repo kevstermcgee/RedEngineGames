@@ -1,0 +1,1312 @@
+{
+  "x-sandbox": {
+    "name": "Asset Gallery / art / 2",
+    "source": "scripts/generate.py"
+  },
+  "meta": {
+    "fps": 60,
+    "duration": 6,
+    "resolution": [
+      1280,
+      720
+    ]
+  },
+  "background": {
+    "sky_top": "#253c59",
+    "sky_bottom": "#cad8df"
+  },
+  "ambient": {
+    "color": "#ffffff",
+    "intensity": 0.65
+  },
+  "camera": {
+    "fov": 80,
+    "position": [
+      0,
+      1.7,
+      22.0
+    ],
+    "target": [
+      0,
+      1.5,
+      12.0
+    ]
+  },
+  "post": {
+    "ao": 0.5,
+    "outline": 0.3
+  },
+  "player": {
+    "walk_speed": 4.5,
+    "sprint_speed": 7.5,
+    "jump_speed": 5.5
+  },
+  "weapons": {
+    "starting": "pistol"
+  },
+  "lights": [
+    {
+      "id": "sun",
+      "type": "directional",
+      "direction": [
+        -0.5,
+        -1,
+        -0.3
+      ],
+      "color": "#fff0db",
+      "intensity": 1.1,
+      "cast_shadows": true,
+      "shadow_center": [
+        0,
+        0,
+        0
+      ],
+      "shadow_radius": 52
+    }
+  ],
+  "prefabs": [
+    {
+      "name": "sandbox_crystal",
+      "tags": [
+        "sandbox",
+        "outdoor",
+        "alien"
+      ],
+      "desc": "Cluster of three faceted mineral spires.",
+      "collide": false,
+      "objects": [
+        {
+          "id": "spire_a",
+          "type": "cone",
+          "position": [
+            -0.28,
+            0.75,
+            0
+          ],
+          "material": {
+            "color": "#7ce1e0",
+            "roughness": 0.65
+          },
+          "radius": 0.3,
+          "height": 1.5
+        },
+        {
+          "id": "spire_b",
+          "type": "cone",
+          "position": [
+            0.24,
+            0.5,
+            0.12
+          ],
+          "material": {
+            "color": "#b6a0eb",
+            "roughness": 0.65
+          },
+          "radius": 0.22,
+          "height": 1.0
+        },
+        {
+          "id": "spire_c",
+          "type": "cone",
+          "position": [
+            0,
+            0.33,
+            -0.28
+          ],
+          "material": {
+            "color": "#5398c4",
+            "roughness": 0.65
+          },
+          "radius": 0.19,
+          "height": 0.66
+        }
+      ]
+    },
+    {
+      "name": "sandbox_mushroom",
+      "tags": [
+        "sandbox",
+        "outdoor",
+        "fantasy"
+      ],
+      "desc": "Broad colourful mushroom for gardens.",
+      "collide": false,
+      "objects": [
+        {
+          "id": "stem",
+          "type": "cylinder",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "material": {
+            "color": "#eee0c1",
+            "roughness": 0.65
+          },
+          "radius": 0.16,
+          "height": 0.76
+        },
+        {
+          "id": "cap",
+          "type": "sphere",
+          "position": [
+            0,
+            0.78,
+            0
+          ],
+          "material": {
+            "color": "#c2609b",
+            "roughness": 0.65
+          },
+          "radius": 0.7,
+          "scale": [
+            1,
+            0.36,
+            1
+          ]
+        },
+        {
+          "id": "spot",
+          "type": "sphere",
+          "position": [
+            0.25,
+            1.01,
+            0.12
+          ],
+          "material": {
+            "color": "#ffdbb5",
+            "roughness": 0.65
+          },
+          "radius": 0.12,
+          "scale": [
+            1,
+            0.2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sandbox_frontier_sign",
+      "tags": [
+        "sandbox",
+        "outdoor",
+        "western"
+      ],
+      "desc": "Freestanding wooden direction marker.",
+      "objects": [
+        {
+          "id": "post",
+          "type": "box",
+          "position": [
+            0,
+            0.75,
+            0
+          ],
+          "size": [
+            0.15,
+            1.5,
+            0.15
+          ],
+          "material": {
+            "color": "#795737",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "board",
+          "type": "box",
+          "position": [
+            0,
+            1.4,
+            0
+          ],
+          "size": [
+            1.5,
+            0.35,
+            0.16
+          ],
+          "material": {
+            "color": "#cb9f63",
+            "roughness": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "name": "sandbox_workbench",
+      "tags": [
+        "sandbox",
+        "furniture",
+        "workshop"
+      ],
+      "desc": "Heavy workbench with open shelf and a vice.",
+      "objects": [
+        {
+          "id": "top",
+          "type": "box",
+          "position": [
+            0,
+            0.95,
+            0
+          ],
+          "size": [
+            2.4,
+            0.16,
+            0.9
+          ],
+          "material": {
+            "color": "#b98b58",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "shelf",
+          "type": "box",
+          "position": [
+            0,
+            0.32,
+            0
+          ],
+          "size": [
+            2.2,
+            0.1,
+            0.7
+          ],
+          "material": {
+            "color": "#4a6770",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "leg0",
+          "type": "box",
+          "position": [
+            -1,
+            0.45,
+            -0.3
+          ],
+          "size": [
+            0.12,
+            0.9,
+            0.12
+          ],
+          "material": {
+            "color": "#43616b",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "leg1",
+          "type": "box",
+          "position": [
+            1,
+            0.45,
+            -0.3
+          ],
+          "size": [
+            0.12,
+            0.9,
+            0.12
+          ],
+          "material": {
+            "color": "#43616b",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "leg2",
+          "type": "box",
+          "position": [
+            -1,
+            0.45,
+            0.3
+          ],
+          "size": [
+            0.12,
+            0.9,
+            0.12
+          ],
+          "material": {
+            "color": "#43616b",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "leg3",
+          "type": "box",
+          "position": [
+            1,
+            0.45,
+            0.3
+          ],
+          "size": [
+            0.12,
+            0.9,
+            0.12
+          ],
+          "material": {
+            "color": "#43616b",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "vice",
+          "type": "box",
+          "position": [
+            0.8,
+            1.1,
+            0.1
+          ],
+          "size": [
+            0.3,
+            0.2,
+            0.35
+          ],
+          "material": {
+            "color": "#506b88",
+            "roughness": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "name": "sandbox_beacon",
+      "tags": [
+        "sandbox",
+        "lamp",
+        "science"
+      ],
+      "desc": "Solar research beacon with a luminous-looking blue cap.",
+      "objects": [
+        {
+          "id": "base",
+          "type": "box",
+          "position": [
+            0,
+            0.1,
+            0
+          ],
+          "size": [
+            0.8,
+            0.2,
+            0.8
+          ],
+          "material": {
+            "color": "#304b63",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "pole",
+          "type": "cylinder",
+          "position": [
+            0,
+            1.1,
+            0
+          ],
+          "material": {
+            "color": "#526f89",
+            "roughness": 0.65
+          },
+          "radius": 0.08,
+          "height": 2
+        },
+        {
+          "id": "orb",
+          "type": "sphere",
+          "position": [
+            0,
+            2.15,
+            0
+          ],
+          "material": {
+            "color": "#7ee6ee",
+            "roughness": 0.65
+          },
+          "radius": 0.28,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "name": "sandbox_target",
+      "tags": [
+        "sandbox",
+        "test",
+        "range"
+      ],
+      "desc": "Freestanding three-ring target with solid rectangular backing.",
+      "objects": [
+        {
+          "id": "foot",
+          "type": "box",
+          "position": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            0.8,
+            0.1,
+            0.5
+          ],
+          "material": {
+            "color": "#3c4d5c",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "post",
+          "type": "box",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "size": [
+            0.1,
+            1.6,
+            0.1
+          ],
+          "material": {
+            "color": "#596775",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "back",
+          "type": "box",
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "size": [
+            1.1,
+            1.1,
+            0.12
+          ],
+          "material": {
+            "color": "#d4d7ca",
+            "roughness": 0.8
+          }
+        },
+        {
+          "id": "outer",
+          "type": "cylinder",
+          "position": [
+            0,
+            1.5,
+            0.08
+          ],
+          "material": {
+            "color": "#b7444f",
+            "roughness": 0.65
+          },
+          "radius": 0.45,
+          "height": 0.035,
+          "rotation": [
+            90,
+            0,
+            0
+          ],
+          "collide": false
+        },
+        {
+          "id": "middle",
+          "type": "cylinder",
+          "position": [
+            0,
+            1.5,
+            0.11
+          ],
+          "material": {
+            "color": "#eee2bb",
+            "roughness": 0.65
+          },
+          "radius": 0.3,
+          "height": 0.035,
+          "rotation": [
+            90,
+            0,
+            0
+          ],
+          "collide": false
+        },
+        {
+          "id": "bull",
+          "type": "cylinder",
+          "position": [
+            0,
+            1.5,
+            0.14
+          ],
+          "material": {
+            "color": "#b7444f",
+            "roughness": 0.65
+          },
+          "radius": 0.13,
+          "height": 0.035,
+          "rotation": [
+            90,
+            0,
+            0
+          ],
+          "collide": false
+        }
+      ]
+    }
+  ],
+  "spawns": [
+    {
+      "id": "entry",
+      "position": [
+        0,
+        0,
+        22.0
+      ],
+      "yaw_deg": 0,
+      "group": "sandbox"
+    }
+  ],
+  "zones": [
+    {
+      "id": "space",
+      "rect": [
+        -19.7,
+        -25.7,
+        19.7,
+        25.7
+      ],
+      "y": 0,
+      "kind": "room"
+    }
+  ],
+  "checks": {
+    "lint": {
+      "max_errors": 0,
+      "max_warnings": 0
+    },
+    "walk": [
+      {
+        "name": "central aisle",
+        "from": [
+          0,
+          22.0
+        ],
+        "to": [
+          0,
+          -22.0
+        ],
+        "auto": true
+      }
+    ],
+    "objects": {
+      "min_count": 5
+    }
+  },
+  "objects": [
+    {
+      "id": "floor",
+      "type": "box",
+      "position": [
+        0,
+        -0.1,
+        0
+      ],
+      "size": [
+        40,
+        0.2,
+        52
+      ],
+      "material": {
+        "color": "#52616c",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "wall_w",
+      "type": "box",
+      "position": [
+        -20.0,
+        1.5,
+        0
+      ],
+      "size": [
+        0.3,
+        3,
+        52
+      ],
+      "material": {
+        "color": "#7d8e9c",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "wall_e",
+      "type": "box",
+      "position": [
+        20.0,
+        1.5,
+        0
+      ],
+      "size": [
+        0.3,
+        3,
+        52
+      ],
+      "material": {
+        "color": "#7d8e9c",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "wall_n",
+      "type": "box",
+      "position": [
+        0,
+        1.5,
+        -26.0
+      ],
+      "size": [
+        40,
+        3,
+        0.3
+      ],
+      "material": {
+        "color": "#7d8e9c",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "wall_s",
+      "type": "box",
+      "position": [
+        0,
+        1.5,
+        26.0
+      ],
+      "size": [
+        40,
+        3,
+        0.3
+      ],
+      "material": {
+        "color": "#7d8e9c",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "plinth_sculpture_bust",
+      "type": "box",
+      "position": [
+        -15,
+        0.06,
+        16
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_bust",
+      "type": "prefab",
+      "prefab": "sculpture_bust",
+      "position": [
+        -15.0,
+        0.12,
+        16.0
+      ],
+      "params": {
+        "stone": "#e6e2d8"
+      }
+    },
+    {
+      "id": "plinth_statue_figure",
+      "type": "box",
+      "position": [
+        -5,
+        0.06,
+        16
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_statue_figure",
+      "type": "prefab",
+      "prefab": "statue_figure",
+      "position": [
+        -4.9997778087854385,
+        0.12,
+        16.0
+      ],
+      "params": {
+        "metal": "#8c6a3a"
+      }
+    },
+    {
+      "id": "plinth_sculpture_cat",
+      "type": "box",
+      "position": [
+        5,
+        0.06,
+        16
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_cat",
+      "type": "prefab",
+      "prefab": "sculpture_cat",
+      "position": [
+        4.972002383321524,
+        0.12,
+        16.011500000953674
+      ],
+      "params": {
+        "color": "#e8e4dc",
+        "accent": "#3a4a6a"
+      }
+    },
+    {
+      "id": "plinth_sculpture_bird",
+      "type": "box",
+      "position": [
+        15,
+        0.06,
+        16
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_bird",
+      "type": "prefab",
+      "prefab": "sculpture_bird",
+      "position": [
+        15.0,
+        0.12,
+        15.99252549558878
+      ],
+      "params": {
+        "color": "#2f6fb0",
+        "wing": "#1d4a80"
+      }
+    },
+    {
+      "id": "plinth_sculpture_armillary",
+      "type": "box",
+      "position": [
+        -15,
+        0.06,
+        7
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_armillary",
+      "type": "prefab",
+      "prefab": "sculpture_armillary",
+      "position": [
+        -15.0,
+        0.12,
+        7.0
+      ],
+      "params": {
+        "core": "#3f86a8"
+      }
+    },
+    {
+      "id": "plinth_sculpture_twist_tower",
+      "type": "box",
+      "position": [
+        -5,
+        0.06,
+        7
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_twist_tower",
+      "type": "prefab",
+      "prefab": "sculpture_twist_tower",
+      "position": [
+        -5.0,
+        0.12,
+        7.0
+      ],
+      "params": {
+        "color": "#c9743a"
+      }
+    },
+    {
+      "id": "plinth_sculpture_monolith",
+      "type": "box",
+      "position": [
+        5,
+        0.06,
+        7
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_sculpture_monolith",
+      "type": "prefab",
+      "prefab": "sculpture_monolith",
+      "position": [
+        5.0,
+        0.12,
+        7.0
+      ],
+      "params": {
+        "color": "#1c1f26"
+      }
+    },
+    {
+      "id": "plinth_trophy_cup",
+      "type": "box",
+      "position": [
+        15,
+        0.06,
+        7
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_trophy_cup",
+      "type": "prefab",
+      "prefab": "trophy_cup",
+      "position": [
+        15.0,
+        0.12,
+        6.999750003218651
+      ]
+    },
+    {
+      "id": "plinth_bonsai",
+      "type": "box",
+      "position": [
+        -15,
+        0.06,
+        -2
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_bonsai",
+      "type": "prefab",
+      "prefab": "bonsai",
+      "position": [
+        -15.002499997615814,
+        0.12,
+        -2.0
+      ],
+      "params": {
+        "leaf": "#3f7a3a"
+      },
+      "collide": false,
+      "x-display-note": "Visual exhibit: the source asset has a low overhang that fails player headroom checks."
+    },
+    {
+      "id": "plinth_plant_snake",
+      "type": "box",
+      "position": [
+        -5,
+        0.06,
+        -2
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_plant_snake",
+      "type": "prefab",
+      "prefab": "plant_snake",
+      "position": [
+        -5.0,
+        0.12,
+        -2.0
+      ],
+      "params": {
+        "pot": "#b6b0a4",
+        "leaf": "#2f6a3a",
+        "leaf2": "#4a8a4a"
+      }
+    },
+    {
+      "id": "plinth_plant_monstera",
+      "type": "box",
+      "position": [
+        5,
+        0.06,
+        -2
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_plant_monstera",
+      "type": "prefab",
+      "prefab": "plant_monstera",
+      "position": [
+        4.9832813590765,
+        0.12,
+        -2.037341833114624
+      ],
+      "params": {
+        "pot": "#c98a5a",
+        "leaf": "#3a8a48"
+      }
+    },
+    {
+      "id": "plinth_plant_cactus",
+      "type": "box",
+      "position": [
+        15,
+        0.06,
+        -2
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_plant_cactus",
+      "type": "prefab",
+      "prefab": "plant_cactus",
+      "position": [
+        15.006499998271465,
+        0.12,
+        -2.0
+      ],
+      "params": {
+        "pot": "#c98a5a"
+      }
+    },
+    {
+      "id": "plinth_books_row",
+      "type": "box",
+      "position": [
+        -15,
+        0.06,
+        -11
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_books_row",
+      "type": "prefab",
+      "prefab": "books_row",
+      "position": [
+        -15.000749997794628,
+        0.12,
+        -11.0
+      ]
+    },
+    {
+      "id": "plinth_picture_stand",
+      "type": "box",
+      "position": [
+        -5,
+        0.06,
+        -11
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_picture_stand",
+      "type": "prefab",
+      "prefab": "picture_stand",
+      "position": [
+        -5.0,
+        0.10871852457523346,
+        -10.95591663569212
+      ],
+      "params": {
+        "frame": "#4a3320",
+        "photo": "#7fa8c8"
+      }
+    },
+    {
+      "id": "plinth_hourglass",
+      "type": "box",
+      "position": [
+        5,
+        0.06,
+        -11
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_hourglass",
+      "type": "prefab",
+      "prefab": "hourglass",
+      "position": [
+        5.0,
+        0.12,
+        -11.0
+      ]
+    },
+    {
+      "id": "plinth_radio_retro",
+      "type": "box",
+      "position": [
+        15,
+        0.06,
+        -11
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_radio_retro",
+      "type": "prefab",
+      "prefab": "radio_retro",
+      "position": [
+        14.983206145465374,
+        0.12,
+        -11.010000001639128
+      ],
+      "params": {
+        "color": "#3f6a8a"
+      }
+    },
+    {
+      "id": "plinth_newtons_cradle",
+      "type": "box",
+      "position": [
+        -15,
+        0.06,
+        -20
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_newtons_cradle",
+      "type": "prefab",
+      "prefab": "newtons_cradle",
+      "position": [
+        -15.0,
+        0.12,
+        -20.0
+      ]
+    },
+    {
+      "id": "plinth_chess_set",
+      "type": "box",
+      "position": [
+        -5,
+        0.06,
+        -20
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_chess_set",
+      "type": "prefab",
+      "prefab": "chess_set",
+      "position": [
+        -5.0,
+        0.12,
+        -20.0
+      ]
+    },
+    {
+      "id": "plinth_grandfather_clock",
+      "type": "box",
+      "position": [
+        5,
+        0.06,
+        -20
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_grandfather_clock",
+      "type": "prefab",
+      "prefab": "grandfather_clock",
+      "position": [
+        5.0,
+        0.12,
+        -20.005999997258186
+      ],
+      "params": {
+        "wood": "#5a3a26"
+      }
+    },
+    {
+      "id": "plinth_easel_canvas",
+      "type": "box",
+      "position": [
+        15,
+        0.06,
+        -20
+      ],
+      "size": [
+        8,
+        0.12,
+        7
+      ],
+      "material": {
+        "color": "#354753",
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "asset_easel_canvas",
+      "type": "prefab",
+      "prefab": "easel_canvas",
+      "position": [
+        14.982368603348732,
+        0.11488246440887451,
+        -19.898492470383644
+      ]
+    }
+  ]
+}

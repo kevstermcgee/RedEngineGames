@@ -1,0 +1,26 @@
+name: Check RedEngineSandbox
+on:
+  pull_request:
+    paths: ['projects/redengine-sandbox/**', '.github/workflows/sandbox.yml']
+  push:
+    paths: ['projects/redengine-sandbox/**', '.github/workflows/sandbox.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: kevstermcgee/RedEngine
+          path: .red/engine
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Validate every sandbox map
+        working-directory: projects/redengine-sandbox
+        run: RED_ENGINE="$GITHUB_WORKSPACE/.red/engine" RED_HEADLESS=1 bash scripts/red check
+      - name: Check generated asset galleries and reference maps
+        working-directory: projects/redengine-sandbox
+        run: python3 scripts/generate.py --engine "$GITHUB_WORKSPACE/.red/engine" --check

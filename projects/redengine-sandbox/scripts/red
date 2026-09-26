@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# scripts/red: run the Red Engine version this project pins (game.json "engine"), building it on first use.
+#   scripts/red doctor | check | build-all | info | play-local | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
+# Env: RED_ENGINE=/path/to/checkout (override), RED_UPDATE=1 (git fetch the pinned ref), RED_REBUILD=1 (force a build),
+# RED_HEADLESS=1 (no graphics crates: CLI + server only, ideal for CI and containers), RED_PROFILE=debug|release (default debug).
+set -eu
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+for f in "$HOME/.local/toolchain/env.sh" "$HOME/.cargo/env"; do [ -f "$f" ] && . "$f"; done
+export CARGO_TERM_COLOR=never
+
+json_get() { sed -n "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"\([^\"]*\)\".*/\1/p" game.json | head -1; }
+
+ENGINE="${RED_ENGINE:-}"
+if [ -z "$ENGINE" ]; then
+  P="$(json_get path)"
+  case "$P" in
+    "") ;;
+    /*|[A-Za-z]:*) ENGINE="$(cd "$P" 2>/dev/null && pwd || true)" ;;
+    *) ENGINE="$(cd "$ROOT/$P" 2>/dev/null && pwd || true)" ;;
+  esac
+fi
+if [ -z "$ENGINE" ]; then
+  GIT="$(json_get git)"; REF="$(json_get ref)"; REF="${REF:-master}"
+  ENGINE="$ROOT/.red/engine"
+  if [ ! -d "$ENGINE/.git" ]; then
+    echo "red: cloning the engine ($GIT) into .red/engine ..." >&2
+    git clone --quiet "$GIT" "$ENGINE"
+    UPDATE=1
+  fi
+  if [ "${UPDATE:-${RED_UPDATE:-0}}" = "1" ]; then
+    git -C "$ENGINE" fetch --quiet --tags origin
+    git -C "$ENGINE" checkout --quiet --detach "origin/$REF" 2>/dev/null || git -C "$ENGINE" checkout --quiet --detach "$REF"
+  fi
+fi
+[ -f "$ENGINE/Cargo.toml" ] || { echo "red: no engine at '$ENGINE' (fix game.json \"engine\" or set RED_ENGINE)" >&2; exit 2; }
+
+PROFILE="${RED_PROFILE:-debug}"; PFLAG=""; [ "$PROFILE" = "release" ] && PFLAG="--release"
+TARGET="${CARGO_TARGET_DIR:-$ENGINE/target}"
+exe() { for c in "$TARGET/$PROFILE/$1" "$TARGET/$PROFILE/$1.exe"; do [ -f "$c" ] && { echo "$c"; return; }; done; echo "$TARGET/$PROFILE/$1"; }
+
+REBUILD="${RED_REBUILD:-0}"
+if [ "${1:-}" = "--rebuild" ]; then REBUILD=1; shift; fi
+cmd="${1:-help}"; [ $# -gt 0 ] && shift
+if [ "$cmd" = "help" ] || [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ]; then sed -n '2,5p' "$0"; exit 0; fi
+if [ "$cmd" = "doctor" ]; then
+  echo "project  $ROOT"; echo "engine   $ENGINE ($(git -C "$ENGINE" rev-parse --short HEAD 2>/dev/null || echo 'not a git checkout'))"
+  command -v cargo >/dev/null 2>&1 && echo "cargo    $(cargo --version)" || echo "cargo    NOT FOUND (install Rust: https://rustup.rs)"
+  for b in red_engine2 red_server re2; do [ -f "$(exe $b)" ] && echo "built    $b" || echo "missing  $b (built on first use)"; done
+  exit 0
+fi
+command -v cargo >/dev/null 2>&1 || { echo "red: cargo not found (install Rust: https://rustup.rs)" >&2; exit 127; }
+
+if [ "${1:-}" = "--rebuild" ]; then REBUILD=1; shift; fi
+MODE=default; FEATURES=""; [ "${RED_HEADLESS:-0}" = "1" ] && { MODE=headless; FEATURES="--no-default-features"; }
+[ "$MODE" = "headless" ] && { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && { echo "red: $cmd needs graphics; unset RED_HEADLESS" >&2; exit 2; }
+REQUIRED="red_engine2"; [ "$cmd" = "serve" ] && REQUIRED="$REQUIRED red_server"; { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && REQUIRED="$REQUIRED re2"
+needs_build() {
+  OUT="$(exe "$1")"; STAMP="$TARGET/$PROFILE/.red-wrapper-$1.mode"
+  [ "$REBUILD" = "1" ] || [ ! -f "$OUT" ] && return 0
+  [ -f "$STAMP" ] || return 0
+  [ "$(cat "$STAMP")" != "$MODE" ] && return 0
+  for f in "$ENGINE/Cargo.toml" "$ENGINE/Cargo.lock" "$ENGINE/build.rs"; do [ -f "$f" ] && [ "$f" -nt "$OUT" ] && return 0; done
+  for d in "$ENGINE/src" "$ENGINE/assets"; do
+    [ -d "$d" ] && [ -n "$(find "$d" -type f -newer "$OUT" -print -quit)" ] && return 0
+  done
+  return 1
+}
+BUILD=0; BINS=""
+for b in $REQUIRED; do BINS="$BINS --bin $b"; needs_build "$b" && BUILD=1; done
+if [ "$BUILD" = "1" ]; then
+  echo "red: building required engine binaries ..." >&2
+  cargo build --quiet $PFLAG $FEATURES --manifest-path "$ENGINE/Cargo.toml" $BINS
+  for b in $REQUIRED; do printf '%s' "$MODE" > "$TARGET/$PROFILE/.red-wrapper-$b.mode"; done
+fi
+
+CLI="$(exe red_engine2)"
+case "$cmd" in
+  check|build-all|info|play-local|serve|play) exec "$CLI" game "$cmd" "$@" ;;
+  *) exec "$CLI" "$cmd" "$@" ;;
+esac

@@ -3,12 +3,9 @@
 ![RedDM key art](assets/reddm-key-art.png)
 
 RedDM is a compact online FPS deathmatch prototype built as a separate Red Engine 2 game project.
-Its first map, **Foundry Nine**, is a three-lane industrial arena with two flank routes, a central
-reactor landmark, ten network spawn points, readable red cover, and moving physics props. Players
+Its current map, **Foundry Nine**, connects a freight yard and covered assembly hall through offset
+doors, an outdoor service lane and covered maintenance route. Six spawns sit behind loading/dispatch screens. Players
 are human combatants; the engine's Cheddar character is not part of this game.
-
-Clone `RedEngine` and `RedEngineGames` beside one another. This published project pins
-`../../../RedEngine`, keeping all engine code in the engine repository while the game remains here.
 
 ## Play
 
@@ -41,8 +38,8 @@ public networks; see the engine's `docs/HOSTING.md`.
 
 ## Controls
 
-- WASD move; Shift sprint; Ctrl crouch; Space jump
-- Mouse look; left mouse attacks
+- WASD move; Ctrl crouch; Space jump (Shift adds no speed in this tactical profile)
+- Mouse look; hold left mouse for automatic firearms, click for semi-automatic weapons
 - Right mouse smoothly aims down sights
 - Mouse wheel cycles the bat and eleven firearms
 - R reloads; E picks up/drops loose props; Q toggles third person; Esc pauses
@@ -52,7 +49,11 @@ public networks; see the engine's `docs/HOSTING.md`.
 The server owns movement, hits, damage, deaths, respawns, score and physics. A lobby requires two
 ready players, then runs an eight-minute round to 30 kills, followed by results and rematch. The current
 prototype scores individuals (free-for-all deathmatch); explicit team assignment, team-colored characters,
-friendly-fire rules, automatic fire, per-gun magazines and weapon selection UI are the next engine milestones.
+friendly-fire rules, per-gun magazines, timed reloads and weapon selection UI remain future engine milestones.
+Players now start with a rifle. Movement accelerates quickly and stops with strong ground friction.
+The current map is a gameplay greybox, with deliberate sightline breaks and alternative routes.
+
+The shooter update requires matching protocol-v6 client/server binaries from the sibling engine checkout.
 
 ## Project structure
 

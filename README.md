@@ -16,6 +16,8 @@ warning.
 
 ## Standalone projects
 
+- [RedEngineSandbox](projects/redengine-sandbox) � an asset inspection and testing hub with 202 catalogue assets, 35 maps, six playable characters, and native controller navigation.
+
 - [RedDM](projects/reddm) — an online FPS deathmatch prototype with the Foundry Nine arena,
   eleven firearms, smooth aim-down-sights, and an authoritative two-or-more-player server.
 - [RiftRaze](projects/riftraze) — a hyperkinetic online arena FPS with 90-degree FOV,

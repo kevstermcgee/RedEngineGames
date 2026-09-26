@@ -1,0 +1,15 @@
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v4
+        with:
+          repository: kevstermcgee/RedEngine
+          path: .red/engine
+      # Headless engine build: CLI + server only, no GPU or windowing libraries needed.
+      - run: RED_ENGINE="$PWD/.red/engine" RED_HEADLESS=1 bash scripts/red check
+      - run: python3 scripts/generate.py --engine .red/engine --check
