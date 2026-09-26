@@ -1,0 +1,8 @@
+{
+  "game": 1,
+  "name": "RedDM",
+  "engine": { "path": "../../../RedEngine" },
+  "blueprints": ["blueprints/main.blueprint.json"],
+  "maps": ["maps/main.json"],
+  "server": { "map": "maps/main.json", "port": 27015, "spawn_group": "deathmatch" }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "name":"arena_cover", "tags":["reddm","cover","arena","industrial"],
+    "desc":"Waist-high modular ballistic cover with red identity stripe.",
+    "meta":{"roles":["cover"],"styles":["industrial"],"status":"experimental","revision":1,"license":"MIT","origin":"generated","provenance":"RedDM procedural"},
+    "params":{"stripe":{"default":"#d3263f","desc":"team-neutral accent"}},
+    "objects":[
+      {"id":"body","type":"box","size":[2.4,1.15,0.55],"position":[0,0.575,0],"material":{"color":"#252b35","roughness":0.76,"metallic":0.35}},
+      {"id":"stripe","type":"box","size":[2.42,0.18,0.57],"position":[0,0.79,0],"material":{"color":"$stripe","roughness":0.45,"metallic":0.2}},
+      {"id":"foot_l","type":"box","size":[0.42,0.12,0.9],"position":[-0.78,0.06,0],"material":{"color":"#11151b","roughness":0.8}},
+      {"id":"foot_r","type":"box","size":[0.42,0.12,0.9],"position":[0.78,0.06,0],"material":{"color":"#11151b","roughness":0.8}}
+    ]
+  },
+  {
+    "name":"reactor_core", "tags":["reddm","landmark","industrial","cover"],
+    "desc":"Glowing foundry reactor used as the arena's central landmark and hard cover.",
+    "meta":{"roles":["landmark","cover"],"styles":["industrial"],"status":"experimental","revision":1,"license":"MIT","origin":"generated","provenance":"RedDM procedural"},
+    "objects":[
+      {"id":"base","type":"box","size":[3.2,0.5,3.2],"position":[0,0.25,0],"material":{"color":"#171b22","roughness":0.7,"metallic":0.5}},
+      {"id":"core","type":"box","size":[2.2,2.8,2.2],"position":[0,1.9,0],"material":{"color":"#42131b","roughness":0.32,"metallic":0.6}},
+      {"id":"glow_n","type":"box","size":[1.3,1.8,0.04],"position":[0,1.9,1.12],"material":{"color":"#ff304d","emissive":"#ff1838","roughness":0.2}},
+      {"id":"glow_s","type":"box","size":[1.3,1.8,0.04],"position":[0,1.9,-1.12],"material":{"color":"#ff304d","emissive":"#ff1838","roughness":0.2}},
+      {"id":"cap","type":"box","size":[2.8,0.3,2.8],"position":[0,3.35,0],"material":{"color":"#292f39","roughness":0.55,"metallic":0.7}}
+    ]
+  }
+]

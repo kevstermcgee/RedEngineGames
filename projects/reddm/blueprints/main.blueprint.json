@@ -1,0 +1,46 @@
+{
+  "blueprint": 1,
+  "name": "RedDM — Foundry Nine",
+  "height": 4.2,
+  "rooms": [
+    {"id":"red_spawn","rect":[-18,-18,-6,-6]}, {"id":"north_lane","rect":[-6,-18,6,-6]}, {"id":"blue_spawn","rect":[6,-18,18,-6]},
+    {"id":"loading","rect":[-18,-6,-6,6]}, {"id":"reactor","rect":[-6,-6,6,6]}, {"id":"workshop","rect":[6,-6,18,6]},
+    {"id":"red_flank","rect":[-18,6,-6,18]}, {"id":"south_lane","rect":[-6,6,6,18]}, {"id":"blue_flank","rect":[6,6,18,18]}
+  ],
+  "doors": [
+    {"between":["red_spawn","north_lane"],"width":3.2,"kind":"arch"}, {"between":["north_lane","blue_spawn"],"width":3.2,"kind":"arch"},
+    {"between":["red_spawn","loading"],"width":2.4,"kind":"arch"}, {"between":["north_lane","reactor"],"width":3.8,"kind":"arch"},
+    {"between":["blue_spawn","workshop"],"width":2.4,"kind":"arch"}, {"between":["loading","reactor"],"width":3.8,"kind":"arch"},
+    {"between":["reactor","workshop"],"width":3.8,"kind":"arch"}, {"between":["loading","red_flank"],"width":2.4,"kind":"arch"},
+    {"between":["reactor","south_lane"],"width":3.8,"kind":"arch"}, {"between":["workshop","blue_flank"],"width":2.4,"kind":"arch"},
+    {"between":["red_flank","south_lane"],"width":3.2,"kind":"arch"}, {"between":["south_lane","blue_flank"],"width":3.2,"kind":"arch"}
+  ],
+  "spawns": [
+    {"room":"red_spawn","group":"deathmatch","count":3}, {"room":"blue_spawn","group":"deathmatch","count":3},
+    {"room":"red_flank","group":"deathmatch","count":2}, {"room":"blue_flank","group":"deathmatch","count":2}
+  ],
+  "fill": [
+    {"room":"loading","kind":["crate","barrel"],"count":7,"seed":11},
+    {"room":"workshop","kind":["crate","barrel"],"count":7,"seed":19}
+  ],
+  "prefab_files": ["../assets/gameplay.json"],
+  "extra": [
+    {"id":"reactor_landmark","type":"prefab","prefab":"reactor_core","position":[0,0,0]},
+    {"id":"cover_n_1","type":"prefab","prefab":"arena_cover","position":[-3,0,-12],"rotation":[0,30,0]},
+    {"id":"cover_n_2","type":"prefab","prefab":"arena_cover","position":[3,0,-12],"rotation":[0,-30,0]},
+    {"id":"cover_n_3","type":"prefab","prefab":"arena_cover","position":[0,0,-8],"rotation":[0,90,0]},
+    {"id":"cover_s_1","type":"prefab","prefab":"arena_cover","position":[-3,0,12],"rotation":[0,-30,0]},
+    {"id":"cover_s_2","type":"prefab","prefab":"arena_cover","position":[3,0,12],"rotation":[0,30,0]},
+    {"id":"cover_s_3","type":"prefab","prefab":"arena_cover","position":[0,0,8],"rotation":[0,90,0]}
+  ],
+  "scene": {
+    "background":{"sky_top":"#101421","sky_bottom":"#59242b"},
+    "ambient":{"color":"#8090b8","intensity":0.24},
+    "post":{"ao":0.9,"outline":0.28,"ao_radius":1.2,"enabled":true},
+    "match":{"min_players":2,"countdown_secs":5,"round_secs":480,"results_secs":12,"score_to_win":30,"join_in_progress":true,"ready_check":true},
+    "weapons":{"bat":{"damage":25},"revolver":{"damage":34,"ammo":"infinite"}},
+    "vars":{"match_started":0},
+    "rules":[{"id":"announce","when":{"start":true},"once":true,"do":[{"set":["match_started",1]},{"emit":"reddm_live"}]}],
+    "checks":{"perf":{"players":8,"secs":8,"windows":2,"sim_tick_p95_us":6000,"server_tick_p95_us":8000,"server_tick_p99_us":12000,"bytes_per_client_sec":16000,"largest_datagram":1200,"promoted_props_max":24}}
+  }
+}
