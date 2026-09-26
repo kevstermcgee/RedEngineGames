@@ -175,8 +175,98 @@
       "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
     }
   ],
+  "playables": [
+    {
+      "arguments": [
+        "content/games/prop-hunt/prop_hunt_yard.json"
+      ],
+      "entry": "games/prop-hunt/prop_hunt_yard.json",
+      "files": [
+        "games/prop-hunt"
+      ],
+      "name": "Prop Hunt Yard",
+      "slug": "prop-hunt-yard"
+    },
+    {
+      "arguments": [
+        "content/games/coin-run/coin_run.json"
+      ],
+      "entry": "games/coin-run/coin_run.json",
+      "files": [
+        "games/coin-run"
+      ],
+      "name": "Coin Run",
+      "slug": "coin-run"
+    },
+    {
+      "arguments": [
+        "content/tests/test-lab/test_lab.json"
+      ],
+      "entry": "tests/test-lab/test_lab.json",
+      "files": [
+        "tests/test-lab"
+      ],
+      "name": "Red Test Lab",
+      "slug": "red-test-lab"
+    },
+    {
+      "arguments": [
+        "content/demos/examples/house.json"
+      ],
+      "entry": "demos/examples/house.json",
+      "files": [
+        "demos/examples/house.json"
+      ],
+      "name": "House Demo",
+      "slug": "house"
+    },
+    {
+      "arguments": [
+        "content/demos/examples/school.json"
+      ],
+      "entry": "demos/examples/school.json",
+      "files": [
+        "demos/examples/school.json"
+      ],
+      "name": "School Demo",
+      "slug": "school"
+    },
+    {
+      "arguments": [
+        "content/demos/examples/office.json"
+      ],
+      "entry": "demos/examples/office.json",
+      "files": [
+        "demos/examples/office.json"
+      ],
+      "name": "Office Demo",
+      "slug": "office"
+    },
+    {
+      "arguments": [
+        "content/demos/examples/store.json"
+      ],
+      "entry": "demos/examples/store.json",
+      "files": [
+        "demos/examples/store.json"
+      ],
+      "name": "Store Demo",
+      "slug": "store"
+    },
+    {
+      "arguments": [
+        "content/demos/examples/orbit_walk.json"
+      ],
+      "entry": "demos/examples/orbit_walk.json",
+      "files": [
+        "demos/examples/orbit_walk.json"
+      ],
+      "name": "Orbit Walk",
+      "slug": "orbit-walk"
+    }
+  ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "3871e205389c233ea49038fda48ed5f2ef62911a",
+  "source_revision": "1183932d2c234fcf9d4a8ac41e133a48d9f9dfe3",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
