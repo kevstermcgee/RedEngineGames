@@ -1,0 +1,182 @@
+{
+  "collections": {
+    "demos": 20,
+    "games": 2,
+    "prototypes": 12,
+    "tests": 8
+  },
+  "files": [
+    {
+      "path": "demos/examples/golden/office/board.png",
+      "sha256": "32f2de35e60ce823981c76b1f5dc59605b3b72f63e1fcdb4fa8d642c6df2fe4b"
+    },
+    {
+      "path": "demos/examples/golden/office/bullpen.png",
+      "sha256": "2987c9de756bf41d241e16ae4af7e7396532e0fbeef037969c1fc406c35ad957"
+    },
+    {
+      "path": "demos/examples/golden/office/front.png",
+      "sha256": "67987c84d2bffac355d258f19ae7e4e19dcdb74738851d66eddcab6016899e52"
+    },
+    {
+      "path": "demos/examples/golden/school/front.png",
+      "sha256": "7b5f19711dd4d54c1ede6d71641cde49d387923f36222b18244ff7758246fc6d"
+    },
+    {
+      "path": "demos/examples/golden/school/gym.png",
+      "sha256": "4ba0dfa8b65b8d5ecc1257cc7803862aaa596ef20c73d85cb6905cfb4d5d6d68"
+    },
+    {
+      "path": "demos/examples/golden/school/hall.png",
+      "sha256": "7364d87c378d1c5f051a98c2f5db9d2f5372e2e2e5846115dbcf2b6f44208be0"
+    },
+    {
+      "path": "demos/examples/golden/store/aisles.png",
+      "sha256": "58de04db03628b9bef769cb2c6c18ade69f4eb4cebc21ea6acd35a7f16c0a52f"
+    },
+    {
+      "path": "demos/examples/golden/store/backroom.png",
+      "sha256": "c20b62c676ef9a7719315239fdc3430c45a5baecafaa38b94f21a10dcca61b9a"
+    },
+    {
+      "path": "demos/examples/golden/store/forecourt.png",
+      "sha256": "282922947a5e6ffcf67e4ab8781980b8d63180444a6937f3567367025fa05dce"
+    },
+    {
+      "path": "demos/examples/hello_world.json",
+      "sha256": "08b6e5ce08dc0d00cc553f508d93dd1ec6a26bd84a39a711715701d8eaf4133b"
+    },
+    {
+      "path": "demos/examples/house.json",
+      "sha256": "c8dcfa798cdc346c7dd905765902ef2f96fe7979b3653328543c1a01dc4066ec"
+    },
+    {
+      "path": "demos/examples/office.json",
+      "sha256": "5b3a0880a248db473efb038c8b5f2f8bfd4188b4b52482db6545f4329032c839"
+    },
+    {
+      "path": "demos/examples/orbit_walk.json",
+      "sha256": "df7df46dccfde290e3e888e4cff491f5f21e939089f7d02ba73085f4b5d7b14f"
+    },
+    {
+      "path": "demos/examples/prop_hunt_yard.json",
+      "sha256": "ad5aa91a8b0961584a6a599f9e43780b9d6edec13511cae5d05ecd3efa07efcb"
+    },
+    {
+      "path": "demos/examples/room.json",
+      "sha256": "8ea5c7fab622a70c838500244dbd58d9be6b101779d8fba1804c214516ffd1ca"
+    },
+    {
+      "path": "demos/examples/school.json",
+      "sha256": "ed8f464d7f395a8c56f59e60fe7a8020d7803206f763d1abde5b671a43ac1dc6"
+    },
+    {
+      "path": "demos/examples/store.json",
+      "sha256": "3578f734f8ba1536669db3a763355cb4329652a9e61a896404d35b48ab93175b"
+    },
+    {
+      "path": "demos/examples/test_lab.json",
+      "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
+    },
+    {
+      "path": "demos/multiplayer/lobby_demo.ps1",
+      "sha256": "9ff83a44338d1ea12e7052821a79fbe77f19dc133b9f2567bbe136194b87d03a"
+    },
+    {
+      "path": "demos/multiplayer/multiplayer_demo.ps1",
+      "sha256": "68b54b73c57d3060f03f4c8ce1044cced010a1d379cf9963e4ff67ca5684a317"
+    },
+    {
+      "path": "games/coin-run/coin_run.json",
+      "sha256": "5c779b018013b0efaa5c7841c7f5e035b0ec0a7dda08852db2966f2336f08e81"
+    },
+    {
+      "path": "games/prop-hunt/prop_hunt_yard.json",
+      "sha256": "ad5aa91a8b0961584a6a599f9e43780b9d6edec13511cae5d05ecd3efa07efcb"
+    },
+    {
+      "path": "prototypes/recipes/classroom_wing.json",
+      "sha256": "d36dbb50d7615e3fe4d2a77a5f913512aaae8d7b94f1c91489e6c1386043e14b"
+    },
+    {
+      "path": "prototypes/recipes/coin_run.json",
+      "sha256": "5c779b018013b0efaa5c7841c7f5e035b0ec0a7dda08852db2966f2336f08e81"
+    },
+    {
+      "path": "prototypes/recipes/convenience_store.json",
+      "sha256": "0986443f78358124fda99a3fb6fb8e0e75985e30126e9272389b50edad67e740"
+    },
+    {
+      "path": "prototypes/recipes/golden/classroom_wing/class.png",
+      "sha256": "450404eb9ffdadb22293ae1bd03ae0e4c272809a7a3703d62cde94590d1e8696"
+    },
+    {
+      "path": "prototypes/recipes/golden/classroom_wing/hall.png",
+      "sha256": "54fe23118f6e21678b69eec7dd5b2e24f817303d4bd888587937048cb0d326e9"
+    },
+    {
+      "path": "prototypes/recipes/golden/convenience_store/inside.png",
+      "sha256": "9947a3a386d1dd7f59f5557c4d684fe66371339ba4d03be501579e801f3f7c97"
+    },
+    {
+      "path": "prototypes/recipes/golden/convenience_store/outside.png",
+      "sha256": "3a3f491db3fd69c89340698c596ebb83c7a58e845068fb8b9a4fbdc294eebe67"
+    },
+    {
+      "path": "prototypes/recipes/golden/rooms_and_door/kitchen.png",
+      "sha256": "990d18e6b6562eae2c8e055adb9873a912a99d9fcb01d5007b235d0856ae8ae7"
+    },
+    {
+      "path": "prototypes/recipes/golden/rooms_and_door/living.png",
+      "sha256": "40d65927f1e9ce86f3aa42a4c31ae510eeda28dcb7d3d6efc84c2553bb8dc31e"
+    },
+    {
+      "path": "prototypes/recipes/golden/two_floor_house/front.png",
+      "sha256": "df86d90ad158d7b3c3377e1bba5de4484093ec6b7d3718d44adda3989e94e4c0"
+    },
+    {
+      "path": "prototypes/recipes/rooms_and_door.json",
+      "sha256": "52fef496f7d62f572228381672669bf68c50622b9737f6e504270961ba3a92af"
+    },
+    {
+      "path": "prototypes/recipes/two_floor_house.json",
+      "sha256": "ae6fd838cb123670c3b8f5f7c76a57d4ce92c37c47f9717db2ce4320e1c5d520"
+    },
+    {
+      "path": "tests/performance/README.md",
+      "sha256": "67362c3575341dff6205c545e383aa8bb89f017966cbd46322670cec1038e084"
+    },
+    {
+      "path": "tests/performance/baseline.json",
+      "sha256": "bbc930e202995bfdd3014f6ee1f18128fe4fdc3a132f67ff025ab98ef03b01d6"
+    },
+    {
+      "path": "tests/performance/check.py",
+      "sha256": "bb24f80dd855350cc42bdafd2d26aee4845003f064a443be3062c63cb19427eb"
+    },
+    {
+      "path": "tests/performance/common/mod.rs",
+      "sha256": "48bd60b9d1c2a1c4c3d503a9648e7f18b5239c46ed9a08669be3a8966cee1515"
+    },
+    {
+      "path": "tests/performance/history/2026-09-24-static-promotion.md",
+      "sha256": "6c1d3ded3c6b673ec0b42469c7fedd085f612bae9a32dc1bd8f0021ebccb07f7"
+    },
+    {
+      "path": "tests/performance/history/before-static-promotion.json",
+      "sha256": "855b18bc4d69a171c2aa863d63d7dbb9e0201a07d06179e47f16a43df1742b6f"
+    },
+    {
+      "path": "tests/performance/sim.rs",
+      "sha256": "b9848ec782d97058b372957c2bd14ff1170857ffbf134c6383af00ce1bbf30f0"
+    },
+    {
+      "path": "tests/test-lab/test_lab.json",
+      "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
+    }
+  ],
+  "schema_version": 1,
+  "source_repository": "kevstermcgee/RedEngine",
+  "source_revision": "cdc73a2e024397297ac11303622dbc2f0df38530",
+  "target_repository": "kevstermcgee/RedEngineGames"
+}
