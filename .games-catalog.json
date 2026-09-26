@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 20,
+    "demos": 21,
     "games": 2,
     "prototypes": 12,
     "tests": 8
@@ -77,6 +77,10 @@
     {
       "path": "demos/examples/test_lab.json",
       "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
+    },
+    {
+      "path": "demos/examples/weapon_poses.rs",
+      "sha256": "52f8a2d6c38e65f0171e53c41c1bc1bf03a57ef3acd5afc97da9015c3ce14fb4"
     },
     {
       "path": "demos/multiplayer/lobby_demo.ps1",
@@ -168,7 +172,7 @@
     },
     {
       "path": "tests/performance/sim.rs",
-      "sha256": "b9848ec782d97058b372957c2bd14ff1170857ffbf134c6383af00ce1bbf30f0"
+      "sha256": "07514b1b15bc8aaf41ba0de22c42a7ee1ab76e58f77736866fd34a0182fd2d0a"
     },
     {
       "path": "tests/test-lab/test_lab.json",
@@ -267,6 +271,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "35c872ff00960881547269aacae60c2d40adb083",
+  "source_revision": "24e3b5d851e0816d8964082dbf6fd011f24b9540",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
