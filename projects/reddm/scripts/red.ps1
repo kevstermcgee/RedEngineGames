@@ -1,5 +1,5 @@
 # scripts/red.ps1: the Windows-native twin of scripts/red (same commands and env vars).
-#   powershell -File scripts\red.ps1 doctor | check | build-all | info | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
+#   powershell -File scripts\red.ps1 doctor | check | build-all | info | play-local | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
 param([Parameter(Position = 0)][string]$Cmd = 'help', [Parameter(ValueFromRemainingArguments = $true)][string[]]$Rest)
 $ErrorActionPreference = 'Stop'
 $Root = Split-Path -Parent $PSScriptRoot
@@ -41,8 +41,8 @@ if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) { Write-Error 'red: 
 if ($Rest.Count -gt 0 -and $Rest[0] -eq '--rebuild') { $rebuild = $true; $Rest = @($Rest | Select-Object -Skip 1) }
 $mode = if ($env:RED_HEADLESS -eq '1') { 'headless' } else { 'default' }
 $features = if ($mode -eq 'headless') { @('--no-default-features') } else { @() }
-if ($mode -eq 'headless' -and $Cmd -eq 'play') { Write-Error 'red: play needs graphics; unset RED_HEADLESS'; exit 2 }
-$required = @('red_engine2'); if ($Cmd -eq 'serve') { $required += 'red_server' }; if ($Cmd -eq 'play') { $required += 're2' }
+if ($mode -eq 'headless' -and $Cmd -in 'play', 'play-local') { Write-Error "red: $Cmd needs graphics; unset RED_HEADLESS"; exit 2 }
+$required = @('red_engine2'); if ($Cmd -eq 'serve') { $required += 'red_server' }; if ($Cmd -in 'play', 'play-local') { $required += 're2' }
 function Needs-Build([string]$n) {
     $out = Exe $n; if ($rebuild -or -not (Test-Path $out)) { return $true }
     $stamp = Join-Path $Target "$Profile_\.red-wrapper-$n.mode"
@@ -63,7 +63,7 @@ if ($build) {
 
 $cli = Exe 'red_engine2'
 switch ($Cmd) {
-    { $_ -in 'check', 'build-all', 'info', 'serve', 'play' } { & $cli game $Cmd @Rest }
+    { $_ -in 'check', 'build-all', 'info', 'play-local', 'serve', 'play' } { & $cli game $Cmd @Rest }
     default { & $cli $Cmd @Rest }
 }
 exit $LASTEXITCODE

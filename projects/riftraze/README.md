@@ -12,6 +12,14 @@ are human combatants, spawn with the shotgun and can cycle through the engine's 
 
 ## Play
 
+For direct local single-player testing (no server or network connection):
+
+```powershell
+.\scripts\play-solo.ps1
+```
+
+The **RiftRaze Solo** desktop shortcut runs this mode. The **RiftRaze** shortcut hosts and joins a local online match.
+
 On Windows, the **RiftRaze** desktop shortcut starts a local authoritative server and joins it.
 The command-line equivalent is:
 

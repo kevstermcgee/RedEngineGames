@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # scripts/red: run the Red Engine version this project pins (game.json "engine"), building it on first use.
-#   scripts/red doctor | check | build-all | info | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
+#   scripts/red doctor | check | build-all | info | play-local | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
 # Env: RED_ENGINE=/path/to/checkout (override), RED_UPDATE=1 (git fetch the pinned ref), RED_REBUILD=1 (force a build),
 # RED_HEADLESS=1 (no graphics crates: CLI + server only, ideal for CI and containers), RED_PROFILE=debug|release (default debug).
 set -eu
@@ -53,8 +53,8 @@ command -v cargo >/dev/null 2>&1 || { echo "red: cargo not found (install Rust: 
 
 if [ "${1:-}" = "--rebuild" ]; then REBUILD=1; shift; fi
 MODE=default; FEATURES=""; [ "${RED_HEADLESS:-0}" = "1" ] && { MODE=headless; FEATURES="--no-default-features"; }
-[ "$MODE" = "headless" ] && [ "$cmd" = "play" ] && { echo "red: play needs graphics; unset RED_HEADLESS" >&2; exit 2; }
-REQUIRED="red_engine2"; [ "$cmd" = "serve" ] && REQUIRED="$REQUIRED red_server"; [ "$cmd" = "play" ] && REQUIRED="$REQUIRED re2"
+[ "$MODE" = "headless" ] && { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && { echo "red: $cmd needs graphics; unset RED_HEADLESS" >&2; exit 2; }
+REQUIRED="red_engine2"; [ "$cmd" = "serve" ] && REQUIRED="$REQUIRED red_server"; { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && REQUIRED="$REQUIRED re2"
 needs_build() {
   OUT="$(exe "$1")"; STAMP="$TARGET/$PROFILE/.red-wrapper-$1.mode"
   [ "$REBUILD" = "1" ] || [ ! -f "$OUT" ] && return 0
@@ -76,7 +76,6 @@ fi
 
 CLI="$(exe red_engine2)"
 case "$cmd" in
-  check|build-all|info|serve) exec "$CLI" game "$cmd" "$@" ;;
-  play) exec "$CLI" game play "$@" ;;
+  check|build-all|info|play-local|serve|play) exec "$CLI" game "$cmd" "$@" ;;
   *) exec "$CLI" "$cmd" "$@" ;;
 esac

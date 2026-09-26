@@ -26,7 +26,12 @@ scripts/red plan maps/main.json  # LOOK at it (labelled top-down PNG); `tour` re
   prefabs in `assets/gameplay.json` (already linked by `prefab_files`). Inspect both together with
   `scripts/red catalog --library assets/gameplay.json <need>`. Follow Reuse -> Modify -> Generate -> Import.
 
-## Multiplayer
+## Play locally (required for every game)
+```bash
+scripts/red play-local           # direct single-player: no server or network needed
+```
+
+## Multiplayer (optional in addition to local play)
 ```bash
 scripts/red serve                # headless authoritative UDP server on the map in game.json (port 27015)
 scripts/red play 127.0.0.1:27015   # the graphical client (run two)

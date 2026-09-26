@@ -12,6 +12,14 @@ Clone `RedEngine` and `RedEngineGames` beside one another. This published projec
 
 ## Play
 
+For direct local single-player testing (no server or network connection):
+
+```powershell
+.\scripts\play-solo.ps1
+```
+
+The **RedDM Solo** desktop shortcut runs this mode. The **RedDM** shortcut hosts and joins a local online match.
+
 On Windows, the **RedDM** desktop shortcut starts a local server and joins it automatically.
 The command-line equivalent is below.
 
