@@ -1,0 +1,36 @@
+[
+  {
+    "name":"rift_pad", "tags":["riftraze","arena","jump-pad","neon"],
+    "desc":"Non-colliding visual shell for an authoritative jump pad declared in the scene jump_pads block.",
+    "meta":{"roles":["movement","landmark"],"styles":["arcane-tech"],"status":"experimental","revision":1,"license":"MIT","origin":"generated","provenance":"RiftRaze procedural"},
+    "objects":[
+      {"id":"base","type":"box","size":[3.2,0.12,3.2],"position":[0,0.06,0],"collide":false,"material":{"color":"#17152f","metallic":0.8,"roughness":0.24}},
+      {"id":"ring_x","type":"box","size":[2.5,0.04,0.16],"position":[0,0.14,0],"collide":false,"material":{"color":"#43e7ff","emissive":"#16cfff","roughness":0.15}},
+      {"id":"ring_z","type":"box","size":[0.16,0.04,2.5],"position":[0,0.14,0],"collide":false,"material":{"color":"#ff3cdd","emissive":"#ff20c8","roughness":0.15}},
+      {"id":"core","type":"cylinder","radius":0.78,"height":0.08,"position":[0,0.16,0],"collide":false,"material":{"color":"#e5faff","emissive":"#8fefff","metallic":0.2,"roughness":0.12}}
+    ]
+  },
+  {
+    "name":"rift_pylon", "tags":["riftraze","arena","pylon","neon"],
+    "desc":"Tall arcane-tech arena marker with a split cyan and magenta energy spine.",
+    "meta":{"roles":["landmark","cover"],"styles":["arcane-tech"],"status":"experimental","revision":1,"license":"MIT","origin":"generated","provenance":"RiftRaze procedural"},
+    "objects":[
+      {"id":"foot","type":"box","size":[2.8,0.45,1.8],"position":[0,0.225,0],"material":{"color":"#19182c","metallic":0.65,"roughness":0.38}},
+      {"id":"spine","type":"box","size":[1.3,4.8,1.0],"position":[0,2.65,0],"material":{"color":"#252448","metallic":0.75,"roughness":0.3}},
+      {"id":"cyan","type":"box","size":[0.2,3.7,1.04],"position":[-0.3,2.75,0],"collide":false,"material":{"color":"#32e4ff","emissive":"#18cfff","roughness":0.12}},
+      {"id":"magenta","type":"box","size":[0.2,3.7,1.04],"position":[0.3,2.75,0],"collide":false,"material":{"color":"#ff3ad7","emissive":"#ff20c6","roughness":0.12}}
+    ]
+  },
+  {
+    "name":"shatter_core", "tags":["riftraze","arena","core","landmark"],
+    "desc":"The fractured energy monolith at Shattercore's center, sized as hard cover.",
+    "meta":{"roles":["landmark","cover"],"styles":["arcane-tech"],"status":"experimental","revision":1,"license":"MIT","origin":"generated","provenance":"RiftRaze procedural"},
+    "objects":[
+      {"id":"base","type":"box","size":[5.5,0.6,5.5],"position":[0,0.3,0],"material":{"color":"#121225","metallic":0.62,"roughness":0.4}},
+      {"id":"left","type":"box","size":[1.45,5.2,1.8],"position":[-0.9,3.1,0],"rotation":[0,0,-9],"material":{"color":"#29284c","metallic":0.72,"roughness":0.28}},
+      {"id":"right","type":"box","size":[1.45,4.4,1.8],"position":[0.9,2.7,0],"rotation":[0,0,12],"material":{"color":"#29284c","metallic":0.72,"roughness":0.28}},
+      {"id":"rift","type":"box","size":[0.32,3.9,1.86],"position":[0,2.8,0],"collide":false,"material":{"color":"#ff62e4","emissive":"#ff22cc","roughness":0.08}},
+      {"id":"cap","type":"sphere","radius":0.7,"position":[0,5.4,0],"collide":false,"material":{"color":"#bff7ff","emissive":"#4eefff","roughness":0.08}}
+    ]
+  }
+]

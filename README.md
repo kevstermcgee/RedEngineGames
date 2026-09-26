@@ -18,6 +18,8 @@ warning.
 
 - [RedDM](projects/reddm) — an online FPS deathmatch prototype with the Foundry Nine arena,
   eleven firearms, smooth aim-down-sights, and an authoritative two-or-more-player server.
+- [RiftRaze](projects/riftraze) — a hyperkinetic online arena FPS with 90-degree FOV,
+  high-speed movement, authoritative jump pads, a shotgun start, and the Shattercore arena.
 
 The `games/`, `prototypes/`, `tests/`, and `demos/` directories are automatically
 maintained browsable copies. RedEngine is their source of truth: update

@@ -11,6 +11,9 @@ Clone `RedEngine` and `RedEngineGames` beside one another. This published projec
 
 ## Play
 
+On Windows, the **RedDM** desktop shortcut starts a local server and joins it automatically.
+The command-line equivalent is below.
+
 On Windows, build/check once and start the authoritative server:
 
 ```powershell
