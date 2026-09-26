@@ -3,6 +3,11 @@
 Games, prototypes, test content, and demos produced with
 [RedEngine](https://github.com/kevstermcgee/RedEngine).
 
+**[Download ready-to-play Windows builds](../../releases/latest).** Extract a ZIP
+and double-click its `Play-*.exe` launcher; no Rust toolchain or command line is
+required. The executables are not code-signed, so Windows may show a SmartScreen
+warning.
+
 - `games/` contains playable game scenes.
 - `prototypes/` contains data-driven recipes and their reference views.
 - `tests/` contains the Red Test Lab and performance fixtures.
