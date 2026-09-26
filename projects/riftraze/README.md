@@ -8,7 +8,7 @@ central rift monolith, an elevated combat loop and four cyan launch pads.
 
 The movement profile is intentionally aggressive: a 90-degree default field of view, 9 m/s
 movement, 13.5 m/s sprinting, a low crouch penalty, a stronger jump and reduced gravity. Players
-spawn with the shotgun and can cycle through the engine's full eleven-firearm arsenal.
+are human combatants, spawn with the shotgun and can cycle through the engine's full eleven-firearm arsenal.
 
 ## Play
 

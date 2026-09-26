@@ -4,7 +4,8 @@
 
 RedDM is a compact online FPS deathmatch prototype built as a separate Red Engine 2 game project.
 Its first map, **Foundry Nine**, is a three-lane industrial arena with two flank routes, a central
-reactor landmark, ten network spawn points, readable red cover, and moving physics props.
+reactor landmark, ten network spawn points, readable red cover, and moving physics props. Players
+are human combatants; the engine's Cheddar character is not part of this game.
 
 Clone `RedEngine` and `RedEngineGames` beside one another. This published project pins
 `../../../RedEngine`, keeping all engine code in the engine repository while the game remains here.

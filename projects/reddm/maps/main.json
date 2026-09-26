@@ -229,6 +229,7 @@
       "promoted_props_max": 24
     }
   },
+  "player": { "character": "human" },
   "match": { "min_players": 2, "countdown_secs": 5, "round_secs": 480, "results_secs": 12, "score_to_win": 30, "join_in_progress": true, "ready_check": true },
   "weapons": { "bat": { "damage": 25 }, "revolver": { "damage": 34, "ammo": "infinite" } },
   "vars": { "match_started": 0 },

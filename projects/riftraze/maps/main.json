@@ -253,7 +253,7 @@
       "promoted_props_max": 20
     }
   },
-  "player": { "fov": 90, "walk_speed": 9.0, "sprint_speed": 13.5, "crouch_multiplier": 0.62, "jump_speed": 6.4, "gravity": 16.0 },
+  "player": { "character": "human", "fov": 90, "walk_speed": 9.0, "sprint_speed": 13.5, "crouch_multiplier": 0.62, "jump_speed": 6.4, "gravity": 16.0 },
   "jump_pads": [
     { "id": "launch_nw", "position": [-14, 0, -14], "size": [3.2, 3.2], "launch_speed": 11.5 },
     { "id": "launch_ne", "position": [14, 0, -14], "size": [3.2, 3.2], "launch_speed": 11.5 },

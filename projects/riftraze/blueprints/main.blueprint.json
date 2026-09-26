@@ -50,7 +50,7 @@
     "background":{"sky_top":"#08061d","sky_bottom":"#4a135e"},
     "ambient":{"color":"#776bff","intensity":0.31},
     "camera":{"fov":90,"position":[0,1.7,18],"target":[0,1.5,0],"far":240},
-    "player":{"fov":90,"walk_speed":9.0,"sprint_speed":13.5,"crouch_multiplier":0.62,"jump_speed":6.4,"gravity":16.0},
+    "player":{"character":"human","fov":90,"walk_speed":9.0,"sprint_speed":13.5,"crouch_multiplier":0.62,"jump_speed":6.4,"gravity":16.0},
     "jump_pads":[
       {"id":"launch_nw","position":[-14,0,-14],"size":[3.2,3.2],"launch_speed":11.5},
       {"id":"launch_ne","position":[14,0,-14],"size":[3.2,3.2],"launch_speed":11.5},
