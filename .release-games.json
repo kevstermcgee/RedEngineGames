@@ -9,6 +9,12 @@
       "arguments": ["content/projects/domino-dynamo/maps/main.json"]
     },
     {
+      "slug": "gravity-gauntlet",
+      "name": "Gravity Gauntlet",
+      "files": ["projects/gravity-gauntlet"],
+      "arguments": ["content/projects/gravity-gauntlet/maps/main.json"]
+    },
+    {
       "slug": "reddm",
       "name": "RedDM",
       "files": ["projects/reddm"],

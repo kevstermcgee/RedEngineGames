@@ -1,0 +1,149 @@
+{
+  "blueprint": 1,
+  "name": "Gravity Gauntlet",
+  "height": 3.8,
+  "rooms": [
+    { "id": "launch_bay", "rect": [-16, -7, -4, 7], "floor": "#161326" },
+    { "id": "demolition_sector", "rect": [-4, -8, 12, 8], "floor": "#1c1822" },
+    { "id": "nexus_arena", "rect": [12, -7, 24, 7], "floor": "#10211d" }
+  ],
+  "doors": [
+    { "between": ["launch_bay", "demolition_sector"], "width": 3.2, "kind": "arch" },
+    { "between": ["demolition_sector", "nexus_arena"], "width": 3.2, "kind": "arch" }
+  ],
+  "spawns": [
+    { "room": "launch_bay", "group": "solo", "count": 1, "id": "start" }
+  ],
+  "keep_clear": [
+    [-15, -6, 23, 6]
+  ],
+  "prefab_files": ["../assets/gameplay.json"],
+  "extra": [
+    { "id": "pad_a_visual", "type": "box", "position": [-9, 0.03, -3], "size": [2.2, 0.06, 2.2], "collide": false, "material": { "color": "#0d324d", "emissive": "#00f0ff", "metallic": 0.8 } },
+    { "id": "pad_b_visual", "type": "box", "position": [-9, 0.03, 3], "size": [2.2, 0.06, 2.2], "collide": false, "material": { "color": "#0d324d", "emissive": "#00f0ff", "metallic": 0.8 } },
+    { "id": "hyper_pad_visual", "type": "box", "position": [15, 0.03, -3], "size": [2.2, 0.06, 2.2], "collide": false, "material": { "color": "#4a1236", "emissive": "#ff007f", "metallic": 0.8 } },
+    { "id": "detonator_visual", "type": "box", "position": [0, 0.03, -5], "size": [1.8, 0.06, 1.8], "collide": false, "material": { "color": "#4a121a", "emissive": "#ff1744" } },
+    { "id": "domino_0", "type": "box", "position": [2.0, 0.85, -5], "size": [0.35, 1.7, 0.9], "movable": true, "material": { "color": "#ff1744" } },
+    { "id": "domino_1", "type": "box", "position": [3.1, 0.85, -5], "size": [0.35, 1.7, 0.9], "movable": true, "material": { "color": "#ff5252" } },
+    { "id": "domino_2", "type": "box", "position": [4.2, 0.85, -5], "size": [0.35, 1.7, 0.9], "movable": true, "material": { "color": "#ff9100" } },
+    { "id": "domino_3", "type": "box", "position": [5.3, 0.85, -5], "size": [0.35, 1.7, 0.9], "movable": true, "material": { "color": "#ffea00" } },
+    { "id": "domino_4", "type": "box", "position": [6.4, 0.85, -5], "size": [0.35, 1.7, 0.9], "movable": true, "material": { "color": "#76ff03" } },
+    { "id": "bumper_alpha", "type": "box", "position": [3, 0.5, 3], "size": [0.95, 0.95, 0.95], "movable": true, "material": { "color": "#00e5ff", "metallic": 0.7 } },
+    { "id": "bumper_beta", "type": "box", "position": [7, 0.5, 5], "size": [0.95, 0.95, 0.95], "movable": true, "material": { "color": "#d500f9", "metallic": 0.7 } },
+    { "id": "pedestal_delta", "type": "cylinder", "position": [18, 0.4, 3], "radius": 0.6, "height": 0.8, "collide": true, "material": { "color": "#2c3e50", "metallic": 0.7 } },
+    { "id": "core_alpha", "type": "sphere", "position": [-9, 2.2, -3], "radius": 0.42, "collide": false, "material": { "color": "#fffb8f", "emissive": "#ffea00" } },
+    { "id": "core_beta", "type": "sphere", "position": [8.5, 0.6, -5], "radius": 0.42, "collide": false, "material": { "color": "#ff9e80", "emissive": "#ff3d00" } },
+    { "id": "core_gamma", "type": "sphere", "position": [4, 0.6, 4], "radius": 0.42, "collide": false, "material": { "color": "#ea80fc", "emissive": "#d500f9" } },
+    { "id": "core_delta", "type": "sphere", "position": [18, 1.2, 3], "radius": 0.42, "collide": false, "material": { "color": "#a7ffeb", "emissive": "#00e676" } },
+    { "id": "frame_left", "type": "box", "position": [22.5, 1.5, -2], "size": [0.4, 3.0, 0.4], "collide": true, "material": { "color": "#1b5e20", "emissive": "#00e676" } },
+    { "id": "frame_right", "type": "box", "position": [22.5, 1.5, 2], "size": [0.4, 3.0, 0.4], "collide": true, "material": { "color": "#1b5e20", "emissive": "#00e676" } },
+    { "id": "frame_top", "type": "box", "position": [22.5, 3.1, 0], "size": [0.4, 0.4, 4.4], "collide": true, "material": { "color": "#1b5e20", "emissive": "#00e676" } },
+    { "id": "victory_portal_pad", "type": "box", "position": [22.5, 0.03, 0], "size": [2.2, 0.06, 3.6], "collide": false, "material": { "color": "#0a3d24", "emissive": "#00ff88" } }
+  ],
+  "scene": {
+    "background": { "sky_top": "#080518", "sky_bottom": "#2a103c" },
+    "ambient": { "color": "#9ca3db", "intensity": 0.45 },
+    "post": { "ao": 0.82, "outline": 0.35, "enabled": true },
+    "player": {
+      "character": "human",
+      "fov": 90,
+      "walk_speed": 6.5,
+      "sprint_speed": 10.5,
+      "crouch_multiplier": 0.6,
+      "jump_speed": 7.0,
+      "gravity": 17.0,
+      "acceleration": 22.0,
+      "air_acceleration": 8.0,
+      "friction": 7.5,
+      "max_speed": 16.0
+    },
+    "weapons": {
+      "bat": { "damage": 30 },
+      "revolver": { "damage": 50, "ammo": "infinite" }
+    },
+    "jump_pads": [
+      { "id": "pad_launch_a", "position": [-9, 0, -3], "size": [2.2, 2.2], "launch_speed": 11.5 },
+      { "id": "pad_launch_b", "position": [-9, 0, 3], "size": [2.2, 2.2], "launch_speed": 11.5 },
+      { "id": "pad_hyper", "position": [15, 0, -3], "size": [2.2, 2.2], "launch_speed": 11.0 }
+    ],
+    "zones": [
+      { "id": "launch_bay", "rect": [-16, -7, -4, 7], "y": 0 },
+      { "id": "demolition_sector", "rect": [-4, -8, 12, 8], "y": 0 },
+      { "id": "nexus_arena", "rect": [12, -7, 24, 7], "y": 0 },
+      { "id": "zone_detonator", "rect": [-0.9, -5.9, 0.9, -4.1], "y": 0, "kind": "trigger" },
+      { "id": "zone_goal", "rect": [21.4, -1.8, 23.6, 1.8], "y": 0, "kind": "goal" }
+    ],
+    "vars": { "cores": 0, "domino_tripped": 0 },
+    "rules": [
+      { "id": "core_1", "when": { "enter": { "object": "core_alpha", "pad": 0.6 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_alpha" }, { "emit": "core_get" }] },
+      { "id": "core_2", "when": { "enter": { "object": "core_beta", "pad": 0.6 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_beta" }, { "emit": "core_get" }] },
+      { "id": "core_3", "when": { "enter": { "object": "core_gamma", "pad": 0.6 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_gamma" }, { "emit": "core_get" }] },
+      { "id": "core_4", "when": { "enter": { "object": "core_delta", "pad": 0.6 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_delta" }, { "emit": "core_get" }] },
+      { "id": "detonate", "when": { "enter": { "zone": "zone_detonator" } }, "once": true,
+        "do": [{ "impulse": { "object": "domino_0", "dir": [1, 0.05, 0], "speed": 6.5 } }, { "add": ["domino_tripped", 1] }, { "emit": "domino_fired" }] },
+      { "id": "gust_a", "when": { "every": 1.0 },
+        "do": [{ "impulse": { "object": "bumper_alpha", "dir": [0.7, 0.1, 0.7], "speed": 6.0 } }] },
+      { "id": "gust_b", "when": { "every": 1.3 },
+        "do": [{ "impulse": { "object": "bumper_beta", "dir": [-0.7, 0.1, -0.7], "speed": 6.0 } }] },
+      { "id": "gate_locked", "when": { "enter": { "zone": "zone_goal" } }, "if": "cores < 4", "cooldown": 1.0,
+        "do": [{ "emit": "locked" }] },
+      { "id": "gate_victory", "when": { "enter": { "zone": "zone_goal" } }, "if": "cores >= 4",
+        "do": [{ "emit": "victory" }, { "end": "victory" }] }
+    ],
+    "checks": {
+      "sim": [
+        {
+          "name": "full speedrun collects all cores triggers domino cascade and wins",
+          "spawn_group": "solo",
+          "players": [{ "id": "p1", "character": "human", "spawn": "start" }],
+          "script": [
+            { "player": "p1", "walk": "-9,-3" },
+            { "player": "p1", "wait": 0.5 },
+            { "player": "p1", "walk": "-4,0; 0,-5" },
+            { "player": "p1", "wait": 0.3 },
+            { "player": "p1", "walk": "8.5,-5" },
+            { "player": "p1", "wait": 0.3 },
+            { "player": "p1", "walk": "4,4" },
+            { "player": "p1", "wait": 0.3 },
+            { "player": "p1", "walk": "12,0; 18,3" },
+            { "player": "p1", "wait": 0.3 },
+            { "player": "p1", "walk": "22.5,0" }
+          ],
+          "max_seconds": 35,
+          "expect": [
+            { "var": "cores", "eq": 4 },
+            { "var": "domino_tripped", "eq": 1 },
+            { "event": "domino_fired", "count": 1 },
+            { "event": "core_get", "count": 4 },
+            { "event": "victory", "count": 1 },
+            { "ended": "victory" },
+            { "hidden": "core_alpha" },
+            { "hidden": "core_beta" },
+            { "hidden": "core_gamma" },
+            { "hidden": "core_delta" }
+          ]
+        },
+        {
+          "name": "rushing the exit without cores is locked",
+          "spawn_group": "solo",
+          "players": [{ "id": "p1", "character": "human", "spawn": "start" }],
+          "script": [
+            { "player": "p1", "walk": "0,0; 12,0; 22.5,0" },
+            { "player": "p1", "wait": 0.5 }
+          ],
+          "max_seconds": 25,
+          "expect": [
+            { "event": "locked", "min": 1 },
+            { "no_event": "victory" },
+            { "not_ended": true },
+            { "var": "cores", "eq": 0 }
+          ]
+        }
+      ]
+    }
+  }
+}

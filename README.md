@@ -16,11 +16,13 @@ warning.
 
 ## Standalone projects
 
-- [RedEngineSandbox](projects/redengine-sandbox) � an asset inspection and testing hub with 202 catalogue assets, 35 maps, six playable characters, and native controller navigation.
+- [Gravity Gauntlet](projects/gravity-gauntlet) — a high-octane 3D physics gauntlet featuring supercharged jump pads, cascading megaton domino collapses, kinetic hazard bumpers, and four collectible plasma cores.
 
-- [RedDM](projects/reddm) — an online FPS deathmatch prototype with the Foundry Nine arena,
+- [RedEngineSandbox](projects/redengine-sandbox) — an asset inspection and testing hub with 202 catalogue assets, 35 maps, six playable characters, and native controller navigation.
+
+- [RedDM](projects/reddm) â€” an online FPS deathmatch prototype with the Foundry Nine arena,
   eleven firearms, smooth aim-down-sights, and an authoritative two-or-more-player server.
-- [RiftRaze](projects/riftraze) — a hyperkinetic online arena FPS with 90-degree FOV,
+- [RiftRaze](projects/riftraze) â€” a hyperkinetic online arena FPS with 90-degree FOV,
   high-speed movement, authoritative jump pads, a shotgun start, and the Shattercore arena.
 
 The `games/`, `prototypes/`, `tests/`, and `demos/` directories are automatically
