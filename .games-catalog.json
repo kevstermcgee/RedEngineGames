@@ -3,7 +3,7 @@
     "demos": 31,
     "games": 2,
     "prototypes": 12,
-    "tests": 8
+    "tests": 9
   },
   "files": [
     {
@@ -211,6 +211,10 @@
       "sha256": "855b18bc4d69a171c2aa863d63d7dbb9e0201a07d06179e47f16a43df1742b6f"
     },
     {
+      "path": "tests/performance/history/build-times.json",
+      "sha256": "201be59909b149be9f34fc9232a1b7e662d46d2927308158f8f45a44663ba21b"
+    },
+    {
       "path": "tests/performance/sim.rs",
       "sha256": "51de6c0ed0d49104ad75bdb4aa567f25745addc544c120700e7dad3ff974a6a3"
     },
@@ -311,6 +315,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "3a516f006048a198827323162496598dc5d81c48",
+  "source_revision": "3933764f5353bfa5715fb4fbd02d97b6b7a768e8",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
