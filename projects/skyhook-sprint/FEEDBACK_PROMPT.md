@@ -1,0 +1,4 @@
+# Feedback prompt
+
+Review the Red Engine game project **Skyhook Sprint** as evidence from a matched Blue/Red physics challenge. Preserve its data-only blueprint, authoritative player tuning and jump pads, ordered airborne gate rules, headless simulation scenario, and passing project check. The engine produced and verified the game with very little code, but authoring a reliable aerial route required manually coordinating four representations: jump-pad physics, non-colliding visual pad objects, elevated gate trigger objects, and a scripted hold duration. Explore a generic blueprint-level way to declare a visible launch pad plus an airborne checkpoint as one validated composition, with automatic reach/trajectory diagnostics that report expected apex, horizontal range, and whether a gate volume is intersected. Keep the scene format backward compatible and engine-neutral in behavior; add focused validation/tests and do not special-case this course.
+

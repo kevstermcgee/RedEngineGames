@@ -1,0 +1,4 @@
+# Feedback prompt
+
+Review the Red Engine game project **Storm Cell** as evidence about timed environmental physics. Preserve its data-only recurring impulse rules, four loose moving hazards, collectible cores, tuned momentum movement, authoritative simulation, and passing project check. The engine made periodic impulses concise, but authoring a bounded hazard loop currently requires guessing directions and timing; there is no declarative containment/reset policy, no scenario assertion for prop bounds or maximum speed, and no direct diagnostic showing a prop trajectory over time. Propose a minimal reusable safety/verification layer for dynamic hazards: bounded arenas or reset volumes, prop position/speed expectations across a time window, and a compact trajectory report. Keep idle props cheap, maintain deterministic replay/network authority, and avoid a general-purpose scripting system or Storm Cell-specific behavior.
+

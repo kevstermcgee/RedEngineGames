@@ -1,0 +1,4 @@
+# Feedback prompt
+
+Review the Red Engine game project **Domino Dynamo** as evidence about authored prop physics. Preserve the three independently triggered domino banks, server-authoritative impulse actions, data rules, headless win scenario, and passing project check. The build exposed a verification gap: the scenario can prove that all pressure pads fired and the match ended, but the public scenario expectations cannot assert that the intended loose props actually moved, toppled, or completed a chain reaction. Add the smallest generic, deterministic prop-state expectations needed for physics games—such as object-near, displacement, orientation/toppled, sleeping, or velocity bounds—using the authoritative simulation state. Ensure failures identify the object, expected relation, actual pose, and first divergent tick where practical. Update `describe rules/sim`, add focused tests, and validate this project without embedding Domino Dynamo-specific logic.
+

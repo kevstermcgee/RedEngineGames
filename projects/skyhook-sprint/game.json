@@ -1,0 +1,8 @@
+{
+  "game": 1,
+  "name": "skyhook-sprint",
+  "engine": { "git": "https://github.com/kevstermcgee/RedEngine.git", "ref": "d96b6c009d2027aec4efdc0acdb4d1f7fd6f91db" },
+  "blueprints": ["blueprints/main.blueprint.json"],
+  "maps": ["maps/main.json"],
+  "server": { "map": "maps/main.json", "port": 27015, "spawn_group": "solo" }
+}

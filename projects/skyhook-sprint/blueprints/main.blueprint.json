@@ -1,0 +1,49 @@
+{
+  "blueprint": 1,
+  "name": "Skyhook Sprint",
+  "height": 4.0,
+  "rooms": [
+    { "id": "course", "rect": [-5, -15, 5, 15], "floor": "#18213a" }
+  ],
+  "spawns": [
+    { "room": "course", "group": "solo", "count": 1, "id": "start" }
+  ],
+  "keep_clear": [[-2, -14, 2, 14]],
+  "prefab_files": ["../assets/gameplay.json"],
+  "extra": [
+    { "id": "pad_a_visual", "type": "box", "position": [0, 0.03, 0], "size": [2.4, 0.06, 2.4], "collide": false, "material": { "color": "#143052", "emissive": "#16dfff", "metallic": 0.8 } },
+    { "id": "pad_b_visual", "type": "box", "position": [0, 0.03, -5], "size": [2.4, 0.06, 2.4], "collide": false, "material": { "color": "#143052", "emissive": "#16dfff", "metallic": 0.8 } },
+    { "id": "pad_c_visual", "type": "box", "position": [0, 0.03, -10], "size": [2.4, 0.06, 2.4], "collide": false, "material": { "color": "#143052", "emissive": "#16dfff", "metallic": 0.8 } },
+    { "id": "gate_a", "type": "box", "position": [0, 2.7, -3], "size": [2.4, 0.35, 0.25], "collide": false, "material": { "color": "#ffd45c", "emissive": "#ff9d2e" } },
+    { "id": "gate_b", "type": "box", "position": [0, 2.7, -8], "size": [2.4, 0.35, 0.25], "collide": false, "material": { "color": "#ffd45c", "emissive": "#ff9d2e" } },
+    { "id": "gate_c", "type": "box", "position": [0, 2.7, -13], "size": [2.4, 0.35, 0.25], "collide": false, "material": { "color": "#77ffba", "emissive": "#35ff8d" } }
+  ],
+  "scene": {
+    "player": { "character": "human", "walk_speed": 5.2, "sprint_speed": 8.0, "jump_speed": 5.0, "gravity": 18.0, "acceleration": 24.0, "air_acceleration": 7.0, "friction": 8.0, "max_speed": 12.0, "fov": 82 },
+    "jump_pads": [
+      { "id": "pad_a", "position": [0, 0, 0], "size": [2.4, 2.4], "launch_speed": 10.5 },
+      { "id": "pad_b", "position": [0, 0, -5], "size": [2.4, 2.4], "launch_speed": 10.5 },
+      { "id": "pad_c", "position": [0, 0, -10], "size": [2.4, 2.4], "launch_speed": 10.5 }
+    ],
+    "vars": { "gates": 0 },
+    "rules": [
+      { "id": "gate_1", "when": { "enter": { "object": "gate_a", "pad": 0.35 } }, "once": true,
+        "do": [{ "add": ["gates", 1] }, { "hide": "gate_a" }, { "emit": "gate" }] },
+      { "id": "gate_2", "when": { "enter": { "object": "gate_b", "pad": 0.35 } }, "if": "gates >= 1", "once": true,
+        "do": [{ "add": ["gates", 1] }, { "hide": "gate_b" }, { "emit": "gate" }] },
+      { "id": "gate_3", "when": { "enter": { "object": "gate_c", "pad": 0.35 } }, "if": "gates >= 2", "once": true,
+        "do": [{ "add": ["gates", 1] }, { "hide": "gate_c" }, { "emit": "victory" }, { "end": "victory" }] }
+    ],
+    "checks": {
+      "sim": [
+        {
+          "name": "three launch pads carry the runner through all gates",
+          "players": [{ "id": "p1", "character": "human", "spawn": "start" }],
+          "script": [{ "player": "p1", "hold": { "forward": 1, "sprint": true, "seconds": 8.0 } }],
+          "max_seconds": 10,
+          "expect": [{ "var": "gates", "eq": 3 }, { "event": "gate", "count": 2 }, { "ended": "victory" }]
+        }
+      ]
+    }
+  }
+}

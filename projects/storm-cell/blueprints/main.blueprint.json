@@ -1,0 +1,47 @@
+{
+  "blueprint": 1,
+  "name": "Storm Cell",
+  "height": 3.4,
+  "rooms": [{ "id": "cell", "rect": [-9, -9, 9, 9], "floor": "#15252d" }],
+  "spawns": [{ "room": "cell", "group": "solo", "count": 1, "id": "start" }],
+  "keep_clear": [[-1.5, -8, 1.5, 8]],
+  "prefab_files": ["../assets/gameplay.json"],
+  "extra": [
+    { "id": "core_a", "type": "sphere", "position": [-6, 0.8, -6], "radius": 0.45, "collide": false, "material": { "color": "#fff090", "emissive": "#ffd93d" } },
+    { "id": "core_b", "type": "sphere", "position": [6, 0.8, -6], "radius": 0.45, "collide": false, "material": { "color": "#fff090", "emissive": "#ffd93d" } },
+    { "id": "core_c", "type": "sphere", "position": [0, 0.8, 7], "radius": 0.45, "collide": false, "material": { "color": "#fff090", "emissive": "#ffd93d" } },
+    { "id": "exit", "type": "box", "position": [0, 1.2, -8.5], "size": [3, 2.4, 0.2], "collide": false, "material": { "color": "#214735", "emissive": "#3dff97" } },
+    { "id": "storm_n", "type": "box", "position": [0, 0.5, -2.5], "size": [0.9, 0.9, 0.9], "movable": true, "material": { "color": "#56b9dc", "metallic": 0.6 } },
+    { "id": "storm_s", "type": "box", "position": [0, 0.5, 2.5], "size": [0.9, 0.9, 0.9], "movable": true, "material": { "color": "#76c7e3", "metallic": 0.6 } },
+    { "id": "storm_e", "type": "box", "position": [2.5, 0.5, 0], "size": [0.9, 0.9, 0.9], "movable": true, "material": { "color": "#96d5e9", "metallic": 0.6 } },
+    { "id": "storm_w", "type": "box", "position": [-2.5, 0.5, 0], "size": [0.9, 0.9, 0.9], "movable": true, "material": { "color": "#b6e3ef", "metallic": 0.6 } }
+  ],
+  "scene": {
+    "player": { "character": "human", "walk_speed": 4.8, "sprint_speed": 7.5, "jump_speed": 6.2, "gravity": 17.0, "acceleration": 20.0, "air_acceleration": 5.0, "friction": 7.0, "max_speed": 10.0 },
+    "vars": { "cores": 0 },
+    "zones": [{ "id": "goal", "rect": [-2, -9, 2, -7.5], "y": 0, "kind": "goal" }],
+    "rules": [
+      { "id": "gust_n", "when": { "every": 0.8 }, "do": [{ "impulse": { "object": "storm_n", "dir": [0.7, 0.15, 1], "speed": 7 } }] },
+      { "id": "gust_s", "when": { "every": 1.1 }, "do": [{ "impulse": { "object": "storm_s", "dir": [-0.8, 0.2, -1], "speed": 7 } }] },
+      { "id": "gust_e", "when": { "every": 1.4 }, "do": [{ "impulse": { "object": "storm_e", "dir": [-1, 0.1, 0.5], "speed": 6 } }] },
+      { "id": "gust_w", "when": { "every": 1.7 }, "do": [{ "impulse": { "object": "storm_w", "dir": [1, 0.1, -0.5], "speed": 6 } }] },
+      { "id": "core_1", "when": { "enter": { "object": "core_a", "pad": 0.4 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_a" }, { "emit": "core" }] },
+      { "id": "core_2", "when": { "enter": { "object": "core_b", "pad": 0.4 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_b" }, { "emit": "core" }] },
+      { "id": "core_3", "when": { "enter": { "object": "core_c", "pad": 0.4 } }, "once": true,
+        "do": [{ "add": ["cores", 1] }, { "hide": "core_c" }, { "emit": "core" }] },
+      { "id": "exit", "when": { "enter": { "zone": "goal" } }, "if": "cores >= 3",
+        "do": [{ "emit": "victory" }, { "end": "victory" }] }
+    ],
+    "checks": {
+      "sim": [{
+        "name": "collect three cores while the storm runs",
+        "players": [{ "id": "p1", "character": "human", "spawn": "start" }],
+        "script": [{ "player": "p1", "walk": "0,0; -6,-6; 6,-6; 0,7; 0,-8" }],
+        "max_seconds": 35,
+        "expect": [{ "var": "cores", "eq": 3 }, { "event": "core", "count": 3 }, { "ended": "victory" }]
+      }]
+    }
+  }
+}
