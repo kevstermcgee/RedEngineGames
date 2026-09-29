@@ -1,11 +1,19 @@
 {
   "collections": {
-    "demos": 21,
+    "demos": 23,
     "games": 2,
     "prototypes": 12,
     "tests": 8
   },
   "files": [
+    {
+      "path": "demos/examples/avatar_poses.rs",
+      "sha256": "e9c30fcbd5bbfc4d47b4b9b8fc2fbf650ad222db6972a37dc77c105ab33d78a2"
+    },
+    {
+      "path": "demos/examples/bot_match.rs",
+      "sha256": "3464abcf26c20070bb6594d4eb581b942d83e049ff002a459ae244a0a4ed10d3"
+    },
     {
       "path": "demos/examples/golden/office/board.png",
       "sha256": "32f2de35e60ce823981c76b1f5dc59605b3b72f63e1fcdb4fa8d642c6df2fe4b"
@@ -76,11 +84,11 @@
     },
     {
       "path": "demos/examples/test_lab.json",
-      "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
+      "sha256": "667b51382172e36bb4d0d606a9716bb084187361c5e6b6c1afe5c67eae5a6133"
     },
     {
       "path": "demos/examples/weapon_poses.rs",
-      "sha256": "52f8a2d6c38e65f0171e53c41c1bc1bf03a57ef3acd5afc97da9015c3ce14fb4"
+      "sha256": "46099e3845d3ca1a7234ce16fa86f2e066fd9330da7aa0e1f52e9508418fff14"
     },
     {
       "path": "demos/multiplayer/lobby_demo.ps1",
@@ -172,11 +180,11 @@
     },
     {
       "path": "tests/performance/sim.rs",
-      "sha256": "07514b1b15bc8aaf41ba0de22c42a7ee1ab76e58f77736866fd34a0182fd2d0a"
+      "sha256": "51de6c0ed0d49104ad75bdb4aa567f25745addc544c120700e7dad3ff974a6a3"
     },
     {
       "path": "tests/test-lab/test_lab.json",
-      "sha256": "8bdf4494f5d3286b46b2b4296e7e641686aedfda1939f480ad80715f15fc3c9e"
+      "sha256": "667b51382172e36bb4d0d606a9716bb084187361c5e6b6c1afe5c67eae5a6133"
     }
   ],
   "playables": [
@@ -271,6 +279,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "ed2feb0cdb37f4a3938ea950373ca543955e8b83",
+  "source_revision": "d9ddfbe38cb15a5ae4dcceae09fb40fa0ffdc812",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
