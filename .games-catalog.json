@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 23,
+    "demos": 30,
     "games": 2,
     "prototypes": 12,
     "tests": 8
@@ -13,6 +13,34 @@
     {
       "path": "demos/examples/bot_match.rs",
       "sha256": "3464abcf26c20070bb6594d4eb581b942d83e049ff002a459ae244a0a4ed10d3"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/Cargo.lock",
+      "sha256": "0b86283657f03b62f0aab0c292532123c2eb2b3c75de5a743ebebd1eb6a1acc6"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/Cargo.toml",
+      "sha256": "01b73bca28f129b16a9fced40015ff08a89aa0a778efe25fe568758426dc2922"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/README.md",
+      "sha256": "40e6fc29e8c9e25ca5e0a179c86132d7d789168af23eb16b3e039b4e8654d0aa"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/src/lib.rs",
+      "sha256": "81e85c675a4c60faaa21a9e5eebf07c88ee1dcefc65d818d846058a952907a87"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/src/main.rs",
+      "sha256": "2bc55ae86cf1e9ac6909d9545fd570b6cd91623753535ff6da2da9b29db75d98"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/tests/play.rs",
+      "sha256": "03270d945832c1ec7161bc7611241cc7448be3c6be19b724cb7c6fb27aeb4ee8"
+    },
+    {
+      "path": "demos/examples/external/topdown_switch/topdown_switch.json",
+      "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -279,6 +307,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "fab4260b1b8010c69aa22f2bc9c9bdef8d6f59c8",
+  "source_revision": "f078ecbf639f3e52d6afd5858a22c79c4869b30b",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
