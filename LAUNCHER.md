@@ -6,8 +6,9 @@ revision, game type, and description. **Install & play** downloads the matching 
 from the latest RedEngineGames release into the current user's local
 application-data directory, then starts its `Play-*.exe`.
 
-Run `Install-RedEngineLauncher.cmd` to build and install the launcher and create a
-desktop shortcut. The release workflow also publishes
+Run `Install-RedEngineLauncher.cmd` to build the launcher, install the launcher app
+under `Documents/Codex/Launchers`, and create a desktop shortcut. Downloaded games
+remain in the current user's local application-data directory. The release workflow also publishes
 `RedEngineLauncher-windows-x64.zip`.
 
 The launcher catalog is generated from `.games-catalog.json`,
