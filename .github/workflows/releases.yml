@@ -5,6 +5,11 @@ on:
     branches: [main]
     paths:
       - .games-catalog.json
+      - .release-games.json
+      - .launcher-config.json
+      - projects/**
+      - launcher/**
+      - Install-RedEngineLauncher.*
       - .github/scripts/**
       - .github/workflows/releases.yml
   workflow_dispatch:
@@ -51,6 +56,10 @@ jobs:
       - name: Package playable downloads
         shell: pwsh
         run: .github/scripts/package_releases.ps1 -EngineExe _engine/target/release/re2.exe -EngineName RedEngine.exe -ProductName RedEngine
+
+      - name: Package RedEngine Launcher
+        shell: pwsh
+        run: .github/scripts/package_launcher.ps1 -OutputName RedEngineLauncher
 
       - name: Create or update the GitHub Release
         shell: pwsh

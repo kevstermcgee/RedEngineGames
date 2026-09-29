@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "game_roots": ["games", "projects"],
+  "data_playables": [
+    {
+      "slug": "domino-dynamo",
+      "name": "Domino Dynamo",
+      "files": ["projects/domino-dynamo"],
+      "arguments": ["content/projects/domino-dynamo/maps/main.json"]
+    },
+    {
+      "slug": "reddm",
+      "name": "RedDM",
+      "files": ["projects/reddm"],
+      "arguments": ["content/projects/reddm/maps/main.json"]
+    },
+    {
+      "slug": "redengine-sandbox",
+      "name": "RedEngineSandbox",
+      "files": ["projects/redengine-sandbox"],
+      "arguments": ["content/projects/redengine-sandbox/maps/00-arrival-hub.json"]
+    },
+    {
+      "slug": "riftraze",
+      "name": "RiftRaze",
+      "files": ["projects/riftraze"],
+      "arguments": ["content/projects/riftraze/maps/main.json"]
+    },
+    {
+      "slug": "skyhook-sprint",
+      "name": "Skyhook Sprint",
+      "files": ["projects/skyhook-sprint"],
+      "arguments": ["content/projects/skyhook-sprint/maps/main.json"]
+    },
+    {
+      "slug": "storm-cell",
+      "name": "Storm Cell",
+      "files": ["projects/storm-cell"],
+      "arguments": ["content/projects/storm-cell/maps/main.json"]
+    }
+  ],
+  "native_playables": []
+}
