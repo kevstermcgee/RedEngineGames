@@ -3,7 +3,7 @@
     "demos": 31,
     "games": 2,
     "prototypes": 12,
-    "tests": 9
+    "tests": 12
   },
   "files": [
     {
@@ -188,7 +188,7 @@
     },
     {
       "path": "tests/performance/README.md",
-      "sha256": "67362c3575341dff6205c545e383aa8bb89f017966cbd46322670cec1038e084"
+      "sha256": "09145d52dc3d42b69bb6710c5b1a12162db78f37c1e89195d4ad65dede4bcb15"
     },
     {
       "path": "tests/performance/baseline.json",
@@ -203,6 +203,14 @@
       "sha256": "48bd60b9d1c2a1c4c3d503a9648e7f18b5239c46ed9a08669be3a8966cee1515"
     },
     {
+      "path": "tests/performance/flow_bench.py",
+      "sha256": "174e6ed0d6efa1388ab58b143b5ddb3f044d717a87baf4e7779af5e45683391e"
+    },
+    {
+      "path": "tests/performance/flows/hello_game.json",
+      "sha256": "be2db00efdb8958e3c109ee7fcfd0c32c0550b3fd3eac383612e119634bc94ac"
+    },
+    {
       "path": "tests/performance/history/2026-09-24-static-promotion.md",
       "sha256": "6c1d3ded3c6b673ec0b42469c7fedd085f612bae9a32dc1bd8f0021ebccb07f7"
     },
@@ -213,6 +221,10 @@
     {
       "path": "tests/performance/history/build-times.json",
       "sha256": "201be59909b149be9f34fc9232a1b7e662d46d2927308158f8f45a44663ba21b"
+    },
+    {
+      "path": "tests/performance/history/flows.json",
+      "sha256": "0a1b4ed2f608ea2a41ab7e3fcf6529d1725a50afd8d61bef1b532f1cf64d4fef"
     },
     {
       "path": "tests/performance/sim.rs",
@@ -315,6 +327,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "7ac3dcc8756d17d0fbfc72047d50984bb79d8e75",
+  "source_revision": "40b6d328e879c0e31c52e27c6e58b018b58af75a",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
