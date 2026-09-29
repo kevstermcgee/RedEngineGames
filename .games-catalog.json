@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 30,
+    "demos": 31,
     "games": 2,
     "prototypes": 12,
     "tests": 8
@@ -13,6 +13,10 @@
     {
       "path": "demos/examples/bot_match.rs",
       "sha256": "3464abcf26c20070bb6594d4eb581b942d83e049ff002a459ae244a0a4ed10d3"
+    },
+    {
+      "path": "demos/examples/endless_shore.json",
+      "sha256": "c974e1909c250de376b5a85370c3f8892bfa5e074e65a2ce36623da492d4d97a"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
@@ -307,6 +311,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "f078ecbf639f3e52d6afd5858a22c79c4869b30b",
+  "source_revision": "3a516f006048a198827323162496598dc5d81c48",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
