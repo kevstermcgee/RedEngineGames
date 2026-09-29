@@ -5,5 +5,9 @@
   "repository": "kevstermcgee/RedEngineGames",
   "engine_name": "RedEngine",
   "install_folder": "RedEngineLauncher",
-  "accent": "#E5484D"
+  "accent": "#FF5C7A",
+  "background": "#160B13",
+  "surface": "#29101F",
+  "card": "#3B1729",
+  "muted": "#D2A0B2"
 }
