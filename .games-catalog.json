@@ -3,7 +3,7 @@
     "demos": 31,
     "games": 2,
     "prototypes": 12,
-    "tests": 12
+    "tests": 13
   },
   "files": [
     {
@@ -227,8 +227,12 @@
       "sha256": "0a1b4ed2f608ea2a41ab7e3fcf6529d1725a50afd8d61bef1b532f1cf64d4fef"
     },
     {
+      "path": "tests/performance/history/great-outdoors.json",
+      "sha256": "35acb42b174d419cecfc73d8c1892d0f3cd057551466fc4d4578f4918d4817e4"
+    },
+    {
       "path": "tests/performance/sim.rs",
-      "sha256": "51de6c0ed0d49104ad75bdb4aa567f25745addc544c120700e7dad3ff974a6a3"
+      "sha256": "312dd8f61a412ebe07a1f185007d097d9bd1336dc02efe93045feb22ecdfc37d"
     },
     {
       "path": "tests/test-lab/test_lab.json",
@@ -327,6 +331,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0dd390556932d15ab9c95d7be3b0b4e808e082b3",
+  "source_revision": "158594f52c346e101ab81450145bd17f8d43a197",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
