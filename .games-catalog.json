@@ -3,7 +3,7 @@
     "demos": 31,
     "games": 2,
     "prototypes": 12,
-    "tests": 13
+    "tests": 16
   },
   "files": [
     {
@@ -188,7 +188,7 @@
     },
     {
       "path": "tests/performance/README.md",
-      "sha256": "09145d52dc3d42b69bb6710c5b1a12162db78f37c1e89195d4ad65dede4bcb15"
+      "sha256": "449bd34b772545b0a5ce0d716fcb16ac98b61a47c9ccd9375c12b0e4c32370fc"
     },
     {
       "path": "tests/performance/baseline.json",
@@ -215,6 +215,10 @@
       "sha256": "6c1d3ded3c6b673ec0b42469c7fedd085f612bae9a32dc1bd8f0021ebccb07f7"
     },
     {
+      "path": "tests/performance/history/2026-09-29-render-prep.md",
+      "sha256": "99956409090683ab9ba4a55331673ca1845c149d9f2c401fccb3d6f14431fff0"
+    },
+    {
       "path": "tests/performance/history/before-static-promotion.json",
       "sha256": "855b18bc4d69a171c2aa863d63d7dbb9e0201a07d06179e47f16a43df1742b6f"
     },
@@ -229,6 +233,14 @@
     {
       "path": "tests/performance/history/great-outdoors.json",
       "sha256": "e573adcf74695609e805d41b0730894c1182dc105cb48a6646d16697df5c695a"
+    },
+    {
+      "path": "tests/performance/render_prep.rs",
+      "sha256": "669379189c6467f09be96dd2dd1be974dde586494c8ce07adf2a4a7a279e34b9"
+    },
+    {
+      "path": "tests/performance/settled_world.rs",
+      "sha256": "2319facfb8a4ec18057eeeddac2d9e0f314efca16ba29329a970cd925320eb69"
     },
     {
       "path": "tests/performance/sim.rs",
@@ -331,6 +343,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "966f63f64fc9e07401f307b74fe19561bdd7b4b3",
+  "source_revision": "2579c6414fc0bd2a3f281fe15a4dc4ae0da6b642",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
