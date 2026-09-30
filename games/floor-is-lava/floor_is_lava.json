@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#401010",
+    "sky_bottom": "#200505"
+  },
+  "ambient": {
+    "color": "#ff5533",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 6, -10],
+    "target": [0, 1.5, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, -4.5],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "lava_floor",
+      "rect": [-4, -4, 4, 4],
+      "y": 0
+    },
+    {
+      "id": "rescue_zone",
+      "rect": [-1.5, 2.5, 1.5, 4.5],
+      "y": 1.8
+    }
+  ],
+  "vars": {
+    "lava_active": 0,
+    "burned": 0,
+    "rescued": 0
+  },
+  "rules": [
+    {
+      "id": "activate_lava",
+      "when": { "after": 2.0 },
+      "once": true,
+      "do": [
+        { "set": ["lava_active", 1] },
+        { "emit": "lava_active_event" }
+      ]
+    },
+    {
+      "id": "touch_lava",
+      "when": { "enter": { "zone": "lava_floor" } },
+      "if": "lava_active == 1",
+      "cooldown": 1.0,
+      "do": [
+        { "add": ["burned", 1] },
+        { "emit": "burned_event" },
+        { "teleport": "spawn_start" }
+      ]
+    },
+    {
+      "id": "reach_roof_sanctuary",
+      "when": { "enter": { "zone": "rescue_zone" } },
+      "once": true,
+      "do": [
+        { "set": ["rescued", 1] },
+        { "emit": "rescued_event" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [12, 12],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-6, -6],
+      "to": [6, -6],
+      "height": 4.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-6, 6],
+      "to": [6, 6],
+      "height": 4.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-6, -6],
+      "to": [-6, 6],
+      "height": 4.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [6, -6],
+      "to": [6, 6],
+      "height": 4.0
+    },
+    {
+      "id": "step_1",
+      "type": "box",
+      "size": [1.5, 0.3, 1.5],
+      "position": [0, 0.15, -3.0],
+      "material": { "color": "#888888" }
+    },
+    {
+      "id": "tier_1",
+      "type": "box",
+      "size": [2.0, 0.6, 2.0],
+      "position": [0, 0.3, -1.5],
+      "material": { "color": "#777777" }
+    },
+    {
+      "id": "step_2",
+      "type": "box",
+      "size": [1.5, 0.9, 1.5],
+      "position": [0, 0.45, 0.2],
+      "material": { "color": "#666666" }
+    },
+    {
+      "id": "tier_2",
+      "type": "box",
+      "size": [2.0, 1.2, 2.0],
+      "position": [0, 0.6, 1.8],
+      "material": { "color": "#555555" }
+    },
+    {
+      "id": "step_3",
+      "type": "box",
+      "size": [1.5, 1.5, 1.5],
+      "position": [0, 0.75, 2.8],
+      "material": { "color": "#444444" }
+    },
+    {
+      "id": "sanctuary_roof",
+      "type": "box",
+      "size": [3.0, 1.8, 2.0],
+      "position": [0, 0.9, 3.8],
+      "material": { "color": "#22aa44" }
+    }
+  ],
+  "checks": {
+    "lint": {
+      "ignore": ["drop"]
+    },
+    "sim": [
+      {
+        "name": "climb to roof sanctuary before burning",
+        "players": [{ "id": "climber", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "climber", "walk": "0,-3.0; 0,-1.5; 0,0.2; 0,1.8; 0,3.8" }
+        ],
+        "expect": [
+          { "event": "rescued_event", "count": 1 },
+          { "ended": "victory" },
+          { "var": "burned", "eq": 0 }
+        ]
+      }
+    ]
+  }
+}

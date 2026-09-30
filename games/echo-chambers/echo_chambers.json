@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#1a0033",
+    "sky_bottom": "#0a001a"
+  },
+  "ambient": {
+    "color": "#8866cc",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -10],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, 0],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "pad_n",
+      "rect": [-1.5, 3.5, 1.5, 5.5],
+      "y": 0
+    },
+    {
+      "id": "pad_s",
+      "rect": [-1.5, -5.5, 1.5, -3.5],
+      "y": 0
+    },
+    {
+      "id": "pad_e",
+      "rect": [3.5, -1.5, 5.5, 1.5],
+      "y": 0
+    },
+    {
+      "id": "pad_w",
+      "rect": [-5.5, -1.5, -3.5, 1.5],
+      "y": 0
+    },
+    {
+      "id": "pad_altar",
+      "rect": [-1.0, -1.0, 1.0, 1.0],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "seq_step": 0,
+    "resets": 0,
+    "sealed": 1
+  },
+  "rules": [
+    {
+      "id": "strike_n_correct",
+      "when": { "enter": { "zone": "pad_n" } },
+      "if": "seq_step == 0",
+      "do": [
+        { "set": ["seq_step", 1] },
+        { "emit": "note_n" }
+      ]
+    },
+    {
+      "id": "strike_s_correct",
+      "when": { "enter": { "zone": "pad_s" } },
+      "if": "seq_step == 1",
+      "do": [
+        { "set": ["seq_step", 2] },
+        { "emit": "note_s" }
+      ]
+    },
+    {
+      "id": "strike_e_correct",
+      "when": { "enter": { "zone": "pad_e" } },
+      "if": "seq_step == 2",
+      "do": [
+        { "set": ["seq_step", 3] },
+        { "emit": "note_e" }
+      ]
+    },
+    {
+      "id": "strike_w_correct",
+      "when": { "enter": { "zone": "pad_w" } },
+      "if": "seq_step == 3",
+      "do": [
+        { "set": ["seq_step", 4] },
+        { "set": ["sealed", 0] },
+        { "emit": "harmony_unsealed" }
+      ]
+    },
+    {
+      "id": "claim_altar_win",
+      "when": { "enter": { "zone": "pad_altar" } },
+      "if": "seq_step == 4 && sealed == 0",
+      "once": true,
+      "do": [
+        { "emit": "sanctum_cleared" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 4.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 4.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 4.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 4.0
+    },
+    {
+      "id": "monolith_n",
+      "type": "box",
+      "size": [1.0, 3.0, 1.0],
+      "position": [0, 1.5, 6.0],
+      "collide": true,
+      "material": { "color": "#00ffcc" }
+    },
+    {
+      "id": "monolith_s",
+      "type": "box",
+      "size": [1.0, 3.0, 1.0],
+      "position": [0, 1.5, -6.0],
+      "collide": true,
+      "material": { "color": "#ff00cc" }
+    },
+    {
+      "id": "monolith_e",
+      "type": "box",
+      "size": [1.0, 3.0, 1.0],
+      "position": [6.0, 1.5, 0],
+      "collide": true,
+      "material": { "color": "#ffff00" }
+    },
+    {
+      "id": "monolith_w",
+      "type": "box",
+      "size": [1.0, 3.0, 1.0],
+      "position": [-6.0, 1.5, 0],
+      "collide": true,
+      "material": { "color": "#ff6600" }
+    },
+    {
+      "id": "central_altar",
+      "type": "box",
+      "size": [1.2, 0.8, 1.2],
+      "position": [0, 0.4, 0],
+      "collide": false,
+      "material": { "color": "#ffffff", "metallic": 0.8 }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "solve harmonic sequence",
+        "players": [{ "id": "monk", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "monk", "walk": "0,4.5; 0,-4.5; 4.5,0; -4.5,0; 0,0" }
+        ],
+        "expect": [
+          { "event": "note_n", "count": 1 },
+          { "event": "note_s", "count": 1 },
+          { "event": "note_e", "count": 1 },
+          { "event": "harmony_unsealed", "count": 1 },
+          { "event": "sanctum_cleared", "count": 1 },
+          { "ended": "victory" },
+          { "var": "seq_step", "eq": 4 }
+        ]
+      }
+    ]
+  }
+}

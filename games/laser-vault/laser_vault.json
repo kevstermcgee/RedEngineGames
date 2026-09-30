@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#101020",
+    "sky_bottom": "#050510"
+  },
+  "ambient": {
+    "color": "#404060",
+    "intensity": 0.4
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, -8],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "laser_1",
+      "rect": [-3, -5, 3, -4],
+      "y": 0
+    },
+    {
+      "id": "laser_2",
+      "rect": [-3, 0, 3, 1],
+      "y": 0
+    },
+    {
+      "id": "console_a_pad",
+      "rect": [-6, -3, -4, -1],
+      "y": 0
+    },
+    {
+      "id": "console_b_pad",
+      "rect": [4, -3, 6, -1],
+      "y": 0
+    },
+    {
+      "id": "vault_zone",
+      "rect": [-2, 4, 2, 7],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "alarms": 0,
+    "hacked_a": 0,
+    "hacked_b": 0,
+    "vault_open": 0
+  },
+  "rules": [
+    {
+      "id": "trip_laser_1",
+      "when": { "enter": { "zone": "laser_1" } },
+      "cooldown": 1.0,
+      "do": [
+        { "add": ["alarms", 1] },
+        { "emit": "alarm" }
+      ]
+    },
+    {
+      "id": "trip_laser_2",
+      "when": { "enter": { "zone": "laser_2" } },
+      "cooldown": 1.0,
+      "do": [
+        { "add": ["alarms", 1] },
+        { "emit": "alarm" }
+      ]
+    },
+    {
+      "id": "check_alarm_limit",
+      "when": { "event": "alarm" },
+      "if": "alarms >= 3",
+      "do": [
+        { "emit": "alarm_lockdown" },
+        { "end": "lockdown_failed" }
+      ]
+    },
+    {
+      "id": "hack_console_a",
+      "when": { "enter": { "zone": "console_a_pad" } },
+      "once": true,
+      "do": [
+        { "set": ["hacked_a", 1] },
+        { "emit": "console_a_active" }
+      ]
+    },
+    {
+      "id": "hack_console_b",
+      "when": { "enter": { "zone": "console_b_pad" } },
+      "if": "hacked_a == 1",
+      "once": true,
+      "do": [
+        { "set": ["hacked_b", 1] },
+        { "set": ["vault_open", 1] },
+        { "hide": "vault_door" },
+        { "collision": ["vault_door", false] },
+        { "emit": "vault_unlocked" }
+      ]
+    },
+    {
+      "id": "enter_vault_win",
+      "when": { "enter": { "zone": "vault_zone" } },
+      "if": "vault_open == 1 && alarms < 3",
+      "once": true,
+      "do": [
+        { "emit": "heist_victory" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 20],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -10],
+      "to": [8, -10]
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 10],
+      "to": [8, 10]
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -10],
+      "to": [-8, 10]
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -10],
+      "to": [8, 10]
+    },
+    {
+      "id": "vault_door",
+      "type": "box",
+      "size": [4, 3, 0.4],
+      "position": [0, 1.5, 3.5],
+      "collide": true,
+      "material": { "color": "#00ffff", "roughness": 0.2 }
+    },
+    {
+      "id": "console_a_prop",
+      "type": "box",
+      "size": [0.8, 1.2, 0.8],
+      "position": [-5, 0.6, -2],
+      "collide": false,
+      "material": { "color": "#33ff33" }
+    },
+    {
+      "id": "console_b_prop",
+      "type": "box",
+      "size": [0.8, 1.2, 0.8],
+      "position": [5, 0.6, -2],
+      "collide": false,
+      "material": { "color": "#33ff33" }
+    },
+    {
+      "id": "safe_prop",
+      "type": "box",
+      "size": [1.5, 1.5, 1.5],
+      "position": [0, 0.75, 5.5],
+      "collide": false,
+      "material": { "color": "#ffd700", "metallic": 0.9 }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "clean stealth heist",
+        "players": [{ "id": "thief", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "thief", "walk": "-5,-8; -5,-2; -5,-7; 5,-7; 5,-2; 5,2.5; 0,2.5; 0,5" }
+        ],
+        "expect": [
+          { "event": "console_a_active", "count": 1 },
+          { "event": "vault_unlocked", "count": 1 },
+          { "event": "heist_victory", "count": 1 },
+          { "ended": "victory" },
+          { "var": "alarms", "eq": 0 }
+        ]
+      },
+      {
+        "name": "tripping alarms causes lockdown fail",
+        "players": [{ "id": "clumsy", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "clumsy", "walk": "0,-4.5; 0,-8; 0,-4.5; 0,-8; 0,-4.5" }
+        ],
+        "expect": [
+          { "event": "alarm_lockdown", "count": 1 },
+          { "ended": "lockdown_failed" },
+          { "var": "alarms", "eq": 3 }
+        ]
+      }
+    ]
+  }
+}

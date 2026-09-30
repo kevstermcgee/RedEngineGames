@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#2a0505",
+    "sky_bottom": "#100000"
+  },
+  "ambient": {
+    "color": "#ff4444",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, 5],
+      "yaw_deg": 180
+    }
+  ],
+  "zones": [
+    {
+      "id": "pad_alpha",
+      "rect": [-6, 2, -4, 4],
+      "y": 0
+    },
+    {
+      "id": "pad_beta",
+      "rect": [-1, -5, 1, -3],
+      "y": 0
+    },
+    {
+      "id": "pad_gamma",
+      "rect": [4, 2, 6, 4],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "countdown": 8,
+    "defused_alpha": 0,
+    "defused_beta": 0,
+    "defused_gamma": 0,
+    "bomb_defused": 0
+  },
+  "rules": [
+    {
+      "id": "tick_bomb",
+      "when": { "every": 1.0 },
+      "if": "bomb_defused == 0",
+      "do": [
+        { "add": ["countdown", -1] },
+        { "emit": "bomb_tick" }
+      ]
+    },
+    {
+      "id": "detonate_bomb",
+      "when": { "event": "bomb_tick" },
+      "if": "countdown <= 0 && bomb_defused == 0",
+      "do": [
+        { "emit": "detonation_failed" },
+        { "end": "explosion_defeat" }
+      ]
+    },
+    {
+      "id": "cut_wire_alpha",
+      "when": { "enter": { "zone": "pad_alpha" } },
+      "once": true,
+      "do": [
+        { "set": ["defused_alpha", 1] },
+        { "emit": "wire_alpha_cut" }
+      ]
+    },
+    {
+      "id": "cut_wire_beta",
+      "when": { "enter": { "zone": "pad_beta" } },
+      "if": "defused_alpha == 1",
+      "once": true,
+      "do": [
+        { "set": ["defused_beta", 1] },
+        { "emit": "wire_beta_cut" }
+      ]
+    },
+    {
+      "id": "cut_wire_gamma",
+      "when": { "enter": { "zone": "pad_gamma" } },
+      "if": "defused_alpha == 1 && defused_beta == 1",
+      "once": true,
+      "do": [
+        { "set": ["defused_gamma", 1] },
+        { "set": ["bomb_defused", 1] },
+        { "emit": "defusal_success" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "station_alpha_prop",
+      "type": "box",
+      "size": [1.0, 1.5, 0.8],
+      "position": [-5, 0.75, 3],
+      "collide": false,
+      "material": { "color": "#ff2222" }
+    },
+    {
+      "id": "station_beta_prop",
+      "type": "box",
+      "size": [1.0, 1.5, 0.8],
+      "position": [0, 0.75, -4],
+      "collide": false,
+      "material": { "color": "#2222ff" }
+    },
+    {
+      "id": "station_gamma_prop",
+      "type": "box",
+      "size": [1.0, 1.5, 0.8],
+      "position": [5, 0.75, 3],
+      "collide": false,
+      "material": { "color": "#ffff22" }
+    },
+    {
+      "id": "central_bomb_core",
+      "type": "cylinder",
+      "radius": 0.8,
+      "height": 1.2,
+      "position": [0, 0.6, 0],
+      "collide": true,
+      "material": { "color": "#111111", "emissive": "#ff0000" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "defuse bomb in rapid sequence",
+        "players": [{ "id": "sapper", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "sapper", "walk": "-5,3; 0,-4; 5,3" }
+        ],
+        "expect": [
+          { "event": "wire_alpha_cut", "count": 1 },
+          { "event": "wire_beta_cut", "count": 1 },
+          { "event": "defusal_success", "count": 1 },
+          { "ended": "victory" },
+          { "var": "bomb_defused", "eq": 1 }
+        ]
+      }
+    ]
+  }
+}

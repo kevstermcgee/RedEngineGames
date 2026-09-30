@@ -1,54 +1,190 @@
 {
   "version": 1,
-  "game_roots": ["games", "projects"],
+  "game_roots": [
+    "games",
+    "projects"
+  ],
   "data_playables": [
     {
       "slug": "domino-dynamo",
       "name": "Domino Dynamo",
-      "files": ["projects/domino-dynamo"],
-      "arguments": ["content/projects/domino-dynamo/maps/main.json"]
+      "files": [
+        "projects/domino-dynamo"
+      ],
+      "arguments": [
+        "content/projects/domino-dynamo/maps/main.json"
+      ]
     },
     {
       "slug": "gravity-gauntlet",
       "name": "Gravity Gauntlet",
-      "files": ["projects/gravity-gauntlet"],
-      "arguments": ["content/projects/gravity-gauntlet/maps/main.json"]
+      "files": [
+        "projects/gravity-gauntlet"
+      ],
+      "arguments": [
+        "content/projects/gravity-gauntlet/maps/main.json"
+      ]
     },
     {
       "slug": "great-outdoors",
       "name": "Great Outdoors",
-      "files": ["projects/great-outdoors"],
-      "arguments": ["--host", "content/projects/great-outdoors/maps/main.json"]
+      "files": [
+        "projects/great-outdoors"
+      ],
+      "arguments": [
+        "--host",
+        "content/projects/great-outdoors/maps/main.json"
+      ]
     },
     {
       "slug": "reddm",
       "name": "RedDM",
-      "files": ["projects/reddm"],
-      "arguments": ["content/projects/reddm/maps/main.json"]
+      "files": [
+        "projects/reddm"
+      ],
+      "arguments": [
+        "content/projects/reddm/maps/main.json"
+      ]
     },
     {
       "slug": "redengine-sandbox",
       "name": "RedEngineSandbox",
-      "files": ["projects/redengine-sandbox"],
-      "arguments": ["content/projects/redengine-sandbox/maps/00-arrival-hub.json"]
+      "files": [
+        "projects/redengine-sandbox"
+      ],
+      "arguments": [
+        "content/projects/redengine-sandbox/maps/00-arrival-hub.json"
+      ]
     },
     {
       "slug": "riftraze",
       "name": "RiftRaze",
-      "files": ["projects/riftraze"],
-      "arguments": ["content/projects/riftraze/maps/main.json"]
+      "files": [
+        "projects/riftraze"
+      ],
+      "arguments": [
+        "content/projects/riftraze/maps/main.json"
+      ]
     },
     {
       "slug": "skyhook-sprint",
       "name": "Skyhook Sprint",
-      "files": ["projects/skyhook-sprint"],
-      "arguments": ["content/projects/skyhook-sprint/maps/main.json"]
+      "files": [
+        "projects/skyhook-sprint"
+      ],
+      "arguments": [
+        "content/projects/skyhook-sprint/maps/main.json"
+      ]
     },
     {
       "slug": "storm-cell",
       "name": "Storm Cell",
-      "files": ["projects/storm-cell"],
-      "arguments": ["content/projects/storm-cell/maps/main.json"]
+      "files": [
+        "projects/storm-cell"
+      ],
+      "arguments": [
+        "content/projects/storm-cell/maps/main.json"
+      ]
+    },
+    {
+      "slug": "laser-vault",
+      "name": "Laser Vault",
+      "files": [
+        "games/laser-vault"
+      ],
+      "arguments": [
+        "content/games/laser-vault/laser_vault.json"
+      ]
+    },
+    {
+      "slug": "floor-is-lava",
+      "name": "Floor is Lava",
+      "files": [
+        "games/floor-is-lava"
+      ],
+      "arguments": [
+        "content/games/floor-is-lava/floor_is_lava.json"
+      ]
+    },
+    {
+      "slug": "echo-chambers",
+      "name": "Echo Chambers",
+      "files": [
+        "games/echo-chambers"
+      ],
+      "arguments": [
+        "content/games/echo-chambers/echo_chambers.json"
+      ]
+    },
+    {
+      "slug": "relic-relay",
+      "name": "Relic Relay",
+      "files": [
+        "games/relic-relay"
+      ],
+      "arguments": [
+        "content/games/relic-relay/relic_relay.json"
+      ]
+    },
+    {
+      "slug": "prism-matrix",
+      "name": "Prism Matrix",
+      "files": [
+        "games/prism-matrix"
+      ],
+      "arguments": [
+        "content/games/prism-matrix/prism_matrix.json"
+      ]
+    },
+    {
+      "slug": "phantom-maze",
+      "name": "Phantom Maze",
+      "files": [
+        "games/phantom-maze"
+      ],
+      "arguments": [
+        "content/games/phantom-maze/phantom_maze.json"
+      ]
+    },
+    {
+      "slug": "bomb-defusal",
+      "name": "Bomb Defusal",
+      "files": [
+        "games/bomb-defusal"
+      ],
+      "arguments": [
+        "content/games/bomb-defusal/bomb_defusal.json"
+      ]
+    },
+    {
+      "slug": "turret-trench",
+      "name": "Turret Trench",
+      "files": [
+        "games/turret-trench"
+      ],
+      "arguments": [
+        "content/games/turret-trench/turret_trench.json"
+      ]
+    },
+    {
+      "slug": "weight-balance",
+      "name": "Weight & Balance",
+      "files": [
+        "games/weight-balance"
+      ],
+      "arguments": [
+        "content/games/weight-balance/weight_balance.json"
+      ]
+    },
+    {
+      "slug": "target-gallery",
+      "name": "Target Gallery",
+      "files": [
+        "games/target-gallery"
+      ],
+      "arguments": [
+        "content/games/target-gallery/target_gallery.json"
+      ]
     }
   ],
   "native_playables": []

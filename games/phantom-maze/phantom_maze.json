@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#00050a",
+    "sky_bottom": "#000002"
+  },
+  "ambient": {
+    "color": "#112233",
+    "intensity": 0.3
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, 5],
+      "yaw_deg": 180
+    }
+  ],
+  "zones": [
+    {
+      "id": "sonar_pad_1",
+      "rect": [-1, 2, 1, 4],
+      "y": 0
+    },
+    {
+      "id": "sonar_pad_2",
+      "rect": [-5, -3, -3, -1],
+      "y": 0
+    },
+    {
+      "id": "exit_zone",
+      "rect": [3, -6, 5, -4],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "pings_used": 0,
+    "exit_reached": 0
+  },
+  "rules": [
+    {
+      "id": "trigger_sonar_1",
+      "when": { "enter": { "zone": "sonar_pad_1" } },
+      "once": true,
+      "do": [
+        { "add": ["pings_used", 1] },
+        { "show": "phantom_wall_1" },
+        { "emit": "sonar_ping_1" }
+      ]
+    },
+    {
+      "id": "trigger_sonar_2",
+      "when": { "enter": { "zone": "sonar_pad_2" } },
+      "once": true,
+      "do": [
+        { "add": ["pings_used", 1] },
+        { "show": "phantom_wall_2" },
+        { "emit": "sonar_ping_2" }
+      ]
+    },
+    {
+      "id": "escape_maze",
+      "when": { "enter": { "zone": "exit_zone" } },
+      "if": "pings_used >= 1",
+      "once": true,
+      "do": [
+        { "set": ["exit_reached", 1] },
+        { "emit": "maze_escaped" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "phantom_wall_1",
+      "type": "box",
+      "size": [0.4, 2.5, 6.0],
+      "position": [-2, 1.25, 0],
+      "collide": true,
+      "material": { "color": "#00ffaa", "roughness": 0.2 }
+    },
+    {
+      "id": "phantom_wall_2",
+      "type": "box",
+      "size": [0.4, 2.5, 6.0],
+      "position": [2, 1.25, -2],
+      "collide": true,
+      "material": { "color": "#00ffaa", "roughness": 0.2 }
+    },
+    {
+      "id": "exit_beacon",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [4, 0.6, -5],
+      "collide": false,
+      "material": { "color": "#ffaa00", "emissive": "#ff8800" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "ping sonar and escape phantom maze",
+        "players": [{ "id": "explorer", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "explorer", "walk": "0,3; -4,3; -4,-2; -4,-6; 4,-6; 4,-5" }
+        ],
+        "expect": [
+          { "event": "sonar_ping_1", "count": 1 },
+          { "event": "sonar_ping_2", "count": 1 },
+          { "event": "maze_escaped", "count": 1 },
+          { "ended": "victory" },
+          { "var": "exit_reached", "eq": 1 }
+        ]
+      }
+    ]
+  }
+}

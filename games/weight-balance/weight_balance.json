@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#1a2510",
+    "sky_bottom": "#0a1005"
+  },
+  "ambient": {
+    "color": "#88aa44",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, -6],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "scale_left",
+      "rect": [-5, -2, -3, 2],
+      "y": 0
+    },
+    {
+      "id": "scale_right",
+      "rect": [3, -2, 5, 2],
+      "y": 0
+    },
+    {
+      "id": "exit_gate_zone",
+      "rect": [-1.5, 4, 1.5, 7],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "weight_left": 0,
+    "weight_right": 0,
+    "balanced": 0
+  },
+  "rules": [
+    {
+      "id": "load_left_scale",
+      "when": { "enter": { "zone": "scale_left" } },
+      "once": true,
+      "do": [
+        { "add": ["weight_left", 2] },
+        { "emit": "left_scale_loaded" }
+      ]
+    },
+    {
+      "id": "load_right_scale",
+      "when": { "enter": { "zone": "scale_right" } },
+      "once": true,
+      "do": [
+        { "add": ["weight_right", 2] },
+        { "emit": "right_scale_loaded" }
+      ]
+    },
+    {
+      "id": "release_counterweight_gate",
+      "when": { "enter": { "zone": "exit_gate_zone" } },
+      "if": "weight_left == 2 && weight_right == 2",
+      "once": true,
+      "do": [
+        { "set": ["balanced", 1] },
+        { "emit": "equilibrium_achieved" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "platform_left_mesh",
+      "type": "box",
+      "size": [2.0, 0.2, 3.5],
+      "position": [-4, 0.1, 0],
+      "collide": false,
+      "material": { "color": "#ccaa22" }
+    },
+    {
+      "id": "platform_right_mesh",
+      "type": "box",
+      "size": [2.0, 0.2, 3.5],
+      "position": [4, 0.1, 0],
+      "collide": false,
+      "material": { "color": "#ccaa22" }
+    },
+    {
+      "id": "counterweight_gate_mesh",
+      "type": "box",
+      "size": [3.0, 3.0, 0.4],
+      "position": [0, 1.5, 5.5],
+      "collide": false,
+      "material": { "color": "#4488ff" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "balance scales and pass counterweight gate",
+        "players": [{ "id": "worker", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "worker", "walk": "-4,0; 4,0; 0,5.5" }
+        ],
+        "expect": [
+          { "event": "left_scale_loaded", "count": 1 },
+          { "event": "right_scale_loaded", "count": 1 },
+          { "event": "equilibrium_achieved", "count": 1 },
+          { "ended": "victory" },
+          { "var": "balanced", "eq": 1 }
+        ]
+      }
+    ]
+  }
+}

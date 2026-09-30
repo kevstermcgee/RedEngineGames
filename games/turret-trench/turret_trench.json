@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#1a1510",
+    "sky_bottom": "#0a0805"
+  },
+  "ambient": {
+    "color": "#ffaa44",
+    "intensity": 0.4
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -14],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, -10],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "trench_fire_zone",
+      "rect": [-2, -6, 2, 7],
+      "y": 0
+    },
+    {
+      "id": "bunker_command",
+      "rect": [-2, 8, 2, 11],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "turret_cycle": 0,
+    "hits": 0,
+    "override_hacked": 0
+  },
+  "rules": [
+    {
+      "id": "turret_phase_toggle",
+      "when": { "every": 2.0 },
+      "do": [
+        { "add": ["turret_cycle", 1] },
+        { "emit": "turret_phase_changed" }
+      ]
+    },
+    {
+      "id": "hit_in_fire_zone",
+      "when": { "enter": { "zone": "trench_fire_zone" } },
+      "if": "turret_cycle % 2 == 1",
+      "cooldown": 1.0,
+      "do": [
+        { "add": ["hits", 1] },
+        { "emit": "player_hit" },
+        { "teleport": "spawn_start" }
+      ]
+    },
+    {
+      "id": "override_turret_grid",
+      "when": { "enter": { "zone": "bunker_command" } },
+      "if": "hits == 0",
+      "once": true,
+      "do": [
+        { "set": ["override_hacked", 1] },
+        { "emit": "grid_disabled" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [10, 24],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-5, -12],
+      "to": [5, -12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-5, 12],
+      "to": [5, 12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-5, -12],
+      "to": [-5, 12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [5, -12],
+      "to": [5, 12],
+      "height": 3.0
+    },
+    {
+      "id": "bunker_mid_wall",
+      "type": "box",
+      "size": [1.5, 2.5, 0.4],
+      "position": [0, 1.25, 0],
+      "collide": true,
+      "material": { "color": "#555555" }
+    },
+    {
+      "id": "turret_mesh",
+      "type": "box",
+      "size": [1.0, 1.0, 1.5],
+      "position": [0, 2.5, 7.5],
+      "collide": false,
+      "material": { "color": "#cc2222", "emissive": "#661111" }
+    },
+    {
+      "id": "override_terminal",
+      "type": "box",
+      "size": [1.0, 1.2, 0.8],
+      "position": [0, 0.6, 9.5],
+      "collide": false,
+      "material": { "color": "#22cc44" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "dash through trench during cooldown to hack override",
+        "players": [{ "id": "infiltrator", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "infiltrator", "walk": "0,-5; 2,-1; 2,1; 0,9.5" }
+        ],
+        "expect": [
+          { "event": "grid_disabled", "count": 1 },
+          { "ended": "victory" },
+          { "var": "hits", "eq": 0 }
+        ]
+      }
+    ]
+  }
+}

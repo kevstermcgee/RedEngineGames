@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#102025",
+    "sky_bottom": "#051015"
+  },
+  "ambient": {
+    "color": "#66ddaa",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, 0],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "zone_target_1",
+      "rect": [-5, 1, -3, 3],
+      "y": 0
+    },
+    {
+      "id": "zone_target_2",
+      "rect": [-1, 3, 1, 5],
+      "y": 0
+    },
+    {
+      "id": "zone_target_3",
+      "rect": [3, 1, 5, 3],
+      "y": 0
+    },
+    {
+      "id": "zone_booth",
+      "rect": [-1.5, -5.5, 1.5, -2.5],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "targets_hit": 0,
+    "round_completed": 0
+  },
+  "rules": [
+    {
+      "id": "strike_target_1",
+      "when": { "enter": { "zone": "zone_target_1" } },
+      "once": true,
+      "do": [
+        { "add": ["targets_hit", 1] },
+        { "hide": "target_1" },
+        { "emit": "target_1_down" }
+      ]
+    },
+    {
+      "id": "strike_target_2",
+      "when": { "enter": { "zone": "zone_target_2" } },
+      "once": true,
+      "do": [
+        { "add": ["targets_hit", 1] },
+        { "hide": "target_2" },
+        { "emit": "target_2_down" }
+      ]
+    },
+    {
+      "id": "strike_target_3",
+      "when": { "enter": { "zone": "zone_target_3" } },
+      "once": true,
+      "do": [
+        { "add": ["targets_hit", 1] },
+        { "hide": "target_3" },
+        { "emit": "target_3_down" }
+      ]
+    },
+    {
+      "id": "claim_sharpshooter_victory",
+      "when": { "enter": { "zone": "zone_booth" } },
+      "if": "targets_hit >= 3",
+      "once": true,
+      "do": [
+        { "set": ["round_completed", 1] },
+        { "emit": "gallery_won" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "target_1",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [-4, 0.6, 2],
+      "collide": false,
+      "material": { "color": "#ff3333" }
+    },
+    {
+      "id": "target_2",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [0, 0.6, 4],
+      "collide": false,
+      "material": { "color": "#ff3333" }
+    },
+    {
+      "id": "target_3",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [4, 0.6, 2],
+      "collide": false,
+      "material": { "color": "#ff3333" }
+    },
+    {
+      "id": "victory_booth_prop",
+      "type": "box",
+      "size": [2.0, 1.2, 1.2],
+      "position": [0, 0.6, -4],
+      "collide": false,
+      "material": { "color": "#ffbb00" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "clear gallery targets and score victory",
+        "players": [{ "id": "sniper", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "sniper", "walk": "-4,2; 0,4; 4,2; 0,-4" }
+        ],
+        "expect": [
+          { "event": "target_1_down", "count": 1 },
+          { "event": "target_2_down", "count": 1 },
+          { "event": "target_3_down", "count": 1 },
+          { "event": "gallery_won", "count": 1 },
+          { "ended": "victory" },
+          { "var": "targets_hit", "eq": 3 }
+        ]
+      }
+    ]
+  }
+}

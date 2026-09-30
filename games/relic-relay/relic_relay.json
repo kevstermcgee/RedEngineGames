@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#051525",
+    "sky_bottom": "#020810"
+  },
+  "ambient": {
+    "color": "#4080a0",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -14],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, -11.5],
+      "yaw_deg": 0
+    }
+  ],
+  "zones": [
+    {
+      "id": "start_depot",
+      "rect": [-2, -11, 2, -7],
+      "y": 0
+    },
+    {
+      "id": "mid_recharge",
+      "rect": [-2, -1, 2, 2],
+      "y": 0
+    },
+    {
+      "id": "end_vault",
+      "rect": [-2, 8, 2, 11],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "relic_picked": 0,
+    "decay_timer": 0,
+    "recharged": 0,
+    "delivered": 0
+  },
+  "rules": [
+    {
+      "id": "pick_relic",
+      "when": { "enter": { "zone": "start_depot" } },
+      "once": true,
+      "do": [
+        { "set": ["relic_picked", 1] },
+        { "emit": "relic_secured" }
+      ]
+    },
+    {
+      "id": "decay_countdown",
+      "when": { "every": 1.0 },
+      "if": "relic_picked == 1 && delivered == 0",
+      "do": [
+        { "add": ["decay_timer", 1] },
+        { "emit": "timer_tick" }
+      ]
+    },
+    {
+      "id": "check_overload",
+      "when": { "event": "timer_tick" },
+      "if": "decay_timer >= 6",
+      "do": [
+        { "emit": "relic_overload" },
+        { "end": "meltdown_failed" }
+      ]
+    },
+    {
+      "id": "recharge_relic",
+      "when": { "enter": { "zone": "mid_recharge" } },
+      "if": "relic_picked == 1 && recharged == 0",
+      "once": true,
+      "do": [
+        { "set": ["recharged", 1] },
+        { "set": ["decay_timer", 0] },
+        { "emit": "relic_stabilized" }
+      ]
+    },
+    {
+      "id": "deliver_relic",
+      "when": { "enter": { "zone": "end_vault" } },
+      "if": "relic_picked == 1 && decay_timer < 6",
+      "once": true,
+      "do": [
+        { "set": ["delivered", 1] },
+        { "emit": "delivery_success" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [8, 24],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-4, -12],
+      "to": [4, -12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-4, 12],
+      "to": [4, 12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-4, -12],
+      "to": [-4, 12],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [4, -12],
+      "to": [4, 12],
+      "height": 3.0
+    },
+    {
+      "id": "relic_prop",
+      "type": "cylinder",
+      "radius": 0.3,
+      "height": 0.6,
+      "position": [0, 0.3, -8.5],
+      "collide": false,
+      "material": { "color": "#00e5ff", "emissive": "#005577" }
+    },
+    {
+      "id": "recharge_prop",
+      "type": "box",
+      "size": [1.5, 0.4, 1.5],
+      "position": [0, 0.2, 0.5],
+      "collide": false,
+      "material": { "color": "#ffaa00" }
+    },
+    {
+      "id": "vault_prop",
+      "type": "box",
+      "size": [1.5, 0.6, 1.5],
+      "position": [0, 0.3, 9.5],
+      "collide": false,
+      "material": { "color": "#00ff88" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "courier sprint with recharge to victory",
+        "players": [{ "id": "runner", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "runner", "walk": "0,-8.5; 0,0.5; 0,9.5" }
+        ],
+        "expect": [
+          { "event": "relic_secured", "count": 1 },
+          { "event": "relic_stabilized", "count": 1 },
+          { "event": "delivery_success", "count": 1 },
+          { "ended": "victory" },
+          { "var": "delivered", "eq": 1 }
+        ]
+      }
+    ]
+  }
+}

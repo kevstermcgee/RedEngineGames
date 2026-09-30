@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "fps": 30,
+    "duration": 10,
+    "resolution": [1280, 720]
+  },
+  "background": {
+    "sky_top": "#001020",
+    "sky_bottom": "#000510"
+  },
+  "ambient": {
+    "color": "#3399ff",
+    "intensity": 0.5
+  },
+  "camera": {
+    "fov": 70,
+    "position": [0, 8, -12],
+    "target": [0, 1, 0]
+  },
+  "spawns": [
+    {
+      "id": "spawn_start",
+      "position": [0, 0, 6],
+      "yaw_deg": 180
+    }
+  ],
+  "zones": [
+    {
+      "id": "station_1_pad",
+      "rect": [-5, 1, -3, 3],
+      "y": 0
+    },
+    {
+      "id": "station_2_pad",
+      "rect": [-1, 1, 1, 3],
+      "y": 0
+    },
+    {
+      "id": "station_3_pad",
+      "rect": [3, 1, 5, 3],
+      "y": 0
+    },
+    {
+      "id": "mainframe_pad",
+      "rect": [-1.5, -5.5, 1.5, -2.5],
+      "y": 0
+    }
+  ],
+  "vars": {
+    "prism_1_aligned": 0,
+    "prism_2_aligned": 0,
+    "prism_3_aligned": 0,
+    "matrix_energized": 0
+  },
+  "rules": [
+    {
+      "id": "align_prism_1",
+      "when": { "enter": { "zone": "station_1_pad" } },
+      "once": true,
+      "do": [
+        { "set": ["prism_1_aligned", 1] },
+        { "emit": "prism_1_locked" }
+      ]
+    },
+    {
+      "id": "align_prism_2",
+      "when": { "enter": { "zone": "station_2_pad" } },
+      "once": true,
+      "do": [
+        { "set": ["prism_2_aligned", 1] },
+        { "emit": "prism_2_locked" }
+      ]
+    },
+    {
+      "id": "align_prism_3",
+      "when": { "enter": { "zone": "station_3_pad" } },
+      "once": true,
+      "do": [
+        { "set": ["prism_3_aligned", 1] },
+        { "emit": "prism_3_locked" }
+      ]
+    },
+    {
+      "id": "activate_mainframe",
+      "when": { "enter": { "zone": "mainframe_pad" } },
+      "if": "prism_1_aligned == 1 && prism_2_aligned == 1 && prism_3_aligned == 1",
+      "once": true,
+      "do": [
+        { "set": ["matrix_energized", 1] },
+        { "emit": "mainframe_energized" },
+        { "end": "victory" }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "floor",
+      "type": "plane",
+      "size": [16, 16],
+      "position": [0, 0, 0]
+    },
+    {
+      "id": "wall_s",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [8, -8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_n",
+      "type": "wall",
+      "from": [-8, 8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_w",
+      "type": "wall",
+      "from": [-8, -8],
+      "to": [-8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "wall_e",
+      "type": "wall",
+      "from": [8, -8],
+      "to": [8, 8],
+      "height": 3.0
+    },
+    {
+      "id": "prism_stand_1",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [-4, 0.6, 2],
+      "collide": false,
+      "material": { "color": "#00ffff", "roughness": 0.1 }
+    },
+    {
+      "id": "prism_stand_2",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [0, 0.6, 2],
+      "collide": false,
+      "material": { "color": "#00ffff", "roughness": 0.1 }
+    },
+    {
+      "id": "prism_stand_3",
+      "type": "cylinder",
+      "radius": 0.4,
+      "height": 1.2,
+      "position": [4, 0.6, 2],
+      "collide": false,
+      "material": { "color": "#00ffff", "roughness": 0.1 }
+    },
+    {
+      "id": "mainframe_portal",
+      "type": "box",
+      "size": [2.5, 2.5, 0.6],
+      "position": [0, 1.25, -4],
+      "collide": false,
+      "material": { "color": "#ff00ff", "emissive": "#660066" }
+    }
+  ],
+  "checks": {
+    "sim": [
+      {
+        "name": "align all three prisms and power mainframe",
+        "players": [{ "id": "tech", "spawn": "spawn_start" }],
+        "script": [
+          { "player": "tech", "walk": "-4,2; 0,2; 4,2; 0,-4" }
+        ],
+        "expect": [
+          { "event": "prism_1_locked", "count": 1 },
+          { "event": "prism_2_locked", "count": 1 },
+          { "event": "prism_3_locked", "count": 1 },
+          { "event": "mainframe_energized", "count": 1 },
+          { "ended": "victory" },
+          { "var": "matrix_energized", "eq": 1 }
+        ]
+      }
+    ]
+  }
+}
