@@ -228,7 +228,7 @@
     },
     {
       "path": "tests/performance/history/great-outdoors.json",
-      "sha256": "bd4ace887e830871b7f088d81a1753c3f4473311ec838e86a039ba7335f8222e"
+      "sha256": "e573adcf74695609e805d41b0730894c1182dc105cb48a6646d16697df5c695a"
     },
     {
       "path": "tests/performance/sim.rs",
@@ -331,6 +331,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "633e9abbd688fbcbbd0a2e9dce0da34a13992f4c",
+  "source_revision": "966f63f64fc9e07401f307b74fe19561bdd7b4b3",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
