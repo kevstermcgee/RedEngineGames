@@ -1,14 +1,18 @@
 {
   "collections": {
-    "demos": 31,
+    "demos": 34,
     "games": 2,
     "prototypes": 12,
     "tests": 16
   },
   "files": [
     {
+      "path": "demos/examples/arsenal_poses.rs",
+      "sha256": "cd5369d13b21c6911c9b0b3fa2fe6d64d82e5aa44b28a05228eb2dd371a9315a"
+    },
+    {
       "path": "demos/examples/avatar_poses.rs",
-      "sha256": "22d417e93463507418d176cf9ce5c7ac4c04700f72e74a4a471d2854e0ae9a51"
+      "sha256": "574ee8d62e11e198839c8f727bc819b49c5858e05ce2e738f8c2377ec3baf535"
     },
     {
       "path": "demos/examples/bot_match.rs",
@@ -91,6 +95,10 @@
       "sha256": "c8dcfa798cdc346c7dd905765902ef2f96fe7979b3653328543c1a01dc4066ec"
     },
     {
+      "path": "demos/examples/killchain_screens.rs",
+      "sha256": "bc87df47658e35e7371f38c700a7b612edf3dd2983fc49ba4e97f808f7471095"
+    },
+    {
       "path": "demos/examples/office.json",
       "sha256": "5b3a0880a248db473efb038c8b5f2f8bfd4188b4b52482db6545f4329032c839"
     },
@@ -109,6 +117,10 @@
     {
       "path": "demos/examples/school.json",
       "sha256": "ed8f464d7f395a8c56f59e60fe7a8020d7803206f763d1abde5b671a43ac1dc6"
+    },
+    {
+      "path": "demos/examples/soldier_poses.rs",
+      "sha256": "e043b7855628118aaed85e14d1b85a1651d45a36a96c3a5584d6146ed2169fd3"
     },
     {
       "path": "demos/examples/store.json",
@@ -244,7 +256,7 @@
     },
     {
       "path": "tests/performance/sim.rs",
-      "sha256": "312dd8f61a412ebe07a1f185007d097d9bd1336dc02efe93045feb22ecdfc37d"
+      "sha256": "0e1da0763e076bceb62b764842b09f8f49d6f5dd0e6b05a014e2efc1555d150c"
     },
     {
       "path": "tests/test-lab/test_lab.json",
@@ -343,6 +355,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c5d0ae78b0832f3fa26a60a46a6d501153ac8a0c",
+  "source_revision": "a44e377756eae7b80b564cc5af83370eedf933ff",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
