@@ -1,0 +1,16 @@
+{
+  "game": 1,
+  "name": "great-outdoors",
+  "engine": {
+    "path": "../../../RedEngine"
+  },
+  "blueprints": [],
+  "maps": [
+    "maps/main.json"
+  ],
+  "server": {
+    "map": "maps/main.json",
+    "port": 27015,
+    "spawn_group": "race"
+  }
+}

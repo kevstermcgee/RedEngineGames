@@ -15,6 +15,12 @@
       "arguments": ["content/projects/gravity-gauntlet/maps/main.json"]
     },
     {
+      "slug": "great-outdoors",
+      "name": "Great Outdoors",
+      "files": ["projects/great-outdoors"],
+      "arguments": ["--host", "content/projects/great-outdoors/maps/main.json"]
+    },
+    {
       "slug": "reddm",
       "name": "RedDM",
       "files": ["projects/reddm"],
