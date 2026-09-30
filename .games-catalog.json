@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "demos/examples/avatar_poses.rs",
-      "sha256": "e9c30fcbd5bbfc4d47b4b9b8fc2fbf650ad222db6972a37dc77c105ab33d78a2"
+      "sha256": "22d417e93463507418d176cf9ce5c7ac4c04700f72e74a4a471d2854e0ae9a51"
     },
     {
       "path": "demos/examples/bot_match.rs",
@@ -228,7 +228,7 @@
     },
     {
       "path": "tests/performance/history/great-outdoors.json",
-      "sha256": "24c9712641acc2d8a135ac3735e97bfb232597f72e952219f84fdc2154037c45"
+      "sha256": "bd4ace887e830871b7f088d81a1753c3f4473311ec838e86a039ba7335f8222e"
     },
     {
       "path": "tests/performance/sim.rs",
@@ -331,6 +331,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "41e578bb63774a1603d9380557b212d12a62af68",
+  "source_revision": "8132e13eb3df816e5850a2a2a3cc3b38038c3e45",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
