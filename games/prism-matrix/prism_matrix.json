@@ -14,81 +14,367 @@
   },
   "camera": {
     "fov": 70,
-    "position": [0, 8, -12],
-    "target": [0, 1, 0]
+    "position": [0, 11, 12],
+    "target": [0, 0, 0]
+  },
+  "player": {
+    "mode": "peaceful"
   },
   "spawns": [
     {
       "id": "spawn_start",
-      "position": [0, 0, 6],
-      "yaw_deg": 180
+      "position": [-5.5, 0, 1.5],
+      "yaw_deg": 0
     }
   ],
   "zones": [
     {
-      "id": "station_1_pad",
-      "rect": [-5, 1, -3, 3],
+      "id": "ped_1",
+      "rect": [-4, -6, -2, -4],
       "y": 0
     },
     {
-      "id": "station_2_pad",
-      "rect": [-1, 1, 1, 3],
+      "id": "ped_2",
+      "rect": [-4, 0, -2, 2],
       "y": 0
     },
     {
-      "id": "station_3_pad",
-      "rect": [3, 1, 5, 3],
-      "y": 0
-    },
-    {
-      "id": "mainframe_pad",
-      "rect": [-1.5, -5.5, 1.5, -2.5],
+      "id": "ped_3",
+      "rect": [2, 0, 4, 2],
       "y": 0
     }
   ],
   "vars": {
-    "prism_1_aligned": 0,
-    "prism_2_aligned": 0,
-    "prism_3_aligned": 0,
-    "matrix_energized": 0
+    "ok1": 0,
+    "ok2": 0,
+    "ok3": 0,
+    "lit": 0
   },
   "rules": [
     {
-      "id": "align_prism_1",
-      "when": { "enter": { "zone": "station_1_pad" } },
-      "once": true,
+      "id": "start_dark",
+      "when": {
+        "start": true
+      },
       "do": [
-        { "set": ["prism_1_aligned", 1] },
-        { "emit": "prism_1_locked" }
+        {
+          "hide": "beam_1"
+        },
+        {
+          "hide": "beam_2"
+        },
+        {
+          "hide": "beam_3"
+        },
+        {
+          "hide": "target_lit"
+        }
       ]
     },
     {
-      "id": "align_prism_2",
-      "when": { "enter": { "zone": "station_2_pad" } },
-      "once": true,
+      "id": "prism_r_in",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_1"
+        },
+        "prop": "prism_r"
+      },
       "do": [
-        { "set": ["prism_2_aligned", 1] },
-        { "emit": "prism_2_locked" }
+        {
+          "set": ["ok1", 1]
+        },
+        {
+          "emit": "prism_1_seated"
+        }
       ]
     },
     {
-      "id": "align_prism_3",
-      "when": { "enter": { "zone": "station_3_pad" } },
-      "once": true,
+      "id": "prism_r_out",
+      "when": {
+        "prop_exit": {
+          "zone": "ped_1"
+        },
+        "prop": "prism_r"
+      },
       "do": [
-        { "set": ["prism_3_aligned", 1] },
-        { "emit": "prism_3_locked" }
+        {
+          "set": ["ok1", 0]
+        }
       ]
     },
     {
-      "id": "activate_mainframe",
-      "when": { "enter": { "zone": "mainframe_pad" } },
-      "if": "prism_1_aligned == 1 && prism_2_aligned == 1 && prism_3_aligned == 1",
+      "id": "prism_g_wrong_1",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_1"
+        },
+        "prop": "prism_g"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_b_wrong_1",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_1"
+        },
+        "prop": "prism_b"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_r_wrong_2",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_2"
+        },
+        "prop": "prism_r"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_g_in",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_2"
+        },
+        "prop": "prism_g"
+      },
+      "do": [
+        {
+          "set": ["ok2", 1]
+        },
+        {
+          "emit": "prism_2_seated"
+        }
+      ]
+    },
+    {
+      "id": "prism_g_out",
+      "when": {
+        "prop_exit": {
+          "zone": "ped_2"
+        },
+        "prop": "prism_g"
+      },
+      "do": [
+        {
+          "set": ["ok2", 0]
+        }
+      ]
+    },
+    {
+      "id": "prism_b_wrong_2",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_2"
+        },
+        "prop": "prism_b"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_r_wrong_3",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_3"
+        },
+        "prop": "prism_r"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_g_wrong_3",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_3"
+        },
+        "prop": "prism_g"
+      },
+      "do": [
+        {
+          "emit": "wrong_prism"
+        }
+      ]
+    },
+    {
+      "id": "prism_b_in",
+      "when": {
+        "prop_enter": {
+          "zone": "ped_3"
+        },
+        "prop": "prism_b"
+      },
+      "do": [
+        {
+          "set": ["ok3", 1]
+        },
+        {
+          "emit": "prism_3_seated"
+        }
+      ]
+    },
+    {
+      "id": "prism_b_out",
+      "when": {
+        "prop_exit": {
+          "zone": "ped_3"
+        },
+        "prop": "prism_b"
+      },
+      "do": [
+        {
+          "set": ["ok3", 0]
+        }
+      ]
+    },
+    {
+      "id": "beam_1_on",
+      "when": {
+        "every": 0.25
+      },
+      "if": "ok1 == 1",
+      "do": [
+        {
+          "show": "beam_1"
+        }
+      ]
+    },
+    {
+      "id": "beam_1_off",
+      "when": {
+        "every": 0.25
+      },
+      "if": "!(ok1 == 1)",
+      "do": [
+        {
+          "hide": "beam_1"
+        }
+      ]
+    },
+    {
+      "id": "beam_2_on",
+      "when": {
+        "every": 0.25
+      },
+      "if": "ok1 == 1 && ok2 == 1",
+      "do": [
+        {
+          "show": "beam_2"
+        }
+      ]
+    },
+    {
+      "id": "beam_2_off",
+      "when": {
+        "every": 0.25
+      },
+      "if": "!(ok1 == 1 && ok2 == 1)",
+      "do": [
+        {
+          "hide": "beam_2"
+        }
+      ]
+    },
+    {
+      "id": "beam_3_on",
+      "when": {
+        "every": 0.25
+      },
+      "if": "ok1 == 1 && ok2 == 1 && ok3 == 1",
+      "do": [
+        {
+          "show": "beam_3"
+        }
+      ]
+    },
+    {
+      "id": "beam_3_off",
+      "when": {
+        "every": 0.25
+      },
+      "if": "!(ok1 == 1 && ok2 == 1 && ok3 == 1)",
+      "do": [
+        {
+          "hide": "beam_3"
+        }
+      ]
+    },
+    {
+      "id": "target_on",
+      "when": {
+        "every": 0.25
+      },
+      "if": "ok1 == 1 && ok2 == 1 && ok3 == 1",
+      "do": [
+        {
+          "show": "target_lit"
+        },
+        {
+          "add": ["lit", 1]
+        }
+      ]
+    },
+    {
+      "id": "target_off",
+      "when": {
+        "every": 0.25
+      },
+      "if": "!(ok1 == 1 && ok2 == 1 && ok3 == 1)",
+      "do": [
+        {
+          "hide": "target_lit"
+        },
+        {
+          "set": ["lit", 0]
+        }
+      ]
+    },
+    {
+      "id": "win",
+      "when": {
+        "every": 0.25
+      },
+      "if": "lit >= 8",
       "once": true,
       "do": [
-        { "set": ["matrix_energized", 1] },
-        { "emit": "mainframe_energized" },
-        { "end": "victory" }
+        {
+          "emit": "mainframe_energized"
+        },
+        {
+          "end": "victory"
+        }
+      ]
+    },
+    {
+      "id": "timeout",
+      "when": {
+        "after": 180
+      },
+      "do": [
+        {
+          "end": "timeout"
+        }
       ]
     }
   ],
@@ -96,88 +382,427 @@
     {
       "id": "floor",
       "type": "plane",
-      "size": [16, 16],
+      "size": [18, 18],
       "position": [0, 0, 0]
     },
     {
       "id": "wall_s",
       "type": "wall",
-      "from": [-8, -8],
-      "to": [8, -8],
+      "from": [-9, -9],
+      "to": [9, -9],
       "height": 3.0
     },
     {
       "id": "wall_n",
       "type": "wall",
-      "from": [-8, 8],
-      "to": [8, 8],
+      "from": [-9, 9],
+      "to": [9, 9],
       "height": 3.0
     },
     {
       "id": "wall_w",
       "type": "wall",
-      "from": [-8, -8],
-      "to": [-8, 8],
+      "from": [-9, -9],
+      "to": [-9, 9],
       "height": 3.0
     },
     {
       "id": "wall_e",
       "type": "wall",
-      "from": [8, -8],
-      "to": [8, 8],
+      "from": [9, -9],
+      "to": [9, 9],
       "height": 3.0
     },
     {
-      "id": "prism_stand_1",
-      "type": "cylinder",
-      "radius": 0.4,
-      "height": 1.2,
-      "position": [-4, 0.6, 2],
-      "collide": false,
-      "material": { "color": "#00ffff", "roughness": 0.1 }
-    },
-    {
-      "id": "prism_stand_2",
-      "type": "cylinder",
-      "radius": 0.4,
-      "height": 1.2,
-      "position": [0, 0.6, 2],
-      "collide": false,
-      "material": { "color": "#00ffff", "roughness": 0.1 }
-    },
-    {
-      "id": "prism_stand_3",
-      "type": "cylinder",
-      "radius": 0.4,
-      "height": 1.2,
-      "position": [4, 0.6, 2],
-      "collide": false,
-      "material": { "color": "#00ffff", "roughness": 0.1 }
-    },
-    {
-      "id": "mainframe_portal",
+      "id": "source",
       "type": "box",
-      "size": [2.5, 2.5, 0.6],
-      "position": [0, 1.25, -4],
+      "size": [0.6, 1.0, 0.6],
+      "position": [-7.4, 0.5, -5],
+      "material": {
+        "color": "#ff2030",
+        "emissive": "#801018"
+      }
+    },
+    {
+      "id": "target",
+      "type": "box",
+      "size": [1.4, 1.4, 0.4],
+      "position": [3, 0.7, 6.5],
       "collide": false,
-      "material": { "color": "#ff00ff", "emissive": "#660066" }
+      "material": {
+        "color": "#333333",
+        "emissive": "#000000"
+      }
+    },
+    {
+      "id": "target_lit",
+      "type": "box",
+      "size": [1.4, 1.4, 0.4],
+      "position": [3, 0.7, 6.5],
+      "collide": false,
+      "material": {
+        "color": "#ffffff",
+        "emissive": "#ffd030"
+      }
+    },
+    {
+      "id": "beam_0",
+      "type": "box",
+      "size": [4.1, 0.1, 0.1],
+      "position": [-5.0, 1.3, -5.0],
+      "collide": false,
+      "material": {
+        "color": "#ffffff",
+        "emissive": "#ff2030"
+      }
+    },
+    {
+      "id": "beam_1",
+      "type": "box",
+      "size": [0.1, 0.1, 6.1],
+      "position": [-3.0, 1.3, -2.0],
+      "collide": false,
+      "material": {
+        "color": "#ffffff",
+        "emissive": "#ff2030"
+      }
+    },
+    {
+      "id": "beam_2",
+      "type": "box",
+      "size": [6.1, 0.1, 0.1],
+      "position": [0.0, 1.3, 1.0],
+      "collide": false,
+      "material": {
+        "color": "#ffffff",
+        "emissive": "#ff2030"
+      }
+    },
+    {
+      "id": "beam_3",
+      "type": "box",
+      "size": [0.1, 0.1, 5.1],
+      "position": [3.0, 1.3, 3.5],
+      "collide": false,
+      "material": {
+        "color": "#ffffff",
+        "emissive": "#ff2030"
+      }
+    },
+    {
+      "id": "ped_1_plate",
+      "type": "box",
+      "size": [1.6, 0.05, 1.6],
+      "position": [-3, 0.025, -5],
+      "collide": false,
+      "material": {
+        "color": "#ff4455",
+        "emissive": "#ff4455"
+      }
+    },
+    {
+      "id": "ped_2_plate",
+      "type": "box",
+      "size": [1.6, 0.05, 1.6],
+      "position": [-3, 0.025, 1],
+      "collide": false,
+      "material": {
+        "color": "#44ff88",
+        "emissive": "#44ff88"
+      }
+    },
+    {
+      "id": "ped_3_plate",
+      "type": "box",
+      "size": [1.6, 0.05, 1.6],
+      "position": [3, 0.025, 1],
+      "collide": false,
+      "material": {
+        "color": "#4488ff",
+        "emissive": "#4488ff"
+      }
+    },
+    {
+      "id": "prism_r",
+      "type": "cylinder",
+      "radius": 0.22,
+      "height": 0.6,
+      "position": [-7, 0.3, 4],
+      "movable": true,
+      "material": {
+        "color": "#ff4455",
+        "emissive": "#ff4455",
+        "roughness": 0.1
+      }
+    },
+    {
+      "id": "prism_g",
+      "type": "cylinder",
+      "radius": 0.22,
+      "height": 0.6,
+      "position": [-5.5, 0.3, 4],
+      "movable": true,
+      "material": {
+        "color": "#44ff88",
+        "emissive": "#44ff88",
+        "roughness": 0.1
+      }
+    },
+    {
+      "id": "prism_b",
+      "type": "cylinder",
+      "radius": 0.22,
+      "height": 0.6,
+      "position": [-4, 0.3, 4],
+      "movable": true,
+      "material": {
+        "color": "#4488ff",
+        "emissive": "#4488ff",
+        "roughness": 0.1
+      }
     }
   ],
   "checks": {
     "sim": [
       {
-        "name": "align all three prisms and power mainframe",
-        "players": [{ "id": "tech", "spawn": "spawn_start" }],
-        "script": [
-          { "player": "tech", "walk": "-4,2; 0,2; 4,2; 0,-4" }
+        "name": "seat all three prisms and the beam reaches the target",
+        "players": [
+          {
+            "id": "p1",
+            "character": "human",
+            "spawn": "spawn_start"
+          }
         ],
+        "script": [
+          {
+            "player": "p1",
+            "walk": "-7,2.7"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-7, 0.3, 4],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-7, 0.3, 4],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-3,-4.1"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, -5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, -5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "-5.5,2.7"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-5.5, 0.3, 4],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-5.5, 0.3, 4],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-3,1.9"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, 1],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, 1],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "-4,2.7"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4, 0.3, 4],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4, 0.3, 4],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "3,1.9"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [3, 0.0, 1],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [3, 0.0, 1],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "wait": 3.0
+          }
+        ],
+        "max_seconds": 90,
         "expect": [
-          { "event": "prism_1_locked", "count": 1 },
-          { "event": "prism_2_locked", "count": 1 },
-          { "event": "prism_3_locked", "count": 1 },
-          { "event": "mainframe_energized", "count": 1 },
-          { "ended": "victory" },
-          { "var": "matrix_energized", "eq": 1 }
+          {
+            "event": "prism_1_seated",
+            "min": 1
+          },
+          {
+            "event": "prism_2_seated",
+            "min": 1
+          },
+          {
+            "event": "prism_3_seated",
+            "min": 1
+          },
+          {
+            "shown": "beam_3"
+          },
+          {
+            "event": "mainframe_energized",
+            "count": 1
+          },
+          {
+            "ended": "victory"
+          }
+        ]
+      },
+      {
+        "name": "the wrong prism on a pedestal does not pass the beam",
+        "players": [
+          {
+            "id": "p1",
+            "character": "human",
+            "spawn": "spawn_start"
+          }
+        ],
+        "script": [
+          {
+            "player": "p1",
+            "walk": "-7,2.7"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-7, 0.3, 4],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-7, 0.3, 4],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-3,1.9"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, 1],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.0, 1],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "wait": 1.0
+          }
+        ],
+        "max_seconds": 60,
+        "expect": [
+          {
+            "event": "wrong_prism",
+            "min": 1
+          },
+          {
+            "hidden": "beam_1"
+          },
+          {
+            "hidden": "beam_2"
+          },
+          {
+            "not_ended": true
+          }
         ]
       }
     ]

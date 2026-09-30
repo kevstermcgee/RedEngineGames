@@ -5,75 +5,146 @@
     "resolution": [1280, 720]
   },
   "background": {
-    "sky_top": "#1a2510",
-    "sky_bottom": "#0a1005"
+    "sky_top": "#101826",
+    "sky_bottom": "#05080f"
   },
   "ambient": {
-    "color": "#88aa44",
-    "intensity": 0.5
+    "color": "#aabbdd",
+    "intensity": 0.6
   },
   "camera": {
     "fov": 70,
-    "position": [0, 8, -12],
-    "target": [0, 1, 0]
+    "position": [0, 9, 10],
+    "target": [0, 0, 0]
+  },
+  "player": {
+    "mode": "peaceful"
   },
   "spawns": [
     {
       "id": "spawn_start",
-      "position": [0, 0, -6],
-      "yaw_deg": 0
+      "position": [0, 0, 6],
+      "yaw_deg": 180
     }
   ],
   "zones": [
     {
-      "id": "scale_left",
-      "rect": [-5, -2, -3, 2],
+      "id": "pan_left",
+      "rect": [-6, -4, -3, -1],
       "y": 0
     },
     {
-      "id": "scale_right",
-      "rect": [3, -2, 5, 2],
-      "y": 0
-    },
-    {
-      "id": "exit_gate_zone",
-      "rect": [-1.5, 4, 1.5, 7],
+      "id": "pan_right",
+      "rect": [3, -4, 6, -1],
       "y": 0
     }
   ],
   "vars": {
-    "weight_left": 0,
-    "weight_right": 0,
-    "balanced": 0
+    "left_w": 0,
+    "right_w": 0,
+    "hold": 0
   },
   "rules": [
     {
-      "id": "load_left_scale",
-      "when": { "enter": { "zone": "scale_left" } },
-      "once": true,
+      "id": "weigh_left",
+      "when": {
+        "every": 0.25
+      },
       "do": [
-        { "add": ["weight_left", 2] },
-        { "emit": "left_scale_loaded" }
+        {
+          "set": ["left_w", "in_zone(crate_a, pan_left) * mass(crate_a) + in_zone(crate_b, pan_left) * mass(crate_b) + in_zone(crate_c, pan_left) * mass(crate_c) + in_zone(crate_d, pan_left) * mass(crate_d)"]
+        }
       ]
     },
     {
-      "id": "load_right_scale",
-      "when": { "enter": { "zone": "scale_right" } },
-      "once": true,
+      "id": "weigh_right",
+      "when": {
+        "every": 0.25
+      },
       "do": [
-        { "add": ["weight_right", 2] },
-        { "emit": "right_scale_loaded" }
+        {
+          "set": ["right_w", "in_zone(crate_a, pan_right) * mass(crate_a) + in_zone(crate_b, pan_right) * mass(crate_b) + in_zone(crate_c, pan_right) * mass(crate_c) + in_zone(crate_d, pan_right) * mass(crate_d)"]
+        }
       ]
     },
     {
-      "id": "release_counterweight_gate",
-      "when": { "enter": { "zone": "exit_gate_zone" } },
-      "if": "weight_left == 2 && weight_right == 2",
+      "id": "left_loaded",
+      "when": {
+        "prop_enter": {
+          "zone": "pan_left"
+        }
+      },
+      "do": [
+        {
+          "emit": "left_loaded"
+        }
+      ]
+    },
+    {
+      "id": "right_loaded",
+      "when": {
+        "prop_enter": {
+          "zone": "pan_right"
+        }
+      },
+      "do": [
+        {
+          "emit": "right_loaded"
+        }
+      ]
+    },
+    {
+      "id": "hold_on",
+      "when": {
+        "every": 0.5
+      },
+      "if": "left_w > 0 && right_w > 0 && left_w - right_w < 0.05 * (left_w + right_w) && right_w - left_w < 0.05 * (left_w + right_w)",
+      "do": [
+        {
+          "add": ["hold", 1]
+        }
+      ]
+    },
+    {
+      "id": "hold_off",
+      "when": {
+        "every": 0.5
+      },
+      "if": "!(left_w > 0 && right_w > 0 && left_w - right_w < 0.05 * (left_w + right_w) && right_w - left_w < 0.05 * (left_w + right_w))",
+      "do": [
+        {
+          "set": ["hold", 0]
+        }
+      ]
+    },
+    {
+      "id": "win",
+      "when": {
+        "every": 0.5
+      },
+      "if": "hold >= 4",
       "once": true,
       "do": [
-        { "set": ["balanced", 1] },
-        { "emit": "equilibrium_achieved" },
-        { "end": "victory" }
+        {
+          "emit": "equilibrium_achieved"
+        },
+        {
+          "end": "victory"
+        }
+      ]
+    },
+    {
+      "id": "timeout",
+      "when": {
+        "after": 150
+      },
+      "do": [
+        {
+          "emit": "scale_jammed"
+        },
+        {
+          "end": "timeout"
+        }
       ]
     }
   ],
@@ -113,44 +184,396 @@
       "height": 3.0
     },
     {
-      "id": "platform_left_mesh",
+      "id": "pan_left_plate",
       "type": "box",
-      "size": [2.0, 0.2, 3.5],
-      "position": [-4, 0.1, 0],
+      "size": [3, 0.06, 3],
+      "position": [-4.5, 0.03, -2.5],
       "collide": false,
-      "material": { "color": "#ccaa22" }
+      "material": {
+        "color": "#8899aa",
+        "roughness": 0.4
+      }
     },
     {
-      "id": "platform_right_mesh",
+      "id": "pan_right_plate",
       "type": "box",
-      "size": [2.0, 0.2, 3.5],
-      "position": [4, 0.1, 0],
+      "size": [3, 0.06, 3],
+      "position": [4.5, 0.03, -2.5],
       "collide": false,
-      "material": { "color": "#ccaa22" }
+      "material": {
+        "color": "#8899aa",
+        "roughness": 0.4
+      }
     },
     {
-      "id": "counterweight_gate_mesh",
-      "type": "box",
-      "size": [3.0, 3.0, 0.4],
-      "position": [0, 1.5, 5.5],
-      "collide": false,
-      "material": { "color": "#4488ff" }
+      "id": "crate_a",
+      "type": "prop",
+      "prop": "crate",
+      "position": [-3, 0, 3.0],
+      "scale": [0.8, 0.8, 0.8],
+      "movable": true,
+      "material": {
+        "color": "#ffb56b"
+      }
+    },
+    {
+      "id": "crate_b",
+      "type": "prop",
+      "prop": "crate",
+      "position": [-1, 0, 3.0],
+      "scale": [1.0, 1.0, 1.0],
+      "movable": true,
+      "material": {
+        "color": "#6bb5ff"
+      }
+    },
+    {
+      "id": "crate_c",
+      "type": "prop",
+      "prop": "crate",
+      "position": [1, 0, 3.0],
+      "scale": [1.15, 1.15, 1.15],
+      "movable": true,
+      "material": {
+        "color": "#b56bff"
+      }
+    },
+    {
+      "id": "crate_d",
+      "type": "prop",
+      "prop": "crate",
+      "position": [3, 0, 3.0],
+      "scale": [1.3, 1.3, 1.3],
+      "movable": true,
+      "material": {
+        "color": "#6bffb5"
+      }
     }
   ],
   "checks": {
     "sim": [
       {
-        "name": "balance scales and pass counterweight gate",
-        "players": [{ "id": "worker", "spawn": "spawn_start" }],
-        "script": [
-          { "player": "worker", "walk": "-4,0; 4,0; 0,5.5" }
+        "name": "split the crates into a matching pair of loads",
+        "players": [
+          {
+            "id": "p1",
+            "character": "human",
+            "spawn": "spawn_start"
+          }
         ],
+        "script": [
+          {
+            "player": "p1",
+            "walk": "-3,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "3,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [3, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [3, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "-1,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-1, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-1, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "1,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [1, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [1, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "wait": 3.5
+          }
+        ],
+        "max_seconds": 90,
         "expect": [
-          { "event": "left_scale_loaded", "count": 1 },
-          { "event": "right_scale_loaded", "count": 1 },
-          { "event": "equilibrium_achieved", "count": 1 },
-          { "ended": "victory" },
-          { "var": "balanced", "eq": 1 }
+          {
+            "event": "equilibrium_achieved",
+            "count": 1
+          },
+          {
+            "ended": "victory"
+          },
+          {
+            "prop": "crate_a",
+            "in_zone": "pan_left"
+          },
+          {
+            "prop": "crate_d",
+            "in_zone": "pan_left"
+          },
+          {
+            "prop": "crate_b",
+            "in_zone": "pan_right"
+          },
+          {
+            "prop": "crate_c",
+            "in_zone": "pan_right"
+          }
+        ]
+      },
+      {
+        "name": "a lopsided load does not win",
+        "players": [
+          {
+            "id": "p1",
+            "character": "human",
+            "spawn": "spawn_start"
+          }
+        ],
+        "script": [
+          {
+            "player": "p1",
+            "walk": "-3,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-3, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "walk": "-1,1.8"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-1, 0.3, 3.0],
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-1, 0.3, 3.0],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "walk": "-4.5,-0.8999999999999999"
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "seconds": 0.3
+            }
+          },
+          {
+            "player": "p1",
+            "hold": {
+              "look_at": [-4.5, 0.0, -2.5],
+              "interact": true,
+              "seconds": 0.2
+            }
+          },
+          {
+            "player": "p1",
+            "wait": 0.6
+          },
+          {
+            "player": "p1",
+            "wait": 4.0
+          }
+        ],
+        "max_seconds": 60,
+        "expect": [
+          {
+            "not_ended": true
+          },
+          {
+            "var": "hold",
+            "eq": 0
+          },
+          {
+            "var": "right_w",
+            "eq": 0
+          }
         ]
       }
     ]

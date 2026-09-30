@@ -51,51 +51,91 @@
   "rules": [
     {
       "id": "tick_bomb",
-      "when": { "every": 1.0 },
+      "when": {
+        "every": 1.0
+      },
       "if": "bomb_defused == 0",
       "do": [
-        { "add": ["countdown", -1] },
-        { "emit": "bomb_tick" }
+        {
+          "add": ["countdown", -1]
+        },
+        {
+          "emit": "bomb_tick"
+        }
       ]
     },
     {
       "id": "detonate_bomb",
-      "when": { "event": "bomb_tick" },
+      "when": {
+        "event": "bomb_tick"
+      },
       "if": "countdown <= 0 && bomb_defused == 0",
       "do": [
-        { "emit": "detonation_failed" },
-        { "end": "explosion_defeat" }
+        {
+          "emit": "detonation_failed"
+        },
+        {
+          "end": "explosion_defeat"
+        }
       ]
     },
     {
       "id": "cut_wire_alpha",
-      "when": { "enter": { "zone": "pad_alpha" } },
+      "when": {
+        "enter": {
+          "zone": "pad_alpha"
+        }
+      },
       "once": true,
       "do": [
-        { "set": ["defused_alpha", 1] },
-        { "emit": "wire_alpha_cut" }
+        {
+          "set": ["defused_alpha", 1]
+        },
+        {
+          "emit": "wire_alpha_cut"
+        }
       ]
     },
     {
       "id": "cut_wire_beta",
-      "when": { "enter": { "zone": "pad_beta" } },
+      "when": {
+        "enter": {
+          "zone": "pad_beta"
+        }
+      },
       "if": "defused_alpha == 1",
       "once": true,
       "do": [
-        { "set": ["defused_beta", 1] },
-        { "emit": "wire_beta_cut" }
+        {
+          "set": ["defused_beta", 1]
+        },
+        {
+          "emit": "wire_beta_cut"
+        }
       ]
     },
     {
       "id": "cut_wire_gamma",
-      "when": { "enter": { "zone": "pad_gamma" } },
+      "when": {
+        "enter": {
+          "zone": "pad_gamma"
+        }
+      },
       "if": "defused_alpha == 1 && defused_beta == 1",
       "once": true,
       "do": [
-        { "set": ["defused_gamma", 1] },
-        { "set": ["bomb_defused", 1] },
-        { "emit": "defusal_success" },
-        { "end": "victory" }
+        {
+          "set": ["defused_gamma", 1]
+        },
+        {
+          "set": ["bomb_defused", 1]
+        },
+        {
+          "emit": "defusal_success"
+        },
+        {
+          "end": "victory"
+        }
       ]
     }
   ],
@@ -140,7 +180,9 @@
       "size": [1.0, 1.5, 0.8],
       "position": [-5, 0.75, 3],
       "collide": false,
-      "material": { "color": "#ff2222" }
+      "material": {
+        "color": "#ff2222"
+      }
     },
     {
       "id": "station_beta_prop",
@@ -148,7 +190,9 @@
       "size": [1.0, 1.5, 0.8],
       "position": [0, 0.75, -4],
       "collide": false,
-      "material": { "color": "#2222ff" }
+      "material": {
+        "color": "#2222ff"
+      }
     },
     {
       "id": "station_gamma_prop",
@@ -156,7 +200,9 @@
       "size": [1.0, 1.5, 0.8],
       "position": [5, 0.75, 3],
       "collide": false,
-      "material": { "color": "#ffff22" }
+      "material": {
+        "color": "#ffff22"
+      }
     },
     {
       "id": "central_bomb_core",
@@ -165,23 +211,114 @@
       "height": 1.2,
       "position": [0, 0.6, 0],
       "collide": true,
-      "material": { "color": "#111111", "emissive": "#ff0000" }
+      "material": {
+        "color": "#111111",
+        "emissive": "#ff0000"
+      }
     }
   ],
   "checks": {
     "sim": [
       {
         "name": "defuse bomb in rapid sequence",
-        "players": [{ "id": "sapper", "spawn": "spawn_start" }],
+        "players": [
+          {
+            "id": "sapper",
+            "spawn": "spawn_start"
+          }
+        ],
         "script": [
-          { "player": "sapper", "walk": "-5,3; 0,-4; 5,3" }
+          {
+            "player": "sapper",
+            "walk": "-5,3; 0,-4; 5,3"
+          }
         ],
         "expect": [
-          { "event": "wire_alpha_cut", "count": 1 },
-          { "event": "wire_beta_cut", "count": 1 },
-          { "event": "defusal_success", "count": 1 },
-          { "ended": "victory" },
-          { "var": "bomb_defused", "eq": 1 }
+          {
+            "event": "wire_alpha_cut",
+            "count": 1
+          },
+          {
+            "event": "wire_beta_cut",
+            "count": 1
+          },
+          {
+            "event": "defusal_success",
+            "count": 1
+          },
+          {
+            "ended": "victory"
+          },
+          {
+            "var": "bomb_defused",
+            "eq": 1
+          }
+        ]
+      },
+      {
+        "name": "freezing at the start lets the countdown detonate",
+        "players": [
+          {
+            "id": "sapper",
+            "spawn": "spawn_start"
+          }
+        ],
+        "script": [
+          {
+            "player": "sapper",
+            "wait": 10
+          }
+        ],
+        "max_seconds": 20,
+        "expect": [
+          {
+            "event": "detonation_failed",
+            "count": 1
+          },
+          {
+            "ended": "explosion_defeat"
+          },
+          {
+            "var": "bomb_defused",
+            "eq": 0
+          }
+        ]
+      },
+      {
+        "name": "cutting the wires out of order does not defuse",
+        "players": [
+          {
+            "id": "sapper",
+            "spawn": "spawn_start"
+          }
+        ],
+        "script": [
+          {
+            "player": "sapper",
+            "walk": "5,3; 0,-4; -5,3; 0,-4"
+          },
+          {
+            "player": "sapper",
+            "wait": 10
+          }
+        ],
+        "max_seconds": 30,
+        "expect": [
+          {
+            "ended": "explosion_defeat"
+          },
+          {
+            "var": "defused_beta",
+            "eq": 0
+          },
+          {
+            "var": "defused_gamma",
+            "eq": 0
+          },
+          {
+            "var": "bomb_defused",
+            "eq": 0
+          }
         ]
       }
     ]

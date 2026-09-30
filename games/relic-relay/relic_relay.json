@@ -50,51 +50,91 @@
   "rules": [
     {
       "id": "pick_relic",
-      "when": { "enter": { "zone": "start_depot" } },
+      "when": {
+        "enter": {
+          "zone": "start_depot"
+        }
+      },
       "once": true,
       "do": [
-        { "set": ["relic_picked", 1] },
-        { "emit": "relic_secured" }
+        {
+          "set": ["relic_picked", 1]
+        },
+        {
+          "emit": "relic_secured"
+        }
       ]
     },
     {
       "id": "decay_countdown",
-      "when": { "every": 1.0 },
+      "when": {
+        "every": 1.0
+      },
       "if": "relic_picked == 1 && delivered == 0",
       "do": [
-        { "add": ["decay_timer", 1] },
-        { "emit": "timer_tick" }
+        {
+          "add": ["decay_timer", 1]
+        },
+        {
+          "emit": "timer_tick"
+        }
       ]
     },
     {
       "id": "check_overload",
-      "when": { "event": "timer_tick" },
+      "when": {
+        "event": "timer_tick"
+      },
       "if": "decay_timer >= 6",
       "do": [
-        { "emit": "relic_overload" },
-        { "end": "meltdown_failed" }
+        {
+          "emit": "relic_overload"
+        },
+        {
+          "end": "meltdown_failed"
+        }
       ]
     },
     {
       "id": "recharge_relic",
-      "when": { "enter": { "zone": "mid_recharge" } },
+      "when": {
+        "enter": {
+          "zone": "mid_recharge"
+        }
+      },
       "if": "relic_picked == 1 && recharged == 0",
       "once": true,
       "do": [
-        { "set": ["recharged", 1] },
-        { "set": ["decay_timer", 0] },
-        { "emit": "relic_stabilized" }
+        {
+          "set": ["recharged", 1]
+        },
+        {
+          "set": ["decay_timer", 0]
+        },
+        {
+          "emit": "relic_stabilized"
+        }
       ]
     },
     {
       "id": "deliver_relic",
-      "when": { "enter": { "zone": "end_vault" } },
+      "when": {
+        "enter": {
+          "zone": "end_vault"
+        }
+      },
       "if": "relic_picked == 1 && decay_timer < 6",
       "once": true,
       "do": [
-        { "set": ["delivered", 1] },
-        { "emit": "delivery_success" },
-        { "end": "victory" }
+        {
+          "set": ["delivered", 1]
+        },
+        {
+          "emit": "delivery_success"
+        },
+        {
+          "end": "victory"
+        }
       ]
     }
   ],
@@ -140,7 +180,10 @@
       "height": 0.6,
       "position": [0, 0.3, -8.5],
       "collide": false,
-      "material": { "color": "#00e5ff", "emissive": "#005577" }
+      "material": {
+        "color": "#00e5ff",
+        "emissive": "#005577"
+      }
     },
     {
       "id": "recharge_prop",
@@ -148,7 +191,9 @@
       "size": [1.5, 0.4, 1.5],
       "position": [0, 0.2, 0.5],
       "collide": false,
-      "material": { "color": "#ffaa00" }
+      "material": {
+        "color": "#ffaa00"
+      }
     },
     {
       "id": "vault_prop",
@@ -156,23 +201,80 @@
       "size": [1.5, 0.6, 1.5],
       "position": [0, 0.3, 9.5],
       "collide": false,
-      "material": { "color": "#00ff88" }
+      "material": {
+        "color": "#00ff88"
+      }
     }
   ],
   "checks": {
     "sim": [
       {
         "name": "courier sprint with recharge to victory",
-        "players": [{ "id": "runner", "spawn": "spawn_start" }],
+        "players": [
+          {
+            "id": "runner",
+            "spawn": "spawn_start"
+          }
+        ],
         "script": [
-          { "player": "runner", "walk": "0,-8.5; 0,0.5; 0,9.5" }
+          {
+            "player": "runner",
+            "walk": "0,-8.5; 0,0.5; 0,9.5"
+          }
         ],
         "expect": [
-          { "event": "relic_secured", "count": 1 },
-          { "event": "relic_stabilized", "count": 1 },
-          { "event": "delivery_success", "count": 1 },
-          { "ended": "victory" },
-          { "var": "delivered", "eq": 1 }
+          {
+            "event": "relic_secured",
+            "count": 1
+          },
+          {
+            "event": "relic_stabilized",
+            "count": 1
+          },
+          {
+            "event": "delivery_success",
+            "count": 1
+          },
+          {
+            "ended": "victory"
+          },
+          {
+            "var": "delivered",
+            "eq": 1
+          }
+        ]
+      },
+      {
+        "name": "dawdling at the depot melts the relic down",
+        "players": [
+          {
+            "id": "runner",
+            "spawn": "spawn_start"
+          }
+        ],
+        "script": [
+          {
+            "player": "runner",
+            "walk": "0,-8.5"
+          },
+          {
+            "player": "runner",
+            "wait": 9
+          }
+        ],
+        "max_seconds": 30,
+        "expect": [
+          {
+            "event": "relic_overload",
+            "count": 1
+          },
+          {
+            "ended": "meltdown_failed"
+          },
+          {
+            "var": "delivered",
+            "eq": 0
+          }
         ]
       }
     ]
