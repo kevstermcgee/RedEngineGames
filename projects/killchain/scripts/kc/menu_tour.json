@@ -1,0 +1,12 @@
+{"size":[1280,720],"secs":12,"out":"out/kc/menu","pace_ms":5,"steps":[
+ {"at":0.5,"do":"shot","name":"01-home"},
+ {"at":1.0,"do":"click","id":"solo"},
+ {"at":1.5,"do":"shot","name":"02-solo"},
+ {"at":2.0,"do":"screen","name":"stats"},
+ {"at":2.5,"do":"shot","name":"03-stats"},
+ {"at":3.0,"do":"screen","name":"join"},
+ {"at":3.5,"do":"shot","name":"04-join"},
+ {"at":4.0,"do":"screen","name":"host"},
+ {"at":4.5,"do":"shot","name":"05-host"},
+ {"at":5.0,"do":"quit"}
+]}

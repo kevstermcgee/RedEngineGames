@@ -185,6 +185,12 @@
       "arguments": [
         "content/games/target-gallery/target_gallery.json"
       ]
+    },
+    {
+      "slug": "killchain",
+      "name": "Killchain",
+      "files": ["projects/killchain"],
+      "arguments": ["content/projects/killchain/maps/main.json"]
     }
   ],
   "native_playables": []
