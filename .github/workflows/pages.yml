@@ -1,0 +1,63 @@
+name: Deploy download site
+
+# The release workflow publishes with GITHUB_TOKEN, whose events do not
+# trigger `release:` workflows — so chain on the workflow run itself.
+on:
+  workflow_run:
+    workflows: ["Build Windows releases"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - site/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # site/generate.py derives each game's added-date from history
+
+      - name: Fetch the latest release catalog
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo "$GITHUB_REPOSITORY" \
+            --pattern 'RedEngineLauncher-catalog.tsv' --pattern 'SHA256SUMS.txt' \
+            --dir /tmp/release
+          gh release view --repo "$GITHUB_REPOSITORY" \
+            --json assets --jq '[.assets[] | {name, size}]' > /tmp/release/sizes.json
+
+      - name: Generate the site
+        run: |
+          python3 site/generate.py \
+            --catalog /tmp/release/RedEngineLauncher-catalog.tsv \
+            --sums /tmp/release/SHA256SUMS.txt \
+            --sizes /tmp/release/sizes.json
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

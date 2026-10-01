@@ -3,7 +3,9 @@
 Games, prototypes, test content, and demos produced with
 [RedEngine](https://github.com/kevstermcgee/RedEngine).
 
-**[Download ready-to-play Windows builds](../../releases/latest).** Extract a ZIP
+**[Browse and download the games on the web](https://kevstermcgee.github.io/RedEngineGames/)**
+or grab the ZIPs straight from the
+**[latest release](../../releases/latest)**. Extract a ZIP
 and double-click its `Play-*.exe` launcher; no Rust toolchain or command line is
 required. The executables are not code-signed, so Windows may show a SmartScreen
 warning.

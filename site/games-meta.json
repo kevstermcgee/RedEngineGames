@@ -1,0 +1,15 @@
+{
+  "_comment": "Hand-maintained extras per catalog slug. `online` is a short note shown with an 'online multiplayer' badge. Never put server addresses or join keys here.",
+  "great-outdoors": {
+    "online": "Hosted kart racing for up to 8 players. Joining a shared server needs the host's address and join key — ask the host."
+  },
+  "reddm": {
+    "online": "Online FPS deathmatch. One player hosts, the others join."
+  },
+  "riftraze": {
+    "online": "Online arena FPS. One player hosts, the others join."
+  },
+  "killchain": {
+    "online": "Online FPS. One player hosts, the others join."
+  }
+}
