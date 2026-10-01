@@ -12,6 +12,7 @@ Usage: python3 site/gen_thumbs.py [--engine PATH_TO_red_engine2] [--only SLUG]
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -73,16 +74,26 @@ def main() -> int:
         r = render(args.engine, scene, out)
         if r.returncode != 0:
             # Projects pin their own engine revisions, so gameplay blocks
-            # (rules expressions, removed weapon keys) can fail validation on
-            # the rendering engine. They don't affect a static frame — `frame`
-            # ignores rule state — so retry with them stripped.
+            # (rules expressions, removed or not-yet-known fields) can fail
+            # validation on the rendering engine. They don't affect a static
+            # frame — `frame` ignores rule state — so retry with them
+            # stripped, then keep dropping whichever top-level field the
+            # validator names ("foo: unknown field", "foo: the ... was
+            # removed") until it renders or stops naming one.
             scene_data = json.loads(scene.read_text())
             for key in ("rules", "weapons", "checks"):
                 scene_data.pop(key, None)
             # Next to the original so relative asset references still resolve.
             tmp = scene.with_name(scene.stem + ".__thumbtmp.json")
-            tmp.write_text(json.dumps(scene_data))
-            r = render(args.engine, tmp, out)
+            for _ in range(8):
+                tmp.write_text(json.dumps(scene_data))
+                r = render(args.engine, tmp, out)
+                if r.returncode == 0:
+                    break
+                m = re.search(r"error: ([A-Za-z0-9_]+)(?:\.[A-Za-z0-9_.]+)?:", r.stderr)
+                if not m or m.group(1) not in scene_data:
+                    break
+                scene_data.pop(m.group(1))
             tmp.unlink()
         if r.returncode != 0 or not out.exists():
             print(f"FAIL {slug}: {r.stderr.strip().splitlines()[-1] if r.stderr else r.returncode}")
