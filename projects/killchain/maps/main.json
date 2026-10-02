@@ -200,14 +200,14 @@
  "player": {
   "fov": 90,
   "walk_speed": 4.6,
-  "sprint_speed": 4.6,
+  "sprint_speed": 7.0,
   "crouch_multiplier": 0.45,
   "jump_speed": 5.0,
   "gravity": 15.0,
   "acceleration": 38,
   "air_acceleration": 10,
   "friction": 10,
-  "max_speed": 4.8
+  "max_speed": 7.2
  },
  "music": false,
  "combat": {

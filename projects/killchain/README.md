@@ -2,7 +2,7 @@
 
 A first-person team deathmatch for friends, built on [RedEngine](https://github.com/kevstermcgee/RedEngine). Two teams of six,
 **Ridgeback** (army green and tan) against **Nightfall** (navy and black), fight over **Ironworks**, a steel works with a dead foundry in the
-middle, freight yards on each side, warehouses and office roofs on the lanes. No music, no radio: footsteps, gunfire, wind and far-off machines.
+middle, freight yards on each side, warehouses and office roofs on the lanes. No music, no radio: gunfire, wind and far-off machines. Footstep playback is disabled.
 
 ## Play
 
@@ -26,20 +26,23 @@ choose **PLAY AGAIN** or **HOME SCREEN**. Dying shows an 8 second **killcam**: t
 | Fire | left mouse | right trigger |
 | Aim down sights / scope (grenades: underhand) | right mouse (scopes: click cycles zoom) | left trigger |
 | Jump | Space | A |
+| Sprint (hold, forward) | Shift | left stick click |
 | Crouch (hold) | Ctrl or C | B |
 | Reload | R | X |
 | Use / pick up | E | Y |
 | Drop weapon | G | Y while crouching |
 | Weapon slots (1 primary, 2 secondary, 3 knife, 4 grenades) | 1 2 3 4 | D-pad up, right, left, down |
 | Previous / next weapon | mouse wheel | LB / RB |
-| Last weapon | Q | left stick click |
+| Last weapon | Q | |
 | Scoreboard | hold Tab | Back |
 | Pause | Esc | Start |
-| Fullscreen | F11 | |
+| Fullscreen | F or F11 | |
 
 Field of view is 90 degrees (horizontal). Walking over a weapon picks it up if you have a free slot; **E** swaps it for the gun in hand. You hold
 two guns, one melee weapon and up to two grenades; every gun keeps its own magazine and reserve, and dropped guns keep what is left in them.
 Ammunition crates top up every gun you carry.
+Walking is 4.6 m/s and sprinting is 7.0 m/s before weapon weight; aiming or crouching returns you to the slower pace.
+Open optics (including the Rook) show an illuminated cross when fully aimed, and magnified scopes keep their cross and range marks.
 
 ## Weapons (31)
 

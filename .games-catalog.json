@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "demos/examples/arsenal_poses.rs",
-      "sha256": "cd5369d13b21c6911c9b0b3fa2fe6d64d82e5aa44b28a05228eb2dd371a9315a"
+      "sha256": "b553192f09541b1d51530e6bccc22d62444539b4bfa33a48a71e4eb3ee866442"
     },
     {
       "path": "demos/examples/avatar_poses.rs",
@@ -355,6 +355,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "8d9895adff6b829be75df60cdcc04c74acddfaeb",
+  "source_revision": "ff7193d06a6f81730f8bd0f1245bd10a0b744225",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
