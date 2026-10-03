@@ -2,7 +2,7 @@
   "collections": {
     "demos": 34,
     "games": 2,
-    "prototypes": 12,
+    "prototypes": 13,
     "tests": 16
   },
   "files": [
@@ -161,6 +161,10 @@
     {
       "path": "prototypes/recipes/convenience_store.json",
       "sha256": "0986443f78358124fda99a3fb6fb8e0e75985e30126e9272389b50edad67e740"
+    },
+    {
+      "path": "prototypes/recipes/gated_garden.json",
+      "sha256": "326ecfbb344d519bf2e1527500045fcf54d04d8739c67337170418b0c10f32b0"
     },
     {
       "path": "prototypes/recipes/golden/classroom_wing/class.png",
@@ -355,6 +359,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "b4b7dcaa48fab3084a297c07aae46f45b3868204",
+  "source_revision": "0d0f98865dcc59553e9bede50fbadf8fb9aa044f",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
