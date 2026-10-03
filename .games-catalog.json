@@ -144,7 +144,7 @@
     },
     {
       "path": "games/coin-run/coin_run.json",
-      "sha256": "5c779b018013b0efaa5c7841c7f5e035b0ec0a7dda08852db2966f2336f08e81"
+      "sha256": "98b2777013c17fbd335161dc0af087999cd3e71df1201aa0c08ebc611ba783a8"
     },
     {
       "path": "games/prop-hunt/prop_hunt_yard.json",
@@ -156,7 +156,7 @@
     },
     {
       "path": "prototypes/recipes/coin_run.json",
-      "sha256": "5c779b018013b0efaa5c7841c7f5e035b0ec0a7dda08852db2966f2336f08e81"
+      "sha256": "98b2777013c17fbd335161dc0af087999cd3e71df1201aa0c08ebc611ba783a8"
     },
     {
       "path": "prototypes/recipes/convenience_store.json",
@@ -359,6 +359,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0d0f98865dcc59553e9bede50fbadf8fb9aa044f",
+  "source_revision": "1d2fd30d020c1f6b8392f7ea4e5c43461bb60b02",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
