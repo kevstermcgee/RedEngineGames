@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 35,
+    "demos": 36,
     "games": 2,
     "prototypes": 13,
     "tests": 16
@@ -21,6 +21,10 @@
     {
       "path": "demos/examples/day_cycle.json",
       "sha256": "84a16a0dc0bce5cb67bab5fdce6d4b2a29d63626d74c15f1cc5e4ad6bc3d3586"
+    },
+    {
+      "path": "demos/examples/endless_meadow.json",
+      "sha256": "63a6fce959f32997294923607dccd52bbc9352e94a32272f13008d30d191e087"
     },
     {
       "path": "demos/examples/endless_shore.json",
@@ -363,6 +367,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "89b9a502724dee1e1864aab92c74e5d399c932f9",
+  "source_revision": "9f217355fb3f66322e4fb80fbe072417afddec36",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
