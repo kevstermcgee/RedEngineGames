@@ -24,7 +24,7 @@
     },
     {
       "path": "demos/examples/endless_meadow.json",
-      "sha256": "63a6fce959f32997294923607dccd52bbc9352e94a32272f13008d30d191e087"
+      "sha256": "d141848dc4fd70ca5958da97a8374da0ee01cae185813d07651536e446f47a61"
     },
     {
       "path": "demos/examples/endless_shore.json",
@@ -367,6 +367,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "9f217355fb3f66322e4fb80fbe072417afddec36",
+  "source_revision": "5d30b2f6fd3cfb8eecfb28d1a0be43360fbf909e",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
