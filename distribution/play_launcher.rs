@@ -200,10 +200,13 @@ mod os {
 
 /// Looks for a newer version; true when an update was started (the installer takes over and restarts the game, so this process should end).
 fn offer_update(cfg: &Config, save: &Path) -> bool {
-    if cfg.update_url.is_empty() {
+    // `RE2_UPDATE_URL` points the check somewhere else and `RE2_UPDATE_ANSWER` (update, no, skip) answers the question: how the release pipeline tests the whole
+    // update path on a runner with nobody to click.
+    let url = std::env::var("RE2_UPDATE_URL").unwrap_or_else(|_| cfg.update_url.clone());
+    if url.is_empty() {
         return false;
     }
-    let Some(json) = os::run("curl.exe", &["-fsSL", "--max-time", "4", &cfg.update_url]) else { return false };
+    let Some(json) = os::run("curl.exe", &["-fsSL", "--max-time", "4", &url]) else { return false };
     let Some(latest) = json_value(&json, "version").and_then(|v| v.parse::<u64>().ok()) else { return false };
     let skipped_file = save.join("update-skipped.txt");
     let skipped = fs::read_to_string(&skipped_file).ok().and_then(|t| t.trim().parse::<u64>().ok());
@@ -215,7 +218,13 @@ fn offer_update(cfg: &Config, save: &Path) -> bool {
         "Version {latest} of {} is available (you have version {}).{news}\n\nYes: update now (your saved games are kept)\nNo: not now\nCancel: skip this version",
         cfg.name, cfg.version
     );
-    match os::offer(&cfg.name, &ask) {
+    let choice = match std::env::var("RE2_UPDATE_ANSWER").as_deref() {
+        Ok("update") => Choice::Update,
+        Ok("skip") => Choice::Skip,
+        Ok(_) => Choice::NotNow,
+        Err(_) => os::offer(&cfg.name, &ask),
+    };
+    match choice {
         Choice::NotNow => false,
         Choice::Skip => {
             let _ = fs::create_dir_all(save);

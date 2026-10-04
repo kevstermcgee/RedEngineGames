@@ -129,6 +129,12 @@ jobs:
         shell: bash
         run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --launcher "$RUNNER_TEMP/Play.exe" --out dist
 
+      - name: Smoke-test the install, in-place update and uninstall on this runner
+        shell: pwsh
+        run: |
+          $first = (Get-Content plan.json -Raw | ConvertFrom-Json).games[0]
+          ./distribution/smoke_install.ps1 -Installer "dist/assets/$($first.slug)-$($first.version)-setup.exe" -Slug $first.slug -Name $first.name
+
       - name: Sign the installers (when a certificate is configured)
         shell: pwsh
         run: ./distribution/sign.ps1 (Get-ChildItem dist/assets/*-setup.exe).FullName
