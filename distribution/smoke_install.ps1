@@ -57,6 +57,14 @@ try {
     Start-Process (Join-Path $app "Play-$Slug.exe") -WorkingDirectory $app
     $deadline = (Get-Date).AddSeconds(90)
     while ((Test-Path (Join-Path $app 'content\stale.txt')) -and (Get-Date) -lt $deadline) { Start-Sleep -Seconds 2 }
+    if (Test-Path (Join-Path $app 'content\stale.txt')) {
+        Write-Output '--- the update did not happen; what the machine says:'
+        Write-Output "launcher-error.txt: $(Get-Content (Join-Path $app 'launcher-error.txt') -ErrorAction SilentlyContinue)"
+        Write-Output "play.cfg: $(Get-Content (Join-Path $app 'play.cfg') -Raw)"
+        & "$env:SystemRoot\System32\curl.exe" -sv --max-time 5 http://127.0.0.1:8099/latest.json 2>&1 | Write-Output
+        Get-Process | Where-Object { $_.Name -match 'Play|setup|RedEngine|curl|python' } | Format-Table Name, Id, StartTime | Out-String | Write-Output
+        Get-ChildItem (Join-Path $env:TEMP 'RedEngineGames') -ErrorAction SilentlyContinue | Out-String | Write-Output
+    }
     Check (-not (Test-Path (Join-Path $app 'content\stale.txt'))) 'the game downloaded, verified and installed the newer version by itself'
     Check ((Get-Content (Join-Path $saves 'progress.txt')) -eq 'day 12') 'saves survive the in-game update too'
 }
