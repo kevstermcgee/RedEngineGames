@@ -60,6 +60,8 @@ try {
     if (Test-Path (Join-Path $app 'content\stale.txt')) {
         Write-Output '--- the update did not happen; what the machine says:'
         Write-Output "launcher-error.txt: $(Get-Content (Join-Path $app 'launcher-error.txt') -ErrorAction SilentlyContinue)"
+        Write-Output "launcher.log: $(Get-Content (Join-Path $saves 'launcher.log') -Raw -ErrorAction SilentlyContinue)"
+        Write-Output "setup.log (tail): $(Get-Content (Join-Path $env:TEMP 'RedEngineGames\setup.log') -Tail 25 -ErrorAction SilentlyContinue | Out-String)"
         Write-Output "play.cfg: $(Get-Content (Join-Path $app 'play.cfg') -Raw)"
         & "$env:SystemRoot\System32\curl.exe" -sv --max-time 5 http://127.0.0.1:8099/latest.json 2>&1 | Write-Output
         Get-Process | Where-Object { $_.Name -match 'Play|setup|RedEngine|curl|python' } | Format-Table Name, Id, StartTime | Out-String | Write-Output

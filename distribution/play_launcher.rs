@@ -198,6 +198,18 @@ mod os {
     }
 }
 
+/// Appends a line to `launcher.log` in the save folder (what the updater did and why), so "it did not update" can be answered from a file. Kept small.
+fn log(save: &Path, line: &str) {
+    use std::io::Write;
+    let path = save.join("launcher.log");
+    if fs::metadata(&path).map(|m| m.len() > 64 * 1024).unwrap_or(false) {
+        let _ = fs::remove_file(&path);
+    }
+    if let Ok(mut file) = fs::OpenOptions::new().create(true).append(true).open(path) {
+        let _ = writeln!(file, "{line}");
+    }
+}
+
 /// Looks for a newer version; true when an update was started (the installer takes over and restarts the game, so this process should end).
 fn offer_update(cfg: &Config, save: &Path) -> bool {
     // `RE2_UPDATE_URL` points the check somewhere else and `RE2_UPDATE_ANSWER` (update, no, skip) answers the question: how the release pipeline tests the whole
@@ -206,8 +218,15 @@ fn offer_update(cfg: &Config, save: &Path) -> bool {
     if url.is_empty() {
         return false;
     }
-    let Some(json) = os::run("curl.exe", &["-fsSL", "--max-time", "4", &url]) else { return false };
-    let Some(latest) = json_value(&json, "version").and_then(|v| v.parse::<u64>().ok()) else { return false };
+    let Some(json) = os::run("curl.exe", &["-fsSL", "--max-time", "4", &url]) else {
+        log(save, &format!("update check: {url} could not be read"));
+        return false;
+    };
+    let Some(latest) = json_value(&json, "version").and_then(|v| v.parse::<u64>().ok()) else {
+        log(save, "update check: the answer has no version");
+        return false;
+    };
+    log(save, &format!("update check: installed version {}, newest {latest}", cfg.version));
     let skipped_file = save.join("update-skipped.txt");
     let skipped = fs::read_to_string(&skipped_file).ok().and_then(|t| t.trim().parse::<u64>().ok());
     if !worth_offering(latest, cfg.version, skipped) {
@@ -235,9 +254,10 @@ fn offer_update(cfg: &Config, save: &Path) -> bool {
             os::open(&cfg.page_url);
             true
         }
-        Choice::Update => match install(&json) {
+        Choice::Update => match install(&json, save) {
             Ok(()) => true,
             Err(e) => {
+                log(save, &format!("update failed: {e}"));
                 os::tell(&cfg.name, &format!("The update could not be installed ({e}). The game will start as it is; you can download the new version from {}.", cfg.page_url));
                 false
             }
@@ -246,7 +266,7 @@ fn offer_update(cfg: &Config, save: &Path) -> bool {
 }
 
 /// Downloads the installer named in `json`, checks its SHA-256, and starts it silently; it replaces this game in place and starts it again.
-fn install(json: &str) -> Result<(), String> {
+fn install(json: &str, save: &Path) -> Result<(), String> {
     let url = json_value(json, "installer").ok_or("the update has no installer")?;
     let want = json_value(json, "sha256").ok_or("the update has no checksum")?.to_lowercase();
     let folder = std::env::temp_dir().join("RedEngineGames");
@@ -255,14 +275,18 @@ fn install(json: &str) -> Result<(), String> {
     let file_text = file.to_string_lossy().into_owned();
     os::run("curl.exe", &["-fsSL", "--max-time", "600", "-o", &file_text, &url]).ok_or("the download failed")?;
     let got = os::run("certutil.exe", &["-hashfile", &file_text, "SHA256"]).and_then(|o| parse_certutil(&o));
+    log(save, &format!("update: downloaded {file_text}; checksum {got:?}, expected {want}"));
     if got.as_deref() != Some(want.as_str()) {
         let _ = fs::remove_file(&file);
         return Err("the download did not match its checksum".into());
     }
+    let setup_log = folder.join("setup.log");
     Command::new(&file)
         .args(["/SILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CLOSEAPPLICATIONS"])
+        .arg(format!("/LOG={}", setup_log.display()))
         .spawn()
         .map_err(|e| format!("cannot start the installer: {e}"))?;
+    log(save, "update: installer started");
     Ok(())
 }
 
