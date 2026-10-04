@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 36,
+    "demos": 40,
     "games": 2,
     "prototypes": 13,
     "tests": 16
@@ -24,7 +24,7 @@
     },
     {
       "path": "demos/examples/endless_meadow.json",
-      "sha256": "d141848dc4fd70ca5958da97a8374da0ee01cae185813d07651536e446f47a61"
+      "sha256": "29ef0abc30a533dadbbfac2e1f114c904fc7bf35a35cd05291a56943844d6fb8"
     },
     {
       "path": "demos/examples/endless_shore.json",
@@ -105,6 +105,22 @@
     {
       "path": "demos/examples/killchain_screens.rs",
       "sha256": "bc87df47658e35e7371f38c700a7b612edf3dd2983fc49ba4e97f808f7471095"
+    },
+    {
+      "path": "demos/examples/marcel/audio/marcel_dawn.json",
+      "sha256": "c547b6b5ca4d9119d6848c4c2eb43c64c7e3835068bafe8f609c84a7935ae416"
+    },
+    {
+      "path": "demos/examples/marcel/audio/marcel_day.json",
+      "sha256": "828402b998463a87ad6bd9dff94baac313d97cffee0ca15f354e043b142db615"
+    },
+    {
+      "path": "demos/examples/marcel/audio/marcel_dusk.json",
+      "sha256": "bb6b7a4e66c8fbd4ca517d9031b54b1078beae5f408a5cc039ce041148643b3d"
+    },
+    {
+      "path": "demos/examples/marcel/audio/marcel_night.json",
+      "sha256": "3a5fa66756e95c12276fecccc5930a48f46feac241653c8410c63b802b23d88e"
     },
     {
       "path": "demos/examples/office.json",
@@ -367,6 +383,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "5d30b2f6fd3cfb8eecfb28d1a0be43360fbf909e",
+  "source_revision": "bc90d93d911d33e6934d9054001787a832b189b6",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
