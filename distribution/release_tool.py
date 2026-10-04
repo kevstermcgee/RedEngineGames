@@ -280,8 +280,8 @@ def compile_installer(entry: dict, stage: Path, out_dir: Path, work: Path) -> Pa
         f'#define VersionInfo "1.0.0.{min(entry["version"], 65535)}"',
         f'#define Publisher "{CONFIG["publisher"]}"',
         f'#define SiteUrl "{CONFIG["site_url"]}games/{entry["slug"]}/"',
-        f'#define StageDir "{stage}"',
-        f'#define OutDir "{out_dir}"',
+        f'#define StageDir "{stage.resolve()}"',
+        f'#define OutDir "{out_dir.resolve()}"',
         f'#define OutName "{base}"',
         "",
     ])
