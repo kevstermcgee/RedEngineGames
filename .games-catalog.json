@@ -1,7 +1,7 @@
 {
   "collections": {
     "demos": 42,
-    "games": 2,
+    "games": 8,
     "prototypes": 13,
     "tests": 16
   },
@@ -179,6 +179,30 @@
       "sha256": "98b2777013c17fbd335161dc0af087999cd3e71df1201aa0c08ebc611ba783a8"
     },
     {
+      "path": "games/marcel/README.md",
+      "sha256": "c05aa567ca86f5f4f358d607270d2a76711300c45ba6a8c4985db1a0533437b0"
+    },
+    {
+      "path": "games/marcel/audio/marcel_dawn.json",
+      "sha256": "c547b6b5ca4d9119d6848c4c2eb43c64c7e3835068bafe8f609c84a7935ae416"
+    },
+    {
+      "path": "games/marcel/audio/marcel_day.json",
+      "sha256": "828402b998463a87ad6bd9dff94baac313d97cffee0ca15f354e043b142db615"
+    },
+    {
+      "path": "games/marcel/audio/marcel_dusk.json",
+      "sha256": "bb6b7a4e66c8fbd4ca517d9031b54b1078beae5f408a5cc039ce041148643b3d"
+    },
+    {
+      "path": "games/marcel/audio/marcel_night.json",
+      "sha256": "3a5fa66756e95c12276fecccc5930a48f46feac241653c8410c63b802b23d88e"
+    },
+    {
+      "path": "games/marcel/marcel.json",
+      "sha256": "07281c350aa0eebece7e5950a5c5a000ee87284089370e324b261fa26620eed3"
+    },
+    {
       "path": "games/prop-hunt/prop_hunt_yard.json",
       "sha256": "ad5aa91a8b0961584a6a599f9e43780b9d6edec13511cae5d05ecd3efa07efcb"
     },
@@ -324,6 +348,17 @@
     },
     {
       "arguments": [
+        "content/games/marcel/marcel.json"
+      ],
+      "entry": "games/marcel/marcel.json",
+      "files": [
+        "games/marcel"
+      ],
+      "name": "Marcel",
+      "slug": "marcel"
+    },
+    {
+      "arguments": [
         "content/tests/test-lab/test_lab.json"
       ],
       "entry": "tests/test-lab/test_lab.json",
@@ -391,6 +426,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "23013e2c5897d3ee28a7e74aaf394ef648eb64a6",
+  "source_revision": "a302b5cfe8eaa55be2145aa4bfe6920aba19e5bd",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
