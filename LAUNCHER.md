@@ -1,3 +1,5 @@
+> **Superseded.** Games are now installed with per-game installers that update themselves, and every version is listed on the website. See [docs/DISTRIBUTION.md](docs/DISTRIBUTION.md). This launcher still works but only knows the builds released before that change.
+
 # RedEngine Launcher
 
 `RedEngineLauncher.exe` automatically lists every first-level game under `games/`

@@ -3,12 +3,10 @@
 Games, prototypes, test content, and demos produced with
 [RedEngine](https://github.com/kevstermcgee/RedEngine).
 
-**[Browse and download the games on the web](https://kevstermcgee.github.io/RedEngineGames/)**
-or grab the ZIPs straight from the
-**[latest release](../../releases/latest)**. Extract a ZIP
-and double-click its `Play-*.exe` launcher; no Rust toolchain or command line is
-required. The executables are not code-signed, so Windows may show a SmartScreen
-warning.
+**[Browse and install the games on the web](https://kevstermcgee.github.io/RedEngineGames/)**:
+each game has an installer (no administrator rights, optional desktop shortcut), updates itself when a new version is
+released, keeps its saves in `Saved Games`, and every older version stays downloadable. How it works, and code signing:
+[docs/DISTRIBUTION.md](docs/DISTRIBUTION.md).
 
 - `games/` contains playable game scenes.
 - `projects/` contains standalone game projects that pin a sibling RedEngine checkout.
