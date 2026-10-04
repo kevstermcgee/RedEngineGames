@@ -128,7 +128,7 @@
     },
     {
       "path": "demos/examples/marcel/marcel.json",
-      "sha256": "07281c350aa0eebece7e5950a5c5a000ee87284089370e324b261fa26620eed3"
+      "sha256": "64ad29260eec18c8242b9208d43469c59d0ad79f79643447e73e350faf3305fb"
     },
     {
       "path": "demos/examples/office.json",
@@ -200,7 +200,7 @@
     },
     {
       "path": "games/marcel/marcel.json",
-      "sha256": "07281c350aa0eebece7e5950a5c5a000ee87284089370e324b261fa26620eed3"
+      "sha256": "64ad29260eec18c8242b9208d43469c59d0ad79f79643447e73e350faf3305fb"
     },
     {
       "path": "games/prop-hunt/prop_hunt_yard.json",
@@ -426,6 +426,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0c8d1015ee14ccded22b5b57cdc5c9aa9a945af3",
+  "source_revision": "fbe26342a9ad10dabfbe527604287833dfae8ba4",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
