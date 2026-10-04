@@ -39,4 +39,4 @@ Windows SmartScreen warns about any installer that is not signed with a certific
 * `distribution/play_launcher.rs`: the in-game launcher and updater, no dependencies (`rustc --test` runs its tests).
 * `distribution/installer.iss`: the Inno Setup script. `distribution/sign.ps1`: signing hook. `distribution/config.json`: repository and site address.
 * `site/generate.py`: the website, `games/<slug>/latest.json` and `catalog.json`.
-* The old *RedEngine Launcher* (`launcher/`, `LAUNCHER.md`) is not fed any more: it reads the last bundle release and is kept only for people who already have it.
+* The old *RedEngine Launcher* (a desktop app that listed the ZIP bundles) was removed; the website and the installers replace it.

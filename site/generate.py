@@ -27,7 +27,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "distribution"))
 import release_tool as rt  # noqa: E402
 
-PALETTE = json.loads((REPO / ".launcher-config.json").read_text())
+PALETTE = json.loads((REPO / "site" / "palette.json").read_text())
 CONFIG = rt.CONFIG
 LEGACY_TAG = re.compile(r"^redengine-([0-9a-f]{7,40})$")
 e = html.escape
