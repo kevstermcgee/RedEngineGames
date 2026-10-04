@@ -11,7 +11,9 @@ $Installer = (Resolve-Path $Installer).Path
 $app = Join-Path $env:RUNNER_TEMP "smoke-$Slug"
 $saves = Join-Path $env:USERPROFILE "Saved Games\$Name"
 function Check($ok, $what) { if (-not $ok) { throw "SMOKE FAILED: $what" } else { Write-Output "ok: $what" } }
-function Install { param([string]$Exe) $p = Start-Process $Exe -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/DIR=`"$app`"", "/TASKS=desktopicon" -Wait -PassThru; Check ($p.ExitCode -eq 0) "installer exit code $($p.ExitCode)" }
+# Not `Start-Process -Wait`: that waits for every descendant too, and the installer starts the game as its last act.
+function Run-ToEnd { param([string]$Exe, [string[]]$Arguments) $p = Start-Process $Exe -ArgumentList $Arguments -PassThru; if (-not $p.WaitForExit(240000)) { $p.Kill(); throw "SMOKE FAILED: $Exe did not finish in four minutes" }; return $p.ExitCode }
+function Install { param([string]$Exe) $code = Run-ToEnd $Exe @("/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/DIR=`"$app`"", "/TASKS=desktopicon"); Check ($code -eq 0) "installer exit code $code" }
 function StopGame { Get-Process -Name RedEngine -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 1 }
 
 Remove-Item $app, $saves -Recurse -Force -ErrorAction SilentlyContinue
@@ -68,8 +70,8 @@ StopGame
 
 # 5. uninstall leaves the saves (silent uninstall does not ask)
 $unins = Get-ChildItem $app -Filter 'unins*.exe' | Select-Object -First 1
-$p = Start-Process $unins.FullName -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART' -Wait -PassThru
-Check ($p.ExitCode -eq 0) 'the uninstaller ran'
+$code = Run-ToEnd $unins.FullName @('/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART')
+Check ($code -eq 0) 'the uninstaller ran'
 Start-Sleep -Seconds 2
 Check (-not (Test-Path (Join-Path $app "Play-$Slug.exe"))) 'the game is gone after uninstall'
 Check (Test-Path (Join-Path $saves 'progress.txt')) 'the saves are still there after uninstall'
