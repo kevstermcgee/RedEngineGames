@@ -108,7 +108,7 @@
     },
     {
       "path": "demos/examples/marcel/README.md",
-      "sha256": "c05aa567ca86f5f4f358d607270d2a76711300c45ba6a8c4985db1a0533437b0"
+      "sha256": "4abd6b0e506d3fd821ea2432a5da4f79f760108153dc6fd9c44bca00ef04577c"
     },
     {
       "path": "demos/examples/marcel/audio/marcel_dawn.json",
@@ -128,7 +128,7 @@
     },
     {
       "path": "demos/examples/marcel/marcel.json",
-      "sha256": "59a0743b11cd4b1b6dc9ce15ff7c75899042c088e40d32e18076afd79646dae0"
+      "sha256": "a48b944f22c14db63e8543d8ecf83a1aa71f351ab14251a94fd9474648487000"
     },
     {
       "path": "demos/examples/office.json",
@@ -180,7 +180,7 @@
     },
     {
       "path": "games/marcel/README.md",
-      "sha256": "c05aa567ca86f5f4f358d607270d2a76711300c45ba6a8c4985db1a0533437b0"
+      "sha256": "4abd6b0e506d3fd821ea2432a5da4f79f760108153dc6fd9c44bca00ef04577c"
     },
     {
       "path": "games/marcel/audio/marcel_dawn.json",
@@ -200,7 +200,7 @@
     },
     {
       "path": "games/marcel/marcel.json",
-      "sha256": "59a0743b11cd4b1b6dc9ce15ff7c75899042c088e40d32e18076afd79646dae0"
+      "sha256": "a48b944f22c14db63e8543d8ecf83a1aa71f351ab14251a94fd9474648487000"
     },
     {
       "path": "games/prop-hunt/prop_hunt_yard.json",
@@ -426,6 +426,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "a79c4c96d9010494db90a799230191f3d23fcef5",
+  "source_revision": "d1982503262e08a9cb56c07d1d1b036c2f675f9a",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
