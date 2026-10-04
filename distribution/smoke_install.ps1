@@ -14,7 +14,8 @@ function Check($ok, $what) { if (-not $ok) { throw "SMOKE FAILED: $what" } else 
 # Not `Start-Process -Wait`: that waits for every descendant too, and the installer starts the game as its last act.
 function Run-ToEnd { param([string]$Exe, [string[]]$Arguments) $p = Start-Process $Exe -ArgumentList $Arguments -PassThru; if (-not $p.WaitForExit(240000)) { $p.Kill(); throw "SMOKE FAILED: $Exe did not finish in four minutes" }; return $p.ExitCode }
 function Install { param([string]$Exe) $code = Run-ToEnd $Exe @("/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/DIR=`"$app`"", "/TASKS=desktopicon"); Check ($code -eq 0) "installer exit code $code" }
-function StopGame { Get-Process -Name RedEngine -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 1 }
+# The installer's last act is to start the game, a moment after it exits: stop it until it stays stopped, so a running game cannot hold files in the next step.
+function StopGame { for ($i = 0; $i -lt 4; $i++) { Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'RedEngine' -or $_.Name -like 'Play-*' } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 } }
 
 Remove-Item $app, $saves -Recurse -Force -ErrorAction SilentlyContinue
 
