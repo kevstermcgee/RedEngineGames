@@ -10,6 +10,7 @@ on:
     branches: [main]
     paths:
       - site/**
+      - distribution/**
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -31,22 +32,13 @@ jobs:
         with:
           fetch-depth: 0 # site/generate.py derives each game's added-date from history
 
-      - name: Fetch the latest release catalog
+      - name: Fetch every release (the record of every version)
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download --repo "$GITHUB_REPOSITORY" \
-            --pattern 'RedEngineLauncher-catalog.tsv' --pattern 'SHA256SUMS.txt' \
-            --dir /tmp/release
-          gh release view --repo "$GITHUB_REPOSITORY" \
-            --json assets --jq '[.assets[] | {name, size}]' > /tmp/release/sizes.json
+        run: gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
 
       - name: Generate the site
-        run: |
-          python3 site/generate.py \
-            --catalog /tmp/release/RedEngineLauncher-catalog.tsv \
-            --sums /tmp/release/SHA256SUMS.txt \
-            --sizes /tmp/release/sizes.json
+        run: python3 site/generate.py --releases releases.json
 
       - uses: actions/upload-pages-artifact@v4
         with:

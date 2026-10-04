@@ -1,18 +1,30 @@
 name: Build Windows releases
 
+# Each game is released on its own: a new version (a permanent GitHub Release tagged <slug>-vN with an installer and a portable ZIP) only when that game's content
+# changed. See docs/DISTRIBUTION.md.
 on:
   push:
     branches: [main]
     paths:
       - .games-catalog.json
       - .release-games.json
-      - .launcher-config.json
       - projects/**
-      - launcher/**
-      - Install-RedEngineLauncher.*
-      - .github/scripts/**
+      - distribution/**
       - .github/workflows/releases.yml
   workflow_dispatch:
+    inputs:
+      force:
+        description: Release every game again, even if unchanged (an engine refresh)
+        type: boolean
+        default: false
+      only:
+        description: Only these game slugs (space separated); empty means all that changed
+        type: string
+        default: ''
+      dry_run:
+        description: Build everything but publish nothing (the files are attached to the run)
+        type: boolean
+        default: false
 
 concurrency:
   group: redenginegames-windows-release
@@ -22,57 +34,124 @@ permissions:
   contents: write
 
 jobs:
-  windows:
-    runs-on: windows-latest
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      count: ${{ steps.plan.outputs.count }}
+      engine_revision: ${{ steps.plan.outputs.engine_revision }}
     steps:
-      - name: Check out the games catalog
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # the plan reads history to say what changed in each game
 
-      - name: Read source revision
-        id: catalog
-        shell: pwsh
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Test the release tool and the in-game launcher
         run: |
-          $catalog = Get-Content -Raw .games-catalog.json | ConvertFrom-Json
-          $short = $catalog.source_revision.Substring(0, 12)
-          "source_repository=$($catalog.source_repository)" >> $env:GITHUB_OUTPUT
-          "source_revision=$($catalog.source_revision)" >> $env:GITHUB_OUTPUT
-          "tag=redengine-$short" >> $env:GITHUB_OUTPUT
-          "title=RedEngine playable builds ($short)" >> $env:GITHUB_OUTPUT
+          python3 -m unittest discover -s distribution
+          rustc --edition 2021 --test distribution/play_launcher.rs -o "$RUNNER_TEMP/play_launcher_test"
+          "$RUNNER_TEMP/play_launcher_test"
+
+      - name: Decide which games need a new version
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
+          ONLY: ${{ inputs.only }}
+        run: |
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
+          args=()
+          [ "$FORCE" = "true" ] && args+=(--force)
+          [ -n "$ONLY" ] && args+=(--only $ONLY)
+          python3 distribution/release_tool.py plan --releases releases.json --out plan.json "${args[@]}"
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p = json.load(open("plan.json"))
+          print(f"count={len(p['games'])}")
+          print(f"engine_revision={p['engine_revision']}")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plan
+          path: plan.json
+
+  build:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: windows-latest
+    env:
+      SIGN_PFX_BASE64: ${{ secrets.SIGN_PFX_BASE64 }}
+      SIGN_PFX_PASSWORD: ${{ secrets.SIGN_PFX_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: plan
 
       - name: Check out the exact RedEngine source
         uses: actions/checkout@v7
         with:
-          repository: ${{ steps.catalog.outputs.source_repository }}
-          ref: ${{ steps.catalog.outputs.source_revision }}
+          repository: kevstermcgee/RedEngine
+          ref: ${{ needs.plan.outputs.engine_revision }}
           path: _engine
           persist-credentials: false
 
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: _engine
 
       - name: Build RedEngine for Windows
         working-directory: _engine
         run: cargo build --release --locked --bin re2
 
-      - name: Package playable downloads
-        shell: pwsh
-        run: .github/scripts/package_releases.ps1 -EngineExe _engine/target/release/re2.exe -EngineName RedEngine.exe -ProductName RedEngine
+      - name: Build the in-game launcher
+        shell: bash
+        run: rustc --edition 2021 -O distribution/play_launcher.rs -o "$RUNNER_TEMP/Play.exe"
 
-      - name: Package RedEngine Launcher
-        shell: pwsh
-        run: .github/scripts/package_launcher.ps1 -OutputName RedEngineLauncher
+      - name: Install Inno Setup and Pillow
+        shell: bash
+        run: |
+          if ! command -v iscc >/dev/null && [ ! -f "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" ]; then
+            choco install innosetup --no-progress -y
+          fi
+          python -m pip install --quiet pillow
 
-      - name: Create or update the GitHub Release
+      - name: Sign the engine and the launcher (when a certificate is configured)
         shell: pwsh
+        run: ./distribution/sign.ps1 _engine/target/release/re2.exe "$env:RUNNER_TEMP/Play.exe"
+
+      - name: Stage, zip and compile the installers
+        shell: bash
+        run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --launcher "$RUNNER_TEMP/Play.exe" --out dist
+
+      - name: Sign the installers (when a certificate is configured)
+        shell: pwsh
+        run: ./distribution/sign.ps1 (Get-ChildItem dist/assets/*-setup.exe).FullName
+
+      - name: Describe the releases
+        shell: bash
+        run: |
+          signed=""
+          [ -n "$SIGN_PFX_BASE64" ] && signed="--signed"
+          python distribution/release_tool.py finalize --plan plan.json --out dist $signed
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: releases
+          path: |
+            dist/assets
+            dist/bodies
+            dist/SHA256SUMS.txt
+          retention-days: 14
+
+      - name: Publish one release per game
+        if: ${{ !inputs.dry_run }}
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ steps.catalog.outputs.tag }}
-          RELEASE_TITLE: ${{ steps.catalog.outputs.title }}
-        run: |
-          $assets = @(Get-ChildItem dist -File | Where-Object Name -ne 'release-notes.md' | ForEach-Object FullName)
-          gh release view $env:RELEASE_TAG *> $null
-          if ($LASTEXITCODE -eq 0) {
-            gh release upload $env:RELEASE_TAG $assets --clobber
-            gh release edit $env:RELEASE_TAG --title $env:RELEASE_TITLE --notes-file dist/release-notes.md --latest
-          } else {
-            gh release create $env:RELEASE_TAG $assets --target $env:GITHUB_SHA --title $env:RELEASE_TITLE --notes-file dist/release-notes.md --latest
-          }
+        run: python distribution/release_tool.py publish --plan plan.json --out dist

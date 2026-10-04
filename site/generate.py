@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 """Generate the RedEngineGames download site into site/dist/.
 
-Inputs (all produced by the release pipeline or the repo itself):
-  - the launcher catalog TSV from the latest release (single source of truth
-    for what is listed, shared with RedEngineLauncher.exe)
-  - SHA256SUMS.txt and asset sizes from the same release
-  - git history for each game's "added" date (the TSV's `created` column is
-    the release date, identical for every row)
-  - site/games-meta.json for hand-maintained extras (online-multiplayer notes)
-  - site/thumbs/<slug>.png thumbnails (rendered by site/gen_thumbs.py)
+The site is built from the repository's own list of games and from the GitHub Releases, which are the record of every version ever published
+(`distribution/release_tool.py` writes a machine-readable line into each release's notes):
 
-Output: a single self-contained site/dist/index.html (inline CSS + JS, games
-rendered as static HTML so the page works without JS; JS adds sort + filter)
-plus dist/thumbs/ and dist/catalog.json.
+  index.html                   every game: install the latest version, link to all versions
+  games/<slug>/index.html      one game: the latest version and the whole history, each with installer, portable ZIP, checksum and what changed
+  games/<slug>/latest.json     what an installed game asks to learn whether an update exists
+  catalog.json                 everything above as data
 
-Usage:
-  python3 site/generate.py --catalog cat.tsv --sums SHA256SUMS.txt --sizes sizes.json
+Builds from before installers existed (one release per engine commit, a ZIP per game) are listed under "Earlier builds" on each game's page, one per day.
+Usage:  gh api --paginate repos/OWNER/REPO/releases > releases.json && python3 site/generate.py --releases releases.json
 """
 
 import argparse
@@ -24,135 +19,108 @@ import json
 import re
 import shutil
 import subprocess
-from datetime import date, datetime, timezone
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SLUG_ALIASES = {"prop-hunt-yard": "prop-hunt"}
+sys.path.insert(0, str(REPO / "distribution"))
+import release_tool as rt  # noqa: E402
 
 PALETTE = json.loads((REPO / ".launcher-config.json").read_text())
+CONFIG = rt.CONFIG
+LEGACY_TAG = re.compile(r"^redengine-([0-9a-f]{7,40})$")
+e = html.escape
 
 
-def game_dir_for(slug: str) -> Path | None:
-    name = SLUG_ALIASES.get(slug, slug)
-    for root in ("games", "projects"):
-        d = REPO / root / name
-        if d.is_dir():
-            return d
-    return None
+def human_size(n) -> str:
+    return f"{n / 1024 / 1024:.0f} MB" if n else ""
 
 
-def added_date(slug: str, fallback: str) -> str:
-    d = game_dir_for(slug)
-    if d is None:
+def asset_url(tag: str, name: str) -> str:
+    return f"https://github.com/{CONFIG['repository']}/releases/download/{tag}/{name}"
+
+
+def added_date(playable: dict, fallback: str) -> str:
+    d = rt.game_directory(playable)
+    if not d.is_dir():
         return fallback
     out = subprocess.run(
-        ["git", "-C", str(REPO), "log", "--reverse", "--format=%ad",
-         "--date=short", "--", str(d.relative_to(REPO))],
-        capture_output=True, text=True,
+        ["git", "-C", str(REPO), "log", "--reverse", "--format=%ad", "--date=short", "--", str(d.relative_to(REPO))], capture_output=True, text=True
     ).stdout.strip().splitlines()
     return out[0] if out else fallback
 
 
-def human_size(n: int | None) -> str:
-    return f"{n / 1024 / 1024:.0f} MB" if n else ""
+def legacy_builds(releases: list[dict]) -> dict[str, list[dict]]:
+    """Per slug, the old-style builds (a ZIP per game in a release per engine commit): the newest of each day."""
+    per_slug: dict[str, dict[str, dict]] = {}
+    for r in sorted(releases, key=lambda r: r.get("published_at") or "", reverse=True):
+        m = LEGACY_TAG.match(r.get("tag_name", ""))
+        if not m:
+            continue
+        day = (r.get("published_at") or "")[:10]
+        for a in r.get("assets", []):
+            name = a["name"]
+            if name.endswith("-windows-x64.zip") and name != "RedEngineLauncher-windows-x64.zip":
+                slug = name[: -len("-windows-x64.zip")]
+                per_slug.setdefault(slug, {}).setdefault(day, {
+                    "date": day, "engine_revision": m.group(1), "url": asset_url(r["tag_name"], name), "size": a.get("size", 0), "tag": r["tag_name"],
+                })
+    return {slug: sorted(days.values(), key=lambda b: b["date"], reverse=True) for slug, days in per_slug.items()}
 
 
-def load_games(args) -> list[dict]:
-    rows = [l.split("\t") for l in Path(args.catalog).read_text().splitlines() if l.strip()]
-    head = rows[0]
-    sums = {}
-    for line in Path(args.sums).read_text().splitlines():
-        parts = line.split()
-        if len(parts) == 2:
-            sums[parts[1]] = parts[0]
-    sizes = {a["name"]: a["size"] for a in json.loads(Path(args.sizes).read_text())}
+def load_games(releases: list[dict]) -> list[dict]:
+    history = rt.release_history(releases)
+    legacy = legacy_builds(releases)
     meta = json.loads((REPO / "site" / "games-meta.json").read_text())
-
     games = []
-    for row in rows[1:]:
-        g = dict(zip(head, row))
-        # Descriptions come from READMEs and can carry markdown links.
-        g["description"] = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", g["description"])
-        asset_name = g["asset"].rsplit("/", 1)[-1]
-        g["added"] = added_date(g["slug"], g["created"])
-        g["size_bytes"] = sizes.get(asset_name)
-        g["size"] = human_size(g["size_bytes"])
-        g["sha256"] = sums.get(asset_name, "")
-        g["online"] = meta.get(g["slug"], {}).get("online", "")
-        g["thumb"] = f"thumbs/{g['slug']}.png" if (REPO / "site" / "thumbs" / f"{g['slug']}.png").exists() else ""
-        games.append(g)
-    # Default order: newest first; alphabetical within the same date.
+    for p in rt.load_playables():
+        slug = p["slug"]
+        versions = history.get(slug, [])
+        for v in versions:
+            v["installer"]["url"] = asset_url(v["tag"], v["installer"]["name"])
+            v["zip"]["url"] = asset_url(v["tag"], v["zip"]["name"])
+        old = legacy.get(slug, [])
+        if not versions and not old:
+            continue
+        first = versions[-1]["released"] if versions else old[-1]["date"]
+        games.append({
+            "slug": slug,
+            "name": p["name"],
+            "description": rt.describe(rt.game_directory(p), f"{p['name']}, built with RedEngine."),
+            "added": added_date(p, first),
+            "online": meta.get(slug, {}).get("online", ""),
+            "thumb": f"thumbs/{slug}.png" if (REPO / "site" / "thumbs" / f"{slug}.png").exists() else "",
+            "versions": versions,
+            "earlier": old,
+        })
     games.sort(key=lambda g: g["name"].lower())
     games.sort(key=lambda g: g["added"], reverse=True)
     return games
 
 
-def card(g: dict, index: int) -> str:
-    e = html.escape
-    loading = "eager" if index < 6 else "lazy"
-    thumb = (
-        f'<img class="thumb" src="{e(g["thumb"])}" alt="{e(g["name"])} screenshot" loading="{loading}" width="640" height="360">'
-        if g["thumb"] else '<div class="thumb thumb-missing">no screenshot</div>'
-    )
-    online = (
-        f'<p class="online" title="{e(g["online"])}">&#x1F310; online multiplayer</p>'
-        if g["online"] else ""
-    )
-    sha = (
-        f'<details class="sha"><summary>SHA-256</summary><code>{e(g["sha256"])}</code></details>'
-        if g["sha256"] else ""
-    )
-    size = f'<span>{e(g["size"])}</span>' if g["size"] else ""
-    return f'''
-<article class="game" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}"
-         data-size="{g["size_bytes"] or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
-  {thumb}
-  <div class="body">
-    <h3>{e(g["name"])}</h3>
-    <p class="meta"><span>added {e(g["added"])}</span>{size}<span>engine {e(g["engine_version"][:12])}</span></p>
-    {online}
-    <p class="desc">{e(g["description"])}</p>
-    {sha}
-    <a class="dl" href="{e(g["asset"])}">Download for Windows</a>
-  </div>
-</article>'''
+# ---- pages ----------------------------------------------------------------------------------------------------------------------------------
 
 
-def page(games: list[dict], generated: str) -> str:
-    cards = "\n".join(card(g, i) for i, g in enumerate(games))
+def css() -> str:
     c = PALETTE
-    repo_url = f"https://github.com/{c['repository']}"
-    latest = f"{repo_url}/releases/latest"
-    return f'''<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RedEngineGames — free Windows games</title>
-<meta name="description" content="Free Windows games built on RedEngine. Download a ZIP, extract, play.">
-<style>
-:root {{
-  --accent: {c["accent"]}; --bg: {c["background"]}; --surface: {c["surface"]};
-  --card: {c["card"]}; --muted: {c["muted"]};
-}}
+    return f'''
+:root {{ --accent: {c["accent"]}; --bg: {c["background"]}; --surface: {c["surface"]}; --card: {c["card"]}; --muted: {c["muted"]}; }}
 * {{ box-sizing: border-box; }}
-body {{ margin: 0; background: var(--bg); color: #F3E6EC;
-       font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }}
+body {{ margin: 0; background: var(--bg); color: #F3E6EC; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }}
 a {{ color: var(--accent); }}
 main {{ max-width: 1100px; margin: 0 auto; padding: 0 16px 48px; }}
 header.site {{ padding: 28px 16px 4px; max-width: 1100px; margin: 0 auto; }}
 header.site h1 {{ margin: 0; font-size: 1.7rem; }}
 header.site h1 span {{ color: var(--accent); }}
+header.site h1 a {{ color: inherit; text-decoration: none; }}
 header.site p {{ margin: 4px 0 0; color: var(--muted); }}
-.start {{ background: var(--surface); border: 1px solid var(--card); border-radius: 8px;
-          padding: 14px 18px; margin: 20px 0; }}
+.start {{ background: var(--surface); border: 1px solid var(--card); border-radius: 8px; padding: 14px 18px; margin: 20px 0; }}
 .start h2 {{ margin: 0 0 8px; font-size: 1.05rem; }}
 .start ol {{ margin: 0 0 8px; padding-left: 22px; }}
-.start .fine {{ color: var(--muted); font-size: .85rem; margin: 0; }}
+.start .fine {{ color: var(--muted); font-size: .85rem; margin: 6px 0 0; }}
 .toolbar {{ display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 18px 0 14px; }}
-.toolbar input, .toolbar select {{ background: var(--surface); color: inherit;
-  border: 1px solid var(--card); border-radius: 6px; padding: 8px 10px; font: inherit; }}
+.toolbar input, .toolbar select {{ background: var(--surface); color: inherit; border: 1px solid var(--card); border-radius: 6px; padding: 8px 10px; font: inherit; }}
 .toolbar input {{ flex: 1; min-width: 180px; }}
 .toolbar .count {{ color: var(--muted); font-size: .9rem; margin-left: auto; }}
 .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }}
@@ -161,37 +129,161 @@ header.site p {{ margin: 4px 0 0; color: var(--muted); }}
 .thumb-missing {{ display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .85rem; }}
 .game .body {{ padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; gap: 6px; }}
 .game h3 {{ margin: 0; font-size: 1.1rem; }}
+.game h3 a {{ color: inherit; text-decoration: none; }}
 .meta {{ margin: 0; color: var(--muted); font-size: .8rem; display: flex; gap: 10px; flex-wrap: wrap; }}
 .online {{ margin: 0; font-size: .8rem; color: var(--accent); }}
-.desc {{ margin: 0; font-size: .9rem; color: #E8D3DC; display: -webkit-box;
-         -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }}
-.sha {{ font-size: .75rem; color: var(--muted); }}
-.sha code {{ word-break: break-all; }}
-.dl {{ margin-top: auto; display: block; text-align: center; background: var(--accent); color: #1C0810;
-       font-weight: 600; text-decoration: none; border-radius: 6px; padding: 10px; }}
+.desc {{ margin: 0; font-size: .9rem; color: #E8D3DC; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }}
+.dl {{ display: block; text-align: center; background: var(--accent); color: #1C0810; font-weight: 600; text-decoration: none; border-radius: 6px; padding: 10px; }}
 .dl:hover {{ filter: brightness(1.1); }}
-footer {{ margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--card);
-          color: var(--muted); font-size: .85rem; }}
-footer p {{ margin: 4px 0; }}
+.card-links {{ margin-top: auto; padding-top: 6px; display: flex; gap: 14px; font-size: .85rem; justify-content: center; }}
 .hidden {{ display: none; }}
-</style>
+.hero {{ display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: 22px; margin: 22px 0; align-items: start; }}
+@media (max-width: 760px) {{ .hero {{ grid-template-columns: 1fr; }} }}
+.hero .thumb {{ border-radius: 8px; }}
+.hero h2 {{ margin: 0 0 6px; }}
+.hero .dl {{ display: inline-block; padding: 12px 22px; margin: 8px 0 4px; }}
+table.versions {{ width: 100%; border-collapse: collapse; margin: 8px 0 24px; font-size: .92rem; }}
+table.versions th, table.versions td {{ text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--card); vertical-align: top; }}
+table.versions th {{ color: var(--muted); font-weight: 500; font-size: .8rem; }}
+table.versions code {{ word-break: break-all; font-size: .72rem; color: var(--muted); }}
+table.versions ul {{ margin: 0; padding-left: 18px; }}
+.tag {{ background: var(--accent); color: #1C0810; border-radius: 4px; padding: 1px 6px; font-size: .75rem; font-weight: 600; }}
+details {{ margin: 10px 0; }}
+summary {{ cursor: pointer; color: var(--muted); }}
+footer {{ margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--card); color: var(--muted); font-size: .85rem; }}
+footer p {{ margin: 4px 0; }}
+'''
+
+
+def shell(title: str, description: str, body: str, depth: int, script: str = "") -> str:
+    up = "../" * depth
+    repo_url = f"https://github.com/{CONFIG['repository']}"
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{e(title)}</title>
+<meta name="description" content="{e(description)}">
+<style>{css()}</style>
 </head>
 <body>
 <header class="site">
-  <h1><span>Red</span>EngineGames</h1>
-  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. No installer, no account — download, extract, play.</p>
+  <h1><a href="{up or "./"}"><span>Red</span>EngineGames</a></h1>
+  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Installs in a click, updates itself.</p>
 </header>
 <main>
+{body}
+  <footer>
+    <p>Online games: one player hosts (or a shared server runs the game) and friends join with the host’s address and join key — ask the host for those; they are never published here.</p>
+    <p>Source &amp; issues: <a href="{repo_url}">{CONFIG["repository"]}</a> · every version ever released stays downloadable.</p>
+  </footer>
+</main>
+{script}
+</body>
+</html>
+'''
+
+
+def signed_note(games: list[dict]) -> str:
+    latest = [g["versions"][0] for g in games if g["versions"]]
+    if latest and all(v.get("signed") for v in latest):
+        return ""
+    return ('<p class="fine">These installers are not code-signed yet, so Windows may say “Windows protected your PC”: choose '
+            '<strong>More info</strong>, then <strong>Run anyway</strong>. The SHA-256 of every file is listed with it.</p>')
+
+
+def card(g: dict, index: int) -> str:
+    v = g["versions"][0] if g["versions"] else None
+    loading = "eager" if index < 6 else "lazy"
+    thumb = (f'<img class="thumb" src="{e(g["thumb"])}" alt="{e(g["name"])} screenshot" loading="{loading}" width="640" height="360">'
+             if g["thumb"] else '<div class="thumb thumb-missing">no screenshot</div>')
+    online = f'<p class="online" title="{e(g["online"])}">&#x1F310; online multiplayer</p>' if g["online"] else ""
+    page = f'games/{g["slug"]}/'
+    count = len(g["versions"]) + len(g["earlier"])
+    if v:
+        meta = f'<span>version {v["version"]}</span><span>{e(v["released"])}</span><span>{human_size(v["installer"]["size"])}</span>'
+        button = f'<a class="dl" href="{e(v["installer"]["url"])}">Install for Windows</a>'
+        links = f'<a href="{e(v["zip"]["url"])}">portable ZIP</a><a href="{page}">all versions ({count})</a>'
+        size = v["installer"]["size"]
+    else:
+        o = g["earlier"][0]
+        meta = f'<span>build of {e(o["date"])}</span><span>{human_size(o["size"])}</span>'
+        button = f'<a class="dl" href="{e(o["url"])}">Download ZIP</a>'
+        links = f'<a href="{page}">all builds ({count})</a>'
+        size = o["size"]
+    return f'''
+<article class="game" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}" data-size="{size or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
+  {thumb}
+  <div class="body">
+    <h3><a href="{page}">{e(g["name"])}</a></h3>
+    <p class="meta">{meta}</p>
+    {online}
+    <p class="desc">{e(g["description"])}</p>
+    {button}
+    <div class="card-links">{links}</div>
+  </div>
+</article>'''
+
+
+FILTER_JS = '''<script>
+(function () {
+  var q = document.getElementById("q"), sort = document.getElementById("sort"), kind = document.getElementById("kind"),
+      grid = document.getElementById("games"), count = document.getElementById("count");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".game"));
+  function apply() {
+    var needle = q.value.trim().toLowerCase();
+    var parts = sort.value.split("-"), key = parts[0], dir = parts[1] === "desc" ? -1 : 1;
+    cards.sort(function (a, b) {
+      var av, bv;
+      if (key === "size") { av = +a.dataset.size; bv = +b.dataset.size; } else { av = a.dataset[key]; bv = b.dataset[key]; }
+      if (av < bv) return -dir;
+      if (av > bv) return dir;
+      return a.dataset.name < b.dataset.name ? -1 : 1;
+    });
+    var shown = 0;
+    cards.forEach(function (c) {
+      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) && (kind.value !== "online" || c.querySelector(".online"));
+      c.classList.toggle("hidden", !ok);
+      if (ok) shown++;
+      grid.appendChild(c);
+    });
+    count.textContent = shown + " of " + cards.length + " games";
+  }
+  function applyAndShare() {
+    apply();
+    var p = new URLSearchParams();
+    if (q.value.trim()) p.set("q", q.value.trim());
+    if (sort.value !== "added-desc") p.set("sort", sort.value);
+    if (kind.value) p.set("kind", kind.value);
+    var qs = p.toString();
+    history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+  }
+  q.addEventListener("input", applyAndShare);
+  sort.addEventListener("change", applyAndShare);
+  kind.addEventListener("change", applyAndShare);
+  var init = new URLSearchParams(location.search);
+  if (init.get("q")) q.value = init.get("q");
+  if (init.get("sort")) sort.value = init.get("sort");
+  if (init.get("kind")) kind.value = init.get("kind");
+  apply();
+})();
+</script>'''
+
+
+def index_page(games: list[dict]) -> str:
+    cards = "\n".join(card(g, i) for i, g in enumerate(games))
+    body = f'''
   <section class="start">
     <h2>Getting started</h2>
     <ol>
-      <li><strong>Download</strong> a game below (Windows x64 ZIP).</li>
-      <li><strong>Extract</strong> the ZIP anywhere.</li>
-      <li><strong>Double-click</strong> the <code>Play-*.exe</code> inside. Most games support a gamepad.</li>
+      <li><strong>Install</strong> a game below and run the installer. It needs no administrator rights and offers a desktop shortcut.</li>
+      <li><strong>Play</strong> from the Start menu or the shortcut. Most games support a gamepad; several players can share one screen where a game allows it.</li>
+      <li><strong>Updates</strong> arrive by themselves: when a new version is released the game offers it, installs it over the old one and keeps your saved games
+        (they live in <code>Saved Games</code>, not in the install folder).</li>
     </ol>
-    <p class="fine">The builds are not code-signed, so Windows SmartScreen may warn — choose
-    “More info” → “Run anyway”. Checksums for every ZIP are in
-    <a href="{latest}/download/SHA256SUMS.txt">SHA256SUMS.txt</a>.</p>
+    <p class="fine">Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
+    {signed_note(games)}
   </section>
   <div class="toolbar">
     <input id="q" type="search" placeholder="Filter by name or description…" aria-label="Filter games">
@@ -210,94 +302,106 @@ footer p {{ margin: 4px 0; }}
   </div>
   <section class="grid" id="games">
 {cards}
-  </section>
-  <footer>
-    <p>Prefer an installer-style experience? The
-      <a href="{latest}/download/RedEngineLauncher-windows-x64.zip">RedEngine desktop launcher</a>
-      lists every game and installs them for you.</p>
-    <p>Online games: one player hosts (or a shared server runs the game) and friends join with the
-      host’s address and join key — ask the host for those; they are never published here.</p>
-    <p>Source &amp; issues: <a href="{repo_url}">{c["repository"]}</a> ·
-      <a href="{latest}">latest release</a> · page generated {generated}.</p>
-  </footer>
-</main>
-<script>
-(function () {{
-  var q = document.getElementById("q"), sort = document.getElementById("sort"),
-      kind = document.getElementById("kind"), grid = document.getElementById("games"),
-      count = document.getElementById("count");
-  var cards = Array.prototype.slice.call(grid.querySelectorAll(".game"));
-  function apply() {{
-    var needle = q.value.trim().toLowerCase();
-    var parts = sort.value.split("-"), key = parts[0], dir = parts[1] === "desc" ? -1 : 1;
-    cards.sort(function (a, b) {{
-      var av, bv;
-      if (key === "size") {{ av = +a.dataset.size; bv = +b.dataset.size; }}
-      else {{ av = a.dataset[key]; bv = b.dataset[key]; }}
-      if (av < bv) return -dir;
-      if (av > bv) return dir;
-      return a.dataset.name < b.dataset.name ? -1 : 1;
-    }});
-    var shown = 0;
-    cards.forEach(function (c) {{
-      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) &&
-               (kind.value !== "online" || c.querySelector(".online"));
-      c.classList.toggle("hidden", !ok);
-      if (ok) shown++;
-      grid.appendChild(c);
-    }});
-    count.textContent = shown + " of " + cards.length + " games";
-  }}
-  function applyAndShare() {{
-    apply();
-    var p = new URLSearchParams();
-    if (q.value.trim()) p.set("q", q.value.trim());
-    if (sort.value !== "added-desc") p.set("sort", sort.value);
-    if (kind.value) p.set("kind", kind.value);
-    var qs = p.toString();
-    history.replaceState(null, "", qs ? "?" + qs : location.pathname);
-  }}
-  q.addEventListener("input", applyAndShare);
-  sort.addEventListener("change", applyAndShare);
-  kind.addEventListener("change", applyAndShare);
-  var init = new URLSearchParams(location.search);
-  if (init.get("q")) q.value = init.get("q");
-  if (init.get("sort")) sort.value = init.get("sort");
-  if (init.get("kind")) kind.value = init.get("kind");
-  apply();
-}})();
-</script>
-</body>
-</html>
-'''
+  </section>'''
+    return shell("RedEngineGames — free Windows games", "Free Windows games built on RedEngine. Install in a click; every version stays available.", body, 0, FILTER_JS)
+
+
+def version_rows(g: dict) -> str:
+    rows = []
+    for i, v in enumerate(g["versions"]):
+        notes = "".join(f"<li>{e(n)}</li>" for n in v["notes"]) or f'<li>Built with RedEngine {e(v["engine_revision"][:12])}</li>'
+        latest = ' <span class="tag">latest</span>' if i == 0 else ""
+        rows.append(f'''<tr>
+  <td><strong>{v["version"]}</strong>{latest}<br><span class="meta">{e(v["released"])}</span></td>
+  <td><ul>{notes}</ul></td>
+  <td><a href="{e(v["installer"]["url"])}">Installer</a> ({human_size(v["installer"]["size"])})<br><code>{e(v["installer"]["sha256"])}</code></td>
+  <td><a href="{e(v["zip"]["url"])}">Portable ZIP</a> ({human_size(v["zip"]["size"])})<br><code>{e(v["zip"]["sha256"])}</code></td>
+</tr>''')
+    return "\n".join(rows)
+
+
+def game_page(g: dict) -> str:
+    v = g["versions"][0] if g["versions"] else None
+    thumb = f'<img class="thumb" src="../../{e(g["thumb"])}" alt="{e(g["name"])} screenshot" width="640" height="360">' if g["thumb"] else ""
+    online = f'<p class="online">&#x1F310; online multiplayer</p>' if g["online"] else ""
+    hero_button = (f'<a class="dl" href="{e(v["installer"]["url"])}">Install version {v["version"]}</a>'
+                   f'<p class="meta"><span>{e(v["released"])}</span><span>{human_size(v["installer"]["size"])}</span></p>' if v else "")
+    table = ""
+    if g["versions"]:
+        table = f'''
+  <h2>All versions</h2>
+  <p class="fine">Installing an older version over a newer one works. The game will then offer the newest version when it starts: choose <em>Cancel</em> (“skip this version”) to stay on the one you chose.</p>
+  <table class="versions">
+    <tr><th>Version</th><th>What changed</th><th>Installer (recommended)</th><th>Portable</th></tr>
+{version_rows(g)}
+  </table>'''
+    earlier = ""
+    if g["earlier"]:
+        items = "".join(
+            f'<tr><td>{e(b["date"])}</td><td>RedEngine {e(b["engine_revision"][:12])}</td><td><a href="{e(b["url"])}">ZIP</a> ({human_size(b["size"])})</td></tr>'
+            for b in g["earlier"])
+        earlier = f'''
+  <details {"open" if not g["versions"] else ""}>
+    <summary>Earlier builds ({len(g["earlier"])}) from before installers: ZIP only, the newest of each day</summary>
+    <table class="versions"><tr><th>Date</th><th>Engine</th><th>Download</th></tr>{items}</table>
+  </details>'''
+    body = f'''
+  <p><a href="../../">&larr; all games</a></p>
+  <section class="hero">
+    {thumb}
+    <div>
+      <h2>{e(g["name"])}</h2>
+      {online}
+      <p>{e(g["description"])}</p>
+      {hero_button}
+      <p class="fine">An installed game checks for updates when it starts and installs them in place; your saved games stay in <code>Saved Games\\{e(rt.clean_name(g["name"]))}</code>.</p>
+      {signed_note([g])}
+    </div>
+  </section>{table}{earlier}'''
+    return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
+
+
+def latest_json(g: dict) -> str | None:
+    """What an installed game fetches to learn whether there is a newer version."""
+    if not g["versions"]:
+        return None
+    v = g["versions"][0]
+    return json.dumps({
+        "slug": g["slug"],
+        "version": v["version"],
+        "released": v["released"],
+        "installer": v["installer"]["url"],
+        "sha256": v["installer"]["sha256"],
+        "size": v["installer"]["size"],
+        "notes": "\n".join(f"- {n}" for n in v["notes"]),
+        "page": f"{CONFIG['site_url']}games/{g['slug']}/",
+    }, indent=1) + "\n"
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--catalog", required=True, help="RedEngineLauncher-catalog.tsv")
-    ap.add_argument("--sums", required=True, help="SHA256SUMS.txt")
-    ap.add_argument("--sizes", required=True, help='JSON [{"name":..., "size":...}] of release assets')
+    ap.add_argument("--releases", required=True, help="JSON from `gh api --paginate repos/<repo>/releases`")
     ap.add_argument("--out", default=str(REPO / "site" / "dist"))
     args = ap.parse_args()
 
-    games = load_games(args)
+    games = load_games(rt.load_releases(args.releases))
     out = Path(args.out)
-    if (out / "thumbs").exists():
-        shutil.rmtree(out / "thumbs")
-    out.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(REPO / "site" / "thumbs", out / "thumbs", dirs_exist_ok=True)
-
-    generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    (out / "index.html").write_text(page(games, generated))
-    (out / "catalog.json").write_text(json.dumps(
-        [{k: g[k] for k in ("slug", "name", "description", "added", "engine_version",
-                            "kind", "asset", "size_bytes", "sha256", "online")} for g in games],
-        indent=1))
+    shutil.rmtree(out, ignore_errors=True)
+    out.mkdir(parents=True)
+    shutil.copytree(REPO / "site" / "thumbs", out / "thumbs")
+    (out / "index.html").write_text(index_page(games), encoding="utf-8")
+    for g in games:
+        folder = out / "games" / g["slug"]
+        folder.mkdir(parents=True)
+        (folder / "index.html").write_text(game_page(g), encoding="utf-8")
+        if (text := latest_json(g)) is not None:
+            (folder / "latest.json").write_text(text, encoding="utf-8")
+    (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
+        {k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0
 
 
 if __name__ == "__main__":
-    import sys
     sys.exit(main())
