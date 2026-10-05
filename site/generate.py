@@ -33,6 +33,47 @@ LEGACY_TAG = re.compile(r"^redengine-([0-9a-f]{7,40})$")
 e = html.escape
 
 
+WEB = REPO / "webgames"
+
+
+def load_web_games() -> list[dict]:
+    """Browser games published by `red_engine2 publish --backend github-pages`: webgames/catalog.json (schema red2d-catalog/1) beside webgames/games/<id>/."""
+    catalog = WEB / "catalog.json"
+    if not catalog.is_file():
+        return []
+    return json.loads(catalog.read_text(encoding="utf-8")).get("games", [])
+
+
+def web_card(g: dict) -> str:
+    page = f'play/{g["url"]}'
+    inputs = " + ".join(g.get("input", []))
+    return f'''
+<article class="game">
+  <a href="{e(page)}"><img class="thumb" src="play/{e(g["thumbnail"])}" alt="{e(g["title"])} screenshot" loading="lazy" width="640" height="360" style="image-rendering:pixelated"></a>
+  <div class="body">
+    <h3><a href="{e(page)}">{e(g["title"])}</a></h3>
+    <p class="meta"><span>{e(g["presentation"].upper())} · {e(inputs)}</span><span>{e(g["build_timestamp"][:10])}</span></p>
+    <p class="desc">{e(g["description"])}</p>
+    <a class="dl" href="{e(page)}">Play in your browser</a>
+    <div class="card-links"><a href="play/games/{e(g["id"])}/game.json">details</a></div>
+  </div>
+</article>'''
+
+
+def web_section(web: list[dict]) -> str:
+    if not web:
+        return ""
+    cards = "\n".join(web_card(g) for g in web)
+    return f'''
+  <section class="web">
+    <h2>Play in your browser</h2>
+    <p class="fine">Nothing to install: these run in a web page and keep your best score in this browser. Each was played by a real headless browser before it was published (not by a human tester).</p>
+    <section class="grid" id="webgames">
+{cards}
+    </section>
+  </section>'''
+
+
 def human_size(n) -> str:
     return f"{n / 1024 / 1024:.0f} MB" if n else ""
 
@@ -271,9 +312,9 @@ FILTER_JS = '''<script>
 </script>'''
 
 
-def index_page(games: list[dict]) -> str:
+def index_page(games: list[dict], web: list[dict] | None = None) -> str:
     cards = "\n".join(card(g, i) for i, g in enumerate(games))
-    body = f'''
+    body = f'''{web_section(web or [])}
   <section class="start">
     <h2>Getting started</h2>
     <ol>
@@ -389,7 +430,10 @@ def main() -> int:
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
     shutil.copytree(REPO / "site" / "thumbs", out / "thumbs")
-    (out / "index.html").write_text(index_page(games), encoding="utf-8")
+    web = load_web_games()
+    if web:
+        shutil.copytree(WEB, out / "play")
+    (out / "index.html").write_text(index_page(games, web), encoding="utf-8")
     for g in games:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)
@@ -397,7 +441,8 @@ def main() -> int:
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
-        {k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")} for g in games]}, indent=1), encoding="utf-8")
+        {k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")} for g in games],
+        "browser_games": [{**g, "url": f'play/{g["url"]}'} for g in web]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0
