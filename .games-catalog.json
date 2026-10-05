@@ -1,9 +1,9 @@
 {
   "collections": {
-    "demos": 42,
+    "demos": 45,
     "games": 8,
     "prototypes": 13,
-    "tests": 16
+    "tests": 19
   },
   "files": [
     {
@@ -105,6 +105,18 @@
     {
       "path": "demos/examples/killchain_screens.rs",
       "sha256": "bc87df47658e35e7371f38c700a7b612edf3dd2983fc49ba4e97f808f7471095"
+    },
+    {
+      "path": "demos/examples/lantern_walk/README.md",
+      "sha256": "77ad2ed642186eb0d2df36c81d597905370f137e6a253060a690cedf89404564"
+    },
+    {
+      "path": "demos/examples/lantern_walk/audio/dusk.json",
+      "sha256": "56211850114f98663f5f4eb060317aebc7e72415ed2919f3c65e86cf285f6eb7"
+    },
+    {
+      "path": "demos/examples/lantern_walk/lantern_walk.json",
+      "sha256": "3401c0ce0651d11ec19872e984cda4ff058697440fe1dc2062e5a3dd4e34d3cf"
     },
     {
       "path": "demos/examples/marcel/README.md",
@@ -260,7 +272,7 @@
     },
     {
       "path": "tests/performance/README.md",
-      "sha256": "449bd34b772545b0a5ce0d716fcb16ac98b61a47c9ccd9375c12b0e4c32370fc"
+      "sha256": "6b882837d41a8ba01b630931970fb18d27a74b3869f38d5729aafe887e16f212"
     },
     {
       "path": "tests/performance/baseline.json",
@@ -307,8 +319,20 @@
       "sha256": "e573adcf74695609e805d41b0730894c1182dc105cb48a6646d16697df5c695a"
     },
     {
+      "path": "tests/performance/history/render.json",
+      "sha256": "84a3e1e1f081552e24c5db4db885347656cf630c8a32dfa394fbf6b59238786a"
+    },
+    {
       "path": "tests/performance/render_prep.rs",
       "sha256": "669379189c6467f09be96dd2dd1be974dde586494c8ce07adf2a4a7a279e34b9"
+    },
+    {
+      "path": "tests/performance/render_scenes.json",
+      "sha256": "daec5d9885bff7c719791f3306fe9a687ef9748df9be0fdb4b60dc5d4c9253d6"
+    },
+    {
+      "path": "tests/performance/render_trend.py",
+      "sha256": "57a43a484756a8d7ce82b1f32a73ca8d8ee760dbd049c39de4fbd9b73768e9e3"
     },
     {
       "path": "tests/performance/settled_world.rs",
@@ -426,6 +450,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "a782b1af354a72e6259d260b6cca4d18eeccd169",
+  "source_revision": "139bc29e7f25afd07baa94b1018f1d3f9afccd67",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
