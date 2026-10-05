@@ -1,0 +1,80 @@
+{
+  "schema": "red2d-game-meta/1",
+  "id": "tiny-station",
+  "title": "Tiny Station",
+  "description": "Run a small space station for ten days: keep power, air and food up, grow the crew and survive the meteors.",
+  "presentation": "2d",
+  "platforms": [
+    "web"
+  ],
+  "input": [
+    "keyboard",
+    "mouse"
+  ],
+  "networking": "offline",
+  "persistence": [
+    "settings",
+    "progress"
+  ],
+  "screen": {
+    "width": 480,
+    "height": 270,
+    "scale": "fit"
+  },
+  "thumbnail": "thumbnail.png",
+  "game_revision": "1b387e459c72eb97",
+  "engine_revision": "cc65893a1b4d",
+  "engine_dirty": false,
+  "build_id": "0f8bd5a885c7d021",
+  "build_timestamp": "2026-10-05T18:00:01Z",
+  "compatibility": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading",
+    "browsers_verified": [
+      "Chromium 153.0.8010.12"
+    ],
+    "browsers_other": "untested"
+  },
+  "verification": {
+    "native": {
+      "scenarios": 7,
+      "passed": true
+    },
+    "browser": {
+      "engine": "Chromium 153.0.8010.12",
+      "checks": 27,
+      "passed": true,
+      "package_id": "0f8bd5a885c7d021"
+    },
+    "audio": {
+      "claims": [
+        "browser audio initialised",
+        "a sound plays through Web Audio",
+        "music starts after the gesture"
+      ],
+      "human_listening_verified": false
+    },
+    "human_playtest": false
+  },
+  "urls": {
+    "stable": "games/tiny-station/",
+    "immutable": "games/tiny-station/builds/0f8bd5a885c7d021/"
+  },
+  "builds": [
+    {
+      "build_id": "0f8bd5a885c7d021",
+      "built_at": "2026-10-05T18:00:01Z",
+      "game_revision": "1b387e459c72eb97",
+      "engine_revision": "cc65893a1b4d",
+      "path": "games/tiny-station/builds/0f8bd5a885c7d021/"
+    }
+  ]
+}

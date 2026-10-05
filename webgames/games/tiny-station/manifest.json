@@ -1,0 +1,173 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "0f8bd5a885c7d021",
+  "entry": "index.html",
+  "game": {
+    "id": "tiny-station",
+    "title": "Tiny Station",
+    "description": "Run a small space station for ten days: keep power, air and food up, grow the crew and survive the meteors.",
+    "game_revision": "1b387e459c72eb97",
+    "presentation": "2d",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "mouse"
+    ],
+    "persistence": [
+      "settings",
+      "progress"
+    ],
+    "screen": {
+      "width": 480,
+      "height": 270,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "cc65893a1b4d",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "given"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "ddc1bc9d48037ed6",
+      "frame": "6b1e15476ab6ef59",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "a balanced station survives all ten days",
+        "ticks": 27000,
+        "hash": "b6028fccc4242721",
+        "smoke": true
+      },
+      {
+        "name": "doing nothing starves the crew and the station is lost",
+        "ticks": 4500,
+        "hash": "a01426734b0ce9e1",
+        "smoke": false
+      },
+      {
+        "name": "building needs credits: a purchase is refused when broke",
+        "ticks": 3,
+        "hash": "d84d72c5c4857368",
+        "smoke": false
+      },
+      {
+        "name": "clicking a plot with no module chosen explains itself",
+        "ticks": 7,
+        "hash": "cc8250dab866f196",
+        "smoke": false
+      },
+      {
+        "name": "a purchase turns a plot into the module and spends the credits",
+        "ticks": 2,
+        "hash": "02665149a5a0dcdf",
+        "smoke": false
+      },
+      {
+        "name": "pausing freezes the clock and the economy",
+        "ticks": 3602,
+        "hash": "eb6358a214ac028d",
+        "smoke": false
+      },
+      {
+        "name": "a meteor destroys an unshielded module and leaves a free plot",
+        "ticks": 9425,
+        "hash": "823929f70c919e3e",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "choose a module and build it with the mouse",
+      "keys": [],
+      "click": [
+        379.0,
+        106.0
+      ],
+      "ms": 100,
+      "changes": [
+        "tool"
+      ],
+      "persists": []
+    },
+    {
+      "name": "the pause key stops time",
+      "keys": [
+        "KeyP"
+      ],
+      "click": null,
+      "ms": 100,
+      "changes": [
+        "paused"
+      ],
+      "persists": []
+    },
+    {
+      "name": "the music button turns music off and the choice survives a reload",
+      "keys": [],
+      "click": [
+        450.0,
+        256.0
+      ],
+      "ms": 400,
+      "changes": [
+        "music_on"
+      ],
+      "persists": [
+        "music_on"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 30614,
+      "sha256": "e3c8ea68e08cc23e28e777e3c66251ff74071f05c920a21e6e65e7d70e2b34f2"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 554041,
+      "sha256": "6acfaa86a2b970961ef03e5de64e01ec4570b2e972ed0be476ec67b83964dce7"
+    },
+    {
+      "path": "index.html",
+      "bytes": 2500,
+      "sha256": "a5a236c66259f331f8b3a970a587e72eac4f52d57ec3301864827fbfa0208cb3"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 15907,
+      "sha256": "b9d431986069ee80a16d4d3ab6e93846687af7ad47d04e38792b1eb4e6bf66cb"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 20061,
+      "sha256": "c38ee779e937b782e39abeab7a89e6c353f705a3a9da2bfbe0adf3109ebb5c77"
+    }
+  ]
+}
