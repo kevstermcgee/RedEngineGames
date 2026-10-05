@@ -67,6 +67,98 @@
       "record": "games/coin-dash/game.json"
     },
     {
+      "id": "lantern-yard",
+      "title": "Lantern Yard",
+      "description": "Collect ten lanterns in a hedge yard before the ghosts find you. The whole yard is drawn in 3D perspective, with a flat minimap on top.",
+      "url": "games/lantern-yard/",
+      "thumbnail": "games/lantern-yard/thumbnail.png",
+      "presentation": "hybrid",
+      "platforms": [
+        "web"
+      ],
+      "input": [
+        "keyboard",
+        "touch"
+      ],
+      "distribution": [
+        "online",
+        "install"
+      ],
+      "install": {
+        "web_app": true,
+        "offline": true,
+        "icons": [
+          "icon-192.png",
+          "icon-512.png"
+        ],
+        "native_installer": false
+      },
+      "controls": {
+        "layout": "dpad",
+        "visible": true,
+        "declared": false,
+        "buttons": [
+          {
+            "id": "a",
+            "label": "A",
+            "action": "action"
+          }
+        ],
+        "pause": false
+      },
+      "networking": "offline",
+      "persistence": [
+        "progress"
+      ],
+      "build_id": "95d072db67562671",
+      "build_timestamp": "2026-10-05T20:59:50Z",
+      "game_revision": "ad0f9745644ca1d4",
+      "engine_revision": "a01c7abdf8bf",
+      "compatibility": {
+        "requires": [
+          "WebAssembly",
+          "Canvas 2D"
+        ],
+        "optional": [
+          "localStorage (saves)",
+          "Web Audio (sound)",
+          "Gamepad API"
+        ],
+        "networking": "none: the game never touches the network after loading",
+        "browsers_verified": [
+          "Chromium 153.0.8010.12"
+        ],
+        "browsers_other": "untested"
+      },
+      "verification": {
+        "native": {
+          "scenarios": 3,
+          "passed": true
+        },
+        "browser": {
+          "engine": "Chromium 153.0.8010.12",
+          "checks": 34,
+          "passed": true,
+          "package_id": "95d072db67562671"
+        },
+        "audio": {
+          "claims": [
+            "browser audio initialised",
+            "a sound plays through Web Audio",
+            "phone: audio starts after the first touch"
+          ],
+          "human_listening_verified": false
+        },
+        "features": [
+          "installable",
+          "offline",
+          "phone-touch"
+        ],
+        "human_playtest": false
+      },
+      "record": "games/lantern-yard/game.json"
+    },
+    {
       "id": "moon-hopper",
       "title": "Moon Hopper",
       "description": "A small platformer: hop over the spikes, grab every gem and reach the flag in as few falls as you can.",

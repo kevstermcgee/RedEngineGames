@@ -1,0 +1,166 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "95d072db67562671",
+  "entry": "index.html",
+  "game": {
+    "id": "lantern-yard",
+    "title": "Lantern Yard",
+    "description": "Collect ten lanterns in a hedge yard before the ghosts find you. The whole yard is drawn in 3D perspective, with a flat minimap on top.",
+    "game_revision": "ad0f9745644ca1d4",
+    "presentation": "hybrid",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "touch"
+    ],
+    "persistence": [
+      "progress"
+    ],
+    "controls": {
+      "layout": "dpad",
+      "visible": true,
+      "declared": false,
+      "buttons": [
+        {
+          "id": "a",
+          "label": "A",
+          "action": "action"
+        }
+      ],
+      "pause": false
+    },
+    "distribution": [
+      "online",
+      "install"
+    ],
+    "install": {
+      "web_app": true,
+      "offline": true,
+      "icons": [
+        "icon-192.png",
+        "icon-512.png"
+      ],
+      "native_installer": false
+    },
+    "screen": {
+      "width": 320,
+      "height": 180,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "a01c7abdf8bf",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "given"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "e8898a8bb8b68bc8",
+      "frame": "b26125dfc2eb0af5",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "a bot gathers ten lanterns and clears the yard",
+        "ticks": 2700,
+        "hash": "21129a38ba8fdd9b",
+        "smoke": true
+      },
+      {
+        "name": "standing still loses to the ghosts or the clock",
+        "ticks": 1632,
+        "hash": "9ff609cd7009b656",
+        "smoke": false
+      },
+      {
+        "name": "the player cannot walk through a hedge",
+        "ticks": 84,
+        "hash": "397908c70e28e1e6",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "arrow keys move the player",
+      "keys": [
+        "ArrowRight"
+      ],
+      "click": null,
+      "ms": 500,
+      "changes": [
+        "p_x"
+      ],
+      "persists": []
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 7875,
+      "sha256": "c51d5c0642d07e714e97f6e13ad1cc0ddefac5dfdae55bc7db78e3731dd41f72"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 625922,
+      "sha256": "56ceab1c26648dd9d97275750b9505480bc2f6eed941a42e2c70c5414a54d382"
+    },
+    {
+      "path": "icon-192.png",
+      "bytes": 4810,
+      "sha256": "ce7aab49426fd4b6a5221ad6befaa226d3fc2ca9ddd65e16858d021b88386ad2"
+    },
+    {
+      "path": "icon-512.png",
+      "bytes": 10985,
+      "sha256": "fdbcc2cc1d0cff2035f47656338fa21db41d04bdb7e734b0206901e36d15c610"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7546,
+      "sha256": "ea907b35c3993520bb443dcd977699dada434f02354273e4589b8413a689c182"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 697,
+      "sha256": "43c57ad66c0d162340b78ff2aa710f3777537260229d71c13b0897f359067233"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 27829,
+      "sha256": "a5d5dab1bae2401f7fb9cb1dd95926fc6382738fa44b7448390cd18cb5561742"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 2109,
+      "sha256": "2360fa93f0bdd89407ddf001096dda1aa315ec1c9bfa027be563ef86456a244b"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 9341,
+      "sha256": "d13a15ee9a40ede196b7c2b04e22019a8da4d9ef9893f22286697b550ca0c40e"
+    }
+  ]
+}
