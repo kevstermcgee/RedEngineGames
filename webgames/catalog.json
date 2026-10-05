@@ -2,6 +2,68 @@
   "schema": "red2d-catalog/1",
   "games": [
     {
+      "id": "coin-dash",
+      "title": "Coin Dash",
+      "description": "A top-down arcade dash: grab 12 coins in 45 seconds while the ghosts hunt you.",
+      "url": "games/coin-dash/",
+      "thumbnail": "games/coin-dash/thumbnail.png",
+      "presentation": "2d",
+      "platforms": [
+        "web"
+      ],
+      "input": [
+        "keyboard",
+        "mouse"
+      ],
+      "networking": "offline",
+      "persistence": [
+        "settings",
+        "progress"
+      ],
+      "build_id": "98abde604221b886",
+      "build_timestamp": "2026-10-05T18:01:12Z",
+      "game_revision": "4dd697f0ae0d7a96",
+      "engine_revision": "cc65893a1b4d",
+      "compatibility": {
+        "requires": [
+          "WebAssembly",
+          "Canvas 2D"
+        ],
+        "optional": [
+          "localStorage (saves)",
+          "Web Audio (sound)",
+          "Gamepad API"
+        ],
+        "networking": "none: the game never touches the network after loading",
+        "browsers_verified": [
+          "Chromium 153.0.8010.12"
+        ],
+        "browsers_other": "untested"
+      },
+      "verification": {
+        "native": {
+          "scenarios": 4,
+          "passed": true
+        },
+        "browser": {
+          "engine": "Chromium 153.0.8010.12",
+          "checks": 26,
+          "passed": true,
+          "package_id": "98abde604221b886"
+        },
+        "audio": {
+          "claims": [
+            "browser audio initialised",
+            "a sound plays through Web Audio",
+            "music starts after the gesture"
+          ],
+          "human_listening_verified": false
+        },
+        "human_playtest": false
+      },
+      "record": "games/coin-dash/game.json"
+    },
+    {
       "id": "tiny-station",
       "title": "Tiny Station",
       "description": "Run a small space station for ten days: keep power, air and food up, grow the crew and survive the meteors.",

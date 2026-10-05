@@ -1,0 +1,80 @@
+{
+  "schema": "red2d-game-meta/1",
+  "id": "coin-dash",
+  "title": "Coin Dash",
+  "description": "A top-down arcade dash: grab 12 coins in 45 seconds while the ghosts hunt you.",
+  "presentation": "2d",
+  "platforms": [
+    "web"
+  ],
+  "input": [
+    "keyboard",
+    "mouse"
+  ],
+  "networking": "offline",
+  "persistence": [
+    "settings",
+    "progress"
+  ],
+  "screen": {
+    "width": 320,
+    "height": 180,
+    "scale": "fit"
+  },
+  "thumbnail": "thumbnail.png",
+  "game_revision": "4dd697f0ae0d7a96",
+  "engine_revision": "cc65893a1b4d",
+  "engine_dirty": false,
+  "build_id": "98abde604221b886",
+  "build_timestamp": "2026-10-05T18:01:12Z",
+  "compatibility": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading",
+    "browsers_verified": [
+      "Chromium 153.0.8010.12"
+    ],
+    "browsers_other": "untested"
+  },
+  "verification": {
+    "native": {
+      "scenarios": 4,
+      "passed": true
+    },
+    "browser": {
+      "engine": "Chromium 153.0.8010.12",
+      "checks": 26,
+      "passed": true,
+      "package_id": "98abde604221b886"
+    },
+    "audio": {
+      "claims": [
+        "browser audio initialised",
+        "a sound plays through Web Audio",
+        "music starts after the gesture"
+      ],
+      "human_listening_verified": false
+    },
+    "human_playtest": false
+  },
+  "urls": {
+    "stable": "games/coin-dash/",
+    "immutable": "games/coin-dash/builds/98abde604221b886/"
+  },
+  "builds": [
+    {
+      "build_id": "98abde604221b886",
+      "built_at": "2026-10-05T18:01:12Z",
+      "game_revision": "4dd697f0ae0d7a96",
+      "engine_revision": "cc65893a1b4d",
+      "path": "games/coin-dash/builds/98abde604221b886/"
+    }
+  ]
+}
