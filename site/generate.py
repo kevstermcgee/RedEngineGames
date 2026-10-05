@@ -47,31 +47,19 @@ def load_web_games() -> list[dict]:
 def web_card(g: dict) -> str:
     page = f'play/{g["url"]}'
     inputs = " + ".join(g.get("input", []))
+    pres = g["presentation"]
     return f'''
-<article class="game">
+<article class="game" data-id="web:{e(g["id"])}" data-pres="{e(pres)}" data-name="{e(g["title"].lower())}" data-added="{e(g["build_timestamp"][:10])}" data-size="{int(g.get("package_bytes", 600000))}" data-text="{e((g["title"] + " " + g["description"]).lower())}">
   <a href="{e(page)}"><img class="thumb" src="play/{e(g["thumbnail"])}" alt="{e(g["title"])} screenshot" loading="lazy" width="640" height="360" style="image-rendering:pixelated"></a>
+  <button class="heart" type="button" aria-pressed="false" aria-label="Favourite {e(g["title"])}" title="Favourite: keep it at the top of your feed">&#x2661;</button>
   <div class="body">
     <h3><a href="{e(page)}">{e(g["title"])}</a></h3>
-    <p class="meta"><span>{e(g["presentation"].upper())} · {e(inputs)}</span><span>{e(g["build_timestamp"][:10])}</span></p>
+    <p class="meta"><span class="pres">{e(pres.upper())}</span><span>{e(inputs)}</span><span>{e(g["build_timestamp"][:10])}</span></p>
     <p class="desc">{e(g["description"])}</p>
     <a class="dl" href="{e(page)}">Play in your browser</a>
     <div class="card-links"><a href="play/games/{e(g["id"])}/game.json">details</a></div>
   </div>
 </article>'''
-
-
-def web_section(web: list[dict]) -> str:
-    if not web:
-        return ""
-    cards = "\n".join(web_card(g) for g in web)
-    return f'''
-  <section class="web">
-    <h2>Play in your browser</h2>
-    <p class="fine">Nothing to install: these run in a web page and keep your best score in this browser. Each was played by a real headless browser before it was published (not by a human tester).</p>
-    <section class="grid" id="webgames">
-{cards}
-    </section>
-  </section>'''
 
 
 def human_size(n) -> str:
@@ -165,7 +153,12 @@ header.site p {{ margin: 4px 0 0; color: var(--muted); }}
 .toolbar input {{ flex: 1; min-width: 180px; }}
 .toolbar .count {{ color: var(--muted); font-size: .9rem; margin-left: auto; }}
 .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }}
-.game {{ background: var(--card); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }}
+.game {{ background: var(--card); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; }}
+.game.fav {{ box-shadow: 0 0 0 2px var(--accent); }}
+.heart {{ position: absolute; top: 8px; right: 8px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 0; background: rgba(20, 8, 14, .72); color: #F3E6EC; font-size: 1.35rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }}
+.heart:hover {{ background: rgba(20, 8, 14, .9); }}
+.heart[aria-pressed="true"] {{ color: var(--accent); }}
+.pres {{ background: var(--accent); color: #1C0810; border-radius: 4px; padding: 0 6px; font-weight: 700; }}
 .thumb {{ width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--surface); }}
 .thumb-missing {{ display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .85rem; }}
 .game .body {{ padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; gap: 6px; }}
@@ -254,11 +247,12 @@ def card(g: dict, index: int) -> str:
         links = f'<a href="{page}">all builds ({count})</a>'
         size = o["size"]
     return f'''
-<article class="game" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}" data-size="{size or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
+<article class="game" data-id="win:{e(g["slug"])}" data-pres="3d" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}" data-size="{size or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
   {thumb}
+  <button class="heart" type="button" aria-pressed="false" aria-label="Favourite {e(g["name"])}" title="Favourite: keep it at the top of your feed">&#x2661;</button>
   <div class="body">
     <h3><a href="{page}">{e(g["name"])}</a></h3>
-    <p class="meta">{meta}</p>
+    <p class="meta"><span class="pres">3D</span>{meta}</p>
     {online}
     <p class="desc">{e(g["description"])}</p>
     {button}
@@ -269,9 +263,23 @@ def card(g: dict, index: int) -> str:
 
 FILTER_JS = '''<script>
 (function () {
-  var q = document.getElementById("q"), sort = document.getElementById("sort"), kind = document.getElementById("kind"),
+  var q = document.getElementById("q"), sort = document.getElementById("sort"), kind = document.getElementById("kind"), pres = document.getElementById("pres"),
       grid = document.getElementById("games"), count = document.getElementById("count");
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".game"));
+  var KEY = "redengine:hearts";
+  function load() { try { var v = JSON.parse(localStorage.getItem(KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(favs)); } catch (e) { /* private mode: the hearts last until the page closes */ } }
+  var favs = load();
+  function isFav(c) { return favs.indexOf(c.dataset.id) !== -1; }
+  function paint() {
+    cards.forEach(function (c) {
+      var f = isFav(c), b = c.querySelector(".heart");
+      c.classList.toggle("fav", f);
+      if (b) { b.setAttribute("aria-pressed", f ? "true" : "false"); b.textContent = f ? "♥" : "♡"; }
+    });
+  }
+  // A hybrid game has 2D and 3D parts, so it shows under both filters.
+  function presOk(c) { var p = pres.value; return !p || c.dataset.pres === p || c.dataset.pres === "hybrid"; }
   function apply() {
     var needle = q.value.trim().toLowerCase();
     var parts = sort.value.split("-"), key = parts[0], dir = parts[1] === "desc" ? -1 : 1;
@@ -282,14 +290,17 @@ FILTER_JS = '''<script>
       if (av > bv) return dir;
       return a.dataset.name < b.dataset.name ? -1 : 1;
     });
+    // Favourites first, each group in the chosen order (the sort above is stable).
+    cards.sort(function (a, b) { return (isFav(b) ? 1 : 0) - (isFav(a) ? 1 : 0); });
     var shown = 0;
     cards.forEach(function (c) {
-      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) && (kind.value !== "online" || c.querySelector(".online"));
+      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) && (kind.value !== "online" || c.querySelector(".online")) && (kind.value !== "fav" || isFav(c)) && presOk(c);
       c.classList.toggle("hidden", !ok);
       if (ok) shown++;
       grid.appendChild(c);
     });
-    count.textContent = shown + " of " + cards.length + " games";
+    var hearts = cards.filter(isFav).length;
+    count.textContent = shown + " of " + cards.length + " games" + (hearts ? " · " + hearts + " ♥" : "");
   }
   function applyAndShare() {
     apply();
@@ -297,33 +308,46 @@ FILTER_JS = '''<script>
     if (q.value.trim()) p.set("q", q.value.trim());
     if (sort.value !== "added-desc") p.set("sort", sort.value);
     if (kind.value) p.set("kind", kind.value);
+    if (pres.value) p.set("pres", pres.value);
     var qs = p.toString();
     history.replaceState(null, "", qs ? "?" + qs : location.pathname);
   }
+  grid.addEventListener("click", function (ev) {
+    var b = ev.target.closest ? ev.target.closest(".heart") : null;
+    if (!b) return;
+    ev.preventDefault();
+    var id = b.closest(".game").dataset.id, i = favs.indexOf(id);
+    if (i === -1) favs.push(id); else favs.splice(i, 1);
+    save(); paint(); apply();
+  });
+  window.addEventListener("storage", function (ev) { if (ev.key === KEY) { favs = load(); paint(); apply(); } });
   q.addEventListener("input", applyAndShare);
   sort.addEventListener("change", applyAndShare);
   kind.addEventListener("change", applyAndShare);
+  pres.addEventListener("change", applyAndShare);
   var init = new URLSearchParams(location.search);
   if (init.get("q")) q.value = init.get("q");
   if (init.get("sort")) sort.value = init.get("sort");
   if (init.get("kind")) kind.value = init.get("kind");
+  if (init.get("pres")) pres.value = init.get("pres");
+  paint();
   apply();
 })();
 </script>'''
 
 
 def index_page(games: list[dict], web: list[dict] | None = None) -> str:
-    cards = "\n".join(card(g, i) for i, g in enumerate(games))
-    body = f'''{web_section(web or [])}
+    cards = "\n".join([web_card(g) for g in (web or [])] + [card(g, i) for i, g in enumerate(games)])
+    body = f'''
   <section class="start">
     <h2>Getting started</h2>
     <ol>
-      <li><strong>Install</strong> a game below and run the installer. It needs no administrator rights and offers a desktop shortcut.</li>
+      <li><strong>Play</strong> a browser game with one click, or <strong>install</strong> a Windows game and run the installer. It needs no administrator rights and offers a desktop shortcut.</li>
       <li><strong>Play</strong> from the Start menu or the shortcut. Most games support a gamepad; several players can share one screen where a game allows it.</li>
       <li><strong>Updates</strong> arrive by themselves: when a new version is released the game offers it, installs it over the old one and keeps your saved games
         (they live in <code>Saved Games</code>, not in the install folder).</li>
     </ol>
-    <p class="fine">Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
+    <p class="fine">Tap the heart on a game to keep it at the top of your feed (it is remembered in this browser). Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
     {signed_note(games)}
   </section>
   <div class="toolbar">
@@ -335,8 +359,14 @@ def index_page(games: list[dict], web: list[dict] | None = None) -> str:
       <option value="name-desc">Name Z–A</option>
       <option value="size-asc">Smallest first</option>
     </select>
+    <select id="pres" aria-label="2D or 3D">
+      <option value="" selected>2D and 3D</option>
+      <option value="2d">2D</option>
+      <option value="3d">3D</option>
+    </select>
     <select id="kind" aria-label="Show">
       <option value="" selected>All games</option>
+      <option value="fav">&#x2665; Favourites</option>
       <option value="online">Online multiplayer</option>
     </select>
     <span class="count" id="count"></span>
@@ -441,7 +471,7 @@ def main() -> int:
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
-        {k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")} for g in games],
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")}, "presentation": "3d"} for g in games],
         "browser_games": [{**g, "url": f'play/{g["url"]}'} for g in web]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
