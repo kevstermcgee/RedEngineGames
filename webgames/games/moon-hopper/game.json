@@ -10,6 +10,7 @@
   "input": [
     "keyboard",
     "mouse",
+    "touch",
     "gamepad"
   ],
   "networking": "offline",
@@ -22,12 +23,38 @@
     "height": 180,
     "scale": "fit"
   },
+  "controls": {
+    "layout": "platformer",
+    "visible": true,
+    "declared": false,
+    "buttons": [
+      {
+        "id": "a",
+        "label": "JUMP",
+        "action": "action"
+      }
+    ],
+    "pause": false
+  },
+  "distribution": [
+    "online",
+    "install"
+  ],
+  "install": {
+    "web_app": true,
+    "offline": true,
+    "icons": [
+      "icon-192.png",
+      "icon-512.png"
+    ],
+    "native_installer": false
+  },
   "thumbnail": "thumbnail.png",
-  "game_revision": "6d832e86fd848997",
-  "engine_revision": "cc65893a1b4d",
+  "game_revision": "32c9d35b2e66fd68",
+  "engine_revision": "a01c7abdf8bf",
   "engine_dirty": false,
-  "build_id": "bebd1c99a64a0d8b",
-  "build_timestamp": "2026-10-05T18:02:40Z",
+  "build_id": "f677aa7e9b45a62f",
+  "build_timestamp": "2026-10-05T22:25:50Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -51,23 +78,30 @@
     },
     "browser": {
       "engine": "Chromium 153.0.8010.12",
-      "checks": 27,
+      "checks": 44,
       "passed": true,
-      "package_id": "bebd1c99a64a0d8b"
+      "package_id": "f677aa7e9b45a62f"
     },
     "audio": {
       "claims": [
         "browser audio initialised",
         "a sound plays through Web Audio",
-        "music starts after the gesture"
+        "music starts after the gesture",
+        "phone: audio starts after the first touch"
       ],
       "human_listening_verified": false
     },
+    "features": [
+      "installable",
+      "offline",
+      "phone-touch",
+      "backup"
+    ],
     "human_playtest": false
   },
   "urls": {
     "stable": "games/moon-hopper/",
-    "immutable": "games/moon-hopper/builds/bebd1c99a64a0d8b/"
+    "immutable": "games/moon-hopper/builds/f677aa7e9b45a62f/"
   },
   "builds": [
     {
@@ -76,6 +110,13 @@
       "game_revision": "6d832e86fd848997",
       "engine_revision": "cc65893a1b4d",
       "path": "games/moon-hopper/builds/bebd1c99a64a0d8b/"
+    },
+    {
+      "build_id": "f677aa7e9b45a62f",
+      "built_at": "2026-10-05T22:25:50Z",
+      "game_revision": "32c9d35b2e66fd68",
+      "engine_revision": "a01c7abdf8bf",
+      "path": "games/moon-hopper/builds/f677aa7e9b45a62f/"
     }
   ]
 }
