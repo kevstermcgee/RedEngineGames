@@ -9,7 +9,8 @@
   ],
   "input": [
     "keyboard",
-    "mouse"
+    "mouse",
+    "touch"
   ],
   "networking": "offline",
   "persistence": [
@@ -21,12 +22,32 @@
     "height": 270,
     "scale": "fit"
   },
+  "controls": {
+    "layout": "tap",
+    "visible": true,
+    "declared": false,
+    "buttons": [],
+    "pause": true
+  },
+  "distribution": [
+    "online",
+    "install"
+  ],
+  "install": {
+    "web_app": true,
+    "offline": true,
+    "icons": [
+      "icon-192.png",
+      "icon-512.png"
+    ],
+    "native_installer": false
+  },
   "thumbnail": "thumbnail.png",
-  "game_revision": "1b387e459c72eb97",
-  "engine_revision": "cc65893a1b4d",
+  "game_revision": "a8ca560698b46902",
+  "engine_revision": "a01c7abdf8bf",
   "engine_dirty": false,
-  "build_id": "0f8bd5a885c7d021",
-  "build_timestamp": "2026-10-05T18:00:01Z",
+  "build_id": "812627aa54b5ec9f",
+  "build_timestamp": "2026-10-05T22:26:58Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -50,23 +71,30 @@
     },
     "browser": {
       "engine": "Chromium 153.0.8010.12",
-      "checks": 27,
+      "checks": 44,
       "passed": true,
-      "package_id": "0f8bd5a885c7d021"
+      "package_id": "812627aa54b5ec9f"
     },
     "audio": {
       "claims": [
         "browser audio initialised",
         "a sound plays through Web Audio",
-        "music starts after the gesture"
+        "music starts after the gesture",
+        "phone: audio starts after the first touch"
       ],
       "human_listening_verified": false
     },
+    "features": [
+      "installable",
+      "offline",
+      "phone-touch",
+      "backup"
+    ],
     "human_playtest": false
   },
   "urls": {
     "stable": "games/tiny-station/",
-    "immutable": "games/tiny-station/builds/0f8bd5a885c7d021/"
+    "immutable": "games/tiny-station/builds/812627aa54b5ec9f/"
   },
   "builds": [
     {
@@ -75,6 +103,13 @@
       "game_revision": "1b387e459c72eb97",
       "engine_revision": "cc65893a1b4d",
       "path": "games/tiny-station/builds/0f8bd5a885c7d021/"
+    },
+    {
+      "build_id": "812627aa54b5ec9f",
+      "built_at": "2026-10-05T22:26:58Z",
+      "game_revision": "a8ca560698b46902",
+      "engine_revision": "a01c7abdf8bf",
+      "path": "games/tiny-station/builds/812627aa54b5ec9f/"
     }
   ]
 }
