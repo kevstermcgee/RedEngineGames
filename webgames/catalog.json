@@ -13,20 +13,44 @@
       ],
       "input": [
         "keyboard",
-        "mouse"
+        "mouse",
+        "touch"
       ],
-      "distribution": null,
-      "install": null,
-      "controls": null,
+      "distribution": [
+        "online",
+        "install"
+      ],
+      "install": {
+        "web_app": true,
+        "offline": true,
+        "icons": [
+          "icon-192.png",
+          "icon-512.png"
+        ],
+        "native_installer": false
+      },
+      "controls": {
+        "layout": "dpad",
+        "visible": true,
+        "declared": false,
+        "buttons": [
+          {
+            "id": "a",
+            "label": "A",
+            "action": "action"
+          }
+        ],
+        "pause": false
+      },
       "networking": "offline",
       "persistence": [
         "settings",
         "progress"
       ],
-      "build_id": "98abde604221b886",
-      "build_timestamp": "2026-10-05T18:01:12Z",
-      "game_revision": "4dd697f0ae0d7a96",
-      "engine_revision": "cc65893a1b4d",
+      "build_id": "44fc56155163fa07",
+      "build_timestamp": "2026-10-05T22:24:23Z",
+      "game_revision": "e88087f433808135",
+      "engine_revision": "a01c7abdf8bf",
       "compatibility": {
         "requires": [
           "WebAssembly",
@@ -50,18 +74,25 @@
         },
         "browser": {
           "engine": "Chromium 153.0.8010.12",
-          "checks": 26,
+          "checks": 43,
           "passed": true,
-          "package_id": "98abde604221b886"
+          "package_id": "44fc56155163fa07"
         },
         "audio": {
           "claims": [
             "browser audio initialised",
             "a sound plays through Web Audio",
-            "music starts after the gesture"
+            "music starts after the gesture",
+            "phone: audio starts after the first touch"
           ],
           "human_listening_verified": false
         },
+        "features": [
+          "installable",
+          "offline",
+          "phone-touch",
+          "backup"
+        ],
         "human_playtest": false
       },
       "record": "games/coin-dash/game.json"
