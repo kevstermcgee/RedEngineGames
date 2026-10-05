@@ -1,0 +1,160 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "56914359a013402b",
+  "entry": "index.html",
+  "game": {
+    "id": "warden-arena",
+    "title": "Warden Arena",
+    "description": "A top-down boss fight: break the four pylons before the 3D Warden catches you. The boss, the HUD portrait and the backdrop are 3D; everything else is pixels.",
+    "game_revision": "ddbe4e03b67b9f80",
+    "presentation": "hybrid",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "touch"
+    ],
+    "persistence": [
+      "progress"
+    ],
+    "controls": {
+      "layout": "dpad",
+      "visible": true,
+      "declared": false,
+      "buttons": [
+        {
+          "id": "a",
+          "label": "A",
+          "action": "action"
+        }
+      ],
+      "pause": false
+    },
+    "distribution": [
+      "online",
+      "install"
+    ],
+    "install": {
+      "web_app": true,
+      "offline": true,
+      "icons": [
+        "icon-192.png",
+        "icon-512.png"
+      ],
+      "native_installer": false
+    },
+    "screen": {
+      "width": 320,
+      "height": 180,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "a01c7abdf8bf",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "given"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "619de56ec91d172d",
+      "frame": "f7b596400f427b4d",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "a bot breaks the four pylons and topples the Warden",
+        "ticks": 2700,
+        "hash": "068d2c0955d6c580",
+        "smoke": true
+      },
+      {
+        "name": "standing still loses to the Warden or the clock",
+        "ticks": 577,
+        "hash": "7043ecf5cd5780ca",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "arrow keys move the player",
+      "keys": [
+        "ArrowRight"
+      ],
+      "click": null,
+      "ms": 500,
+      "changes": [
+        "p_x"
+      ],
+      "persists": []
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 7729,
+      "sha256": "93a040c2a62096863e05b22e7b985b47c6a535ccaccbd8693e51ace6a61b53ba"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 625922,
+      "sha256": "56ceab1c26648dd9d97275750b9505480bc2f6eed941a42e2c70c5414a54d382"
+    },
+    {
+      "path": "icon-192.png",
+      "bytes": 7972,
+      "sha256": "fafd7f86adb2dc438680585cd1f29b1771e3f8355d366a0820bd190f366f109b"
+    },
+    {
+      "path": "icon-512.png",
+      "bytes": 15808,
+      "sha256": "ce7ad6783b44656a13d3b66bb133062497116d8247f7e97f3f05bea370a00a2c"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7590,
+      "sha256": "a0220a8b39eccf1a525ba304c11cdc9ef55bb24eb9f4e3e213221214dadbb05f"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 719,
+      "sha256": "668a9aedb7d5f6978c589a2815e20b3cc26f877b0c96954f7c371f65573bccc1"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 27829,
+      "sha256": "a5d5dab1bae2401f7fb9cb1dd95926fc6382738fa44b7448390cd18cb5561742"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 2109,
+      "sha256": "2360fa93f0bdd89407ddf001096dda1aa315ec1c9bfa027be563ef86456a244b"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 12139,
+      "sha256": "cd3250557846329f0e237f82c3f7db062086da7d8bf241f6ab01445165ac7da2"
+    }
+  ]
+}

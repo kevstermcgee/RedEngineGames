@@ -1,0 +1,29 @@
+{
+  "name": "Warden Arena",
+  "short_name": "Warden Arena",
+  "description": "A top-down boss fight: break the four pylons before the 3D Warden catches you. The boss, the HUD portrait and the backdrop are 3D; everything else is pixels.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#10141f",
+  "theme_color": "#0b0d12",
+  "categories": [
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -15,6 +15,9 @@
         "keyboard",
         "mouse"
       ],
+      "distribution": null,
+      "install": null,
+      "controls": null,
       "networking": "offline",
       "persistence": [
         "settings",
@@ -78,6 +81,9 @@
         "mouse",
         "gamepad"
       ],
+      "distribution": null,
+      "install": null,
+      "controls": null,
       "networking": "offline",
       "persistence": [
         "settings",
@@ -140,6 +146,9 @@
         "keyboard",
         "mouse"
       ],
+      "distribution": null,
+      "install": null,
+      "controls": null,
       "networking": "offline",
       "persistence": [
         "settings",
@@ -187,6 +196,98 @@
         "human_playtest": false
       },
       "record": "games/tiny-station/game.json"
+    },
+    {
+      "id": "warden-arena",
+      "title": "Warden Arena",
+      "description": "A top-down boss fight: break the four pylons before the 3D Warden catches you. The boss, the HUD portrait and the backdrop are 3D; everything else is pixels.",
+      "url": "games/warden-arena/",
+      "thumbnail": "games/warden-arena/thumbnail.png",
+      "presentation": "hybrid",
+      "platforms": [
+        "web"
+      ],
+      "input": [
+        "keyboard",
+        "touch"
+      ],
+      "distribution": [
+        "online",
+        "install"
+      ],
+      "install": {
+        "web_app": true,
+        "offline": true,
+        "icons": [
+          "icon-192.png",
+          "icon-512.png"
+        ],
+        "native_installer": false
+      },
+      "controls": {
+        "layout": "dpad",
+        "visible": true,
+        "declared": false,
+        "buttons": [
+          {
+            "id": "a",
+            "label": "A",
+            "action": "action"
+          }
+        ],
+        "pause": false
+      },
+      "networking": "offline",
+      "persistence": [
+        "progress"
+      ],
+      "build_id": "56914359a013402b",
+      "build_timestamp": "2026-10-05T20:49:26Z",
+      "game_revision": "ddbe4e03b67b9f80",
+      "engine_revision": "a01c7abdf8bf",
+      "compatibility": {
+        "requires": [
+          "WebAssembly",
+          "Canvas 2D"
+        ],
+        "optional": [
+          "localStorage (saves)",
+          "Web Audio (sound)",
+          "Gamepad API"
+        ],
+        "networking": "none: the game never touches the network after loading",
+        "browsers_verified": [
+          "Chromium 153.0.8010.12"
+        ],
+        "browsers_other": "untested"
+      },
+      "verification": {
+        "native": {
+          "scenarios": 2,
+          "passed": true
+        },
+        "browser": {
+          "engine": "Chromium 153.0.8010.12",
+          "checks": 34,
+          "passed": true,
+          "package_id": "56914359a013402b"
+        },
+        "audio": {
+          "claims": [
+            "browser audio initialised",
+            "a sound plays through Web Audio",
+            "phone: audio starts after the first touch"
+          ],
+          "human_listening_verified": false
+        },
+        "features": [
+          "installable",
+          "offline",
+          "phone-touch"
+        ],
+        "human_playtest": false
+      },
+      "record": "games/warden-arena/game.json"
     }
   ]
 }
