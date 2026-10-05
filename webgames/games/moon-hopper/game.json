@@ -1,0 +1,81 @@
+{
+  "schema": "red2d-game-meta/1",
+  "id": "moon-hopper",
+  "title": "Moon Hopper",
+  "description": "A small platformer: hop over the spikes, grab every gem and reach the flag in as few falls as you can.",
+  "presentation": "2d",
+  "platforms": [
+    "web"
+  ],
+  "input": [
+    "keyboard",
+    "mouse",
+    "gamepad"
+  ],
+  "networking": "offline",
+  "persistence": [
+    "settings",
+    "progress"
+  ],
+  "screen": {
+    "width": 320,
+    "height": 180,
+    "scale": "fit"
+  },
+  "thumbnail": "thumbnail.png",
+  "game_revision": "6d832e86fd848997",
+  "engine_revision": "cc65893a1b4d",
+  "engine_dirty": false,
+  "build_id": "bebd1c99a64a0d8b",
+  "build_timestamp": "2026-10-05T18:02:40Z",
+  "compatibility": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading",
+    "browsers_verified": [
+      "Chromium 153.0.8010.12"
+    ],
+    "browsers_other": "untested"
+  },
+  "verification": {
+    "native": {
+      "scenarios": 4,
+      "passed": true
+    },
+    "browser": {
+      "engine": "Chromium 153.0.8010.12",
+      "checks": 27,
+      "passed": true,
+      "package_id": "bebd1c99a64a0d8b"
+    },
+    "audio": {
+      "claims": [
+        "browser audio initialised",
+        "a sound plays through Web Audio",
+        "music starts after the gesture"
+      ],
+      "human_listening_verified": false
+    },
+    "human_playtest": false
+  },
+  "urls": {
+    "stable": "games/moon-hopper/",
+    "immutable": "games/moon-hopper/builds/bebd1c99a64a0d8b/"
+  },
+  "builds": [
+    {
+      "build_id": "bebd1c99a64a0d8b",
+      "built_at": "2026-10-05T18:02:40Z",
+      "game_revision": "6d832e86fd848997",
+      "engine_revision": "cc65893a1b4d",
+      "path": "games/moon-hopper/builds/bebd1c99a64a0d8b/"
+    }
+  ]
+}
