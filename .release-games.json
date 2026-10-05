@@ -191,6 +191,24 @@
       "name": "Killchain",
       "files": ["projects/killchain"],
       "arguments": ["content/projects/killchain/maps/main.json"]
+    },
+    {
+      "slug": "skyline-stacker",
+      "name": "Skyline Stacker",
+      "files": ["projects/skyline-stacker"],
+      "arguments": ["content/projects/skyline-stacker/maps/main.json"]
+    },
+    {
+      "slug": "castle-crash",
+      "name": "Castle Crash",
+      "files": ["projects/castle-crash"],
+      "arguments": ["content/projects/castle-crash/maps/main.json"]
+    },
+    {
+      "slug": "plate-chamber",
+      "name": "Plate Chamber",
+      "files": ["projects/plate-chamber"],
+      "arguments": ["content/projects/plate-chamber/maps/main.json"]
     }
   ],
   "native_playables": []

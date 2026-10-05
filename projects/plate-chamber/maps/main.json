@@ -1,0 +1,1208 @@
+{
+ "camera": {
+  "position": [
+   -11,
+   1.7,
+   0
+  ],
+  "target": [
+   0,
+   1.4,
+   0
+  ],
+  "fov": 70
+ },
+ "background": {
+  "sky_top": "#cfd8ee",
+  "sky_bottom": "#f5eee6"
+ },
+ "ambient": {
+  "color": "#fff4e6",
+  "intensity": 0.7
+ },
+ "lights": [
+  {
+   "id": "lamp_a",
+   "type": "point",
+   "position": [
+    -8,
+    2.8,
+    0
+   ],
+   "color": "#fff1d6",
+   "intensity": 30,
+   "range": 14
+  },
+  {
+   "id": "lamp_b",
+   "type": "point",
+   "position": [
+    0,
+    2.8,
+    0
+   ],
+   "color": "#fff1d6",
+   "intensity": 30,
+   "range": 14
+  },
+  {
+   "id": "lamp_c",
+   "type": "point",
+   "position": [
+    9,
+    2.8,
+    0
+   ],
+   "color": "#fff1d6",
+   "intensity": 30,
+   "range": 14
+  },
+  {
+   "id": "lamp_d",
+   "type": "point",
+   "position": [
+    16,
+    2.8,
+    0
+   ],
+   "color": "#fff1d6",
+   "intensity": 30,
+   "range": 14
+  }
+ ],
+ "player": {
+  "mode": "peaceful",
+  "throw_speed": 7.0
+ },
+ "music": false,
+ "zones": [
+  {
+   "id": "plate1",
+   "rect": [
+    -7.4,
+    -1.2,
+    -5.4,
+    1.2
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "plate2",
+   "rect": [
+    1.4,
+    -1.2,
+    3.4,
+    1.2
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "plate3",
+   "rect": [
+    9.2,
+    1.0,
+    11.6,
+    2.6
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "goal",
+   "rect": [
+    13.4,
+    -2.0,
+    17.4,
+    2.0
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "reset1",
+   "rect": [
+    -11.8,
+    1.9,
+    -10.8,
+    2.9
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "reset3",
+   "rect": [
+    6.2,
+    -2.9,
+    7.2,
+    -1.9
+   ],
+   "y": 0.0
+  }
+ ],
+ "spawns": [
+  {
+   "id": "start",
+   "position": [
+    -11,
+    0,
+    0
+   ],
+   "yaw_deg": 90,
+   "group": "puzzle"
+  }
+ ],
+ "vars": {
+  "opened": 0
+ },
+ "rules": [
+  {
+   "id": "start_on",
+   "when": {
+    "start": true
+   },
+   "do": [
+    {
+     "hide": "plate1_on"
+    },
+    {
+     "hide": "plate2_on"
+    },
+    {
+     "hide": "plate3_on"
+    }
+   ]
+  },
+  {
+   "id": "open1",
+   "when": {
+    "prop_enter": {
+     "zone": "plate1"
+    },
+    "prop": "crate_a"
+   },
+   "once": true,
+   "do": [
+    {
+     "collision": [
+      "door1",
+      false
+     ]
+    },
+    {
+     "hide": "door1"
+    },
+    {
+     "hide": "plate1_off"
+    },
+    {
+     "show": "plate1_on"
+    },
+    {
+     "add": [
+      "opened",
+      1
+     ]
+    },
+    {
+     "emit": "door1_open"
+    }
+   ]
+  },
+  {
+   "id": "open2",
+   "when": {
+    "prop_enter": {
+     "zone": "plate2"
+    },
+    "prop": "heavy"
+   },
+   "once": true,
+   "do": [
+    {
+     "collision": [
+      "door2",
+      false
+     ]
+    },
+    {
+     "hide": "door2"
+    },
+    {
+     "hide": "plate2_off"
+    },
+    {
+     "show": "plate2_on"
+    },
+    {
+     "add": [
+      "opened",
+      1
+     ]
+    },
+    {
+     "emit": "door2_open"
+    }
+   ],
+   "if": "mass(heavy) > 3 * mass(crate_a)"
+  },
+  {
+   "id": "open3",
+   "when": {
+    "prop_enter": {
+     "zone": "plate3"
+    },
+    "prop": "crate_c"
+   },
+   "once": true,
+   "do": [
+    {
+     "collision": [
+      "door3",
+      false
+     ]
+    },
+    {
+     "hide": "door3"
+    },
+    {
+     "hide": "plate3_off"
+    },
+    {
+     "show": "plate3_on"
+    },
+    {
+     "add": [
+      "opened",
+      1
+     ]
+    },
+    {
+     "emit": "door3_open"
+    }
+   ]
+  },
+  {
+   "id": "reset_room1",
+   "when": {
+    "enter": {
+     "zone": "reset1"
+    }
+   },
+   "cooldown": 2,
+   "do": [
+    {
+     "reset": [
+      "crate_a"
+     ]
+    },
+    {
+     "emit": "reset"
+    }
+   ]
+  },
+  {
+   "id": "reset_room3",
+   "when": {
+    "enter": {
+     "zone": "reset3"
+    }
+   },
+   "cooldown": 2,
+   "do": [
+    {
+     "reset": [
+      "crate_c"
+     ]
+    },
+    {
+     "emit": "reset"
+    }
+   ]
+  },
+  {
+   "id": "win",
+   "when": {
+    "enter": {
+     "zone": "goal"
+    }
+   },
+   "do": [
+    {
+     "emit": "victory"
+    },
+    {
+     "end": "victory"
+    }
+   ]
+  }
+ ],
+ "checks": {
+  "lint": {
+   "max_errors": 4
+  },
+  "sim": [
+   {
+    "name": "room 1: carry the crate onto the plate",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "walk": "-10.2,-0.4"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "-7.6,-0.2"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.5
+     }
+    ],
+    "max_seconds": 40,
+    "expect": [
+     {
+      "prop": "crate_a",
+      "in_zone": "plate1"
+     },
+     {
+      "event": "door1_open",
+      "count": 1
+     },
+     {
+      "collision_disabled": "door1"
+     },
+     {
+      "hidden": "door1"
+     },
+     {
+      "not_ended": true
+     }
+    ]
+   },
+   {
+    "name": "room 2: a light crate on the scale does nothing, the heavy block opens the door",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "walk": "-10.2,-0.4"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "-7.6,-0.2"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.5
+     },
+     {
+      "player": "p1",
+      "walk": "-4.4,0"
+     },
+     {
+      "player": "p1",
+      "walk": "-3.9,0"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "forward": 1,
+       "yaw_deg": 90,
+       "seconds": 6.0
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.5
+     }
+    ],
+    "max_seconds": 60,
+    "expect": [
+     {
+      "var": "opened",
+      "eq": 2
+     },
+     {
+      "prop": "heavy",
+      "in_zone": "plate2"
+     },
+     {
+      "collision_disabled": "door2"
+     }
+    ]
+   },
+   {
+    "name": "all three rooms, then the exit hall",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "walk": "-10.2,-0.4"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -10.2,
+        0.3,
+        -1.6
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "-7.6,-0.2"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.4,
+        0.0,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.5
+     },
+     {
+      "player": "p1",
+      "walk": "-4.4,0"
+     },
+     {
+      "player": "p1",
+      "walk": "-3.9,0"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "forward": 1,
+       "yaw_deg": 90,
+       "seconds": 6.0
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.5
+     },
+     {
+      "player": "p1",
+      "walk": "5.8,-0.4"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        5.2,
+        0.3,
+        -1.6
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        5.2,
+        0.3,
+        -1.6
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "4.8,1.9"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "yaw_deg": 90,
+       "pitch_deg": 24.0,
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "yaw_deg": 90,
+       "pitch_deg": 24.0,
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 4.0
+     },
+     {
+      "player": "p1",
+      "walk": "7.0,0"
+     },
+     {
+      "player": "p1",
+      "walk": "16.0,0"
+     }
+    ],
+    "max_seconds": 120,
+    "expect": [
+     {
+      "var": "opened",
+      "eq": 3
+     },
+     {
+      "prop": "crate_c",
+      "in_zone": "plate3"
+     },
+     {
+      "ended": "victory"
+     }
+    ]
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "floor",
+   "type": "plane",
+   "size": [
+    34,
+    8
+   ],
+   "position": [
+    3.0,
+    0.0,
+    0
+   ],
+   "material": {
+    "color": "#e8e0d0",
+    "roughness": 0.95
+   }
+  },
+  {
+   "id": "tile_0",
+   "type": "plane",
+   "size": [
+    7.6,
+    5.6
+   ],
+   "position": [
+    -8.0,
+    0.01,
+    0
+   ],
+   "material": {
+    "color": "#cfe3ff",
+    "roughness": 0.9
+   },
+   "collide": false
+  },
+  {
+   "id": "tile_1",
+   "type": "plane",
+   "size": [
+    7.6,
+    5.6
+   ],
+   "position": [
+    0.0,
+    0.01,
+    0
+   ],
+   "material": {
+    "color": "#ffe3cf",
+    "roughness": 0.9
+   },
+   "collide": false
+  },
+  {
+   "id": "tile_2",
+   "type": "plane",
+   "size": [
+    9.6,
+    5.6
+   ],
+   "position": [
+    9.0,
+    0.01,
+    0
+   ],
+   "material": {
+    "color": "#dcffcf",
+    "roughness": 0.9
+   },
+   "collide": false
+  },
+  {
+   "id": "tile_3",
+   "type": "plane",
+   "size": [
+    3.6,
+    5.6
+   ],
+   "position": [
+    16.0,
+    0.01,
+    0
+   ],
+   "material": {
+    "color": "#f0d9ff",
+    "roughness": 0.9
+   },
+   "collide": false
+  },
+  {
+   "id": "wall_n",
+   "type": "box",
+   "size": [
+    34,
+    3.2,
+    0.4
+   ],
+   "position": [
+    3.0,
+    1.6,
+    -3.2
+   ],
+   "material": {
+    "color": "#b9c2d6"
+   }
+  },
+  {
+   "id": "wall_s",
+   "type": "box",
+   "size": [
+    34,
+    3.2,
+    0.4
+   ],
+   "position": [
+    3.0,
+    1.6,
+    3.2
+   ],
+   "material": {
+    "color": "#b9c2d6"
+   }
+  },
+  {
+   "id": "wall_w",
+   "type": "box",
+   "size": [
+    0.4,
+    3.2,
+    6.8
+   ],
+   "position": [
+    -12.2,
+    1.6,
+    0
+   ],
+   "material": {
+    "color": "#b9c2d6"
+   }
+  },
+  {
+   "id": "wall_e",
+   "type": "box",
+   "size": [
+    0.4,
+    3.2,
+    6.8
+   ],
+   "position": [
+    18.2,
+    1.6,
+    0
+   ],
+   "material": {
+    "color": "#b9c2d6"
+   }
+  },
+  {
+   "id": "door1",
+   "type": "box",
+   "size": [
+    0.35,
+    3.0,
+    6.0
+   ],
+   "position": [
+    -4.0,
+    1.5,
+    0
+   ],
+   "material": {
+    "color": "#5d7ff0",
+    "roughness": 0.6
+   }
+  },
+  {
+   "id": "plate1_off",
+   "type": "plane",
+   "size": [
+    2.0,
+    2.4
+   ],
+   "position": [
+    -6.4,
+    0.03,
+    0.0
+   ],
+   "material": {
+    "color": "#e55d5d",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "plate1_on",
+   "type": "plane",
+   "size": [
+    2.0,
+    2.4
+   ],
+   "position": [
+    -6.4,
+    0.036,
+    0.0
+   ],
+   "material": {
+    "color": "#5de58a",
+    "emissive": "#1f6b3a",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "crate_a",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -10.2,
+    0,
+    -1.6
+   ],
+   "material": {
+    "color": "#ffb56b"
+   }
+  },
+  {
+   "id": "door2",
+   "type": "box",
+   "size": [
+    0.35,
+    3.0,
+    6.0
+   ],
+   "position": [
+    4.0,
+    1.5,
+    0
+   ],
+   "material": {
+    "color": "#f07a5d",
+    "roughness": 0.6
+   }
+  },
+  {
+   "id": "plate2_off",
+   "type": "plane",
+   "size": [
+    2.0,
+    2.4
+   ],
+   "position": [
+    2.4,
+    0.03,
+    0.0
+   ],
+   "material": {
+    "color": "#e55d5d",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "plate2_on",
+   "type": "plane",
+   "size": [
+    2.0,
+    2.4
+   ],
+   "position": [
+    2.4,
+    0.036,
+    0.0
+   ],
+   "material": {
+    "color": "#5de58a",
+    "emissive": "#1f6b3a",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "heavy",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -2.6,
+    0,
+    0
+   ],
+   "scale": [
+    2.4,
+    2.4,
+    2.4
+   ],
+   "movable": true,
+   "material": {
+    "color": "#8f6bd6"
+   }
+  },
+  {
+   "id": "rail_n",
+   "type": "box",
+   "size": [
+    6.8,
+    0.45,
+    0.25
+   ],
+   "position": [
+    0.2,
+    0.225,
+    -1.8800000000000001
+   ],
+   "material": {
+    "color": "#ffd9a8"
+   }
+  },
+  {
+   "id": "rail_s",
+   "type": "box",
+   "size": [
+    6.8,
+    0.45,
+    0.25
+   ],
+   "position": [
+    0.2,
+    0.225,
+    1.8800000000000001
+   ],
+   "material": {
+    "color": "#ffd9a8"
+   }
+  },
+  {
+   "id": "wall_door_n",
+   "type": "box",
+   "size": [
+    0.4,
+    3.0,
+    2.0
+   ],
+   "position": [
+    8.0,
+    1.5,
+    -2.0
+   ],
+   "material": {
+    "color": "#c9d6ee"
+   }
+  },
+  {
+   "id": "wall_win_lo",
+   "type": "box",
+   "size": [
+    0.4,
+    1.0,
+    2.0
+   ],
+   "position": [
+    8.0,
+    0.5,
+    2.0
+   ],
+   "material": {
+    "color": "#c9d6ee"
+   }
+  },
+  {
+   "id": "wall_win_hi",
+   "type": "box",
+   "size": [
+    0.4,
+    0.7000000000000002,
+    2.0
+   ],
+   "position": [
+    8.0,
+    2.65,
+    2.0
+   ],
+   "material": {
+    "color": "#c9d6ee"
+   }
+  },
+  {
+   "id": "door3",
+   "type": "box",
+   "size": [
+    0.4,
+    3.0,
+    2.0
+   ],
+   "position": [
+    8.0,
+    1.5,
+    0
+   ],
+   "material": {
+    "color": "#5df0b5",
+    "roughness": 0.6
+   }
+  },
+  {
+   "id": "plate3_off",
+   "type": "plane",
+   "size": [
+    2.4000000000000004,
+    1.6
+   ],
+   "position": [
+    10.399999999999999,
+    0.03,
+    1.8
+   ],
+   "material": {
+    "color": "#e55d5d",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "plate3_on",
+   "type": "plane",
+   "size": [
+    2.4000000000000004,
+    1.6
+   ],
+   "position": [
+    10.399999999999999,
+    0.036,
+    1.8
+   ],
+   "material": {
+    "color": "#5de58a",
+    "emissive": "#1f6b3a",
+    "roughness": 0.5
+   },
+   "collide": false
+  },
+  {
+   "id": "crate_c",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    5.2,
+    0,
+    -1.6
+   ],
+   "material": {
+    "color": "#ffb56b"
+   }
+  },
+  {
+   "id": "goal_mark",
+   "type": "plane",
+   "size": [
+    4.0,
+    4.0
+   ],
+   "position": [
+    15.399999999999999,
+    0.02,
+    0
+   ],
+   "material": {
+    "color": "#ffe27a",
+    "emissive": "#6b5a1f"
+   },
+   "collide": false
+  },
+  {
+   "id": "reset1_mark",
+   "type": "plane",
+   "size": [
+    1.0,
+    1.0
+   ],
+   "position": [
+    -11.3,
+    0.02,
+    2.4
+   ],
+   "material": {
+    "color": "#9aa5c0"
+   },
+   "collide": false
+  },
+  {
+   "id": "reset3_mark",
+   "type": "plane",
+   "size": [
+    1.0,
+    1.0
+   ],
+   "position": [
+    6.7,
+    0.02,
+    -2.4
+   ],
+   "material": {
+    "color": "#9aa5c0"
+   },
+   "collide": false
+  }
+ ]
+}

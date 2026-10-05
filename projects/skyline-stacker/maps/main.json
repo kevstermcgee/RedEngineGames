@@ -1,0 +1,1201 @@
+{
+ "camera": {
+  "position": [
+   -11.5,
+   2.4,
+   0
+  ],
+  "target": [
+   6,
+   1.4,
+   0
+  ],
+  "fov": 70
+ },
+ "background": {
+  "sky_top": "#9ec9ff",
+  "sky_bottom": "#fde7d3"
+ },
+ "ambient": {
+  "color": "#fff4e6",
+  "intensity": 0.6
+ },
+ "lights": [
+  {
+   "id": "sun",
+   "type": "directional",
+   "direction": [
+    -0.5,
+    -1.0,
+    -0.3
+   ],
+   "color": "#fff1d6",
+   "intensity": 1.1
+  }
+ ],
+ "player": {
+  "mode": "peaceful",
+  "throw_speed": 0
+ },
+ "music": false,
+ "zones": [
+  {
+   "id": "tower",
+   "rect": [
+    4.3,
+    -1.7,
+    7.7,
+    1.7
+   ],
+   "y": 0.0
+  },
+  {
+   "id": "yard",
+   "rect": [
+    -13,
+    -9,
+    13,
+    9
+   ]
+  }
+ ],
+ "spawns": [
+  {
+   "id": "start",
+   "position": [
+    -10.5,
+    0,
+    0
+   ],
+   "yaw_deg": 90,
+   "group": "stack"
+  }
+ ],
+ "vars": {
+  "wrecker_in": 0,
+  "stacked": 0,
+  "best": 0,
+  "need": 3,
+  "hold": 0,
+  "time_left": 120
+ },
+ "rules": [
+  {
+   "id": "wrecker_enters",
+   "when": {
+    "prop_enter": {
+     "zone": "tower"
+    },
+    "prop": "wrecker"
+   },
+   "do": [
+    {
+     "set": [
+      "wrecker_in",
+      1
+     ]
+    },
+    {
+     "emit": "barrel_in_tower"
+    }
+   ]
+  },
+  {
+   "id": "wrecker_leaves",
+   "when": {
+    "prop_exit": {
+     "zone": "tower"
+    },
+    "prop": "wrecker"
+   },
+   "do": [
+    {
+     "set": [
+      "wrecker_in",
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tick",
+   "when": {
+    "every": 1
+   },
+   "do": [
+    {
+     "add": [
+      "time_left",
+      -1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "timeup",
+   "when": {
+    "every": 1
+   },
+   "if": "time_left <= 0",
+   "do": [
+    {
+     "emit": "timeup"
+    },
+    {
+     "end": "timeup"
+    }
+   ]
+  },
+  {
+   "id": "count",
+   "when": {
+    "every": 0.25
+   },
+   "do": [
+    {
+     "set": [
+      "stacked",
+      "((props_in(tower) - wrecker_in) >= 1 + (tilt(crate_1) < 30) * (prop_y(crate_1) > 0.15) * (held(crate_1) == 0) + (tilt(crate_2) < 30) * (prop_y(crate_2) > 0.15) * (held(crate_2) == 0) + (tilt(crate_3) < 30) * (prop_y(crate_3) > 0.15) * (held(crate_3) == 0) + (tilt(crate_4) < 30) * (prop_y(crate_4) > 0.15) * (held(crate_4) == 0) + (tilt(crate_5) < 30) * (prop_y(crate_5) > 0.15) * (held(crate_5) == 0) + (tilt(crate_6) < 30) * (prop_y(crate_6) > 0.15) * (held(crate_6) == 0) + (tilt(crate_7) < 30) * (prop_y(crate_7) > 0.15) * (held(crate_7) == 0) + (tilt(crate_8) < 30) * (prop_y(crate_8) > 0.15) * (held(crate_8) == 0) + (tilt(crate_9) < 30) * (prop_y(crate_9) > 0.15) * (held(crate_9) == 0) + (tilt(crate_10) < 30) * (prop_y(crate_10) > 0.15) * (held(crate_10) == 0)) * (1 + (tilt(crate_1) < 30) * (prop_y(crate_1) > 0.15) * (held(crate_1) == 0) + (tilt(crate_2) < 30) * (prop_y(crate_2) > 0.15) * (held(crate_2) == 0) + (tilt(crate_3) < 30) * (prop_y(crate_3) > 0.15) * (held(crate_3) == 0) + (tilt(crate_4) < 30) * (prop_y(crate_4) > 0.15) * (held(crate_4) == 0) + (tilt(crate_5) < 30) * (prop_y(crate_5) > 0.15) * (held(crate_5) == 0) + (tilt(crate_6) < 30) * (prop_y(crate_6) > 0.15) * (held(crate_6) == 0) + (tilt(crate_7) < 30) * (prop_y(crate_7) > 0.15) * (held(crate_7) == 0) + (tilt(crate_8) < 30) * (prop_y(crate_8) > 0.15) * (held(crate_8) == 0) + (tilt(crate_9) < 30) * (prop_y(crate_9) > 0.15) * (held(crate_9) == 0) + (tilt(crate_10) < 30) * (prop_y(crate_10) > 0.15) * (held(crate_10) == 0)) * ((props_in(tower) - wrecker_in) >= 1)"
+     ]
+    },
+    {
+     "emit": "counted"
+    }
+   ]
+  },
+  {
+   "id": "best_up",
+   "when": {
+    "event": "counted"
+   },
+   "if": "stacked > best",
+   "do": [
+    {
+     "set": [
+      "best",
+      "stacked"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hold_up",
+   "when": {
+    "event": "counted"
+   },
+   "if": "stacked >= need",
+   "do": [
+    {
+     "add": [
+      "hold",
+      0.25
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hold_lost",
+   "when": {
+    "event": "counted"
+   },
+   "if": "stacked < need",
+   "do": [
+    {
+     "set": [
+      "hold",
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "win",
+   "when": {
+    "event": "counted"
+   },
+   "if": "hold >= 5.0",
+   "do": [
+    {
+     "emit": "victory"
+    },
+    {
+     "end": "victory"
+    }
+   ]
+  },
+  {
+   "id": "wreck_prep",
+   "when": {
+    "every": 25
+   },
+   "if": "time_left <= 90",
+   "do": [
+    {
+     "reset": "wrecker"
+    },
+    {
+     "emit": "wreck_go"
+    }
+   ]
+  },
+  {
+   "id": "wreck_go",
+   "when": {
+    "event": "wreck_go"
+   },
+   "do": [
+    {
+     "impulse": {
+      "object": "wrecker",
+      "dir": [
+       0,
+       0,
+       1
+      ],
+      "speed": 10.0
+     }
+    },
+    {
+     "emit": "barrel_incoming"
+    }
+   ]
+  }
+ ],
+ "checks": {
+  "lint": {
+   "max_errors": 0
+  },
+  "sim": [
+   {
+    "name": "the clock runs out with nothing built",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "wait": 123
+     }
+    ],
+    "max_seconds": 128,
+    "expect": [
+     {
+      "ended": "timeup"
+     },
+     {
+      "var": "stacked",
+      "eq": 0
+     },
+     {
+      "var": "best",
+      "eq": 0
+     }
+    ]
+   },
+   {
+    "name": "an unfinished two-crate tower is knocked over by the barrel's run",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "walk": "-2.80,-1.30"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -2.8,
+        0.28,
+        -2.4
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -2.8,
+        0.28,
+        -2.4
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "5.50,0.00"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        0.6,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        0.6,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.2
+     },
+     {
+      "player": "p1",
+      "walk": "-4.40,-1.30"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -4.4,
+        0.28,
+        -2.4
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -4.4,
+        0.28,
+        -2.4
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "5.50,0.00"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.1600000000000001,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.1600000000000001,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.2
+     },
+     {
+      "player": "p1",
+      "walk": "-9,6"
+     },
+     {
+      "player": "p1",
+      "wait": 75
+     }
+    ],
+    "max_seconds": 140,
+    "expect": [
+     {
+      "event": "barrel_incoming",
+      "min": 1
+     },
+     {
+      "prop": "wrecker",
+      "moved": true
+     },
+     {
+      "var": "best",
+      "gte": 2
+     },
+     {
+      "var": "stacked",
+      "lt": 2
+     },
+     {
+      "not_ended": true
+     }
+    ]
+   },
+   {
+    "name": "build a three-crate tower and keep it standing",
+    "players": [
+     {
+      "id": "p1",
+      "character": "human",
+      "spawn": "start"
+     }
+    ],
+    "script": [
+     {
+      "player": "p1",
+      "walk": "-2.80,-1.30"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -2.8,
+        0.28,
+        -2.4
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -2.8,
+        0.28,
+        -2.4
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "5.50,0.00"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        0.6,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        0.6,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.2
+     },
+     {
+      "player": "p1",
+      "walk": "-4.40,-1.30"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -4.4,
+        0.28,
+        -2.4
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -4.4,
+        0.28,
+        -2.4
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "5.50,0.00"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.1600000000000001,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.1600000000000001,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.2
+     },
+     {
+      "player": "p1",
+      "walk": "-6.00,-1.30"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.0,
+        0.28,
+        -2.4
+       ],
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        -6.0,
+        0.28,
+        -2.4
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "walk": "5.50,0.00"
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.7200000000000002,
+        0.0
+       ],
+       "seconds": 0.3
+      }
+     },
+     {
+      "player": "p1",
+      "hold": {
+       "look_at": [
+        6.0,
+        1.7200000000000002,
+        0.0
+       ],
+       "interact": true,
+       "seconds": 0.2
+      }
+     },
+     {
+      "player": "p1",
+      "wait": 1.2
+     },
+     {
+      "player": "p1",
+      "wait": 7.0
+     }
+    ],
+    "max_seconds": 80,
+    "expect": [
+     {
+      "ended": "victory"
+     },
+     {
+      "var": "best",
+      "gte": 3
+     }
+    ]
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "floor",
+   "type": "plane",
+   "size": [
+    40,
+    30
+   ],
+   "position": [
+    0,
+    0.0,
+    0
+   ],
+   "material": {
+    "color": "#d9d2c5",
+    "roughness": 0.95
+   }
+  },
+  {
+   "id": "stripe_a",
+   "type": "plane",
+   "size": [
+    24,
+    0.3
+   ],
+   "position": [
+    0,
+    0.01,
+    -4.5
+   ],
+   "material": {
+    "color": "#f4e3a1"
+   },
+   "collide": false
+  },
+  {
+   "id": "stripe_b",
+   "type": "plane",
+   "size": [
+    24,
+    0.3
+   ],
+   "position": [
+    0,
+    0.01,
+    4.5
+   ],
+   "material": {
+    "color": "#f4e3a1"
+   },
+   "collide": false
+  },
+  {
+   "id": "wall_n",
+   "type": "box",
+   "size": [
+    26,
+    2.2,
+    0.4
+   ],
+   "position": [
+    0,
+    1.1,
+    -9.2
+   ],
+   "material": {
+    "color": "#b7c4d9",
+    "roughness": 0.9
+   }
+  },
+  {
+   "id": "wall_s",
+   "type": "box",
+   "size": [
+    26,
+    2.2,
+    0.4
+   ],
+   "position": [
+    0,
+    1.1,
+    9.2
+   ],
+   "material": {
+    "color": "#b7c4d9",
+    "roughness": 0.9
+   }
+  },
+  {
+   "id": "wall_w",
+   "type": "box",
+   "size": [
+    0.4,
+    2.2,
+    18.8
+   ],
+   "position": [
+    -13.2,
+    1.1,
+    0
+   ],
+   "material": {
+    "color": "#b7c4d9",
+    "roughness": 0.9
+   }
+  },
+  {
+   "id": "wall_e",
+   "type": "box",
+   "size": [
+    0.4,
+    2.2,
+    18.8
+   ],
+   "position": [
+    13.2,
+    1.1,
+    0
+   ],
+   "material": {
+    "color": "#b7c4d9",
+    "roughness": 0.9
+   }
+  },
+  {
+   "id": "tower_bg_0",
+   "type": "box",
+   "size": [
+    8,
+    14,
+    8
+   ],
+   "position": [
+    -30,
+    7.0,
+    -26
+   ],
+   "material": {
+    "color": "#c9d7f2"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_0",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    -30,
+    14.25,
+    -26
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_1",
+   "type": "box",
+   "size": [
+    8,
+    10,
+    8
+   ],
+   "position": [
+    -18,
+    5.0,
+    -30
+   ],
+   "material": {
+    "color": "#f2c9d7"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_1",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    -18,
+    10.25,
+    -30
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_2",
+   "type": "box",
+   "size": [
+    8,
+    18,
+    8
+   ],
+   "position": [
+    -6,
+    9.0,
+    -34
+   ],
+   "material": {
+    "color": "#d7f2c9"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_2",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    -6,
+    18.25,
+    -34
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_3",
+   "type": "box",
+   "size": [
+    8,
+    12,
+    8
+   ],
+   "position": [
+    8,
+    6.0,
+    -30
+   ],
+   "material": {
+    "color": "#f2e6c9"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_3",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    8,
+    12.25,
+    -30
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_4",
+   "type": "box",
+   "size": [
+    8,
+    16,
+    8
+   ],
+   "position": [
+    20,
+    8.0,
+    -28
+   ],
+   "material": {
+    "color": "#d7c9f2"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_4",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    20,
+    16.25,
+    -28
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_5",
+   "type": "box",
+   "size": [
+    8,
+    11,
+    8
+   ],
+   "position": [
+    33,
+    5.5,
+    -32
+   ],
+   "material": {
+    "color": "#c9f2ee"
+   },
+   "collide": false
+  },
+  {
+   "id": "tower_bg_top_5",
+   "type": "box",
+   "size": [
+    8.4,
+    0.5,
+    8.4
+   ],
+   "position": [
+    33,
+    11.25,
+    -32
+   ],
+   "material": {
+    "color": "#8e9ab5"
+   },
+   "collide": false
+  },
+  {
+   "id": "pallet",
+   "type": "plane",
+   "size": [
+    3.4,
+    3.4
+   ],
+   "position": [
+    6.0,
+    0.02,
+    0.0
+   ],
+   "material": {
+    "color": "#e0a458",
+    "roughness": 0.9
+   },
+   "collide": false
+  },
+  {
+   "id": "pallet_edge",
+   "type": "plane",
+   "size": [
+    3.8,
+    3.8
+   ],
+   "position": [
+    6.0,
+    0.015,
+    0.0
+   ],
+   "material": {
+    "color": "#8a6a3f"
+   },
+   "collide": false
+  },
+  {
+   "id": "crate_1",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -6.0,
+    0,
+    -2.4
+   ],
+   "material": {
+    "color": "#ff9aa2"
+   }
+  },
+  {
+   "id": "crate_2",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -4.4,
+    0,
+    -2.4
+   ],
+   "material": {
+    "color": "#ffb7b2"
+   }
+  },
+  {
+   "id": "crate_3",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -2.8,
+    0,
+    -2.4
+   ],
+   "material": {
+    "color": "#ffdac1"
+   }
+  },
+  {
+   "id": "crate_4",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -1.1999999999999993,
+    0,
+    -2.4
+   ],
+   "material": {
+    "color": "#e2f0cb"
+   }
+  },
+  {
+   "id": "crate_5",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    0.40000000000000036,
+    0,
+    -2.4
+   ],
+   "material": {
+    "color": "#b5ead7"
+   }
+  },
+  {
+   "id": "crate_6",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -6.0,
+    0,
+    2.4
+   ],
+   "material": {
+    "color": "#c7ceea"
+   }
+  },
+  {
+   "id": "crate_7",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -4.4,
+    0,
+    2.4
+   ],
+   "material": {
+    "color": "#f6e6ff"
+   }
+  },
+  {
+   "id": "crate_8",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -2.8,
+    0,
+    2.4
+   ],
+   "material": {
+    "color": "#ffe6a7"
+   }
+  },
+  {
+   "id": "crate_9",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    -1.1999999999999993,
+    0,
+    2.4
+   ],
+   "material": {
+    "color": "#ffc4d6"
+   }
+  },
+  {
+   "id": "crate_10",
+   "type": "prop",
+   "prop": "crate",
+   "position": [
+    0.40000000000000036,
+    0,
+    2.4
+   ],
+   "material": {
+    "color": "#bde0fe"
+   }
+  },
+  {
+   "id": "wrecker",
+   "type": "prop",
+   "prop": "barrel",
+   "position": [
+    6.0,
+    0,
+    -4.4
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "movable": true,
+   "material": {
+    "color": "#e05a5a"
+   }
+  },
+  {
+   "id": "wrecker_lane",
+   "type": "plane",
+   "size": [
+    1.2,
+    2.8000000000000003
+   ],
+   "position": [
+    6.0,
+    0.013,
+    -3.0
+   ],
+   "material": {
+    "color": "#f6b8b8"
+   },
+   "collide": false
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+  "game": 1,
+  "name": "plate-chamber",
+  "engine": {
+    "path": "../../../RedEngine"
+  },
+  "blueprints": [],
+  "maps": [
+    "maps/main.json"
+  ],
+  "server": {
+    "map": "maps/main.json",
+    "port": 27015,
+    "spawn_group": "puzzle"
+  }
+}
