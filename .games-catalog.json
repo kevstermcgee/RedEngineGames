@@ -1,11 +1,23 @@
 {
   "collections": {
-    "demos": 45,
+    "demos": 48,
     "games": 8,
     "prototypes": 13,
     "tests": 19
   },
   "files": [
+    {
+      "path": "demos/examples/2d/coin-dash.game2d.json",
+      "sha256": "35261939ab328ca7ae04d6078c860f559ffee15d69c88763bebe847240fe620a"
+    },
+    {
+      "path": "demos/examples/2d/moon-hopper.game2d.json",
+      "sha256": "594f2323b663235da96c00b5d461c2c14d31d07b673850f45bc5b7c9b0b1ebac"
+    },
+    {
+      "path": "demos/examples/2d/tiny-station.game2d.json",
+      "sha256": "e3c8ea68e08cc23e28e777e3c66251ff74071f05c920a21e6e65e7d70e2b34f2"
+    },
     {
       "path": "demos/examples/arsenal_poses.rs",
       "sha256": "b553192f09541b1d51530e6bccc22d62444539b4bfa33a48a71e4eb3ee866442"
@@ -32,7 +44,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "148359d559d1614bf2be7a503c0f43cc54596026e9981397d32e2d096cfeb055"
+      "sha256": "62c6795251ceaef564d57746c999135ad3d991010ebf6678df11c5fe9ade6e46"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -450,6 +462,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "139bc29e7f25afd07baa94b1018f1d3f9afccd67",
+  "source_revision": "cc65893a1b4d0d3348e979ceb0de4856143a45f1",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
