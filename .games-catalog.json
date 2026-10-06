@@ -3,7 +3,7 @@
     "demos": 67,
     "games": 8,
     "prototypes": 13,
-    "tests": 27
+    "tests": 28
   },
   "files": [
     {
@@ -439,6 +439,10 @@
       "sha256": "e573adcf74695609e805d41b0730894c1182dc105cb48a6646d16697df5c695a"
     },
     {
+      "path": "tests/performance/history/launchpad.json",
+      "sha256": "55d2aae8697716439d0e2fab7f27fdffc9d1df452a8aa9ee85bb42eea25137d3"
+    },
+    {
       "path": "tests/performance/history/render.json",
       "sha256": "84a3e1e1f081552e24c5db4db885347656cf630c8a32dfa394fbf6b59238786a"
     },
@@ -570,6 +574,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "ee892bbbb4e832e3a2448a93260632ddaa581215",
+  "source_revision": "8088e7c0848a3799018d74a17f046a13f10ad0a5",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
