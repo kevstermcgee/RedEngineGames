@@ -3,7 +3,7 @@
     "demos": 67,
     "games": 8,
     "prototypes": 13,
-    "tests": 28
+    "tests": 29
   },
   "files": [
     {
@@ -56,7 +56,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "56ccb4d6d59096b75492b301342541db5cd5acf6869222d0e6263f457fb427c7"
+      "sha256": "f741681c77fbf311d99f79931fc431ba79a9ca5a81c6c184042d787c36813350"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -443,6 +443,10 @@
       "sha256": "55d2aae8697716439d0e2fab7f27fdffc9d1df452a8aa9ee85bb42eea25137d3"
     },
     {
+      "path": "tests/performance/history/mcp-server.json",
+      "sha256": "aa96c3df5be8076445ca1ae48f6ce98093a84b12e657a138b96154703e55ea81"
+    },
+    {
       "path": "tests/performance/history/render.json",
       "sha256": "84a3e1e1f081552e24c5db4db885347656cf630c8a32dfa394fbf6b59238786a"
     },
@@ -574,6 +578,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "7ddacc1390d7222489b0cff327bd0c942ae75160",
+  "source_revision": "b02b1c21ca4234aba01bf02d6950fb42718434be",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
