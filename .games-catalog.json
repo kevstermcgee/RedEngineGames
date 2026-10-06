@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 65,
+    "demos": 67,
     "games": 8,
     "prototypes": 13,
     "tests": 27
@@ -9,6 +9,10 @@
     {
       "path": "demos/examples/2d/coin-dash.game2d.json",
       "sha256": "5fc32b110b1b0a5ee9e931b78416f7c3baf825d3c10c914fd53e568f6c1cb0a7"
+    },
+    {
+      "path": "demos/examples/2d/gate-meadow.game2d.json",
+      "sha256": "5fe68491060d6056ec4138d5df9e97db69dead4903cbe7db832ccae6c420062c"
     },
     {
       "path": "demos/examples/2d/lantern-yard.game2d.json",
@@ -257,6 +261,10 @@
     {
       "path": "demos/examples/weapon_poses.rs",
       "sha256": "46099e3845d3ca1a7234ce16fa86f2e066fd9330da7aa0e1f52e9508418fff14"
+    },
+    {
+      "path": "demos/examples/web3d_parity.rs",
+      "sha256": "f887bc2da2cd71219098adf07991a08607e3848e943137c9f469cc876924afc2"
     },
     {
       "path": "demos/multiplayer/lobby_demo.ps1",
@@ -562,6 +570,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "86d5ef5987d249b4e8f59077257898c2c3184958",
+  "source_revision": "ee892bbbb4e832e3a2448a93260632ddaa581215",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
