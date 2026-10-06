@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 48,
+    "demos": 50,
     "games": 8,
     "prototypes": 13,
     "tests": 19
@@ -8,15 +8,23 @@
   "files": [
     {
       "path": "demos/examples/2d/coin-dash.game2d.json",
-      "sha256": "35261939ab328ca7ae04d6078c860f559ffee15d69c88763bebe847240fe620a"
+      "sha256": "5fc32b110b1b0a5ee9e931b78416f7c3baf825d3c10c914fd53e568f6c1cb0a7"
+    },
+    {
+      "path": "demos/examples/2d/lantern-yard.game2d.json",
+      "sha256": "c51d5c0642d07e714e97f6e13ad1cc0ddefac5dfdae55bc7db78e3731dd41f72"
     },
     {
       "path": "demos/examples/2d/moon-hopper.game2d.json",
-      "sha256": "594f2323b663235da96c00b5d461c2c14d31d07b673850f45bc5b7c9b0b1ebac"
+      "sha256": "bd061462f81451388bec74f61e5a5f5234fbdabf019e13da46d064324da42511"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
-      "sha256": "e3c8ea68e08cc23e28e777e3c66251ff74071f05c920a21e6e65e7d70e2b34f2"
+      "sha256": "542405d4a62dcc4ba829211235fd1ba8a34d1fbbccd3cbd5a10cc707b6841043"
+    },
+    {
+      "path": "demos/examples/2d/warden-arena.game2d.json",
+      "sha256": "93a040c2a62096863e05b22e7b985b47c6a535ccaccbd8693e51ace6a61b53ba"
     },
     {
       "path": "demos/examples/arsenal_poses.rs",
@@ -462,6 +470,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "cc65893a1b4d0d3348e979ceb0de4856143a45f1",
+  "source_revision": "a89d895ef07c9d1b85eca237b28dc04486922f8f",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
