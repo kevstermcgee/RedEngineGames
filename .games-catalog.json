@@ -52,7 +52,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "62c6795251ceaef564d57746c999135ad3d991010ebf6678df11c5fe9ade6e46"
+      "sha256": "56ccb4d6d59096b75492b301342541db5cd5acf6869222d0e6263f457fb427c7"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -502,6 +502,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "316c8d76e5317367159c90f2d0d05442a95a98e8",
+  "source_revision": "88a81659e266f10510ea39a6a4d94b98929aca73",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
