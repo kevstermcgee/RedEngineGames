@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 50,
+    "demos": 58,
     "games": 8,
     "prototypes": 13,
     "tests": 19
@@ -77,6 +77,38 @@
     {
       "path": "demos/examples/external/topdown_switch/topdown_switch.json",
       "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/.gitignore",
+      "sha256": "bfec78fd672a9d2ce53ba75612ca939778c743ec7b3d7303d3b5d056d55d9674"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/Cargo.toml",
+      "sha256": "df07c2d44ed7af011c6afd73b9180f7784e91d1c920d263dbda0612b62c6f2ee"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/README.md",
+      "sha256": "d1a91f4f26c89157796e0eabaaa9988335f049af23a33df8662dd99b9c0332a9"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/probe.py",
+      "sha256": "ca439dad4f1c7f7b7827758bc1216777381f070ff53eef5fb0ec554e746af7a7"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/run.py",
+      "sha256": "472f42b765a06ec7b016ea638086ed68dff2f6792d63d5984b2a8400ad3ea87e"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/shaders.py",
+      "sha256": "ea5d0273b32829df5df77821e7c1e27a6345111bf3030d04e444a7e2d1f28cfd"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/src/lib.rs",
+      "sha256": "9c9137369ea2153cdd6b8556680124156fe111dd96c0689cb6a4e2fc61a5d04c"
+    },
+    {
+      "path": "demos/examples/external/wgpu-web-spike/web/index.html",
+      "sha256": "f5538710c3d1fee018d5f86b0963e5c96eae5840cb6d26fd9f58b75de7bffd34"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -470,6 +502,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "5e5e61501814fdf606f5143cd287951ffa5cccb0",
+  "source_revision": "1cc82400006e1c117a4781f742072b3b46b72b63",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
