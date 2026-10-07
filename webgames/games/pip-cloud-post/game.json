@@ -2,7 +2,7 @@
   "schema": "red2d-game-meta/1",
   "id": "pip-cloud-post",
   "title": "Pip Cloud Post",
-  "description": "Pip the scarf-wearing cloud rabbit delivers sunshine! Steer each automatic bounce; A/Space slams down for a super spring. Catch 12 letters before 45 seconds. Fast wins earn bonus points. B toggles music. Three hearts. Pass after every round. Records, ranks and progress auto-save; backup on the start card.",
+  "description": "Endless cloud survival! Pip bounces automatically. Steer, slam with A for a super spring, and use B to blow away nearby rain. Storms get faster and denser every 20 seconds. Four hearts; survive as long as you can, then pass the controller. F fullscreen. Windows installer available. Clean gameplay HUD; daylight cloud post art direction.",
   "presentation": "2d",
   "platforms": [
     "web"
@@ -35,7 +35,7 @@
       },
       {
         "id": "b",
-        "label": "MUSIC",
+        "label": "GUST",
         "action": "secondary"
       }
     ],
@@ -52,14 +52,15 @@
       "icon-192.png",
       "icon-512.png"
     ],
-    "native_installer": false
+    "native_installer": true,
+    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-pip-cloud-post.exe"
   },
   "thumbnail": "thumbnail.png",
-  "game_revision": "41dea92298fc51c3",
+  "game_revision": "05f6951849511875",
   "engine_revision": "6a42dd1ed650",
   "engine_dirty": false,
-  "build_id": "7c53636cbd97dcbc",
-  "build_timestamp": "2026-10-07T01:36:36Z",
+  "build_id": "2e051c0cc5f5cd29",
+  "build_timestamp": "2026-10-07T02:16:36Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -79,13 +80,13 @@
   "verification": {
     "native": {
       "scenarios": 5,
-      "passed": true
+      "passed": false
     },
     "browser": {
       "engine": "Chromium 153.0.8010.12",
       "checks": 67,
       "passed": true,
-      "package_id": "7c53636cbd97dcbc"
+      "package_id": "2e051c0cc5f5cd29"
     },
     "audio": {
       "claims": [
@@ -106,8 +107,8 @@
       "schema": "red2d-evidence/1",
       "pieces": {
         "native_scenarios": {
-          "status": "passed",
-          "detail": "25 passed, 0 failed in 0.7 s"
+          "status": "not_run",
+          "detail": "not run"
         },
         "wasm_compiled": {
           "status": "passed",
@@ -139,7 +140,7 @@
         },
         "input_touch": {
           "status": "passed",
-          "detail": "3 check(s) passed in Chromium 153.0.8010.12: touching ['right'] held ['right'], p_x changed (64 -> 134), released: True"
+          "detail": "3 check(s) passed in Chromium 153.0.8010.12: touching ['right'] held ['right'], p_x changed (64 -> 136.5), released: True"
         },
         "input_gamepad": {
           "status": "passed",
@@ -159,7 +160,7 @@
         },
         "audio_playback": {
           "status": "passed",
-          "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.22, \"rate\": 44100, \"state\": \"running\"}"
+          "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.28, \"rate\": 44100, \"state\": \"running\"}"
         },
         "offline_cache": {
           "status": "passed",
@@ -221,7 +222,7 @@
   },
   "urls": {
     "stable": "games/pip-cloud-post/",
-    "immutable": "games/pip-cloud-post/builds/7c53636cbd97dcbc/"
+    "immutable": "games/pip-cloud-post/builds/2e051c0cc5f5cd29/"
   },
   "builds": [
     {
@@ -230,6 +231,13 @@
       "game_revision": "41dea92298fc51c3",
       "engine_revision": "6a42dd1ed650",
       "path": "games/pip-cloud-post/builds/7c53636cbd97dcbc/"
+    },
+    {
+      "build_id": "2e051c0cc5f5cd29",
+      "built_at": "2026-10-07T02:16:36Z",
+      "game_revision": "05f6951849511875",
+      "engine_revision": "6a42dd1ed650",
+      "path": "games/pip-cloud-post/builds/2e051c0cc5f5cd29/"
     }
   ]
 }
