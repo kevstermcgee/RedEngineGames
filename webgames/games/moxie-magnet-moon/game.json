@@ -53,14 +53,14 @@
       "icon-512.png"
     ],
     "native_installer": true,
-    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-moxie-magnet-moon.exe"
+    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-moxie-magnet-moon.exe"
   },
   "thumbnail": "thumbnail.png",
-  "game_revision": "773fc79c6929648a",
+  "game_revision": "d858ae3470a2ee9f",
   "engine_revision": "6a42dd1ed650",
   "engine_dirty": false,
-  "build_id": "c0545cffb226fbe9",
-  "build_timestamp": "2026-10-07T02:16:53Z",
+  "build_id": "eea368321fb3fd01",
+  "build_timestamp": "2026-10-07T02:26:26Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -86,7 +86,7 @@
       "engine": "Chromium 153.0.8010.12",
       "checks": 67,
       "passed": true,
-      "package_id": "c0545cffb226fbe9"
+      "package_id": "eea368321fb3fd01"
     },
     "audio": {
       "claims": [
@@ -140,7 +140,7 @@
         },
         "input_touch": {
           "status": "passed",
-          "detail": "3 check(s) passed in Chromium 153.0.8010.12: touching ['right'] held ['right'], p_x changed (240 -> 291.33349609375), released: True"
+          "detail": "3 check(s) passed in Chromium 153.0.8010.12: touching ['right'] held ['right'], p_x changed (240 -> 295.00018310546875), released: True"
         },
         "input_gamepad": {
           "status": "passed",
@@ -222,7 +222,7 @@
   },
   "urls": {
     "stable": "games/moxie-magnet-moon/",
-    "immutable": "games/moxie-magnet-moon/builds/c0545cffb226fbe9/"
+    "immutable": "games/moxie-magnet-moon/builds/eea368321fb3fd01/"
   },
   "builds": [
     {
@@ -238,6 +238,13 @@
       "game_revision": "773fc79c6929648a",
       "engine_revision": "6a42dd1ed650",
       "path": "games/moxie-magnet-moon/builds/c0545cffb226fbe9/"
+    },
+    {
+      "build_id": "eea368321fb3fd01",
+      "built_at": "2026-10-07T02:26:26Z",
+      "game_revision": "d858ae3470a2ee9f",
+      "engine_revision": "6a42dd1ed650",
+      "path": "games/moxie-magnet-moon/builds/eea368321fb3fd01/"
     }
   ]
 }
