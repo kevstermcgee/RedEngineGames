@@ -209,6 +209,27 @@
       "name": "Plate Chamber",
       "files": ["projects/plate-chamber"],
       "arguments": ["content/projects/plate-chamber/maps/main.json"]
+    },
+    {
+      "slug": "moxie-magnet-moon",
+      "name": "Moxie Magnet Moon",
+      "kind": "2d",
+      "files": ["projects/date-night-arcade/moxie-magnet-moon"],
+      "arguments": ["content/projects/date-night-arcade/moxie-magnet-moon/moxie-magnet-moon.game2d.json"]
+    },
+    {
+      "slug": "pip-cloud-post",
+      "name": "Pip Cloud Post",
+      "kind": "2d",
+      "files": ["projects/date-night-arcade/pip-cloud-post"],
+      "arguments": ["content/projects/date-night-arcade/pip-cloud-post/pip-cloud-post.game2d.json"]
+    },
+    {
+      "slug": "riff-rooftop-rush",
+      "name": "Riff Rooftop Rush",
+      "kind": "2d",
+      "files": ["projects/date-night-arcade/riff-rooftop-rush"],
+      "arguments": ["content/projects/date-night-arcade/riff-rooftop-rush/riff-rooftop-rush.game2d.json"]
     }
   ],
   "native_playables": []
