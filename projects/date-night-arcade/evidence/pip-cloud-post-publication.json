@@ -1,0 +1,15 @@
+{
+  "game": "pip-cloud-post",
+  "build_id": "7c53636cbd97dcbc",
+  "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/pip-cloud-post/",
+  "levels": {
+    "built": true,
+    "locally_verified": true,
+    "uploaded": true,
+    "remotely_playable": true,
+    "human_playtested": false
+  },
+  "local_browser_checks": 67,
+  "remote_browser_checks": 54,
+  "native_scenarios": 5
+}

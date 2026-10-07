@@ -1,0 +1,29 @@
+[
+  {
+    "game": "pip-cloud-post",
+    "passed": true,
+    "controller": "simulated standard Gamepad API",
+    "mechanic": "stick steers; A slam creates a super spring",
+    "progress_reload": true,
+    "A_restart_alternates": true,
+    "errors": []
+  },
+  {
+    "game": "moxie-magnet-moon",
+    "passed": true,
+    "controller": "simulated standard Gamepad API",
+    "mechanic": "A snap collects a cluster; B pulse after recharge",
+    "progress_reload": true,
+    "A_restart_alternates": true,
+    "errors": []
+  },
+  {
+    "game": "riff-rooftop-rush",
+    "passed": true,
+    "controller": "simulated standard Gamepad API",
+    "mechanic": "D-pad changes lanes; B centers; A hops",
+    "progress_reload": true,
+    "A_restart_alternates": true,
+    "errors": []
+  }
+]

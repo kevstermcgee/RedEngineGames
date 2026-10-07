@@ -1,0 +1,15 @@
+{
+  "game": "moxie-magnet-moon",
+  "build_id": "9db2d9f6ca034b2a",
+  "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/moxie-magnet-moon/",
+  "levels": {
+    "built": true,
+    "locally_verified": true,
+    "uploaded": true,
+    "remotely_playable": true,
+    "human_playtested": false
+  },
+  "local_browser_checks": 67,
+  "remote_browser_checks": 54,
+  "native_scenarios": 5
+}

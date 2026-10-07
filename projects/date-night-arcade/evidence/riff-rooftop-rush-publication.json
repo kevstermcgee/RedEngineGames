@@ -1,0 +1,15 @@
+{
+  "game": "riff-rooftop-rush",
+  "build_id": "8c93dd6e60f0d8a9",
+  "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/riff-rooftop-rush/",
+  "levels": {
+    "built": true,
+    "locally_verified": true,
+    "uploaded": true,
+    "remotely_playable": true,
+    "human_playtested": false
+  },
+  "local_browser_checks": 67,
+  "remote_browser_checks": 54,
+  "native_scenarios": 6
+}

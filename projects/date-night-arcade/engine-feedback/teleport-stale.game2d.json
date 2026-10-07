@@ -1,0 +1,19 @@
+{
+  "game2d": 1,
+  "id": "teleport-coordinate-repro",
+  "title": "Teleport coordinate regression",
+  "description": "A marker should appear at the teleported player, but p_x stays stale inside the action list.",
+  "capabilities": {"presentation":"2d","platforms":["web"],"networking":"offline","input":["keyboard"],"persistence":[]},
+  "view": {"width":160,"height":90},
+  "vars": {"hit":0},
+  "prefabs": {
+    "player": {"tag":"player","shape":{"circle":4,"color":"#ffffff"}},
+    "marker": {"tag":"marker","shape":{"circle":4,"color":"#ff0000"}}
+  },
+  "scene": [{"prefab":"player","at":[40,45],"id":"p"}],
+  "rules": [
+    {"id":"teleport then mark current position","when":{"press":"action"},"do":[{"teleport":{"target":"id:p","to":[100,45]}},{"spawn":{"prefab":"marker","at":["p_x","p_y"]}}]},
+    {"id":"confirm marker overlaps the player","when":{"touch":["player","marker"]},"do":[{"set":["hit",1]}]}
+  ],
+  "checks":{"scenarios":[{"name":"spawn reads the teleported position","script":[{"press":"action"},{"wait":0.1}],"expect":[{"entity":"p","near":[100,45],"tol":1},{"var":"hit","eq":1}]}]}
+}
