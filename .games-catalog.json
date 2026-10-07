@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 69,
+    "demos": 60,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -8,31 +8,31 @@
   "files": [
     {
       "path": "demos/examples/2d/coin-dash.game2d.json",
-      "sha256": "5fc32b110b1b0a5ee9e931b78416f7c3baf825d3c10c914fd53e568f6c1cb0a7"
+      "sha256": "3a0bf6f378b4f91a32e94d5060ac86e10869e2fd9fd873455b404cd62b58f899"
     },
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
-      "sha256": "5fe68491060d6056ec4138d5df9e97db69dead4903cbe7db832ccae6c420062c"
+      "sha256": "71e6ee6c6259cb959c189ad6f9edee88c728fec85c900c9fbbc6585deb6ccce9"
     },
     {
       "path": "demos/examples/2d/lantern-yard.game2d.json",
-      "sha256": "c51d5c0642d07e714e97f6e13ad1cc0ddefac5dfdae55bc7db78e3731dd41f72"
+      "sha256": "799940835555c0f389872c7fbead44c3c4765db6e8ad045716d3b6e2c893a8ed"
     },
     {
       "path": "demos/examples/2d/medic-run.game2d.json",
-      "sha256": "ebdf885a067e777ef58da4ea8c452de9a5a0f67c5618b407702ed3a4cce4a5de"
+      "sha256": "5a989f72a5ce372444ce0bfc93196eabbdd468d1de7be44645936bb1b91daaad"
     },
     {
       "path": "demos/examples/2d/moon-hopper.game2d.json",
-      "sha256": "bd061462f81451388bec74f61e5a5f5234fbdabf019e13da46d064324da42511"
+      "sha256": "6ca34a70d4268c9b080556e4fa0387b648354ac4798911edadc23cb449891d0b"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
-      "sha256": "15a0a6fe240befe99c6dacdd29e824731d0968db1c558cb004fb82e84cc4dc27"
+      "sha256": "3a4bcc18b86c7415a42324ce53345b62bf8787ac0238eb7779cc11ed2388ba5e"
     },
     {
       "path": "demos/examples/2d/warden-arena.game2d.json",
-      "sha256": "93a040c2a62096863e05b22e7b985b47c6a535ccaccbd8693e51ace6a61b53ba"
+      "sha256": "4453bbe3201eb77988cf0b4a44bcb25c56e8d16e48af77103e9080fc459bbd51"
     },
     {
       "path": "demos/examples/arsenal_poses.rs",
@@ -60,7 +60,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "f741681c77fbf311d99f79931fc431ba79a9ca5a81c6c184042d787c36813350"
+      "sha256": "d168508802747b7e997369f7498b4f4390b6e8b904b53f9b6b7cd7502f631b67"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -85,38 +85,6 @@
     {
       "path": "demos/examples/external/topdown_switch/topdown_switch.json",
       "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/.gitignore",
-      "sha256": "bfec78fd672a9d2ce53ba75612ca939778c743ec7b3d7303d3b5d056d55d9674"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/Cargo.toml",
-      "sha256": "df07c2d44ed7af011c6afd73b9180f7784e91d1c920d263dbda0612b62c6f2ee"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/README.md",
-      "sha256": "d1a91f4f26c89157796e0eabaaa9988335f049af23a33df8662dd99b9c0332a9"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/probe.py",
-      "sha256": "ca439dad4f1c7f7b7827758bc1216777381f070ff53eef5fb0ec554e746af7a7"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/run.py",
-      "sha256": "472f42b765a06ec7b016ea638086ed68dff2f6792d63d5984b2a8400ad3ea87e"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/shaders.py",
-      "sha256": "ea5d0273b32829df5df77821e7c1e27a6345111bf3030d04e444a7e2d1f28cfd"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/src/lib.rs",
-      "sha256": "9c9137369ea2153cdd6b8556680124156fe111dd96c0689cb6a4e2fc61a5d04c"
-    },
-    {
-      "path": "demos/examples/external/wgpu-web-spike/web/index.html",
-      "sha256": "f5538710c3d1fee018d5f86b0963e5c96eae5840cb6d26fd9f58b75de7bffd34"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -212,35 +180,35 @@
     },
     {
       "path": "demos/examples/patterns/checkpoint-respawn.game2d.json",
-      "sha256": "18bcac166a5cbc4a5031c6876f3e09dde58734a4651e0ccd6dd6a0309d2274d0"
+      "sha256": "a08715b84cecdf3778fa2dbaddc2f8c1eb5f7830a29e010bcc5173abd9cb7870"
     },
     {
       "path": "demos/examples/patterns/collect-then-exit.game2d.json",
-      "sha256": "f113ee3dadef0fbf55bbc851e54260d6e3c404cfb73a52192f384a00276af2d9"
+      "sha256": "123d05c2ff6d39980c5365d87b2b9c8f4f7452b9996067cf6cb2278f482c3d1a"
     },
     {
       "path": "demos/examples/patterns/health-damage.game2d.json",
-      "sha256": "be9d7a7c04d7c2f3761c3b99642bee29d0d450531da0757d2b342e70c61a8447"
+      "sha256": "cb7bab0a90939f3d26e0a056b2ec0e6cc32554665eb020e0dd469f65ee1c3ae0"
     },
     {
       "path": "demos/examples/patterns/key-door.game2d.json",
-      "sha256": "5b5b6907e84f9164ec9cf4747843b158228611f924952fd57daeba0f006e7a9b"
+      "sha256": "900ca263bf249a30590d738dc67a9bb6b0e1bb0306782dc41dc9a8b6319138ba"
     },
     {
       "path": "demos/examples/patterns/shared-effect.game2d.json",
-      "sha256": "de96526c1b55aef1b41bf51662b9243717e7de3ee9d325316adb89fa56493d2c"
+      "sha256": "66cd4e817c727d9c2992aefd9445774e6f6aa9ddfd8e63fda1e3f911ba6666d4"
     },
     {
       "path": "demos/examples/patterns/spawner-waves.game2d.json",
-      "sha256": "22aa5f8be253d28726d3a530bcacf0322d180b9e3f0a639de660d580094c827e"
+      "sha256": "41c53cd890882a9cf19f59370aa3f1672b253650b0a082420b74267356c91e47"
     },
     {
       "path": "demos/examples/patterns/survive-then-escape.game2d.json",
-      "sha256": "7638aa85744131d6d5197c4c82a89029e1cd8a693c02bf6ce641383a84c49e6b"
+      "sha256": "e5da9c6139decdec3e3adfdbf1e96238319d2136e611c8fe53365eb7a95e3c40"
     },
     {
       "path": "demos/examples/patterns/timer-lose.game2d.json",
-      "sha256": "7a27b8de71103ce106c901ce0751c6cfc717d7998695acf97134b2ad259cb4a7"
+      "sha256": "c5c26facd5227423630af5af2aa7c256c427bb74ca9ab3a7a458d7511dc333b5"
     },
     {
       "path": "demos/examples/prop_hunt_yard.json",
@@ -269,10 +237,6 @@
     {
       "path": "demos/examples/weapon_poses.rs",
       "sha256": "46099e3845d3ca1a7234ce16fa86f2e066fd9330da7aa0e1f52e9508418fff14"
-    },
-    {
-      "path": "demos/examples/web3d_parity.rs",
-      "sha256": "f887bc2da2cd71219098adf07991a08607e3848e943137c9f469cc876924afc2"
     },
     {
       "path": "demos/multiplayer/lobby_demo.ps1",
@@ -586,6 +550,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "6a42dd1ed6509f8b6ca9cab1a54dbecac04fa030",
+  "source_revision": "9884a8c8351c05e8a33658b6a78cdcaa26978ca4",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
