@@ -2,7 +2,7 @@
   "schema": "red2d-game-meta/1",
   "id": "riff-rooftop-rush",
   "title": "Riff Rooftop Rush",
-  "description": "Riff the roller-skating fox rides a neon rooftop mixtape. Up/down changes lanes. A/Space hops over grumps; taps near the 120 BPM beat earn PERFECT trick chains. Grab notes and reach 80 points before 45 seconds. Fast wins earn bonus points. B drops to the middle lane. Three hearts, alternating records and saved ranks.",
+  "description": "Endless rooftop survival! Riff switches lanes with up/down and hops with A. Catch notes for trick points; jumping earns no free points. Dodge low speakers and stay grounded under high drones. Hazards accelerate each 20-second wave. Four hearts. F fullscreen. Windows installer available. Clean gameplay HUD; sunset skate city art direction.",
   "presentation": "2d",
   "platforms": [
     "web"
@@ -52,14 +52,15 @@
       "icon-192.png",
       "icon-512.png"
     ],
-    "native_installer": false
+    "native_installer": true,
+    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-riff-rooftop-rush.exe"
   },
   "thumbnail": "thumbnail.png",
-  "game_revision": "91c2127da4175181",
+  "game_revision": "ff47da51e457e02a",
   "engine_revision": "6a42dd1ed650",
   "engine_dirty": false,
-  "build_id": "8c93dd6e60f0d8a9",
-  "build_timestamp": "2026-10-07T01:37:54Z",
+  "build_id": "54310026267e1aed",
+  "build_timestamp": "2026-10-07T02:17:23Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -79,13 +80,13 @@
   "verification": {
     "native": {
       "scenarios": 6,
-      "passed": true
+      "passed": false
     },
     "browser": {
       "engine": "Chromium 153.0.8010.12",
       "checks": 67,
       "passed": true,
-      "package_id": "8c93dd6e60f0d8a9"
+      "package_id": "54310026267e1aed"
     },
     "audio": {
       "claims": [
@@ -106,8 +107,8 @@
       "schema": "red2d-evidence/1",
       "pieces": {
         "native_scenarios": {
-          "status": "passed",
-          "detail": "28 passed, 0 failed in 0.8 s"
+          "status": "not_run",
+          "detail": "not run"
         },
         "wasm_compiled": {
           "status": "passed",
@@ -159,7 +160,7 @@
         },
         "audio_playback": {
           "status": "passed",
-          "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.22, \"rate\": 44100, \"state\": \"running\"}"
+          "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.28, \"rate\": 44100, \"state\": \"running\"}"
         },
         "offline_cache": {
           "status": "passed",
@@ -221,7 +222,7 @@
   },
   "urls": {
     "stable": "games/riff-rooftop-rush/",
-    "immutable": "games/riff-rooftop-rush/builds/8c93dd6e60f0d8a9/"
+    "immutable": "games/riff-rooftop-rush/builds/54310026267e1aed/"
   },
   "builds": [
     {
@@ -230,6 +231,13 @@
       "game_revision": "91c2127da4175181",
       "engine_revision": "6a42dd1ed650",
       "path": "games/riff-rooftop-rush/builds/8c93dd6e60f0d8a9/"
+    },
+    {
+      "build_id": "54310026267e1aed",
+      "built_at": "2026-10-07T02:17:23Z",
+      "game_revision": "ff47da51e457e02a",
+      "engine_revision": "6a42dd1ed650",
+      "path": "games/riff-rooftop-rush/builds/54310026267e1aed/"
     }
   ]
 }
