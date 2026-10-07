@@ -2,7 +2,7 @@
   "schema": "red2d-game-meta/1",
   "id": "pip-cloud-post",
   "title": "Pip Cloud Post",
-  "description": "Endless cloud survival! Pip bounces automatically. Steer, slam with A for a super spring, and use B to blow away nearby rain. Storms get faster and denser every 20 seconds. Four hearts; survive as long as you can, then pass the controller. F fullscreen. Windows installer available. Clean gameplay HUD; daylight cloud post art direction.",
+  "description": "Endless cloud survival! Pip bounces automatically. Steer, slam with A for a super spring, and use B to blow away nearby rain. Storms get faster and denser every 20 seconds. Four hearts; survive as long as you can and beat your personal record. F fullscreen. Windows installer available. Clean gameplay HUD; daylight cloud post art direction.",
   "presentation": "2d",
   "platforms": [
     "web"
@@ -53,14 +53,14 @@
       "icon-512.png"
     ],
     "native_installer": true,
-    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-pip-cloud-post.exe"
+    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-pip-cloud-post.exe"
   },
   "thumbnail": "thumbnail.png",
-  "game_revision": "05f6951849511875",
+  "game_revision": "3d07da6d343cefc6",
   "engine_revision": "6a42dd1ed650",
   "engine_dirty": false,
-  "build_id": "2e051c0cc5f5cd29",
-  "build_timestamp": "2026-10-07T02:16:36Z",
+  "build_id": "85b5ec881f5bcb35",
+  "build_timestamp": "2026-10-07T02:25:59Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -86,7 +86,7 @@
       "engine": "Chromium 153.0.8010.12",
       "checks": 67,
       "passed": true,
-      "package_id": "2e051c0cc5f5cd29"
+      "package_id": "85b5ec881f5bcb35"
     },
     "audio": {
       "claims": [
@@ -128,7 +128,7 @@
         },
         "playable_state": {
           "status": "passed",
-          "detail": "2 check(s) passed in Chromium 153.0.8010.12: 60 ticks in ~1 s (60 expected)"
+          "detail": "2 check(s) passed in Chromium 153.0.8010.12: 61 ticks in ~1 s (60 expected)"
         },
         "input_keyboard": {
           "status": "passed",
@@ -222,7 +222,7 @@
   },
   "urls": {
     "stable": "games/pip-cloud-post/",
-    "immutable": "games/pip-cloud-post/builds/2e051c0cc5f5cd29/"
+    "immutable": "games/pip-cloud-post/builds/85b5ec881f5bcb35/"
   },
   "builds": [
     {
@@ -238,6 +238,13 @@
       "game_revision": "05f6951849511875",
       "engine_revision": "6a42dd1ed650",
       "path": "games/pip-cloud-post/builds/2e051c0cc5f5cd29/"
+    },
+    {
+      "build_id": "85b5ec881f5bcb35",
+      "built_at": "2026-10-07T02:25:59Z",
+      "game_revision": "3d07da6d343cefc6",
+      "engine_revision": "6a42dd1ed650",
+      "path": "games/pip-cloud-post/builds/85b5ec881f5bcb35/"
     }
   ]
 }
