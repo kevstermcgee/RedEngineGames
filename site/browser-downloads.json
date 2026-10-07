@@ -1,20 +1,20 @@
 {
   "pip-cloud-post": {
-    "version": "2.0",
-    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-pip-cloud-post.exe",
-    "sha256": "11b745c2dccba4dc603d62645ed680880dfe8d614247ab51a5aab9b3d4e85050",
-    "bytes": 13399552
+    "version": "2.1",
+    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-pip-cloud-post.exe",
+    "sha256": "2c0c731851e6eb5271bb22d146d72125ea39249f39a2751c2ac4978a42a9b878",
+    "bytes": 13398016
   },
   "moxie-magnet-moon": {
-    "version": "2.0",
-    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-moxie-magnet-moon.exe",
-    "sha256": "3575bf1ce5e24756cabd15b72cb60e07b57916ed897cc1e11a4a01d4d5c2246f",
-    "bytes": 14520320
+    "version": "2.1",
+    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-moxie-magnet-moon.exe",
+    "sha256": "84eeb87f73f58eed3f9759f385c60ffb7b523a5dc3657f94491c60937027453d",
+    "bytes": 14518784
   },
   "riff-rooftop-rush": {
-    "version": "2.0",
-    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-riff-rooftop-rush.exe",
-    "sha256": "b918971533e397c0f351f1adabbbd94550077c49e0d71313adbdfc9bef23f148",
-    "bytes": 13020672
+    "version": "2.1",
+    "url": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-riff-rooftop-rush.exe",
+    "sha256": "3e434026e56cd9382d0d04260502e2cb23c052cded8bd191dc1d2089263e5c3e",
+    "bytes": 13019136
   }
 }

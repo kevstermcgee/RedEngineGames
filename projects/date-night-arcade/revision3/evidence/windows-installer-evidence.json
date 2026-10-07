@@ -1,0 +1,53 @@
+[
+  {
+    "game": "pip-cloud-post",
+    "platform": "nt",
+    "package": "85b5ec881f5bcb35",
+    "installer_sha256": "2c0c731851e6eb5271bb22d146d72125ea39249f39a2751c2ac4978a42a9b878",
+    "checks": [
+      "install to Unicode path",
+      "all embedded file hashes",
+      "desktop shortcut and uninstall registration",
+      "reinstall retains user data",
+      "offline HTTP assets",
+      "concurrent downloads",
+      "traversal blocked",
+      "uninstall"
+    ],
+    "passed": true
+  },
+  {
+    "game": "moxie-magnet-moon",
+    "platform": "nt",
+    "package": "eea368321fb3fd01",
+    "installer_sha256": "84eeb87f73f58eed3f9759f385c60ffb7b523a5dc3657f94491c60937027453d",
+    "checks": [
+      "install to Unicode path",
+      "all embedded file hashes",
+      "desktop shortcut and uninstall registration",
+      "reinstall retains user data",
+      "offline HTTP assets",
+      "concurrent downloads",
+      "traversal blocked",
+      "uninstall"
+    ],
+    "passed": true
+  },
+  {
+    "game": "riff-rooftop-rush",
+    "platform": "nt",
+    "package": "f8f3524f6314885f",
+    "installer_sha256": "3e434026e56cd9382d0d04260502e2cb23c052cded8bd191dc1d2089263e5c3e",
+    "checks": [
+      "install to Unicode path",
+      "all embedded file hashes",
+      "desktop shortcut and uninstall registration",
+      "reinstall retains user data",
+      "offline HTTP assets",
+      "concurrent downloads",
+      "traversal blocked",
+      "uninstall"
+    ],
+    "passed": true
+  }
+]

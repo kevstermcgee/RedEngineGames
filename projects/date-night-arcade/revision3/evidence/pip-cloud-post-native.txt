@@ -1,0 +1,34 @@
+PASS  [render] first frame: 480x270, 22 colours, 66.3% of pixels differ from the background
+PASS  [simulation] scenario `bouncing collects letters without ending the run`: 1.6 s of play, ended not, hash 2883dce0cf822022
+PASS  [render] final frame of `bouncing collects letters without ending the run`: 33 colours, 66.3% covered
+PASS  [simulation] determinism of `bouncing collects letters without ending the run`: two runs, one hash
+PASS  [simulation] scenario `slam supercharges the rebound`: 1.3 s of play, ended not, hash 8c766e4200c6d693
+PASS  [render] final frame of `slam supercharges the rebound`: 25 colours, 66.4% covered
+PASS  [simulation] determinism of `slam supercharges the rebound`: two runs, one hash
+PASS  [simulation] scenario `an active player survives into faster waves`: 36.4 s of play, ended not, hash e36eede61181e1e7
+PASS  [render] final frame of `an active player survives into faster waves`: 38 colours, 67.0% covered
+PASS  [simulation] determinism of `an active player survives into faster waves`: two runs, one hash
+PASS  [simulation] scenario `standing still eventually loses and saves personal progress`: 21.1 s of play, ended lose, hash 32894a2b7931e498
+PASS  [render] final frame of `standing still eventually loses and saves personal progress`: 38 colours, 75.5% covered
+PASS  [simulation] determinism of `standing still eventually loses and saves personal progress`: two runs, one hash
+PASS  [simulation] scenario `play again retains your personal records`: 22.2 s of play, ended not, hash a4097e1d43ede8ab
+PASS  [render] final frame of `play again retains your personal records`: 22 colours, 66.3% covered
+PASS  [simulation] determinism of `play again retains your personal records`: two runs, one hash
+PASS  [audio-waveform] sound `pick0`: 0.28 s, peak -9.9 dBFS, -17.7 LUFS
+PASS  [audio-waveform] sound `pick1`: 0.28 s, peak -9.9 dBFS, -17.1 LUFS
+PASS  [audio-waveform] sound `pick2`: 0.28 s, peak -9.9 dBFS, -16.3 LUFS
+PASS  [audio-waveform] sound `pick`: 0.28 s, peak -9.9 dBFS, -17.7 LUFS
+PASS  [audio-waveform] sound `boost`: 0.30 s, peak -11.1 dBFS, -18.0 LUFS
+PASS  [audio-waveform] sound `perfect`: 0.40 s, peak -9.9 dBFS, -15.4 LUFS
+PASS  [audio-waveform] sound `hit`: 0.40 s, peak -8.9 dBFS, -18.8 LUFS
+PASS  [audio-waveform] sound `wave`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] sound `lose`: 0.90 s, peak -11.1 dBFS, -16.8 LUFS
+PASS  [audio-waveform] sound `win`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] music `theme`: 66.21 s, peak -6.1 dBFS, -20.0 LUFS
+PASS  [simulation] save round trip: restored 12 saved value(s)
+PASS  [authoring] browser check `music choice persists`: declared; it runs only in `web verify` (a real browser), not here
+PASS  [authoring] browser check `steering moves Pip`: declared; it runs only in `web verify` (a real browser), not here
+WARN  `gamepad` input on `web` is built but unverified: the browser's Gamepad API is mapped to the game's actions (move, action), but no controller was available to test it
+30 passed, 0 failed in 6.5 s
+PROVEN HERE: the scripted playthroughs run and end as asserted, deterministically (simulation); the first and last frames are not blank (CPU render); every sound is finite, unclipped and not silent (waveform).
+NOT PROVEN HERE: that it runs in a browser (`red_engine2 web verify`), that anything is audible or sounds good, that it is fun.

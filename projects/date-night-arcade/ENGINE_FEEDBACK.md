@@ -1,5 +1,9 @@
 # Three arcade games and Red Engine feedback
 
+## Current release: 2.1, purely single player
+
+Player numbers, alternating turns and separate player records were removed at the user’s request. Every game now has Play Again and one personal record set. Native scenarios, controller/reload tests and migration from the previous save format passed. Existing overall scores, survival times, ranks and completed-run counts are preserved. Historical measurements below describe their respective releases.
+
 Three single player 2D browser games were built and published with Red Engine commit `6a42dd1ed6509f8b6ca9cab1a54dbecac04fa030`, the latest upstream HEAD fetched when development began on October 6, 2026 in Pacific time. Each game uses an original mascot, authored pixel sprites, a distinct synthesized soundtrack, controller actions, short rounds, two alternating player records, a five rank mastery ladder, autosaving and downloadable save backups.
 
 ## Play the games
@@ -79,3 +83,7 @@ The original idea-to-confirmed-remote-playable run took 641 seconds, including a
 8. One intermediate `web verify` failed backup/restore with `ReferenceError: __red2d is not defined` while restore triggered a reload. Re-running the unchanged host sequentially passed. The verifier should wait for the restore navigation and new runtime readiness before accessing the hook.
 
 The existing teleport-derived-coordinate bug and reproduction in this issue remain relevant; game scripts continue to use explicitly computed snap destinations as a workaround. No Red Engine Rust changes were made in this follow-up.
+
+All three revised browser builds were remotely confirmed and their real installer buttons successfully downloaded binaries matching the Windows-tested checksums by 2026-10-07 02:19:32 UTC: 1,889 seconds (31 minutes 29 seconds) after revision work began. Final evidence totals: 93 native checks, 16 scenarios, 201 local browser checks, 162 remote browser checks, three controller/save checks, and Windows installer CI covering all three exact binaries.
+
+[Windows installer CI](https://github.com/kevstermcgee/RedEngineGames/actions/runs/37561096525) · [Measured resources and timing](https://github.com/kevstermcgee/RedEngineGames/blob/main/projects/date-night-arcade/revision2/evidence/metrics.json) · [Windows release](https://github.com/kevstermcgee/RedEngineGames/releases/tag/date-night-arcade-v2).

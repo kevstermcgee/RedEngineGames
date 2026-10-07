@@ -1,0 +1,37 @@
+PASS  [render] first frame: 480x270, 26 colours, 73.0% of pixels differ from the background
+PASS  [simulation] scenario `a perfect hop is airborne but cannot farm points`: 0.6 s of play, ended not, hash d2daf295cc848d15
+PASS  [render] final frame of `a perfect hop is airborne but cannot farm points`: 45 colours, 73.0% covered
+PASS  [simulation] determinism of `a perfect hop is airborne but cannot farm points`: two runs, one hash
+PASS  [simulation] scenario `offbeat hops still work`: 0.3 s of play, ended not, hash afd26bd5b0629f58
+PASS  [render] final frame of `offbeat hops still work`: 27 colours, 73.0% covered
+PASS  [simulation] determinism of `offbeat hops still work`: two runs, one hash
+PASS  [simulation] scenario `lane switching stays on rails`: 0.2 s of play, ended not, hash 5771ff67926e4699
+PASS  [render] final frame of `lane switching stays on rails`: 27 colours, 73.0% covered
+PASS  [simulation] determinism of `lane switching stays on rails`: two runs, one hash
+PASS  [simulation] scenario `an active player survives into faster waves`: 41.1 s of play, ended not, hash 7f13f25e2f942ccb
+PASS  [render] final frame of `an active player survives into faster waves`: 34 colours, 73.2% covered
+PASS  [simulation] determinism of `an active player survives into faster waves`: two runs, one hash
+PASS  [simulation] scenario `standing still eventually loses and saves personal progress`: 24.7 s of play, ended lose, hash d2f9231e573908e0
+PASS  [render] final frame of `standing still eventually loses and saves personal progress`: 41 colours, 76.9% covered
+PASS  [simulation] determinism of `standing still eventually loses and saves personal progress`: two runs, one hash
+PASS  [simulation] scenario `play again retains your personal records`: 25.8 s of play, ended not, hash 172d2b6ae286038b
+PASS  [render] final frame of `play again retains your personal records`: 27 colours, 73.0% covered
+PASS  [simulation] determinism of `play again retains your personal records`: two runs, one hash
+PASS  [audio-waveform] sound `pick0`: 0.28 s, peak -9.9 dBFS, -17.9 LUFS
+PASS  [audio-waveform] sound `pick1`: 0.28 s, peak -9.9 dBFS, -17.8 LUFS
+PASS  [audio-waveform] sound `pick2`: 0.28 s, peak -9.9 dBFS, -17.7 LUFS
+PASS  [audio-waveform] sound `pick`: 0.28 s, peak -9.9 dBFS, -17.9 LUFS
+PASS  [audio-waveform] sound `boost`: 0.30 s, peak -11.1 dBFS, -18.3 LUFS
+PASS  [audio-waveform] sound `perfect`: 0.40 s, peak -9.9 dBFS, -16.8 LUFS
+PASS  [audio-waveform] sound `hit`: 0.40 s, peak -8.9 dBFS, -18.8 LUFS
+PASS  [audio-waveform] sound `wave`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] sound `lose`: 0.90 s, peak -11.1 dBFS, -17.0 LUFS
+PASS  [audio-waveform] sound `win`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] music `theme`: 64.00 s, peak -7.8 dBFS, -20.0 LUFS
+PASS  [simulation] save round trip: restored 12 saved value(s)
+PASS  [authoring] browser check `music choice persists`: declared; it runs only in `web verify` (a real browser), not here
+PASS  [authoring] browser check `lane input moves Riff`: declared; it runs only in `web verify` (a real browser), not here
+WARN  `gamepad` input on `web` is built but unverified: the browser's Gamepad API is mapped to the game's actions (move, action), but no controller was available to test it
+33 passed, 0 failed in 6.3 s
+PROVEN HERE: the scripted playthroughs run and end as asserted, deterministically (simulation); the first and last frames are not blank (CPU render); every sound is finite, unclipped and not silent (waveform).
+NOT PROVEN HERE: that it runs in a browser (`red_engine2 web verify`), that anything is audible or sounds good, that it is fun.

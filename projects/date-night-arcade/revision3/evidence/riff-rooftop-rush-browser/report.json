@@ -1,0 +1,389 @@
+{
+  "base": "http://127.0.0.1:52197",
+  "game": "riff-rooftop-rush",
+  "package_id": "f8f3524f6314885f",
+  "not_applicable": {},
+  "browser": "Chromium 153.0.8010.12",
+  "engine": "chromium",
+  "rows": [
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "html loads",
+      "detail": "HTTP 200, title 'Riff Rooftop Rush'",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "wasm initialises",
+      "detail": "state=ready wasm=True",
+      "evidence": "wasm_instantiated"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "initial state equals native",
+      "detail": "browser e8431b587611483e, native e8431b587611483e (tick 0)",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "meaningful render",
+      "detail": "480x270 canvas, 26 colours, 73.0% of pixels differ from the background",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "first frame is pixel-identical to native",
+      "detail": "browser canvas d70507b6721cbd80, native renderer d70507b6721cbd80",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "assets resolve",
+      "detail": "12 file(s) fetched over HTTP, each SHA-256 equals the manifest",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "scenarios replay identically in the browser",
+      "detail": "6 scenario(s), every final state hash equals the native run",
+      "evidence": "browser_scenarios"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "resolution independence",
+      "detail": "window shapes 800x600, 1600x400, 400x800, 1280x720: the screen keeps its aspect ratio, stays inside, its centre maps to the middle, letterbox bars map to nothing",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "no console errors (paused page)",
+      "detail": "none",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "waits for the player",
+      "detail": "ticks before any input: 0 -> 0; start screen visible: True",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "desktop: no touch controller",
+      "detail": "a mouse-and-keyboard browser shows no on-screen pad (hidden=True, touch class=False)",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser-audio",
+      "name": "browser audio initialised",
+      "detail": "Web Audio context state after the first key press: running (it starts only inside a user gesture)",
+      "evidence": "audio_api"
+    },
+    {
+      "ok": true,
+      "claim": "browser-audio",
+      "name": "a sound plays through Web Audio",
+      "detail": "{\"ok\": true, \"seconds\": 0.28, \"rate\": 44100, \"state\": \"running\"}",
+      "evidence": "audio_playback"
+    },
+    {
+      "ok": true,
+      "claim": "browser-audio",
+      "name": "music starts after the gesture",
+      "detail": "music state: playing (the loop took 141 ms to render, in a worker: True; it stalled the page for 0 ms)",
+      "evidence": "audio_playback"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "the page stays responsive while the music is made",
+      "detail": "the longest main-thread task from page load to music playing was 0 ms (limit 250 ms; a render on the main thread would show here)",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "time advances in real time",
+      "detail": "60 ticks in ~1 s (60 expected)",
+      "evidence": "playable_state"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "input: music choice persists",
+      "detail": "music_on changed (1 -> 0)",
+      "evidence": "input_pointer"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "persistence: progress was written to browser storage: music choice persists",
+      "detail": "localStorage[red2d:riff-rooftop-rush] holds a save after the input",
+      "evidence": "persistence_write"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "persistence survives reload: music choice persists",
+      "detail": "saved yes; after reload {'music_on': 0} (wanted {'music_on': 0}); save status loaded",
+      "evidence": "persistence_reload"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "input: lane input moves Riff",
+      "detail": "p_y changed (150 -> 92)",
+      "evidence": "input_keyboard"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "game still running",
+      "detail": "state=running frames=38 ticks=30",
+      "evidence": "playable_state"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "no console errors (played page)",
+      "detail": "none",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "storage unavailable: the game still plays",
+      "detail": "state=running storage=unavailable (storage unavailable: progress will not be kept (SecurityError))",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "saving fails (quota): the game keeps running and says so",
+      "detail": "state=running storage=unavailable (could not save (QuotaExceededError): progress will not be kept)",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "corrupt save: ignored, kept as a backup, game plays",
+      "detail": "save status unreadable (wanted unreadable); backup kept: True; state running",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "another game's save: ignored, kept as a backup, game plays",
+      "detail": "save status incompatible (wanted incompatible); backup kept: True; state running",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "newer save format: ignored, kept as a backup, game plays",
+      "detail": "save status incompatible (wanted incompatible); backup kept: True; state running",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "reset: removing the save returns the game to a fresh start",
+      "detail": "had a save: True; removed: True; after reload: fresh",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "install: a service worker stores the whole game",
+      "detail": "offline support: ready (a service worker needs https or localhost)",
+      "evidence": "offline_cache"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "install: the browser says the page is installable",
+      "detail": "no installability errors (manifest, icons, service worker with a fetch handler)",
+      "evidence": "installable"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "install: it plays with the network off",
+      "detail": "reloaded offline: state=ready, advanced 30 ticks",
+      "evidence": "offline_reload"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "storage: the game asked the browser to keep its saves",
+      "detail": "navigator.storage.persist() answered False (a browser may say no, or ask the user and not answer for a while: Firefox does; the answer is shown, not assumed)",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "backup: 'Back up progress' downloads the saved progress",
+      "detail": "337 bytes, game riff-rooftop-rush",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "backup: restoring the file brings the progress back",
+      "detail": "after the reset the save was fresh; after restoring, {'music_on': 0}",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "backup: another game's backup is refused",
+      "detail": "that backup is for the game \"some-other-game\", not this one",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "install: no console errors",
+      "detail": "none",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone portrait: the controller is below the game and nothing overlaps",
+      "detail": "pad shown=True, picture 390x219 at y=164, controller y=547 h=212 on a 390x760 screen",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone landscape: the controller is below the game and nothing overlaps",
+      "detail": "pad shown=True, picture 444x250 at y=0, controller y=249 h=140 on a 844x390 screen",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser-audio",
+      "name": "phone: audio starts after the first touch",
+      "detail": "Web Audio context state after a tap: running",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone: nothing covers the picture",
+      "detail": "the element at the centre of the picture is #screen",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone touch: lane input moves Riff",
+      "detail": "touching ['up'] held ['up'], p_y changed (150 -> 92), released: True",
+      "evidence": "input_touch"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone touch: sliding the thumb changes direction",
+      "detail": "start on left held ['left']; slid to right held ['right']",
+      "evidence": "input_touch"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone touch: two thumbs at once",
+      "detail": "touching left and action held ['left', 'action']",
+      "evidence": "input_touch"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "phone: no console errors",
+      "detail": "none",
+      "evidence": null
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: every kind of input while loading is safe",
+      "detail": "12 input kinds sent while game.wasm was still pending (key down/up, Enter (Start), pause and resume keys, pointer click, pointer move, touch tap, gamepad button, focus loss, focus return, page hidden, page visible, begin() called directly): no error, still loading, not started, 21 events ignored on purpose",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: the start screen stays logically consistent while loading",
+      "detail": "loading text shown=True, start card shown=False, error shown=False, page state=loading (the start card appears only when the game can start)",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: early input leaves nothing behind",
+      "detail": "after loading finished: tick 0, state equals the native initial state: True, nothing held, not started, start card shown, no errors",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: input works as normal once the game is ready",
+      "detail": "state=running started=True ticks=17",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: focus loss, focus return and visibility changes while playing are safe",
+      "detail": "state=running, ticks 17 -> 29, errors: none",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup: a gamepad press starts the game once it is ready",
+      "detail": "started=True gamepad seen=True state=running",
+      "evidence": "input_gamepad"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup failure (game.wasm is not WebAssembly): a useful error and no live controls",
+      "detail": "state=error; message 'The game could not run: game.wasm could not be started: WebAssembly.instantiate(): expected magic word 00 61 73 6d, found 74 68 69 73 @+0'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup failure (game.wasm missing (HTTP 404)): a useful error and no live controls",
+      "detail": "state=error; message 'The game could not run: could not load game.wasm (HTTP 404)'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup failure (assets/game.json missing (HTTP 500)): a useful error and no live controls",
+      "detail": "state=error; message 'The game could not run: could not load assets/game.json (HTTP 500)'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none",
+      "evidence": "loading_robustness"
+    },
+    {
+      "ok": true,
+      "claim": "browser",
+      "name": "startup failure (assets/game.json is not a game): a useful error and no live controls",
+      "detail": "state=error; message 'The game could not run: the game was refused:\\nnonsense: unknown field — valid here: game2d, title, description, capabilities, view, sprites,'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none",
+      "evidence": "loading_robustness"
+    }
+  ],
+  "ok": true
+}

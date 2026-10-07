@@ -1,0 +1,92 @@
+PASS  [package] manifest schema: "red2d-web-package/1"
+PASS  [package] files and hashes: 12 file(s), every size and SHA-256 matches
+PASS  [package] no undeclared files: every file in the directory is listed
+PASS  [package] package id: "eea368321fb3fd01" (recomputed eea368321fb3fd01)
+PASS  [package] wasm imports nothing: no env, filesystem, clock, network or JavaScript imports: the module is a pure function of its inputs
+PASS  [package] wasm exports the player ABI: 34 exports
+PASS  [package] wasm has no build-machine paths: none of /home/, /Users/, C:\Users, /root/
+PASS  [package] self-contained: no absolute paths, no external URLs, every loaded file is declared
+PASS  [package] runtime uses the declared ABI: 33 calls, all in the ABI
+PASS  [package] game revision: assets/game.json is revision d858ae3470a2ee9f; manifest says "d858ae3470a2ee9f"
+PASS  [package] game identity and target: `moxie-magnet-moon`, platforms web
+PASS  [package] installable web app: manifest.webmanifest, icons 192 and 512, sw.js
+PASS  [package] thumbnail: 11920 bytes
+PASS  [browser] html loads: HTTP 200, title 'Moxie Magnet Moon'
+PASS  [browser] wasm initialises: state=ready wasm=True
+PASS  [browser] initial state equals native: browser ac8ce00fbcc4b3f8, native ac8ce00fbcc4b3f8 (tick 0)
+PASS  [browser] meaningful render: 480x270 canvas, 27 colours, 29.2% of pixels differ from the background
+PASS  [browser] first frame is pixel-identical to native: browser canvas b9a5eb0fc11ed322, native renderer b9a5eb0fc11ed322
+PASS  [browser] assets resolve: 12 file(s) fetched over HTTP, each SHA-256 equals the manifest
+PASS  [browser] scenarios replay identically in the browser: 5 scenario(s), every final state hash equals the native run
+PASS  [browser] resolution independence: window shapes 800x600, 1600x400, 400x800, 1280x720: the screen keeps its aspect ratio, stays inside, its centre maps to the middle, letterbox bars map to nothing
+PASS  [browser] no console errors (paused page): none
+PASS  [browser] waits for the player: ticks before any input: 0 -> 0; start screen visible: True
+PASS  [browser] desktop: no touch controller: a mouse-and-keyboard browser shows no on-screen pad (hidden=True, touch class=False)
+PASS  [browser-audio] browser audio initialised: Web Audio context state after the first key press: running (it starts only inside a user gesture)
+PASS  [browser-audio] a sound plays through Web Audio: {"ok": true, "seconds": 0.28, "rate": 44100, "state": "running"}
+PASS  [browser-audio] music starts after the gesture: music state: playing (the loop took 169 ms to render, in a worker: True; it stalled the page for 0 ms)
+PASS  [browser] the page stays responsive while the music is made: the longest main-thread task from page load to music playing was 0 ms (limit 250 ms; a render on the main thread would show here)
+PASS  [browser] time advances in real time: 61 ticks in ~1 s (60 expected)
+PASS  [browser] input: music choice persists: music_on changed (1 -> 0)
+PASS  [browser] persistence: progress was written to browser storage: music choice persists: localStorage[red2d:moxie-magnet-moon] holds a save after the input
+PASS  [browser] persistence survives reload: music choice persists: saved yes; after reload {'music_on': 0} (wanted {'music_on': 0}); save status loaded
+PASS  [browser] input: stick equivalent moves Moxie: p_x changed (240 -> 289.5001525878906)
+PASS  [browser] game still running: state=running frames=57 ticks=49
+PASS  [browser] no console errors (played page): none
+PASS  [browser] storage unavailable: the game still plays: state=running storage=unavailable (storage unavailable: progress will not be kept (SecurityError))
+PASS  [browser] saving fails (quota): the game keeps running and says so: state=running storage=unavailable (could not save (QuotaExceededError): progress will not be kept)
+PASS  [browser] corrupt save: ignored, kept as a backup, game plays: save status unreadable (wanted unreadable); backup kept: True; state running
+PASS  [browser] another game's save: ignored, kept as a backup, game plays: save status incompatible (wanted incompatible); backup kept: True; state running
+PASS  [browser] newer save format: ignored, kept as a backup, game plays: save status incompatible (wanted incompatible); backup kept: True; state running
+PASS  [browser] reset: removing the save returns the game to a fresh start: had a save: True; removed: True; after reload: fresh
+PASS  [browser] install: a service worker stores the whole game: offline support: ready (a service worker needs https or localhost)
+PASS  [browser] install: the browser says the page is installable: no installability errors (manifest, icons, service worker with a fetch handler)
+PASS  [browser] install: it plays with the network off: reloaded offline: state=ready, advanced 30 ticks
+PASS  [browser] storage: the game asked the browser to keep its saves: navigator.storage.persist() answered False (a browser may say no, or ask the user and not answer for a while: Firefox does; the answer is shown, not assumed)
+PASS  [browser] backup: 'Back up progress' downloads the saved progress: 337 bytes, game moxie-magnet-moon
+PASS  [browser] backup: restoring the file brings the progress back: after the reset the save was fresh; after restoring, {'music_on': 0}
+PASS  [browser] backup: another game's backup is refused: that backup is for the game "some-other-game", not this one
+PASS  [browser] install: no console errors: none
+PASS  [browser] phone portrait: the controller is below the game and nothing overlaps: pad shown=True, picture 390x219 at y=164, controller y=547 h=212 on a 390x760 screen
+PASS  [browser] phone landscape: the controller is below the game and nothing overlaps: pad shown=True, picture 444x250 at y=0, controller y=249 h=140 on a 844x390 screen
+PASS  [browser-audio] phone: audio starts after the first touch: Web Audio context state after a tap: running
+PASS  [browser] phone: nothing covers the picture: the element at the centre of the picture is #screen
+PASS  [browser] phone touch: stick equivalent moves Moxie: touching ['right'] held ['right'], p_x changed (240 -> 295.00018310546875), released: True
+PASS  [browser] phone touch: sliding the thumb changes direction: start on left held ['left']; slid to right held ['right']
+PASS  [browser] phone touch: two thumbs at once: touching left and action held ['left', 'action']
+PASS  [browser] phone: no console errors: none
+PASS  [browser] startup: every kind of input while loading is safe: 12 input kinds sent while game.wasm was still pending (key down/up, Enter (Start), pause and resume keys, pointer click, pointer move, touch tap, gamepad button, focus loss, focus return, page hidden, page visible, begin() called directly): no error, still loading, not started, 21 events ignored on purpose
+PASS  [browser] startup: the start screen stays logically consistent while loading: loading text shown=True, start card shown=False, error shown=False, page state=loading (the start card appears only when the game can start)
+PASS  [browser] startup: early input leaves nothing behind: after loading finished: tick 0, state equals the native initial state: True, nothing held, not started, start card shown, no errors
+PASS  [browser] startup: input works as normal once the game is ready: state=running started=True ticks=19
+PASS  [browser] startup: focus loss, focus return and visibility changes while playing are safe: state=running, ticks 19 -> 32, errors: none
+PASS  [browser] startup: a gamepad press starts the game once it is ready: started=True gamepad seen=True state=running
+PASS  [browser] startup failure (game.wasm is not WebAssembly): a useful error and no live controls: state=error; message 'The game could not run: game.wasm could not be started: WebAssembly.instantiate(): expected magic word 00 61 73 6d, found 74 68 69 73 @+0'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none
+PASS  [browser] startup failure (game.wasm missing (HTTP 404)): a useful error and no live controls: state=error; message 'The game could not run: could not load game.wasm (HTTP 404)'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none
+PASS  [browser] startup failure (assets/game.json missing (HTTP 500)): a useful error and no live controls: state=error; message 'The game could not run: could not load assets/game.json (HTTP 500)'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none
+PASS  [browser] startup failure (assets/game.json is not a game): a useful error and no live controls: state=error; message 'The game could not run: the game was refused:\nnonsense: unknown field — valid here: game2d, title, description, capabilities, view, sprites,'; start card=False loading=False pad=False; started=False ticks=0; uncaught errors: none
+LOCAL BROWSER SUCCESS in Chromium 153.0.8010.12 (67 checks; screenshots and report.json in /home/kevin/workspace/date-night-arcade/revision3/evidence/moxie-magnet-moon-browser)
+EVIDENCE (each piece stands alone; `not_run` and `not_applicable` are never counted as passed):
+  not_run        native_scenarios       not run
+  passed         wasm_compiled          no env, filesystem, clock, network or JavaScript imports: the module is a pure function of its inputs; 34 e...
+  passed         browser_package_valid  13 package checks passed
+  passed         wasm_instantiated      1 check(s) passed in Chromium 153.0.8010.12: state=ready wasm=True
+  passed         loading_robustness     9 check(s) passed in Chromium 153.0.8010.12: 12 input kinds sent while game.wasm was still pending (key dow...
+  passed         playable_state         2 check(s) passed in Chromium 153.0.8010.12: 61 ticks in ~1 s (60 expected)
+  passed         input_keyboard         1 check(s) passed in Chromium 153.0.8010.12: p_x changed (240 -> 289.5001525878906)
+  passed         input_pointer          1 check(s) passed in Chromium 153.0.8010.12: music_on changed (1 -> 0)
+  passed         input_touch            3 check(s) passed in Chromium 153.0.8010.12: touching ['right'] held ['right'], p_x changed (240 -> 295.000...
+  passed         input_gamepad          1 check(s) passed in Chromium 153.0.8010.12: started=True gamepad seen=True state=running
+  passed         persistence_write      1 check(s) passed in Chromium 153.0.8010.12: localStorage[red2d:moxie-magnet-moon] holds a save after the i...
+  passed         persistence_reload     1 check(s) passed in Chromium 153.0.8010.12: saved yes; after reload {'music_on': 0} (wanted {'music_on': 0...
+  passed         audio_api              1 check(s) passed in Chromium 153.0.8010.12: Web Audio context state after the first key press: running (it...
+  passed         audio_playback         2 check(s) passed in Chromium 153.0.8010.12: {"ok": true, "seconds": 0.28, "rate": 44100, "state": "running"}
+  passed         offline_cache          1 check(s) passed in Chromium 153.0.8010.12: offline support: ready (a service worker needs https or localh...
+  passed         offline_reload         1 check(s) passed in Chromium 153.0.8010.12: reloaded offline: state=ready, advanced 30 ticks
+  passed         installable            1 check(s) passed in Chromium 153.0.8010.12: no installability errors (manifest, icons, service worker with...
+  passed         browser_scenarios      1 check(s) passed in Chromium 153.0.8010.12: 5 scenario(s), every final state hash equals the native run
+  not_run        other_browsers         not run
+  not_run        remote_deployment      not run
+  = 17 passed, 0 failed, 3 not run, 0 not applicable. None of this says a human played, heard or enjoyed the game.
+PROVEN: the page loads over HTTP, the module initialises, the first frame is pixel-identical to the native renderer, the game's scenarios replay to the native hashes, real key/mouse events change the state, saves survive a reload and bad storage does not break the game, audio starts after a gesture (browser-audio rows), the console is clean.
+NOT PROVEN: that a human played it, that it is fun, that it sounds right, other browsers or devices (touch and gamepad paths are unverified).

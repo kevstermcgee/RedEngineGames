@@ -1,0 +1,37 @@
+{
+  "started_utc": "2026-10-07T02:21:19Z",
+  "scope": "Purely single player: numbered-player state, alternating turns and separate player records removed; prior personal records migrate",
+  "engine_commit": "6a42dd1ed6509f8b6ca9cab1a54dbecac04fa030",
+  "games": [
+    {
+      "game": "pip-cloud-post",
+      "package_id": "85b5ec881f5bcb35",
+      "source_bytes": 59888,
+      "package_bytes": 12496364,
+      "installer_bytes": 13398016,
+      "browser_checks": 67,
+      "native_checks": 30,
+      "native_verify_seconds": 6.5
+    },
+    {
+      "game": "moxie-magnet-moon",
+      "package_id": "eea368321fb3fd01",
+      "source_bytes": 72057,
+      "package_bytes": 13617249,
+      "installer_bytes": 14518784,
+      "browser_checks": 67,
+      "native_checks": 30,
+      "native_verify_seconds": 6.7
+    },
+    {
+      "game": "riff-rooftop-rush",
+      "package_id": "f8f3524f6314885f",
+      "source_bytes": 73391,
+      "package_bytes": 12117295,
+      "installer_bytes": 13019136,
+      "browser_checks": 67,
+      "native_checks": 33,
+      "native_verify_seconds": 6.3
+    }
+  ]
+}

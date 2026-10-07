@@ -1,0 +1,20 @@
+[
+  {
+    "game": "pip-cloud-post",
+    "old_records_preserved": true,
+    "numbered_player_state_removed": true,
+    "single_player_replay": true
+  },
+  {
+    "game": "moxie-magnet-moon",
+    "old_records_preserved": true,
+    "numbered_player_state_removed": true,
+    "single_player_replay": true
+  },
+  {
+    "game": "riff-rooftop-rush",
+    "old_records_preserved": true,
+    "numbered_player_state_removed": true,
+    "single_player_replay": true
+  }
+]

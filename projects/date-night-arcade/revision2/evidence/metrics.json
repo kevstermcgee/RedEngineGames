@@ -22,7 +22,12 @@
       "package_bytes": 12497860,
       "installer_bytes": 13399552,
       "package_id": "2e051c0cc5f5cd29",
-      "browser_checks": 54
+      "browser_checks": 67,
+      "remote_playable": true,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/pip-cloud-post/",
+      "publication_seconds": 78.17,
+      "remote_checks": 54,
+      "music_worker_ms": 125
     },
     {
       "game": "moxie-magnet-moon",
@@ -40,7 +45,12 @@
       "package_bytes": 13618775,
       "installer_bytes": 14520320,
       "package_id": "c0545cffb226fbe9",
-      "browser_checks": 54
+      "browser_checks": 67,
+      "remote_playable": true,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/moxie-magnet-moon/",
+      "publication_seconds": 58.6,
+      "remote_checks": 54,
+      "music_worker_ms": 133
     },
     {
       "game": "riff-rooftop-rush",
@@ -58,7 +68,12 @@
       "package_bytes": 12118806,
       "installer_bytes": 13020672,
       "package_id": "54310026267e1aed",
-      "browser_checks": 54
+      "browser_checks": 67,
+      "remote_playable": true,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/riff-rooftop-rush/",
+      "publication_seconds": 72.92,
+      "remote_checks": 54,
+      "music_worker_ms": 124
     }
   ],
   "representative_audio_render": {
@@ -71,5 +86,8 @@
   "asset_origin": "Original code-native sprites/scenery and engine-synthesized music; no downloaded art/audio or paid asset services",
   "limits": "No physical controller or human listening/playtesting performed. Automated browser checks verify actual audio playback, not subjective quality. Monetary cost, token counts, whole-session RAM/CPU unavailable.",
   "windows_installer_ci": "https://github.com/kevstermcgee/RedEngineGames/actions/runs/37561096525",
-  "windows_installer_ci_passed": true
+  "windows_installer_ci_passed": true,
+  "all_live_features_confirmed_utc": "2026-10-07T02:19:32Z",
+  "revision_to_live_confirmation_seconds": 1889,
+  "feedback_issue": "https://github.com/kevstermcgee/RedEngine/issues/54#issuecomment-6029472785"
 }

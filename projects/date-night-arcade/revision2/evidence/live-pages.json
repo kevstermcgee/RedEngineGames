@@ -1,0 +1,26 @@
+[
+  {
+    "game": "pip-cloud-post",
+    "human_game_page": true,
+    "installer_download_sha256": "11b745c2dccba4dc603d62645ed680880dfe8d614247ab51a5aab9b3d4e85050",
+    "actual_game_install_button": true,
+    "live_music_playback": true,
+    "live_fullscreen_F": true
+  },
+  {
+    "game": "moxie-magnet-moon",
+    "human_game_page": true,
+    "installer_download_sha256": "3575bf1ce5e24756cabd15b72cb60e07b57916ed897cc1e11a4a01d4d5c2246f",
+    "actual_game_install_button": true,
+    "live_music_playback": true,
+    "live_fullscreen_F": true
+  },
+  {
+    "game": "riff-rooftop-rush",
+    "human_game_page": true,
+    "installer_download_sha256": "b918971533e397c0f351f1adabbbd94550077c49e0d71313adbdfc9bef23f148",
+    "actual_game_install_button": true,
+    "live_music_playback": true,
+    "live_fullscreen_F": true
+  }
+]

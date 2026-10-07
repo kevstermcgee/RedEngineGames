@@ -1419,10 +1419,6 @@
     "lives": 4,
     "timeleft": 0,
     "best": 0,
-    "best1": 0,
-    "best2": 0,
-    "player": 1,
-    "next_player": 1,
     "rounds": 0,
     "wins": 0,
     "total": 0,
@@ -1444,11 +1440,7 @@
     "hazard_index": 0,
     "spawned": 0,
     "survival_best": 0,
-    "survival_best1": 0,
-    "survival_best2": 0,
     "best_seconds": 0,
-    "best_seconds1": 0,
-    "best_seconds2": 0,
     "furthest_wave": 1,
     "run_total": 0,
     "last_seconds": 0,
@@ -1460,20 +1452,13 @@
   },
   "persist": [
     "best",
-    "best1",
-    "best2",
-    "next_player",
     "rounds",
     "wins",
     "total",
     "rank",
     "last_score",
     "survival_best",
-    "survival_best1",
-    "survival_best2",
     "best_seconds",
-    "best_seconds1",
-    "best_seconds2",
     "furthest_wave",
     "run_total",
     "last_seconds"
@@ -2434,7 +2419,7 @@
       "show": "!ended"
     },
     {
-      "text": "P{player}  {score}",
+      "text": "SCORE {score}",
       "at": [
         13,
         10
@@ -2495,7 +2480,7 @@
       "show": "ended == 2"
     },
     {
-      "text": "PASS THE CONTROLLER TO P{next_player}",
+      "text": "BEST {survival_best} POINTS",
       "at": [
         240,
         149
@@ -2625,7 +2610,7 @@
       "color": "#d7fff4"
     },
     {
-      "text": "P1 BEST {best_seconds1}s   P2 BEST {best_seconds2}s",
+      "text": "LONGEST RUN {best_seconds}s",
       "at": [
         240,
         164
@@ -2637,7 +2622,7 @@
     {
       "button": {
         "id": "again",
-        "label": "A / SPACE: NEXT TURN",
+        "label": "A / SPACE: PLAY AGAIN",
         "at": [
           130,
           183
@@ -2682,34 +2667,6 @@
       ]
     },
     {
-      "id": "whose turn",
-      "when": {
-        "start": true
-      },
-      "do": [
-        {
-          "set": [
-            "player",
-            "next_player"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "restore turn",
-      "when": {
-        "event": "loaded"
-      },
-      "do": [
-        {
-          "set": [
-            "player",
-            "next_player"
-          ]
-        }
-      ]
-    },
-    {
       "id": "no hearts",
       "when": {
         "every": 0.05
@@ -2722,7 +2679,7 @@
       "if": "lives <= 0"
     },
     {
-      "id": "next turn",
+      "id": "play again",
       "when": {
         "press": "action"
       },
@@ -3170,36 +3127,6 @@
       "if": "score > survival_best"
     },
     {
-      "id": "live P1 score",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "set": [
-            "survival_best1",
-            "score"
-          ]
-        }
-      ],
-      "if": "player == 1 && score > survival_best1"
-    },
-    {
-      "id": "live P2 score",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "set": [
-            "survival_best2",
-            "score"
-          ]
-        }
-      ],
-      "if": "player == 2 && score > survival_best2"
-    },
-    {
       "id": "live time",
       "when": {
         "every": 1
@@ -3213,36 +3140,6 @@
         }
       ],
       "if": "survived > best_seconds"
-    },
-    {
-      "id": "live P1 time",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "set": [
-            "best_seconds1",
-            "survived"
-          ]
-        }
-      ],
-      "if": "player == 1 && survived > best_seconds1"
-    },
-    {
-      "id": "live P2 time",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "set": [
-            "best_seconds2",
-            "survived"
-          ]
-        }
-      ],
-      "if": "player == 2 && survived > best_seconds2"
     },
     {
       "id": "wave record",
@@ -3271,7 +3168,8 @@
             "1 + (best_seconds >= 30) + (best_seconds >= 60) + (best_seconds >= 90) + (best_seconds >= 150)"
           ]
         }
-      ]
+      ],
+      "if": "rank < 1 + (best_seconds >= 30) + (best_seconds >= 60) + (best_seconds >= 90) + (best_seconds >= 150)"
     },
     {
       "id": "survival result",
@@ -3301,12 +3199,6 @@
           "add": [
             "run_total",
             "score"
-          ]
-        },
-        {
-          "set": [
-            "next_player",
-            "3-player"
           ]
         },
         {
@@ -3690,6 +3582,21 @@
           "destroy": "other"
         }
       ]
+    },
+    {
+      "id": "final personal record",
+      "when": {
+        "end": "any"
+      },
+      "if": "score > survival_best",
+      "do": [
+        {
+          "set": [
+            "survival_best",
+            "score"
+          ]
+        }
+      ]
     }
   ],
   "checks": {
@@ -3961,7 +3868,7 @@
         "smoke": false
       },
       {
-        "name": "standing still eventually loses and saves the next turn",
+        "name": "standing still eventually loses and saves personal progress",
         "max_seconds": 185,
         "seed": 1,
         "script": [
@@ -3981,10 +3888,6 @@
             "eq": 1
           },
           {
-            "var": "next_player",
-            "eq": 2
-          },
-          {
             "var": "last_seconds",
             "gte": 5
           },
@@ -3996,7 +3899,7 @@
         "smoke": false
       },
       {
-        "name": "restart alternates players and retains survival progress",
+        "name": "play again retains your personal records",
         "max_seconds": 185,
         "seed": 1,
         "script": [
@@ -4019,10 +3922,6 @@
         "expect": [
           {
             "not_ended": true
-          },
-          {
-            "var": "player",
-            "eq": 2
           },
           {
             "var": "rounds",
