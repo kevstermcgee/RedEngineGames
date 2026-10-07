@@ -1,0 +1,201 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "7c53636cbd97dcbc",
+  "entry": "index.html",
+  "game": {
+    "id": "pip-cloud-post",
+    "title": "Pip Cloud Post",
+    "description": "Pip the scarf-wearing cloud rabbit delivers sunshine! Steer each automatic bounce; A/Space slams down for a super spring. Catch 12 letters before 45 seconds. Fast wins earn bonus points. B toggles music. Three hearts. Pass after every round. Records, ranks and progress auto-save; backup on the start card.",
+    "game_revision": "41dea92298fc51c3",
+    "presentation": "2d",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "mouse",
+      "touch",
+      "gamepad"
+    ],
+    "persistence": [
+      "settings",
+      "progress"
+    ],
+    "controls": {
+      "layout": "lr",
+      "visible": true,
+      "declared": true,
+      "buttons": [
+        {
+          "id": "a",
+          "label": "SLAM",
+          "action": "action"
+        },
+        {
+          "id": "b",
+          "label": "MUSIC",
+          "action": "secondary"
+        }
+      ],
+      "pause": false
+    },
+    "distribution": [
+      "online",
+      "install"
+    ],
+    "install": {
+      "web_app": true,
+      "offline": true,
+      "icons": [
+        "icon-192.png",
+        "icon-512.png"
+      ],
+      "native_installer": false
+    },
+    "screen": {
+      "width": 480,
+      "height": 270,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "6a42dd1ed650",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "built from crates/red2d (--profile web)"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "c545efd9493ce8b6",
+      "frame": "0c52434eac8d1d0c",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "automatic bounces collect a letter",
+        "ticks": 96,
+        "hash": "80cb8104ff6dd26a",
+        "smoke": true
+      },
+      {
+        "name": "slam charges a super spring",
+        "ticks": 80,
+        "hash": "c9aa41bbf994bb87",
+        "smoke": false
+      },
+      {
+        "name": "a roaming courier can complete the delivery",
+        "ticks": 2538,
+        "hash": "a2757d14378640fa",
+        "smoke": false
+      },
+      {
+        "name": "idle run ends and saves the next turn",
+        "ticks": 2760,
+        "hash": "8a7bb4eee28bb163",
+        "smoke": false
+      },
+      {
+        "name": "controller restart alternates players and keeps progress",
+        "ticks": 2768,
+        "hash": "6f575b13fdcd58d7",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "music setting survives reload",
+      "keys": [],
+      "click": [
+        454.0,
+        258.0
+      ],
+      "ms": 400,
+      "changes": [
+        "music_on"
+      ],
+      "persists": [
+        "music_on"
+      ]
+    },
+    {
+      "name": "steering moves Pip",
+      "keys": [
+        "ArrowRight"
+      ],
+      "click": null,
+      "ms": 450,
+      "changes": [
+        "p_x"
+      ],
+      "persists": []
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 29639,
+      "sha256": "8b89241274661691b6be35dab1cd23b4467b5f750d41ce37c9f2daae0103dea9"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 679249,
+      "sha256": "1c4e09eed047b9b681c026a2d19b6d8064a47af08f51679c0d6c1fe294636a99"
+    },
+    {
+      "path": "icon-192.png",
+      "bytes": 3854,
+      "sha256": "1cfcf61160f7cd4d8802fec626587c71500d5d5da3829fefa4e9cfa86db7335b"
+    },
+    {
+      "path": "icon-512.png",
+      "bytes": 11314,
+      "sha256": "b557477305928f4e775c60d66ea8fe66bdb7c5d0ba74bc9eea470d754803f1cb"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7914,
+      "sha256": "2c681e9072293edea86572c9021cf892bf91ec58bfb37aa01361d488ee596f2b"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 870,
+      "sha256": "c3b76989461fb10473b2f7432c7bea5096949c94e8e50011a4d3c5d6fc6a6dbd"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 30966,
+      "sha256": "f4185df74afbc26ae01d30f1d135217378cea40332940b15767808826268e251"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 2109,
+      "sha256": "2360fa93f0bdd89407ddf001096dda1aa315ec1c9bfa027be563ef86456a244b"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 11871,
+      "sha256": "5116a2fe254940334dc885d48ff29ca3819e25ad3d37aa6a0a5f5e3ccea14754"
+    }
+  ]
+}
