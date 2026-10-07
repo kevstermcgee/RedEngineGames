@@ -11,7 +11,11 @@
       "installer_bytes": 13398016,
       "browser_checks": 67,
       "native_checks": 30,
-      "native_verify_seconds": 6.5
+      "native_verify_seconds": 6.5,
+      "remote_playable": true,
+      "publication_seconds": 106.59,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/pip-cloud-post/",
+      "remote_checks": 54
     },
     {
       "game": "moxie-magnet-moon",
@@ -21,7 +25,11 @@
       "installer_bytes": 14518784,
       "browser_checks": 67,
       "native_checks": 30,
-      "native_verify_seconds": 6.7
+      "native_verify_seconds": 6.7,
+      "remote_playable": true,
+      "publication_seconds": 74.91,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/moxie-magnet-moon/",
+      "remote_checks": 54
     },
     {
       "game": "riff-rooftop-rush",
@@ -31,7 +39,16 @@
       "installer_bytes": 13019136,
       "browser_checks": 67,
       "native_checks": 33,
-      "native_verify_seconds": 6.3
+      "native_verify_seconds": 6.3,
+      "remote_playable": true,
+      "publication_seconds": 63.0,
+      "url": "https://kevstermcgee.github.io/RedEngineGames/play/games/riff-rooftop-rush/",
+      "remote_checks": 54
     }
-  ]
+  ],
+  "confirmed_utc": "2026-10-07T02:29:30Z",
+  "single_player_revision_seconds": 491,
+  "windows_ci": "https://github.com/kevstermcgee/RedEngineGames/actions/runs/37561839139",
+  "windows_ci_passed": true,
+  "save_migration_passed": true
 }

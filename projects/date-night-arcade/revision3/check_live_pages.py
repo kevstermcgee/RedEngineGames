@@ -9,10 +9,10 @@ with sync_playwright()as pw:
  page.select_option('#pres','2d');assert page.locator('.game:not(.hidden)[data-id^="win:"]').count()==0
  page.select_option('#pres','3d');assert page.locator('.game:not(.hidden)[data-pres="2d"]').count()==0
  for id in meta:
-  page.goto(base+'browser/'+id+'/?revision=survival-2');assert page.locator('h2').first.inner_text();assert 'Four hearts' in page.inner_text('body');assert 'F toggles fullscreen' in page.inner_text('body')
+  page.goto(base+'browser/'+id+'/?revision=survival-2');assert page.locator('h2').first.inner_text();assert 'Four hearts' in page.inner_text('body');assert 'F toggles fullscreen' in page.inner_text('body');assert not any(t in page.inner_text('body').lower()for t in ['pass the controller','next player','next turn'])
   assert page.locator('a.dl').filter(has_text='Install for Windows').get_attribute('href')==meta[id]['url']
   page.locator('a.dl').filter(has_text='Play now').click();page.wait_for_function('() => window.__red2d && __red2d.status().state === "ready"')
-  page.locator('#install').click();assert page.locator('dialog').is_visible()
+  v=page.evaluate('__red2d.snapshot().vars');assert 'player' not in v and 'next_player' not in v;page.locator('#install').click();assert page.locator('dialog').is_visible()
   with page.expect_download(timeout=30000)as event:page.locator('#windows-download').click()
   download=event.value;assert download.suggested_filename=='setup-'+id+'.exe';path=pathlib.Path('/tmp')/download.suggested_filename;download.save_as(path);assert hashlib.sha256(path.read_bytes()).hexdigest()==meta[id]['sha256'];path.unlink()
   page.locator('#install-close').click();page.mouse.click(40,70);page.wait_for_function('() => __red2d.status().music === "playing"',timeout=30000)
