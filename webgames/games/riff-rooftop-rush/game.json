@@ -53,14 +53,14 @@
       "icon-512.png"
     ],
     "native_installer": true,
-    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-riff-rooftop-rush.exe"
+    "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2-1/setup-riff-rooftop-rush.exe"
   },
   "thumbnail": "thumbnail.png",
-  "game_revision": "ff47da51e457e02a",
+  "game_revision": "71aa9eabcc7de2c9",
   "engine_revision": "6a42dd1ed650",
   "engine_dirty": false,
-  "build_id": "54310026267e1aed",
-  "build_timestamp": "2026-10-07T02:17:23Z",
+  "build_id": "f8f3524f6314885f",
+  "build_timestamp": "2026-10-07T02:27:12Z",
   "compatibility": {
     "requires": [
       "WebAssembly",
@@ -86,7 +86,7 @@
       "engine": "Chromium 153.0.8010.12",
       "checks": 67,
       "passed": true,
-      "package_id": "54310026267e1aed"
+      "package_id": "f8f3524f6314885f"
     },
     "audio": {
       "claims": [
@@ -222,7 +222,7 @@
   },
   "urls": {
     "stable": "games/riff-rooftop-rush/",
-    "immutable": "games/riff-rooftop-rush/builds/54310026267e1aed/"
+    "immutable": "games/riff-rooftop-rush/builds/f8f3524f6314885f/"
   },
   "builds": [
     {
@@ -238,6 +238,13 @@
       "game_revision": "ff47da51e457e02a",
       "engine_revision": "6a42dd1ed650",
       "path": "games/riff-rooftop-rush/builds/54310026267e1aed/"
+    },
+    {
+      "build_id": "f8f3524f6314885f",
+      "built_at": "2026-10-07T02:27:12Z",
+      "game_revision": "71aa9eabcc7de2c9",
+      "engine_revision": "6a42dd1ed650",
+      "path": "games/riff-rooftop-rush/builds/f8f3524f6314885f/"
     }
   ]
 }
