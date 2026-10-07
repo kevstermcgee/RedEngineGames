@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 67,
+    "demos": 69,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -19,12 +19,16 @@
       "sha256": "c51d5c0642d07e714e97f6e13ad1cc0ddefac5dfdae55bc7db78e3731dd41f72"
     },
     {
+      "path": "demos/examples/2d/medic-run.game2d.json",
+      "sha256": "ebdf885a067e777ef58da4ea8c452de9a5a0f67c5618b407702ed3a4cce4a5de"
+    },
+    {
       "path": "demos/examples/2d/moon-hopper.game2d.json",
       "sha256": "bd061462f81451388bec74f61e5a5f5234fbdabf019e13da46d064324da42511"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
-      "sha256": "542405d4a62dcc4ba829211235fd1ba8a34d1fbbccd3cbd5a10cc707b6841043"
+      "sha256": "15a0a6fe240befe99c6dacdd29e824731d0968db1c558cb004fb82e84cc4dc27"
     },
     {
       "path": "demos/examples/2d/warden-arena.game2d.json",
@@ -221,6 +225,10 @@
     {
       "path": "demos/examples/patterns/key-door.game2d.json",
       "sha256": "5b5b6907e84f9164ec9cf4747843b158228611f924952fd57daeba0f006e7a9b"
+    },
+    {
+      "path": "demos/examples/patterns/shared-effect.game2d.json",
+      "sha256": "de96526c1b55aef1b41bf51662b9243717e7de3ee9d325316adb89fa56493d2c"
     },
     {
       "path": "demos/examples/patterns/spawner-waves.game2d.json",
@@ -578,6 +586,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "b02b1c21ca4234aba01bf02d6950fb42718434be",
+  "source_revision": "6a42dd1ed6509f8b6ca9cab1a54dbecac04fa030",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
