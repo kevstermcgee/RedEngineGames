@@ -2,5 +2,6 @@
   "repository": "kevstermcgee/RedEngineGames",
   "site_url": "https://kevstermcgee.github.io/RedEngineGames/",
   "publisher": "RedEngineGames",
-  "engine_exe": "RedEngine.exe"
+  "engine_exe": "RedEngine.exe",
+  "engine_exe_2d": "RedEngine2D.exe"
 }

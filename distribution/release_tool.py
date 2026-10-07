@@ -227,12 +227,17 @@ def make_icon(slug: str, target: Path) -> bool:
     return True
 
 
+def is_2d(playable: dict) -> bool:
+    """A 2D game (`kind: "2d"` in the catalog) is played by the 2D player `re2d`, everything else by the 3D client."""
+    return playable.get("kind", "3d") == "2d"
+
+
 def stage_game(entry: dict, playable: dict, engine: Path, launcher: Path, stage: Path) -> None:
     """The folder a player ends up with: engine, launcher, the game's content and the files that tie them together."""
     if stage.exists():
         shutil.rmtree(stage)
     stage.mkdir(parents=True)
-    exe = CONFIG["engine_exe"]
+    exe = CONFIG["engine_exe_2d"] if is_2d(playable) else CONFIG["engine_exe"]
     shutil.copy2(engine, stage / exe)
     shutil.copy2(launcher, stage / f"Play-{entry['slug']}.exe")
     (stage / "engine.name").write_text(exe + "\n", encoding="utf-8")
@@ -352,7 +357,10 @@ def cmd_build(args) -> int:
     assets.mkdir(parents=True)
     for entry in plan["games"]:
         stage = work / entry["slug"] / "stage"
-        stage_game(entry, by_slug[entry["slug"]], Path(args.engine), Path(args.launcher), stage)
+        playable = by_slug[entry["slug"]]
+        if is_2d(playable) and not args.engine_2d:
+            raise SystemExit(f"{entry['slug']} is a 2D game: pass --engine-2d (the built re2d.exe)")
+        stage_game(entry, playable, Path(args.engine_2d if is_2d(playable) else args.engine), Path(args.launcher), stage)
         zip_folder(stage, assets / f"{entry['slug']}-{entry['version']}-windows-x64.zip")
         compile_installer(entry, stage, assets, work / entry["slug"] / "iss")
         shutil.rmtree(work / entry["slug"])
@@ -412,6 +420,7 @@ def main() -> int:
     p = sub.add_parser("build")
     p.add_argument("--plan", default="plan.json")
     p.add_argument("--engine", required=True)
+    p.add_argument("--engine-2d", help="the built re2d.exe, for the games whose kind is 2d")
     p.add_argument("--launcher", required=True)
     p.add_argument("--out", default="dist")
     p = sub.add_parser("finalize")

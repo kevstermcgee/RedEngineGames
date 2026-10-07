@@ -21,7 +21,8 @@ Remove-Item $app, $saves -Recurse -Force -ErrorAction SilentlyContinue
 
 # 1. a fresh install
 Install $Installer
-foreach ($f in "Play-$Slug.exe", 'RedEngine.exe', 'play.cfg', 'launch.args', "content") { Check (Test-Path (Join-Path $app $f)) "installed: $f" }
+$engineExe = (Get-Content (Join-Path $app 'engine.name') -Raw).Trim()   # RedEngine.exe for a 3D game, RedEngine2D.exe for a 2D one
+foreach ($f in "Play-$Slug.exe", $engineExe, 'engine.name', 'play.cfg', 'launch.args', "content") { Check (Test-Path (Join-Path $app $f)) "installed: $f" }
 Check ((Get-Content (Join-Path $app 'play.cfg') -Raw) -match 'mode=installed') 'play.cfg says installed'
 $uninstallKey = Get-ChildItem 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall' | Where-Object { (Get-ItemProperty $_.PSPath).DisplayName -eq $Name }
 Check ($null -ne $uninstallKey) 'an uninstall entry is registered for the player'

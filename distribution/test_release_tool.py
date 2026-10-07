@@ -81,6 +81,27 @@ class Content(unittest.TestCase):
         self.assertEqual(history["a"][0]["notes"], ["Fix the door"])
         self.assertIn("- Fix the door", rt.release_body(meta))
 
+    def test_a_2d_game_is_staged_with_the_2d_player_and_a_3d_game_with_the_3d_client(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "re2.exe").write_bytes(b"3d")
+            (d / "re2d.exe").write_bytes(b"2d")
+            (d / "Play.exe").write_bytes(b"launcher")
+            repo = d / "repo"
+            (repo / "g").mkdir(parents=True)
+            (repo / "g/x.game2d.json").write_text("{}")
+            (repo / "g/m.json").write_text("{}")
+            rt.REPO = repo
+            entry = {"slug": "x", "name": "X", "version": 1}
+            two_d = {"slug": "x", "kind": "2d", "files": ["g/x.game2d.json"], "arguments": ["content/g/x.game2d.json"]}
+            three_d = {"slug": "x", "files": ["g/m.json"], "arguments": ["content/g/m.json"]}
+            rt.stage_game(entry, two_d, d / "re2d.exe", d / "Play.exe", d / "s2")
+            rt.stage_game(entry, three_d, d / "re2.exe", d / "Play.exe", d / "s3")
+            self.assertEqual((d / "s2/engine.name").read_text().strip(), "RedEngine2D.exe")
+            self.assertEqual((d / "s2/RedEngine2D.exe").read_bytes(), b"2d")
+            self.assertEqual((d / "s3/engine.name").read_text().strip(), "RedEngine.exe")
+            self.assertEqual((d / "s2/launch.args").read_text().strip(), "content/g/x.game2d.json")
+
 
 if __name__ == "__main__":
     unittest.main()

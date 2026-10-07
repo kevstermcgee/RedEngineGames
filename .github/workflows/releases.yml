@@ -107,7 +107,7 @@ jobs:
 
       - name: Build RedEngine for Windows
         working-directory: _engine
-        run: cargo build --release --locked --bin re2
+        run: cargo build --release --locked --bin re2 --bin re2d
 
       - name: Build the in-game launcher
         shell: bash
@@ -123,11 +123,11 @@ jobs:
 
       - name: Sign the engine and the launcher (when a certificate is configured)
         shell: pwsh
-        run: ./distribution/sign.ps1 _engine/target/release/re2.exe "$env:RUNNER_TEMP/Play.exe"
+        run: ./distribution/sign.ps1 _engine/target/release/re2.exe _engine/target/release/re2d.exe "$env:RUNNER_TEMP/Play.exe"
 
       - name: Stage, zip and compile the installers
         shell: bash
-        run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --launcher "$RUNNER_TEMP/Play.exe" --out dist
+        run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --engine-2d _engine/target/release/re2d.exe --launcher "$RUNNER_TEMP/Play.exe" --out dist
 
       - name: Smoke-test the install, in-place update and uninstall on this runner
         shell: pwsh
