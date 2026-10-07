@@ -1,0 +1,207 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "8c93dd6e60f0d8a9",
+  "entry": "index.html",
+  "game": {
+    "id": "riff-rooftop-rush",
+    "title": "Riff Rooftop Rush",
+    "description": "Riff the roller-skating fox rides a neon rooftop mixtape. Up/down changes lanes. A/Space hops over grumps; taps near the 120 BPM beat earn PERFECT trick chains. Grab notes and reach 80 points before 45 seconds. Fast wins earn bonus points. B drops to the middle lane. Three hearts, alternating records and saved ranks.",
+    "game_revision": "91c2127da4175181",
+    "presentation": "2d",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "mouse",
+      "touch",
+      "gamepad"
+    ],
+    "persistence": [
+      "settings",
+      "progress"
+    ],
+    "controls": {
+      "layout": "dpad",
+      "visible": true,
+      "declared": true,
+      "buttons": [
+        {
+          "id": "a",
+          "label": "HOP",
+          "action": "action"
+        },
+        {
+          "id": "b",
+          "label": "CENTER",
+          "action": "secondary"
+        }
+      ],
+      "pause": false
+    },
+    "distribution": [
+      "online",
+      "install"
+    ],
+    "install": {
+      "web_app": true,
+      "offline": true,
+      "icons": [
+        "icon-192.png",
+        "icon-512.png"
+      ],
+      "native_installer": false
+    },
+    "screen": {
+      "width": 480,
+      "height": 270,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "6a42dd1ed650",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "built from crates/red2d (--profile web)"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "503763046e820e02",
+      "frame": "7f7364c46e66d00c",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "an on-beat hop scores a perfect",
+        "ticks": 38,
+        "hash": "a295ef375685166a",
+        "smoke": true
+      },
+      {
+        "name": "offbeat hops clear hazards without perfect points",
+        "ticks": 21,
+        "hash": "ee320bd0cbda0455",
+        "smoke": false
+      },
+      {
+        "name": "lane switching stays on the three rails",
+        "ticks": 10,
+        "hash": "75507a82255b403a",
+        "smoke": false
+      },
+      {
+        "name": "a rhythmic rooftop run reaches the goal",
+        "ticks": 543,
+        "hash": "62d6658ae617d235",
+        "smoke": false
+      },
+      {
+        "name": "idle run ends and saves the next turn",
+        "ticks": 2760,
+        "hash": "2e18cddae590b8ae",
+        "smoke": false
+      },
+      {
+        "name": "controller restart alternates players and keeps progress",
+        "ticks": 2768,
+        "hash": "7a1e39c38c4c6c76",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "music setting survives reload",
+      "keys": [],
+      "click": [
+        454.0,
+        258.0
+      ],
+      "ms": 400,
+      "changes": [
+        "music_on"
+      ],
+      "persists": [
+        "music_on"
+      ]
+    },
+    {
+      "name": "lane input moves Riff",
+      "keys": [
+        "ArrowUp"
+      ],
+      "click": null,
+      "ms": 150,
+      "changes": [
+        "p_y"
+      ],
+      "persists": []
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 32262,
+      "sha256": "345c6a7556d77ab420308db0e42911d014504ebc17a87e96a695973bcced666f"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 679249,
+      "sha256": "1c4e09eed047b9b681c026a2d19b6d8064a47af08f51679c0d6c1fe294636a99"
+    },
+    {
+      "path": "icon-192.png",
+      "bytes": 3653,
+      "sha256": "1d9ee6ab8c43d6568b70c1f4d1f2e2ee28bd519a24241982ebb57a39e6a0c61f"
+    },
+    {
+      "path": "icon-512.png",
+      "bytes": 10537,
+      "sha256": "4f5a1d2d0537dbbe2507be1f1011d85d1f7ac1649d094824304ec6f8dd45e8c8"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7953,
+      "sha256": "dec89e797ad88f5a905b571e076489dee5e99b8e6bbfa6262a81daac84030537"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 885,
+      "sha256": "7b072cecafd0f4145263b5b94224a9886c6dcc897db895297bfd009b23e3b214"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 30966,
+      "sha256": "f4185df74afbc26ae01d30f1d135217378cea40332940b15767808826268e251"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 2109,
+      "sha256": "2360fa93f0bdd89407ddf001096dda1aa315ec1c9bfa027be563ef86456a244b"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 9804,
+      "sha256": "802afe2fe937e9bf8e840a5efc3d318c9521c427e700bf8ee15c346dbf70bdbf"
+    }
+  ]
+}

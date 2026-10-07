@@ -1,0 +1,29 @@
+{
+  "name": "Riff Rooftop Rush",
+  "short_name": "Riff Rooftop",
+  "description": "Riff the roller-skating fox rides a neon rooftop mixtape. Up/down changes lanes. A/Space hops over grumps; taps near the 120 BPM beat earn PERFECT trick chains. Grab notes and reach 80 points before 45 seconds. Fast wins earn bonus points. B drops to the middle lane. Three hearts, alternating records and saved ranks.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#241c3b",
+  "theme_color": "#0b0d12",
+  "categories": [
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
