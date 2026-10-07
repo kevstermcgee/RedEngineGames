@@ -9,7 +9,7 @@ for i,id in enumerate(['pip-cloud-post','moxie-magnet-moon','riff-rooftop-rush']
   for f in manifest['files']:
    data=(root/'web'/f['path']).read_bytes();assert len(data)==f['bytes'];assert hashlib.sha256(data).hexdigest()==f['sha256']
   if os.name=='nt':
-   ps="$w=New-Object -ComObject WScript.Shell;$l=Join-Path ([Environment]::GetFolderPath('Desktop')) '"+manifest['game']['title']+".lnk';if(!(Test-Path $l)){throw 'No desktop shortcut'};$target=$w.CreateShortcut($l).TargetPath;if($target -ne '"+str(root/'play.exe').replace("'","''")+"'){throw 'Wrong shortcut target'};$v=(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\RedEngineGames-"+id+"').DisplayVersion;if($v -ne '2.0'){throw 'No uninstall registration'}"
+   ps="$w=New-Object -ComObject WScript.Shell;$l=Join-Path ([Environment]::GetFolderPath('Desktop')) '"+manifest['game']['title']+".lnk';if(!(Test-Path $l)){throw 'No desktop shortcut'};$target=$w.CreateShortcut($l).TargetPath;if($target -ne '"+str(root/'play.exe').replace("'","''")+r"'){throw 'Wrong shortcut target'};$v=(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\RedEngineGames-"+id+"').DisplayVersion;if($v -ne '2.0'){throw 'No uninstall registration'}"
    subprocess.run(['powershell','-NoProfile','-Command',ps],check=True,timeout=15)
   sentinel=root/'keep-user-data.txt';sentinel.write_text('progress stays on update')
   subprocess.run([str(exe),'--install-root',str(root),'--no-launch'],check=True,timeout=30);assert sentinel.read_text()=='progress stays on update'
