@@ -289,7 +289,7 @@
     {
       "id": "moxie-magnet-moon",
       "title": "Moxie Magnet Moon",
-      "description": "Moxie the axolotl salvager has a magnetic backpack! Move with the stick; A/Space snaps 58 pixels in your last direction and pulls all nearby stardust into a combo. Recharge between bursts, dodge dust bunnies, bank 30 points before 45 seconds. Fast wins earn bonus points. B skips a ready dash to fire a stationary pulse. Progress auto-saves.",
+      "description": "Endless magnetic survival! Moxie dashes with A, pulling in scrap and clearing nearby dust. B fires a stationary pulse. Each 20-second wave brings quicker hunters and aimed comet shots. Keep moving and time your recharge. Four hearts. F fullscreen. Windows installer available. Clean gameplay HUD; deep sea cosmos art direction.",
       "url": "games/moxie-magnet-moon/",
       "thumbnail": "games/moxie-magnet-moon/thumbnail.png",
       "presentation": "2d",
@@ -313,7 +313,8 @@
           "icon-192.png",
           "icon-512.png"
         ],
-        "native_installer": false
+        "native_installer": true,
+        "windows_download": "https://github.com/kevstermcgee/RedEngineGames/releases/download/date-night-arcade-v2/setup-moxie-magnet-moon.exe"
       },
       "controls": {
         "layout": "stick",
@@ -338,9 +339,9 @@
         "settings",
         "progress"
       ],
-      "build_id": "9db2d9f6ca034b2a",
-      "build_timestamp": "2026-10-07T01:37:28Z",
-      "game_revision": "1bed9c55ce1901ac",
+      "build_id": "c0545cffb226fbe9",
+      "build_timestamp": "2026-10-07T02:16:53Z",
+      "game_revision": "773fc79c6929648a",
       "engine_revision": "6a42dd1ed650",
       "compatibility": {
         "requires": [
@@ -361,13 +362,13 @@
       "verification": {
         "native": {
           "scenarios": 5,
-          "passed": true
+          "passed": false
         },
         "browser": {
           "engine": "Chromium 153.0.8010.12",
           "checks": 67,
           "passed": true,
-          "package_id": "9db2d9f6ca034b2a"
+          "package_id": "c0545cffb226fbe9"
         },
         "audio": {
           "claims": [
@@ -388,8 +389,8 @@
           "schema": "red2d-evidence/1",
           "pieces": {
             "native_scenarios": {
-              "status": "passed",
-              "detail": "25 passed, 0 failed in 0.9 s"
+              "status": "not_run",
+              "detail": "not run"
             },
             "wasm_compiled": {
               "status": "passed",
@@ -409,11 +410,11 @@
             },
             "playable_state": {
               "status": "passed",
-              "detail": "2 check(s) passed in Chromium 153.0.8010.12: 60 ticks in ~1 s (60 expected)"
+              "detail": "2 check(s) passed in Chromium 153.0.8010.12: 61 ticks in ~1 s (60 expected)"
             },
             "input_keyboard": {
               "status": "passed",
-              "detail": "1 check(s) passed in Chromium 153.0.8010.12: p_x changed (240 -> 287.66680908203125)"
+              "detail": "1 check(s) passed in Chromium 153.0.8010.12: p_x changed (240 -> 289.5001525878906)"
             },
             "input_pointer": {
               "status": "passed",
@@ -441,7 +442,7 @@
             },
             "audio_playback": {
               "status": "passed",
-              "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.22, \"rate\": 44100, \"state\": \"running\"}"
+              "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.28, \"rate\": 44100, \"state\": \"running\"}"
             },
             "offline_cache": {
               "status": "passed",
