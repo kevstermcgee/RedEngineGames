@@ -6,14 +6,13 @@
   "capabilities": {
     "presentation": "2d",
     "platforms": [
-      "web"
+      "windows",
+      "linux"
     ],
     "networking": "offline",
     "input": [
       "keyboard",
-      "mouse",
-      "touch",
-      "gamepad"
+      "mouse"
     ],
     "persistence": [
       "settings",
@@ -3938,40 +3937,6 @@
         ],
         "smoke": false
       }
-    ],
-    "browser": [
-      {
-        "name": "music choice persists",
-        "click": [
-          478,
-          269
-        ],
-        "changes": [
-          "music_on"
-        ],
-        "persists": [
-          "music_on"
-        ]
-      },
-      {
-        "name": "stick equivalent moves Moxie",
-        "keys": [
-          "ArrowRight"
-        ],
-        "ms": 450,
-        "changes": [
-          "p_x"
-        ]
-      }
     ]
-  },
-  "controls": {
-    "layout": "stick",
-    "a": "SNAP",
-    "b": {
-      "label": "PULSE",
-      "action": "secondary"
-    },
-    "pause": false
   }
 }

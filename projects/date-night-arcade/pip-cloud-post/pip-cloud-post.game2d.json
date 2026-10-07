@@ -6,14 +6,13 @@
   "capabilities": {
     "presentation": "2d",
     "platforms": [
-      "web"
+      "windows",
+      "linux"
     ],
     "networking": "offline",
     "input": [
       "keyboard",
-      "mouse",
-      "touch",
-      "gamepad"
+      "mouse"
     ],
     "persistence": [
       "settings",
@@ -3225,40 +3224,6 @@
         ],
         "smoke": false
       }
-    ],
-    "browser": [
-      {
-        "name": "music choice persists",
-        "click": [
-          478,
-          269
-        ],
-        "changes": [
-          "music_on"
-        ],
-        "persists": [
-          "music_on"
-        ]
-      },
-      {
-        "name": "steering moves Pip",
-        "keys": [
-          "ArrowRight"
-        ],
-        "ms": 450,
-        "changes": [
-          "p_x"
-        ]
-      }
     ]
-  },
-  "controls": {
-    "layout": "lr",
-    "a": "SLAM",
-    "b": {
-      "label": "GUST",
-      "action": "secondary"
-    },
-    "pause": false
   }
 }
