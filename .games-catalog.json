@@ -376,7 +376,7 @@
     },
     {
       "path": "tests/performance/flows/new_game_2d.json",
-      "sha256": "2be29b7c9bd4a31640f3e130cb56348717f5ef064bc2912c558872fcccef796d"
+      "sha256": "ed36ece3206eee3e034eb38c47f7a2b8edd8e16ad0a4aad6e2f0d5d867a34c22"
     },
     {
       "path": "tests/performance/history/2026-09-24-static-promotion.md",
@@ -550,6 +550,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "9884a8c8351c05e8a33658b6a78cdcaa26978ca4",
+  "source_revision": "d1572897164404c903ae89fb70e37b211fb9ec13",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
