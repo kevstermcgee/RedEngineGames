@@ -1,0 +1,26 @@
+name: Verify Arcade Windows installers
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - projects/date-night-arcade/windows/**
+      - .github/workflows/arcade-windows.yml
+permissions:
+  contents: read
+jobs:
+  installers:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Download the exact release installers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download date-night-arcade-v2 --repo "$env:GITHUB_REPOSITORY" --pattern 'setup-*.exe' --dir installers
+      - name: Install, verify shortcuts and offline assets, reinstall and uninstall
+        run: python projects/date-night-arcade/windows/test_installers.py --installers installers --out windows-installer-evidence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arcade-windows-installers-evidence
+          path: windows-installer-evidence.json
