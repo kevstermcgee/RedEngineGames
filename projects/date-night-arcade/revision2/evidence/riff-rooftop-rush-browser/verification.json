@@ -1,0 +1,131 @@
+{
+  "schema": "red2d-browser-verification/1",
+  "package_id": "54310026267e1aed",
+  "ok": true,
+  "browser": "Chromium 153.0.8010.12",
+  "checks": 67,
+  "audio_claims": [
+    "browser audio initialised",
+    "a sound plays through Web Audio",
+    "music starts after the gesture",
+    "phone: audio starts after the first touch"
+  ],
+  "features": [
+    "installable",
+    "offline",
+    "phone-touch",
+    "backup"
+  ],
+  "evidence": {
+    "schema": "red2d-evidence/1",
+    "pieces": {
+      "native_scenarios": {
+        "status": "not_run",
+        "detail": "not run"
+      },
+      "wasm_compiled": {
+        "status": "passed",
+        "detail": "no env, filesystem, clock, network or JavaScript imports: the module is a pure function of its inputs; 34 exports; none of /home/, /Users/, C:\\Users, /root/"
+      },
+      "browser_package_valid": {
+        "status": "passed",
+        "detail": "13 package checks passed"
+      },
+      "wasm_instantiated": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: state=ready wasm=True"
+      },
+      "loading_robustness": {
+        "status": "passed",
+        "detail": "9 check(s) passed in Chromium 153.0.8010.12: 12 input kinds sent while game.wasm was still pending (key down/up, Enter (Start), pause and resume keys, pointer click, pointer move, touch tap, gamepad button, focus loss, focus return, page hidden, page visible, begin() called directly): no error, still loading, not started, 21 events ignored on purpose"
+      },
+      "playable_state": {
+        "status": "passed",
+        "detail": "2 check(s) passed in Chromium 153.0.8010.12: 60 ticks in ~1 s (60 expected)"
+      },
+      "input_keyboard": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: p_y changed (150 -> 92)"
+      },
+      "input_pointer": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: music_on changed (1 -> 0)"
+      },
+      "input_touch": {
+        "status": "passed",
+        "detail": "3 check(s) passed in Chromium 153.0.8010.12: touching ['up'] held ['up'], p_y changed (150 -> 92), released: True"
+      },
+      "input_gamepad": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: started=True gamepad seen=True state=running"
+      },
+      "persistence_write": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: localStorage[red2d:riff-rooftop-rush] holds a save after the input"
+      },
+      "persistence_reload": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: saved yes; after reload {'music_on': 0} (wanted {'music_on': 0}); save status loaded"
+      },
+      "audio_api": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: Web Audio context state after the first key press: running (it starts only inside a user gesture)"
+      },
+      "audio_playback": {
+        "status": "passed",
+        "detail": "2 check(s) passed in Chromium 153.0.8010.12: {\"ok\": true, \"seconds\": 0.28, \"rate\": 44100, \"state\": \"running\"}"
+      },
+      "offline_cache": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: offline support: ready (a service worker needs https or localhost)"
+      },
+      "offline_reload": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: reloaded offline: state=ready, advanced 30 ticks"
+      },
+      "installable": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: no installability errors (manifest, icons, service worker with a fetch handler)"
+      },
+      "browser_scenarios": {
+        "status": "passed",
+        "detail": "1 check(s) passed in Chromium 153.0.8010.12: 6 scenario(s), every final state hash equals the native run"
+      },
+      "other_browsers": {
+        "status": "not_run",
+        "detail": "not run"
+      },
+      "remote_deployment": {
+        "status": "not_run",
+        "detail": "not run"
+      }
+    },
+    "order": [
+      "native_scenarios",
+      "wasm_compiled",
+      "browser_package_valid",
+      "wasm_instantiated",
+      "loading_robustness",
+      "playable_state",
+      "input_keyboard",
+      "input_pointer",
+      "input_touch",
+      "input_gamepad",
+      "persistence_write",
+      "persistence_reload",
+      "audio_api",
+      "audio_playback",
+      "offline_cache",
+      "offline_reload",
+      "installable",
+      "browser_scenarios",
+      "other_browsers",
+      "remote_deployment"
+    ],
+    "human_listening_verified": false,
+    "human_playtest": false
+  },
+  "also_browsers": [],
+  "human_listening_verified": false,
+  "human_playtest": false
+}

@@ -2,7 +2,7 @@
   "game2d": 1,
   "id": "riff-rooftop-rush",
   "title": "Riff Rooftop Rush",
-  "description": "Riff the roller-skating fox rides a neon rooftop mixtape. Up/down changes lanes. A/Space hops over grumps; taps near the 120 BPM beat earn PERFECT trick chains. Grab notes and reach 80 points before 45 seconds. Fast wins earn bonus points. B drops to the middle lane. Three hearts, alternating records and saved ranks.",
+  "description": "Endless rooftop survival! Riff switches lanes with up/down and hops with A. Catch notes for trick points; jumping earns no free points. Dodge low speakers and stay grounded under high drones. Hazards accelerate each 20-second wave. Four hearts. F fullscreen. Windows installer available. Clean gameplay HUD; sunset skate city art direction.",
   "capabilities": {
     "presentation": "2d",
     "platforms": [
@@ -23,7 +23,7 @@
   "view": {
     "width": 480,
     "height": 270,
-    "background": "#241c3b"
+    "background": "#f0a06c"
   },
   "sprites": {
     "riff": {
@@ -97,9 +97,9 @@
     },
     "hazard": {
       "palette": {
-        "d": "#e46da0",
-        "w": "#ffd5e9",
-        "k": "#392d59"
+        "d": "#51475d",
+        "w": "#bb8d85",
+        "k": "#292b43"
       },
       "rows": [
         "dddddddddddd",
@@ -118,96 +118,286 @@
     }
   },
   "sounds": {
-    "pick": {
-      "seconds": 0.22,
-      "level": 0.38,
+    "pick0": {
+      "seconds": 0.28,
+      "level": 0.32,
       "layers": [
         {
-          "sine": 880,
-          "decay": 17,
-          "attack": 0.003
+          "sine": 330,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
         },
         {
-          "sine": 1320.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "glide": [
+            214.5,
+            495.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        },
+        {
+          "noise": "hp 0.45",
+          "decay": 24,
+          "gain": 0.16
+        }
+      ]
+    },
+    "pick1": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 495,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            321.75,
+            742.5,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        },
+        {
+          "noise": "hp 0.45",
+          "decay": 24,
+          "gain": 0.16
+        }
+      ]
+    },
+    "pick2": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 660,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            429.0,
+            990.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        },
+        {
+          "noise": "hp 0.45",
+          "decay": 24,
+          "gain": 0.16
+        }
+      ]
+    },
+    "pick": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 330,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            214.5,
+            495.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        },
+        {
+          "noise": "hp 0.45",
+          "decay": 24,
+          "gain": 0.16
         }
       ]
     },
     "boost": {
-      "seconds": 0.22,
-      "level": 0.38,
+      "seconds": 0.3,
+      "level": 0.28,
       "layers": [
         {
-          "sine": 440,
-          "decay": 17,
-          "attack": 0.003
+          "glide": [
+            250,
+            450,
+            18
+          ],
+          "decay": 12,
+          "attack": 0.006,
+          "release": 0.08
         },
         {
-          "sine": 660.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
-        }
-      ]
-    },
-    "hit": {
-      "seconds": 0.22,
-      "level": 0.38,
-      "layers": [
-        {
-          "sine": 160,
-          "decay": 17,
-          "attack": 0.003
-        },
-        {
-          "sine": 240.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "noise": "hp 0.15",
+          "decay": 18,
+          "gain": 0.11
         }
       ]
     },
     "perfect": {
-      "seconds": 0.22,
-      "level": 0.38,
+      "seconds": 0.4,
+      "level": 0.32,
       "layers": [
         {
-          "sine": 1320,
-          "decay": 17,
-          "attack": 0.003
+          "sine": 660,
+          "harmonics": [
+            [
+              2,
+              0.3
+            ],
+            [
+              3,
+              0.1
+            ]
+          ],
+          "decay": 9,
+          "release": 0.1
         },
         {
-          "sine": 1980.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "sine": 825.0,
+          "delay": 0.05,
+          "decay": 11,
+          "gain": 0.25
+        }
+      ]
+    },
+    "hit": {
+      "seconds": 0.4,
+      "level": 0.36,
+      "layers": [
+        {
+          "noise": "hp 0.2",
+          "decay": 14,
+          "attack": 0.003,
+          "gain": 0.4
+        },
+        {
+          "glide": [
+            180,
+            65,
+            10
+          ],
+          "decay": 10,
+          "attack": 0.005,
+          "release": 0.08
+        }
+      ]
+    },
+    "wave": {
+      "seconds": 0.55,
+      "level": 0.34,
+      "layers": [
+        {
+          "sine": 440,
+          "decay": 12
+        },
+        {
+          "sine": 550,
+          "delay": 0.1,
+          "decay": 10
+        },
+        {
+          "sine": 660,
+          "delay": 0.2,
+          "decay": 9,
+          "release": 0.1
+        }
+      ]
+    },
+    "lose": {
+      "seconds": 0.9,
+      "level": 0.28,
+      "layers": [
+        {
+          "sine": 330,
+          "decay": 9,
+          "release": 0.12
+        },
+        {
+          "sine": 264.0,
+          "delay": 0.15,
+          "decay": 8,
+          "release": 0.12
+        },
+        {
+          "sine": 198.0,
+          "delay": 0.35,
+          "decay": 6,
+          "release": 0.18
         }
       ]
     },
     "win": {
-      "seconds": 0.7,
-      "level": 0.4,
+      "seconds": 0.55,
+      "level": 0.34,
       "layers": [
         {
-          "sine": 523,
-          "decay": 7
+          "sine": 440,
+          "decay": 12
         },
         {
-          "sine": 659,
-          "delay": 0.12,
-          "decay": 7
+          "sine": 550,
+          "delay": 0.1,
+          "decay": 10
         },
         {
-          "sine": 784,
-          "delay": 0.24,
-          "decay": 7
-        },
-        {
-          "sine": 1046,
-          "delay": 0.36,
-          "decay": 7
+          "sine": 660,
+          "delay": 0.2,
+          "decay": 9,
+          "release": 0.1
         }
       ]
     }
@@ -215,102 +405,1017 @@
   "music": {
     "theme": {
       "bpm": 120,
-      "bars": 8,
+      "bars": 32,
       "key": "E",
-      "scale": "minor_pentatonic",
-      "seed": 203,
-      "lufs": -23,
+      "scale": "minor",
+      "seed": 723,
+      "lufs": -20,
       "reverb": {
-        "decay": 1.1,
-        "mix": 0.14
+        "decay": 1.4,
+        "mix": 0.16
+      },
+      "delay": {
+        "time": 0.375,
+        "feedback": 0.2,
+        "mix": 0.07
       },
       "instruments": {
         "lead": {
-          "seconds": 0.35,
-          "level": 0.45,
+          "seconds": 0.38,
+          "level": 0.42,
           "layers": [
             {
               "sine": 1,
-              "decay": 9
+              "harmonics": [
+                [
+                  2,
+                  0.4
+                ],
+                [
+                  3,
+                  0.19
+                ],
+                [
+                  5,
+                  0.06
+                ]
+              ],
+              "decay": 11,
+              "attack": 0.002,
+              "release": 0.08
             },
             {
-              "sine": 2,
-              "gain": 0.22,
-              "decay": 12
+              "noise": "lp 0.07",
+              "decay": 80,
+              "gain": 0.1
+            }
+          ]
+        },
+        "answer": {
+          "seconds": 0.8,
+          "level": 0.3,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2,
+                  0.12
+                ],
+                [
+                  3,
+                  0.05
+                ]
+              ],
+              "attack": 0.025,
+              "decay": 4,
+              "release": 0.2
+            }
+          ]
+        },
+        "pad": {
+          "seconds": 2.5,
+          "level": 0.22,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2,
+                  0.18
+                ],
+                [
+                  3,
+                  0.08
+                ]
+              ],
+              "attack": 0.22,
+              "release": 0.8
+            },
+            {
+              "sine": 1.003,
+              "gain": 0.18,
+              "attack": 0.25,
+              "release": 0.8
             }
           ]
         },
         "bass": {
-          "seconds": 0.36,
-          "level": 0.5,
+          "seconds": 0.4,
+          "level": 0.55,
           "layers": [
             {
               "sine": 1,
-              "attack": 0.008,
-              "decay": 6
-            },
-            {
-              "sine": 2,
-              "gain": 0.12,
-              "decay": 8
-            }
-          ]
-        },
-        "hat": {
-          "seconds": 0.065,
-          "level": 0.16,
-          "layers": [
-            {
-              "noise": "hp 0.6",
-              "decay": 60,
-              "attack": 0.002
+              "harmonics": [
+                [
+                  2,
+                  0.24
+                ],
+                [
+                  3,
+                  0.07
+                ]
+              ],
+              "attack": 0.004,
+              "decay": 5,
+              "release": 0.08
             }
           ]
         },
         "kick": {
-          "seconds": 0.18,
-          "level": 0.35,
+          "seconds": 0.2,
+          "level": 0.55,
           "layers": [
             {
               "sine": 1,
+              "decay": 28,
+              "attack": 0.002
+            },
+            {
+              "sine": 2.0,
+              "decay": 50,
+              "gain": 0.3
+            },
+            {
+              "noise": "lp 0.1",
+              "decay": 65,
+              "gain": 0.12
+            }
+          ]
+        },
+        "snare": {
+          "seconds": 0.16,
+          "level": 0.3,
+          "layers": [
+            {
+              "noise": "hp 0.35",
               "decay": 22,
-              "attack": 0.003
+              "attack": 0.001,
+              "release": 0.04
+            },
+            {
+              "sine": 1,
+              "decay": 30,
+              "gain": 0.28
+            }
+          ]
+        },
+        "hat": {
+          "seconds": 0.08,
+          "level": 0.16,
+          "layers": [
+            {
+              "noise": "hp 0.75",
+              "decay": 52,
+              "attack": 0.001,
+              "release": 0.015
+            }
+          ]
+        },
+        "shaker": {
+          "seconds": 0.14,
+          "level": 0.1,
+          "layers": [
+            {
+              "noise": "hp 0.35",
+              "attack": 0.02,
+              "decay": 25,
+              "release": 0.03
+            }
+          ]
+        },
+        "bell": {
+          "seconds": 0.65,
+          "level": 0.23,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2.76,
+                  0.3
+                ],
+                [
+                  4.1,
+                  0.07
+                ]
+              ],
+              "decay": 6,
+              "release": 0.12
             }
           ]
         }
       },
       "tracks": [
         {
-          "inst": "lead",
-          "play": "pattern",
-          "pattern": "x.xx ..x. x.x. .xx.",
-          "notes": "1 3 5 7 5 3 1 8",
-          "octave": 5,
-          "gain": 0.65
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 6 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 1,
+          "to": 4,
+          "pan": "spread"
         },
         {
           "inst": "bass",
           "play": "pattern",
-          "pattern": "x..x ..x. x..x ..x.",
-          "notes": "1 1 4 5",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "1 6 4 5 1 5 8 5",
           "octave": 2,
-          "gain": 0.85
+          "gain": 0.84,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x... ..x. .... .x..",
+          "notes": "1 3 5 7 8 7 5 3 4 6 8 10 8 6 4 3",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 1,
+          "to": 4
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 1,
+          "to": 4
         },
         {
           "inst": "hat",
           "play": "pattern",
           "pattern": "..x. ..x. ..x. ..x.",
           "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 1,
+          "to": 4,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 4 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 5,
+          "to": 8,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "1 4 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "8 10 11 10 8 7 5 3 1 3 4 6 5 4 3 1",
           "octave": 4,
-          "gain": 0.38
+          "gain": 0.7,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
         },
         {
           "inst": "kick",
           "play": "pattern",
-          "pattern": "x... .... x... ....",
+          "pattern": "x... .x.. x..x ....",
           "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 5,
+          "to": 8
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 5,
+          "to": 8
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 5,
+          "to": 8,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "6 4 1 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 9,
+          "to": 12,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "6 4 1 5 1 5 8 5",
           "octave": 2,
-          "gain": 0.7
+          "gain": 0.84,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "1 3 5 7 8 7 5 3 4 6 8 10 8 6 4 3",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 9,
+          "to": 12,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 9,
+          "to": 12
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 9,
+          "to": 12
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 9,
+          "to": 12,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 5 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 13,
+          "to": 16,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "1 5 4 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "8 10 11 10 8 7 5 3 1 3 4 6 5 4 3 1",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 13,
+          "to": 16,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 13,
+          "to": 16
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 13,
+          "to": 16
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 13,
+          "to": 16,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "4 2 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 17,
+          "to": 20,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "4 2 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 17,
+          "to": 20,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "1 3 5 7 8 7 5 3 4 6 8 10 8 6 4 3",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 17,
+          "to": 20,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 17,
+          "to": 20,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "6 5 4 1",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 21,
+          "to": 24,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "6 5 4 1 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "8 10 11 10 8 7 5 3 1 3 4 6 5 4 3 1",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 21,
+          "to": 24,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 21,
+          "to": 24
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 21,
+          "to": 24
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 21,
+          "to": 24,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "2 4 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 25,
+          "to": 28,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "2 4 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x... ..x. .... .x..",
+          "notes": "1 3 5 7 8 7 5 3 4 6 8 10 8 6 4 3",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 25,
+          "to": 28
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x.x. .x.. xxxx",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 25,
+          "to": 28
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 25,
+          "to": 28,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 6 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 29,
+          "to": 32,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x .xx. x..x ..x.",
+          "notes": "1 6 4 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.xx ..x. .xx. x..x",
+          "notes": "8 10 11 10 8 7 5 3 1 3 4 6 5 4 3 1",
+          "octave": 4,
+          "gain": 0.7,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 29,
+          "to": 32,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... .x.. x..x ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 29,
+          "to": 32
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 29,
+          "to": 32
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 29,
+          "to": 32,
+          "pan": -0.4,
+          "send": 0.5
         }
       ]
     }
@@ -318,8 +1423,8 @@
   "vars": {
     "score": 0,
     "combo": 0,
-    "lives": 3,
-    "timeleft": 45,
+    "lives": 4,
+    "timeleft": 0,
     "best": 0,
     "best1": 0,
     "best2": 0,
@@ -337,8 +1442,27 @@
     "air": 0,
     "phase": 0,
     "perfects": 0,
-    "wave": 0,
-    "started": 0
+    "wave": 1,
+    "started": 0,
+    "survived": 0,
+    "next_hazard": 3,
+    "hazard_index": 0,
+    "spawned": 0,
+    "survival_best": 0,
+    "survival_best1": 0,
+    "survival_best2": 0,
+    "best_seconds": 0,
+    "best_seconds1": 0,
+    "best_seconds2": 0,
+    "furthest_wave": 1,
+    "run_total": 0,
+    "last_seconds": 0,
+    "hop_ready": 0,
+    "beat_origin": 0,
+    "beat_offset": 0,
+    "last_tick": 0,
+    "next_note": 0.75,
+    "wave_notes": 0
   },
   "persist": [
     "best",
@@ -349,7 +1473,16 @@
     "wins",
     "total",
     "rank",
-    "last_score"
+    "last_score",
+    "survival_best",
+    "survival_best1",
+    "survival_best2",
+    "best_seconds",
+    "best_seconds1",
+    "best_seconds2",
+    "furthest_wave",
+    "run_total",
+    "last_seconds"
   ],
   "prefabs": {
     "pickup": {
@@ -379,16 +1512,10 @@
         ],
         "color": "#ffe279"
       },
-      "move": {
-        "drift": [
-          -150,
-          0
-        ]
-      },
-      "ttl": 3.4
+      "ttl": 7
     },
     "hazard": {
-      "tag": "hazard",
+      "tag": "low",
       "shape": {
         "sprite": "hazard",
         "scale": 2
@@ -398,13 +1525,7 @@
         15
       ],
       "layer": 3,
-      "move": {
-        "drift": [
-          -150,
-          0
-        ]
-      },
-      "ttl": 3.4
+      "ttl": 7
     },
     "decor": {
       "shape": {
@@ -434,7 +1555,7 @@
           480,
           3
         ],
-        "color": "#564265"
+        "color": "#f9d594"
       },
       "layer": -1
     },
@@ -467,6 +1588,236 @@
         "color": "#c170c0"
       },
       "layer": -2
+    },
+    "high": {
+      "tag": "high",
+      "shape": {
+        "rect": [
+          28,
+          8
+        ],
+        "color": "#5a4d65"
+      },
+      "size": [
+        28,
+        9
+      ],
+      "layer": 4,
+      "ttl": 7
+    },
+    "haze": {
+      "shape": {
+        "rect": [
+          480,
+          95
+        ],
+        "color": "#ed8869"
+      },
+      "layer": -6
+    },
+    "low_sky": {
+      "shape": {
+        "rect": [
+          480,
+          50
+        ],
+        "color": "#dd6f68"
+      },
+      "layer": -6
+    },
+    "sun_halo": {
+      "shape": {
+        "circle": 39,
+        "color": "#f7b780"
+      },
+      "layer": -5
+    },
+    "sun": {
+      "shape": {
+        "circle": 29,
+        "color": "#ffe7a8"
+      },
+      "layer": -4
+    },
+    "city0": {
+      "shape": {
+        "rect": [
+          43,
+          48
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city1": {
+      "shape": {
+        "rect": [
+          43,
+          65
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city2": {
+      "shape": {
+        "rect": [
+          43,
+          82
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city3": {
+      "shape": {
+        "rect": [
+          43,
+          54
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city4": {
+      "shape": {
+        "rect": [
+          43,
+          71
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city5": {
+      "shape": {
+        "rect": [
+          43,
+          88
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city6": {
+      "shape": {
+        "rect": [
+          43,
+          60
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city7": {
+      "shape": {
+        "rect": [
+          43,
+          77
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "city8": {
+      "shape": {
+        "rect": [
+          43,
+          49
+        ],
+        "color": "#bc665d"
+      },
+      "layer": -3
+    },
+    "roof0": {
+      "shape": {
+        "rect": [
+          480,
+          39
+        ],
+        "color": "#885365"
+      },
+      "layer": -2
+    },
+    "brick0": {
+      "shape": {
+        "rect": [
+          11,
+          3
+        ],
+        "color": "#a77075"
+      },
+      "layer": -1
+    },
+    "lit_window0": {
+      "shape": {
+        "rect": [
+          5,
+          9
+        ],
+        "color": "#efb77c"
+      },
+      "layer": -1
+    },
+    "roof1": {
+      "shape": {
+        "rect": [
+          480,
+          39
+        ],
+        "color": "#684558"
+      },
+      "layer": -2
+    },
+    "brick1": {
+      "shape": {
+        "rect": [
+          11,
+          3
+        ],
+        "color": "#855970"
+      },
+      "layer": -1
+    },
+    "lit_window1": {
+      "shape": {
+        "rect": [
+          5,
+          9
+        ],
+        "color": "#efb77c"
+      },
+      "layer": -1
+    },
+    "roof2": {
+      "shape": {
+        "rect": [
+          480,
+          39
+        ],
+        "color": "#503749"
+      },
+      "layer": -2
+    },
+    "brick2": {
+      "shape": {
+        "rect": [
+          11,
+          3
+        ],
+        "color": "#6c475d"
+      },
+      "layer": -1
+    },
+    "lit_window2": {
+      "shape": {
+        "rect": [
+          5,
+          9
+        ],
+        "color": "#efb77c"
+      },
+      "layer": -1
     }
   },
   "scene": [
@@ -500,139 +1851,6 @@
       ]
     },
     {
-      "prefab": "window",
-      "at": [
-        20,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        45,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        70,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        95,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        120,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        145,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        170,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        195,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        220,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        245,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        270,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        295,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        320,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        345,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        370,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        395,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        420,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        445,
-        65
-      ]
-    },
-    {
-      "prefab": "window",
-      "at": [
-        470,
-        65
-      ]
-    },
-    {
       "prefab": "pickup",
       "at": [
         230,
@@ -654,143 +1872,871 @@
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "haze",
       "at": [
-        25,
-        204
+        240,
+        166
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "low_sky",
       "at": [
-        75,
-        204
+        240,
+        245
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "sun_halo",
       "at": [
-        125,
-        204
+        415,
+        55
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "sun",
       "at": [
-        175,
-        204
+        415,
+        55
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city0",
       "at": [
-        225,
-        204
+        18,
+        113.0
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city1",
       "at": [
-        275,
-        204
+        76,
+        104.5
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city2",
       "at": [
-        325,
-        204
+        134,
+        96.0
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city3",
       "at": [
-        375,
-        204
+        192,
+        110.0
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city4",
       "at": [
-        425,
-        204
+        250,
+        101.5
       ]
     },
     {
-      "prefab": "tower",
+      "prefab": "city5",
+      "at": [
+        308,
+        93.0
+      ]
+    },
+    {
+      "prefab": "city6",
+      "at": [
+        366,
+        107.0
+      ]
+    },
+    {
+      "prefab": "city7",
+      "at": [
+        424,
+        98.5
+      ]
+    },
+    {
+      "prefab": "city8",
+      "at": [
+        482,
+        112.5
+      ]
+    },
+    {
+      "prefab": "roof0",
+      "at": [
+        240,
+        126
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        11,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        19,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        40,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        46,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        69,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        73,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        98,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        100,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        127,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        127,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        156,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        154,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        185,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        181,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        214,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        208,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        243,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        235,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        272,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        262,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        301,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        289,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        330,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        316,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        359,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        343,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        388,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        370,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        417,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        397,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
+      "at": [
+        446,
+        136
+      ]
+    },
+    {
+      "prefab": "lit_window0",
+      "at": [
+        424,
+        120
+      ]
+    },
+    {
+      "prefab": "brick0",
       "at": [
         475,
-        204
+        136
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "lit_window0",
       "at": [
-        25,
-        221
+        451,
+        120
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "brick0",
       "at": [
-        75,
-        221
+        504,
+        136
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "lit_window0",
       "at": [
-        125,
-        221
+        478,
+        120
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "roof1",
       "at": [
-        175,
-        221
+        240,
+        184
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "brick1",
       "at": [
-        225,
-        221
+        11,
+        194
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "lit_window1",
       "at": [
-        275,
-        221
+        19,
+        178
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "brick1",
       "at": [
-        325,
-        221
+        40,
+        194
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "lit_window1",
       "at": [
-        375,
-        221
+        46,
+        178
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "brick1",
       "at": [
-        425,
-        221
+        69,
+        194
       ]
     },
     {
-      "prefab": "neon",
+      "prefab": "lit_window1",
+      "at": [
+        73,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        98,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        100,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        127,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        127,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        156,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        154,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        185,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        181,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        214,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        208,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        243,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        235,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        272,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        262,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        301,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        289,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        330,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        316,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        359,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        343,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        388,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        370,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        417,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        397,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        446,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        424,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
       "at": [
         475,
-        221
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        451,
+        178
+      ]
+    },
+    {
+      "prefab": "brick1",
+      "at": [
+        504,
+        194
+      ]
+    },
+    {
+      "prefab": "lit_window1",
+      "at": [
+        478,
+        178
+      ]
+    },
+    {
+      "prefab": "roof2",
+      "at": [
+        240,
+        242
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        11,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        19,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        40,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        46,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        69,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        73,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        98,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        100,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        127,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        127,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        156,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        154,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        185,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        181,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        214,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        208,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        243,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        235,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        272,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        262,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        301,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        289,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        330,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        316,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        359,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        343,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        388,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        370,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        417,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        397,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        446,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        424,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        475,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        451,
+        236
+      ]
+    },
+    {
+      "prefab": "brick2",
+      "at": [
+        504,
+        252
+      ]
+    },
+    {
+      "prefab": "lit_window2",
+      "at": [
+        478,
+        236
       ]
     }
   ],
@@ -798,120 +2744,227 @@
     {
       "panel": {
         "at": [
-          0,
-          0
+          7,
+          5
         ],
         "size": [
-          480,
-          42
+          99,
+          16
         ],
-        "color": "#111627ee"
-      }
+        "color": "#482b3bc9"
+      },
+      "show": "!ended"
     },
     {
-      "text": "RIFF ROOFTOP RUSH",
+      "text": "P{player}  {score}",
       "at": [
-        12,
-        7
+        13,
+        10
       ],
-      "color": "#ffe279",
-      "scale": 2
+      "color": "#fff3dc",
+      "show": "!ended"
     },
     {
-      "text": "P{player}   SCORE {score}   CHAIN {combo}   TIME {timeleft}",
+      "text": "{survived}s",
       "at": [
-        12,
-        29
+        240,
+        10
       ],
-      "color": "#ffffff"
-    },
-    {
-      "text": "P1 BEST {best1}   P2 BEST {best2}   RANK {rank}",
-      "at": [
-        12,
-        254
-      ],
-      "color": "#ffe279"
+      "align": "center",
+      "color": "#3d2632",
+      "show": "!ended"
     },
     {
       "bar": {
         "var": "lives",
-        "max": 3,
+        "max": 4,
         "at": [
-          390,
-          29
+          410,
+          10
         ],
         "size": [
-          76,
-          7
+          58,
+          6
         ],
-        "color": "#ff86a0",
-        "back": "#41283f"
-      }
+        "color": "#ffde91",
+        "back": "#704655"
+      },
+      "show": "!ended"
     },
     {
       "panel": {
         "at": [
           40,
-          75
+          65
         ],
         "size": [
           400,
-          138
+          158
         ],
-        "color": "#111627f5"
+        "color": "#482b3bee"
       },
       "show": "ended"
     },
     {
-      "text": "ROUND COMPLETE!",
+      "text": "RUN OVER!",
       "at": [
         240,
-        88
+        85
       ],
       "align": "center",
       "scale": 2,
-      "color": "#ffe279",
-      "show": "ended == 1"
-    },
-    {
-      "text": "ONE MORE TRY?",
-      "at": [
-        240,
-        88
-      ],
-      "align": "center",
-      "scale": 2,
-      "color": "#ff86a0",
+      "color": "#fff0ce",
       "show": "ended == 2"
-    },
-    {
-      "text": "P{player}: {last_score} POINTS   BEST {best}",
-      "at": [
-        240,
-        116
-      ],
-      "align": "center",
-      "show": "ended"
     },
     {
       "text": "PASS THE CONTROLLER TO P{next_player}",
       "at": [
         240,
-        135
+        149
       ],
       "align": "center",
-      "color": "#ffe279",
+      "color": "#fff0ce",
       "show": "ended"
     },
     {
-      "text": "AUTO-SAVED: {rounds} ROUNDS / {wins} WINS",
+      "button": {
+        "id": "music",
+        "label": "",
+        "at": [
+          478,
+          269
+        ],
+        "size": [
+          1,
+          1
+        ],
+        "key": "KeyM",
+        "do": [
+          {
+            "music": "toggle"
+          }
+        ]
+      }
+    },
+    {
+      "bar": {
+        "var": "phase",
+        "max": 0.5,
+        "at": [
+          210,
+          260
+        ],
+        "size": [
+          60,
+          3
+        ],
+        "color": "#ffe39a",
+        "back": "#3d2632"
+      },
+      "show": "!ended"
+    },
+    {
+      "text": "PERFECT!",
+      "at": [
+        130,
+        47
+      ],
+      "color": "#3d2632",
+      "show": "!ended && combo > 0 && time < air_until",
+      "align": "center"
+    },
+    {
+      "text": "ROOKIE",
       "at": [
         240,
-        152
+        205
       ],
       "align": "center",
-      "show": "ended"
+      "color": "#fff0ce",
+      "show": "ended && rank == 1"
+    },
+    {
+      "text": "QUICK FEET",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#fff0ce",
+      "show": "ended && rank == 2"
+    },
+    {
+      "text": "CHAIN ACE",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#fff0ce",
+      "show": "ended && rank == 3"
+    },
+    {
+      "text": "SUPERSTAR",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#fff0ce",
+      "show": "ended && rank == 4"
+    },
+    {
+      "text": "ARCADE LEGEND",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#fff0ce",
+      "show": "ended && rank == 5"
+    },
+    {
+      "button": {
+        "id": "sync",
+        "label": "",
+        "at": [
+          479,
+          269
+        ],
+        "size": [
+          1,
+          1
+        ],
+        "key": "KeyQ",
+        "do": [
+          {
+            "set": [
+              "beat_origin",
+              "tick / 60"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "text": "{last_score} POINTS / {last_seconds}s / WAVE {wave}",
+      "at": [
+        240,
+        119
+      ],
+      "align": "center",
+      "show": "ended",
+      "color": "#fff0ce"
+    },
+    {
+      "text": "P1 BEST {best_seconds1}s   P2 BEST {best_seconds2}s",
+      "at": [
+        240,
+        164
+      ],
+      "align": "center",
+      "show": "ended",
+      "color": "#fff0ce"
     },
     {
       "button": {
@@ -932,131 +2985,34 @@
           }
         ]
       },
-      "show": "ended"
+      "show": "ended && tick / 60 > last_tick + .6"
     },
     {
-      "button": {
-        "id": "music",
-        "label": "MIX",
-        "at": [
-          440,
-          251
-        ],
-        "size": [
-          34,
-          14
-        ],
-        "key": "KeyM",
-        "do": [
-          {
-            "music": "toggle"
-          }
-        ]
-      }
-    },
-    {
-      "text": "UP/DOWN: LANES   A: HOP ON THE BEAT   GOAL: 80",
-      "at": [
-        14,
-        47
-      ],
-      "color": "#d9cae7"
-    },
-    {
-      "bar": {
-        "var": "phase",
-        "max": 0.5,
-        "at": [
-          180,
-          234
-        ],
-        "size": [
-          120,
-          6
-        ],
-        "color": "#ffe279",
-        "back": "#544369"
-      }
-    },
-    {
-      "text": "PERFECT!",
-      "at": [
-        355,
-        234
-      ],
-      "color": "#ffe279",
-      "show": "combo > 0 && time < air_until"
-    },
-    {
-      "text": "ROOKIE",
+      "text": "WAVE {wave}",
       "at": [
         240,
-        205
+        37
       ],
       "align": "center",
-      "color": "#ffe279",
-      "show": "ended && rank == 1"
-    },
-    {
-      "text": "QUICK FEET",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffe279",
-      "show": "ended && rank == 2"
-    },
-    {
-      "text": "CHAIN ACE",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffe279",
-      "show": "ended && rank == 3"
-    },
-    {
-      "text": "SUPERSTAR",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffe279",
-      "show": "ended && rank == 4"
-    },
-    {
-      "text": "ARCADE LEGEND",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffe279",
-      "show": "ended && rank == 5"
-    },
-    {
-      "text": "FAST WINS + HEARTS = BONUS POINTS",
-      "at": [
-        240,
-        166
-      ],
-      "align": "center",
-      "color": "#a8afcf",
-      "show": "ended == 1"
-    },
-    {
-      "text": "BEAT",
-      "at": [
-        145,
-        234
-      ],
-      "color": "#ffe279"
+      "color": "#3d2632",
+      "show": "wave > 1 && time % 20 < 1 && !ended"
     }
   ],
   "rules": [
+    {
+      "id": "result debounce",
+      "when": {
+        "end": "any"
+      },
+      "do": [
+        {
+          "set": [
+            "last_tick",
+            "tick / 60"
+          ]
+        }
+      ]
+    },
     {
       "id": "whose turn",
       "when": {
@@ -1086,75 +3042,6 @@
       ]
     },
     {
-      "id": "clock",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "add": [
-            "timeleft",
-            -1
-          ]
-        }
-      ]
-    },
-    {
-      "id": "hurt",
-      "when": {
-        "touch": [
-          "player",
-          "hazard"
-        ]
-      },
-      "do": [
-        {
-          "add": [
-            "lives",
-            -1
-          ]
-        },
-        {
-          "set": [
-            "combo",
-            0
-          ]
-        },
-        {
-          "set": [
-            "invuln",
-            "time + 1.1"
-          ]
-        },
-        {
-          "destroy": "other"
-        },
-        {
-          "play": "hit"
-        },
-        {
-          "shake": 4
-        },
-        {
-          "burst": {
-            "at": "self",
-            "n": 14,
-            "color": "#ff86a0",
-            "speed": [
-              35,
-              95
-            ],
-            "life": [
-              0.2,
-              0.55
-            ],
-            "size": 2
-          }
-        }
-      ],
-      "if": "time > invuln && air == 0"
-    },
-    {
       "id": "no hearts",
       "when": {
         "every": 0.05
@@ -1167,147 +3054,6 @@
       "if": "lives <= 0"
     },
     {
-      "id": "bank speed bonus",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "banked",
-            "score + (ended == 1)*(timeleft + lives*5)"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "save record",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "last_score",
-            "banked"
-          ]
-        },
-        {
-          "add": [
-            "rounds",
-            1
-          ]
-        },
-        {
-          "add": [
-            "total",
-            "banked"
-          ]
-        },
-        {
-          "set": [
-            "next_player",
-            "3-player"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "best overall",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best",
-            "banked"
-          ]
-        }
-      ],
-      "if": "banked > best"
-    },
-    {
-      "id": "best player one",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best1",
-            "banked"
-          ]
-        }
-      ],
-      "if": "player == 1 && banked > best1"
-    },
-    {
-      "id": "best player two",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best2",
-            "banked"
-          ]
-        }
-      ],
-      "if": "player == 2 && banked > best2"
-    },
-    {
-      "id": "rank up",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "rank",
-            "1 + (total >= 150) + (total >= 400) + (total >= 800) + (total >= 1500)"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "celebrate",
-      "when": {
-        "end": "win"
-      },
-      "do": [
-        {
-          "add": [
-            "wins",
-            1
-          ]
-        },
-        {
-          "play": "win"
-        },
-        {
-          "burst": {
-            "at": [
-              240,
-              120
-            ],
-            "n": 45,
-            "color": "#ffe279",
-            "speed": [
-              35,
-              95
-            ],
-            "life": [
-              0.2,
-              0.55
-            ],
-            "size": 2
-          }
-        }
-      ]
-    },
-    {
       "id": "next turn",
       "when": {
         "press": "action"
@@ -1317,7 +3063,7 @@
           "restart": true
         }
       ],
-      "if": "ended"
+      "if": "ended && tick / 60 > last_tick + .6"
     },
     {
       "id": "controller music",
@@ -1384,7 +3130,7 @@
         {
           "set": [
             "phase",
-            "time % 0.5"
+            "(tick / 60 - beat_origin) % .5"
           ]
         },
         {
@@ -1423,21 +3169,9 @@
           ]
         },
         {
-          "add": [
-            "score",
-            "2 + (combo > 4)"
-          ]
-        },
-        {
           "set": [
             "air_until",
-            "time + .36"
-          ]
-        },
-        {
-          "set": [
-            "invuln",
-            "time + .36"
+            "time + .28"
           ]
         },
         {
@@ -1461,9 +3195,15 @@
             ],
             "size": 2
           }
+        },
+        {
+          "set": [
+            "hop_ready",
+            "time + .46"
+          ]
         }
       ],
-      "if": "!ended && time >= air_until && (time % 0.5 < 0.11 || time % 0.5 > 0.39)"
+      "if": "!ended && time >= hop_ready && ((tick / 60 - beat_origin) % .5 < 0.11 || (tick / 60 - beat_origin) % .5 > 0.39)"
     },
     {
       "id": "offbeat hop",
@@ -1474,13 +3214,7 @@
         {
           "set": [
             "air_until",
-            "time + .30"
-          ]
-        },
-        {
-          "set": [
-            "invuln",
-            "time + .30"
+            "time + .28"
           ]
         },
         {
@@ -1491,9 +3225,15 @@
             "combo",
             0
           ]
+        },
+        {
+          "set": [
+            "hop_ready",
+            "time + .46"
+          ]
         }
       ],
-      "if": "!ended && time >= air_until"
+      "if": "!ended && time >= hop_ready"
     },
     {
       "id": "note",
@@ -1507,11 +3247,8 @@
         {
           "add": [
             "score",
-            5
+            "5 + air*(2 + (combo > 3)*3)"
           ]
-        },
-        {
-          "play": "pick"
         },
         {
           "destroy": "other"
@@ -1531,13 +3268,36 @@
             ],
             "size": 2
           }
+        },
+        {
+          "emit": "pickup sound"
         }
       ]
     },
     {
-      "id": "note stream",
+      "id": "survival clock",
       "when": {
-        "every": 0.65
+        "every": 1
+      },
+      "do": [
+        {
+          "add": [
+            "survived",
+            1
+          ]
+        },
+        {
+          "add": [
+            "score",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next wave",
+      "when": {
+        "every": 20
       },
       "do": [
         {
@@ -1547,76 +3307,456 @@
           ]
         },
         {
-          "spawn": {
-            "prefab": "pickup",
+          "play": "wave"
+        },
+        {
+          "burst": {
             "at": [
-              476,
-              "92 + (wave % 3)*58"
-            ]
+              240,
+              125
+            ],
+            "n": 28,
+            "color": "#ffe279",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
           }
         }
       ]
     },
     {
-      "id": "rooftop grump",
+      "id": "live best",
       "when": {
-        "every": 2.4
+        "every": 1
       },
       "do": [
+        {
+          "set": [
+            "survival_best",
+            "score"
+          ]
+        }
+      ],
+      "if": "score > survival_best"
+    },
+    {
+      "id": "live P1 score",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "survival_best1",
+            "score"
+          ]
+        }
+      ],
+      "if": "player == 1 && score > survival_best1"
+    },
+    {
+      "id": "live P2 score",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "survival_best2",
+            "score"
+          ]
+        }
+      ],
+      "if": "player == 2 && score > survival_best2"
+    },
+    {
+      "id": "live time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds",
+            "survived"
+          ]
+        }
+      ],
+      "if": "survived > best_seconds"
+    },
+    {
+      "id": "live P1 time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds1",
+            "survived"
+          ]
+        }
+      ],
+      "if": "player == 1 && survived > best_seconds1"
+    },
+    {
+      "id": "live P2 time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds2",
+            "survived"
+          ]
+        }
+      ],
+      "if": "player == 2 && survived > best_seconds2"
+    },
+    {
+      "id": "wave record",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "furthest_wave",
+            "wave"
+          ]
+        }
+      ],
+      "if": "wave > furthest_wave"
+    },
+    {
+      "id": "mastery",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "rank",
+            "1 + (best_seconds >= 30) + (best_seconds >= 60) + (best_seconds >= 90) + (best_seconds >= 150)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "survival result",
+      "when": {
+        "end": "lose"
+      },
+      "do": [
+        {
+          "set": [
+            "last_score",
+            "score"
+          ]
+        },
+        {
+          "set": [
+            "last_seconds",
+            "survived"
+          ]
+        },
+        {
+          "add": [
+            "rounds",
+            1
+          ]
+        },
+        {
+          "add": [
+            "run_total",
+            "score"
+          ]
+        },
+        {
+          "set": [
+            "next_player",
+            "3-player"
+          ]
+        },
+        {
+          "play": "lose"
+        }
+      ]
+    },
+    {
+      "id": "pickup voice 0",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick0"
+        }
+      ],
+      "if": "combo % 3 == 0"
+    },
+    {
+      "id": "pickup voice 1",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick1"
+        }
+      ],
+      "if": "combo % 3 == 1"
+    },
+    {
+      "id": "pickup voice 2",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick2"
+        }
+      ],
+      "if": "combo % 3 == 2"
+    },
+    {
+      "id": "hurt low",
+      "when": {
+        "touch": [
+          "player",
+          "low"
+        ]
+      },
+      "do": [
+        {
+          "add": [
+            "lives",
+            -1
+          ]
+        },
+        {
+          "set": [
+            "combo",
+            0
+          ]
+        },
+        {
+          "set": [
+            "invuln",
+            "time + .85"
+          ]
+        },
+        {
+          "destroy": "other"
+        },
+        {
+          "play": "hit"
+        },
+        {
+          "shake": 3
+        },
+        {
+          "burst": {
+            "at": "self",
+            "n": 12,
+            "color": "#ff86a0",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
+          }
+        }
+      ],
+      "if": "time > invuln"
+    },
+    {
+      "id": "hurt high",
+      "when": {
+        "touch": [
+          "player",
+          "high"
+        ]
+      },
+      "do": [
+        {
+          "add": [
+            "lives",
+            -1
+          ]
+        },
+        {
+          "set": [
+            "combo",
+            0
+          ]
+        },
+        {
+          "set": [
+            "invuln",
+            "time + .85"
+          ]
+        },
+        {
+          "destroy": "other"
+        },
+        {
+          "play": "hit"
+        },
+        {
+          "shake": 3
+        },
+        {
+          "burst": {
+            "at": "self",
+            "n": 12,
+            "color": "#ff86a0",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
+          }
+        }
+      ],
+      "if": "time > invuln"
+    },
+    {
+      "id": "note lanes",
+      "when": {
+        "every": 0.05
+      },
+      "do": [
+        {
+          "add": [
+            "wave",
+            0
+          ]
+        },
+        {
+          "add": [
+            "hazard_index",
+            0
+          ]
+        },
+        {
+          "add": [
+            "wave_notes",
+            1
+          ]
+        },
+        {
+          "spawn": {
+            "prefab": "pickup",
+            "at": [
+              476,
+              "92 + (wave_notes % 3)*58"
+            ],
+            "vel": [
+              "-(130 + wave*14)",
+              0
+            ]
+          }
+        },
+        {
+          "set": [
+            "next_note",
+            "time + .7"
+          ]
+        }
+      ],
+      "if": "time >= next_note"
+    },
+    {
+      "id": "low speakers",
+      "when": {
+        "every": 0.05
+      },
+      "do": [
+        {
+          "add": [
+            "hazard_index",
+            1
+          ]
+        },
         {
           "spawn": {
             "prefab": "hazard",
             "at": [
               476,
-              "92 + ((wave + 1) % 3)*58"
+              "92 + (hazard_index % 3)*58"
+            ],
+            "vel": [
+              "-(130 + wave*14)",
+              0
             ]
           }
+        },
+        {
+          "set": [
+            "next_hazard",
+            "time + 2.5 / (1 + wave*.15)"
+          ]
+        },
+        {
+          "add": [
+            "spawned",
+            1
+          ]
         }
-      ]
+      ],
+      "if": "time >= next_hazard"
     },
     {
-      "id": "target reached",
+      "id": "overhead drone",
       "when": {
-        "every": 0.05
+        "every": 2.5
       },
       "do": [
         {
-          "end": "win"
-        }
-      ],
-      "if": "score >= 80"
-    },
-    {
-      "id": "goal at bell",
-      "when": {
-        "every": 0.05
-      },
-      "do": [
+          "spawn": {
+            "prefab": "high",
+            "at": [
+              476,
+              "65 + ((hazard_index + 1) % 3)*58"
+            ],
+            "vel": [
+              "-(145 + wave*16)",
+              0
+            ]
+          }
+        },
         {
-          "end": "win"
+          "add": [
+            "spawned",
+            1
+          ]
         }
       ],
-      "if": "timeleft <= 0 && score >= 80"
-    },
-    {
-      "id": "missed goal",
-      "when": {
-        "every": 0.05
-      },
-      "do": [
-        {
-          "end": "lose"
-        }
-      ],
-      "if": "timeleft <= 0 && score < 80"
+      "if": "wave >= 2"
     }
   ],
   "checks": {
     "scenarios": [
       {
-        "name": "an on-beat hop scores a perfect",
+        "name": "a perfect hop is airborne but cannot farm points",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "wait": 0.5
@@ -1635,7 +3775,7 @@
           },
           {
             "var": "score",
-            "gte": 2
+            "eq": 0
           },
           {
             "var": "air",
@@ -1648,9 +3788,9 @@
         "smoke": true
       },
       {
-        "name": "offbeat hops clear hazards without perfect points",
+        "name": "offbeat hops still work",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "wait": 0.24
@@ -1670,17 +3810,14 @@
           {
             "var": "air",
             "eq": 1
-          },
-          {
-            "sound": "boost"
           }
         ],
         "smoke": false
       },
       {
-        "name": "lane switching stays on the three rails",
+        "name": "lane switching stays on rails",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "press": "up"
@@ -1712,147 +3849,376 @@
         "smoke": false
       },
       {
-        "name": "a rhythmic rooftop run reaches the goal",
+        "name": "an active player survives into faster waves",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
-            "wait": 0.5
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "down"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait": 0.46666667
+            "press": "up"
           },
           {
-            "press": "action"
+            "wait": 0.7
           },
           {
-            "wait_until": {
-              "ended": "win"
-            },
-            "timeout": 12
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "up"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
+          },
+          {
+            "press": "down"
+          },
+          {
+            "wait": 0.7
           }
         ],
         "expect": [
           {
-            "ended": "win"
+            "not_ended": true
           },
           {
-            "var": "score",
-            "gte": 80
+            "var": "wave",
+            "gte": 2
           },
           {
-            "var": "wins",
-            "eq": 1
+            "var": "survived",
+            "gte": 25
+          },
+          {
+            "var": "spawned",
+            "gte": 6
           }
         ],
         "smoke": false
       },
       {
-        "name": "idle run ends and saves the next turn",
+        "name": "standing still eventually loses and saves the next turn",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
-            "wait": 46
+            "wait_until": {
+              "ended": "lose"
+            },
+            "timeout": 160
           }
         ],
         "expect": [
@@ -1866,17 +4232,31 @@
           {
             "var": "next_player",
             "eq": 2
+          },
+          {
+            "var": "last_seconds",
+            "gte": 5
+          },
+          {
+            "var": "best_seconds",
+            "gte": 5
           }
         ],
         "smoke": false
       },
       {
-        "name": "controller restart alternates players and keeps progress",
+        "name": "restart alternates players and retains survival progress",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
-            "wait": 46
+            "wait_until": {
+              "ended": "lose"
+            },
+            "timeout": 160
+          },
+          {
+            "wait": 1
           },
           {
             "press": "action"
@@ -1898,8 +4278,12 @@
             "eq": 1
           },
           {
-            "var": "timeleft",
-            "eq": 45
+            "var": "survived",
+            "eq": 0
+          },
+          {
+            "var": "best_seconds",
+            "gte": 5
           }
         ],
         "smoke": false
@@ -1907,10 +4291,10 @@
     ],
     "browser": [
       {
-        "name": "music setting survives reload",
+        "name": "music choice persists",
         "click": [
-          454,
-          258
+          478,
+          269
         ],
         "changes": [
           "music_on"

@@ -2,7 +2,7 @@
   "game2d": 1,
   "id": "pip-cloud-post",
   "title": "Pip Cloud Post",
-  "description": "Pip the scarf-wearing cloud rabbit delivers sunshine! Steer each automatic bounce; A/Space slams down for a super spring. Catch 12 letters before 45 seconds. Fast wins earn bonus points. B toggles music. Three hearts. Pass after every round. Records, ranks and progress auto-save; backup on the start card.",
+  "description": "Endless cloud survival! Pip bounces automatically. Steer, slam with A for a super spring, and use B to blow away nearby rain. Storms get faster and denser every 20 seconds. Four hearts; survive as long as you can, then pass the controller. F fullscreen. Windows installer available. Clean gameplay HUD; daylight cloud post art direction.",
   "capabilities": {
     "presentation": "2d",
     "platforms": [
@@ -23,7 +23,7 @@
   "view": {
     "width": 480,
     "height": 270,
-    "background": "#203957"
+    "background": "#80cae0"
   },
   "sprites": {
     "pip": {
@@ -96,9 +96,9 @@
     },
     "hazard": {
       "palette": {
-        "b": "#719dcc",
-        "w": "#d7e6ef",
-        "k": "#344866"
+        "b": "#547eab",
+        "w": "#b5d2df",
+        "k": "#243851"
       },
       "rows": [
         "....wwww....",
@@ -115,199 +115,1284 @@
     }
   },
   "sounds": {
-    "pick": {
-      "seconds": 0.22,
-      "level": 0.38,
+    "pick0": {
+      "seconds": 0.28,
+      "level": 0.32,
       "layers": [
         {
-          "sine": 880,
-          "decay": 17,
-          "attack": 0.003
+          "sine": 660,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
         },
         {
-          "sine": 1320.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "glide": [
+            429.0,
+            990.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        }
+      ]
+    },
+    "pick1": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 990,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            643.5,
+            1485.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        }
+      ]
+    },
+    "pick2": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 1320,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            858.0,
+            1980.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
+        }
+      ]
+    },
+    "pick": {
+      "seconds": 0.28,
+      "level": 0.32,
+      "layers": [
+        {
+          "sine": 660,
+          "harmonics": [
+            [
+              2,
+              0.2
+            ],
+            [
+              3,
+              0.08
+            ]
+          ],
+          "decay": 16,
+          "attack": 0.003,
+          "release": 0.07
+        },
+        {
+          "glide": [
+            429.0,
+            990.0,
+            18
+          ],
+          "decay": 22,
+          "gain": 0.28,
+          "delay": 0.025
         }
       ]
     },
     "boost": {
-      "seconds": 0.22,
-      "level": 0.38,
+      "seconds": 0.3,
+      "level": 0.28,
       "layers": [
         {
-          "sine": 440,
-          "decay": 17,
-          "attack": 0.003
+          "glide": [
+            190,
+            720,
+            20
+          ],
+          "decay": 12,
+          "attack": 0.006,
+          "release": 0.08
         },
         {
-          "sine": 660.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
-        }
-      ]
-    },
-    "hit": {
-      "seconds": 0.22,
-      "level": 0.38,
-      "layers": [
-        {
-          "sine": 160,
-          "decay": 17,
-          "attack": 0.003
-        },
-        {
-          "sine": 240.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "noise": "hp 0.15",
+          "decay": 18,
+          "gain": 0.11
         }
       ]
     },
     "perfect": {
-      "seconds": 0.22,
-      "level": 0.38,
+      "seconds": 0.4,
+      "level": 0.32,
       "layers": [
         {
           "sine": 1320,
-          "decay": 17,
-          "attack": 0.003
+          "harmonics": [
+            [
+              2,
+              0.3
+            ],
+            [
+              3,
+              0.1
+            ]
+          ],
+          "decay": 9,
+          "release": 0.1
         },
         {
-          "sine": 1980.0,
-          "decay": 20,
-          "delay": 0.04,
-          "gain": 0.45
+          "sine": 1650.0,
+          "delay": 0.05,
+          "decay": 11,
+          "gain": 0.25
+        }
+      ]
+    },
+    "hit": {
+      "seconds": 0.4,
+      "level": 0.36,
+      "layers": [
+        {
+          "noise": "hp 0.2",
+          "decay": 14,
+          "attack": 0.003,
+          "gain": 0.4
+        },
+        {
+          "glide": [
+            180,
+            65,
+            10
+          ],
+          "decay": 10,
+          "attack": 0.005,
+          "release": 0.08
+        }
+      ]
+    },
+    "wave": {
+      "seconds": 0.55,
+      "level": 0.34,
+      "layers": [
+        {
+          "sine": 440,
+          "decay": 12
+        },
+        {
+          "sine": 550,
+          "delay": 0.1,
+          "decay": 10
+        },
+        {
+          "sine": 660,
+          "delay": 0.2,
+          "decay": 9,
+          "release": 0.1
+        }
+      ]
+    },
+    "lose": {
+      "seconds": 0.9,
+      "level": 0.28,
+      "layers": [
+        {
+          "sine": 660,
+          "decay": 9,
+          "release": 0.12
+        },
+        {
+          "sine": 528.0,
+          "delay": 0.15,
+          "decay": 8,
+          "release": 0.12
+        },
+        {
+          "sine": 396.0,
+          "delay": 0.35,
+          "decay": 6,
+          "release": 0.18
         }
       ]
     },
     "win": {
-      "seconds": 0.7,
-      "level": 0.4,
+      "seconds": 0.55,
+      "level": 0.34,
       "layers": [
         {
-          "sine": 523,
-          "decay": 7
+          "sine": 440,
+          "decay": 12
         },
         {
-          "sine": 659,
-          "delay": 0.12,
-          "decay": 7
+          "sine": 550,
+          "delay": 0.1,
+          "decay": 10
         },
         {
-          "sine": 784,
-          "delay": 0.24,
-          "decay": 7
-        },
-        {
-          "sine": 1046,
-          "delay": 0.36,
-          "decay": 7
+          "sine": 660,
+          "delay": 0.2,
+          "decay": 9,
+          "release": 0.1
         }
       ]
     }
   },
   "music": {
     "theme": {
-      "bpm": 112,
-      "bars": 8,
+      "bpm": 116,
+      "bars": 32,
       "key": "F",
-      "scale": "pentatonic",
-      "seed": 72,
-      "lufs": -23,
+      "scale": "major",
+      "seed": 721,
+      "lufs": -20,
       "reverb": {
-        "decay": 1.1,
-        "mix": 0.14
+        "decay": 1.4,
+        "mix": 0.16
+      },
+      "delay": {
+        "time": 0.3879310344827587,
+        "feedback": 0.2,
+        "mix": 0.07
       },
       "instruments": {
         "lead": {
-          "seconds": 0.35,
-          "level": 0.45,
+          "seconds": 0.55,
+          "level": 0.4,
           "layers": [
             {
               "sine": 1,
-              "decay": 9
+              "harmonics": [
+                [
+                  2,
+                  0.3
+                ],
+                [
+                  3,
+                  0.12
+                ],
+                [
+                  4,
+                  0.06
+                ]
+              ],
+              "decay": 6,
+              "attack": 0.003,
+              "release": 0.12
             },
             {
-              "sine": 2,
-              "gain": 0.22,
-              "decay": 12
+              "sine": 2.002,
+              "decay": 8,
+              "gain": 0.16
+            }
+          ]
+        },
+        "answer": {
+          "seconds": 0.8,
+          "level": 0.3,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2,
+                  0.12
+                ],
+                [
+                  3,
+                  0.05
+                ]
+              ],
+              "attack": 0.025,
+              "decay": 4,
+              "release": 0.2
+            }
+          ]
+        },
+        "pad": {
+          "seconds": 2.5,
+          "level": 0.22,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2,
+                  0.18
+                ],
+                [
+                  3,
+                  0.08
+                ]
+              ],
+              "attack": 0.22,
+              "release": 0.8
+            },
+            {
+              "sine": 1.003,
+              "gain": 0.18,
+              "attack": 0.25,
+              "release": 0.8
             }
           ]
         },
         "bass": {
-          "seconds": 0.36,
-          "level": 0.5,
+          "seconds": 0.4,
+          "level": 0.55,
           "layers": [
             {
               "sine": 1,
-              "attack": 0.008,
-              "decay": 6
-            },
-            {
-              "sine": 2,
-              "gain": 0.12,
-              "decay": 8
-            }
-          ]
-        },
-        "hat": {
-          "seconds": 0.065,
-          "level": 0.16,
-          "layers": [
-            {
-              "noise": "hp 0.6",
-              "decay": 60,
-              "attack": 0.002
+              "harmonics": [
+                [
+                  2,
+                  0.24
+                ],
+                [
+                  3,
+                  0.07
+                ]
+              ],
+              "attack": 0.004,
+              "decay": 5,
+              "release": 0.08
             }
           ]
         },
         "kick": {
-          "seconds": 0.18,
-          "level": 0.35,
+          "seconds": 0.2,
+          "level": 0.55,
           "layers": [
             {
               "sine": 1,
+              "decay": 28,
+              "attack": 0.002
+            },
+            {
+              "sine": 2.0,
+              "decay": 50,
+              "gain": 0.3
+            },
+            {
+              "noise": "lp 0.1",
+              "decay": 65,
+              "gain": 0.12
+            }
+          ]
+        },
+        "snare": {
+          "seconds": 0.16,
+          "level": 0.3,
+          "layers": [
+            {
+              "noise": "hp 0.35",
               "decay": 22,
-              "attack": 0.003
+              "attack": 0.001,
+              "release": 0.04
+            },
+            {
+              "sine": 1,
+              "decay": 30,
+              "gain": 0.28
+            }
+          ]
+        },
+        "hat": {
+          "seconds": 0.08,
+          "level": 0.16,
+          "layers": [
+            {
+              "noise": "hp 0.75",
+              "decay": 52,
+              "attack": 0.001,
+              "release": 0.015
+            }
+          ]
+        },
+        "shaker": {
+          "seconds": 0.14,
+          "level": 0.1,
+          "layers": [
+            {
+              "noise": "hp 0.35",
+              "attack": 0.02,
+              "decay": 25,
+              "release": 0.03
+            }
+          ]
+        },
+        "bell": {
+          "seconds": 0.65,
+          "level": 0.23,
+          "layers": [
+            {
+              "sine": 1,
+              "harmonics": [
+                [
+                  2.76,
+                  0.3
+                ],
+                [
+                  4.1,
+                  0.07
+                ]
+              ],
+              "decay": 6,
+              "release": 0.12
             }
           ]
         }
       },
       "tracks": [
         {
-          "inst": "lead",
-          "play": "pattern",
-          "pattern": "x.x. .xx. x.x. xx..",
-          "notes": "1 3 5 8 5 3 2 5",
-          "octave": 5,
-          "gain": 0.65
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 6 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 1,
+          "to": 4,
+          "pan": "spread"
         },
         {
           "inst": "bass",
           "play": "pattern",
-          "pattern": "x..x ..x. x..x ..x.",
-          "notes": "1 1 4 5",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "1 6 4 5 1 5 8 5",
           "octave": 2,
-          "gain": 0.85
+          "gain": 0.84,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x... ..x. .... .x..",
+          "notes": "1 3 5 8 7 5 3 2 1 2 4 6 5 3 2 1",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 1,
+          "to": 4
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 1,
+          "to": 4
         },
         {
           "inst": "hat",
           "play": "pattern",
           "pattern": "..x. ..x. ..x. ..x.",
           "notes": "1",
-          "octave": 4,
-          "gain": 0.38
+          "octave": 5,
+          "gain": 0.35,
+          "from": 1,
+          "to": 4,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 1,
+          "to": 4,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 4 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 5,
+          "to": 8,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "1 4 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "5 6 8 10 8 7 6 5 3 5 6 8 7 5 3 2",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
         },
         {
           "inst": "kick",
           "play": "pattern",
-          "pattern": "x... .... x... ....",
+          "pattern": "x... ..x. x... ....",
           "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 5,
+          "to": 8
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 5,
+          "to": 8
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 5,
+          "to": 8,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 5,
+          "to": 8,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "6 4 1 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 9,
+          "to": 12,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "6 4 1 5 1 5 8 5",
           "octave": 2,
-          "gain": 0.7
+          "gain": 0.84,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "1 3 5 8 7 5 3 2 1 2 4 6 5 3 2 1",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 9,
+          "to": 12,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 9,
+          "to": 12
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 9,
+          "to": 12
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 9,
+          "to": 12,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 9,
+          "to": 12,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 5 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 13,
+          "to": 16,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "1 5 4 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "5 6 8 10 8 7 6 5 3 5 6 8 7 5 3 2",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 13,
+          "to": 16,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 13,
+          "to": 16
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 13,
+          "to": 16
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 13,
+          "to": 16,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 13,
+          "to": 16,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "4 2 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 17,
+          "to": 20,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "4 2 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 17,
+          "to": 20,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "1 3 5 8 7 5 3 2 1 2 4 6 5 3 2 1",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 17,
+          "to": 20,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 17,
+          "to": 20,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "6 5 4 1",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 21,
+          "to": 24,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "6 5 4 1 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "5 6 8 10 8 7 6 5 3 5 6 8 7 5 3 2",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 21,
+          "to": 24,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 21,
+          "to": 24
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 21,
+          "to": 24
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 21,
+          "to": 24,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 21,
+          "to": 24,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "2 4 6 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 25,
+          "to": 28,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "2 4 6 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x... ..x. .... .x..",
+          "notes": "1 3 5 8 7 5 3 2 1 2 4 6 5 3 2 1",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 25,
+          "to": 28
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x.x. .x.. xxxx",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 25,
+          "to": 28
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "..x. ..x. ..x. ..x.",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 25,
+          "to": 28,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "shaker",
+          "play": "pattern",
+          "pattern": "...x ...x .x.x ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 25,
+          "to": 28,
+          "pan": -0.4,
+          "send": 0.5
+        },
+        {
+          "inst": "pad",
+          "play": "chords",
+          "chords": "1 6 4 5",
+          "every": "1 bar",
+          "voicing": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "hold": 0.95,
+          "octave": 3,
+          "gain": 0.62,
+          "send": 0.75,
+          "strum": 0.025,
+          "from": 29,
+          "to": 32,
+          "pan": "spread"
+        },
+        {
+          "inst": "bass",
+          "play": "pattern",
+          "pattern": "x..x ..x. x.x. ..x.",
+          "notes": "1 6 4 5 1 5 8 5",
+          "octave": 2,
+          "gain": 0.84,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.65,
+            0.9
+          ]
+        },
+        {
+          "inst": "lead",
+          "play": "pattern",
+          "pattern": "x.x. .xx. ..xx x.x.",
+          "notes": "5 6 8 10 8 7 6 5 3 5 6 8 7 5 3 2",
+          "octave": 5,
+          "gain": 0.7,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.58,
+            0.88
+          ],
+          "pan": -0.18,
+          "send": 0.4
+        },
+        {
+          "inst": "answer",
+          "play": "pattern",
+          "pattern": ".... x... .... ..x.",
+          "notes": "5 3 1 6 4 2 7 5",
+          "octave": 5,
+          "gain": 0.3,
+          "from": 29,
+          "to": 32,
+          "pan": 0.45,
+          "send": 0.6
+        },
+        {
+          "inst": "kick",
+          "play": "pattern",
+          "pattern": "x... ..x. x... ....",
+          "notes": "1",
+          "octave": 1,
+          "gain": 0.8,
+          "send": 0.02,
+          "from": 29,
+          "to": 32
+        },
+        {
+          "inst": "snare",
+          "play": "pattern",
+          "pattern": ".... x... .... x...",
+          "notes": "3",
+          "octave": 3,
+          "gain": 0.55,
+          "send": 0.12,
+          "from": 29,
+          "to": 32
+        },
+        {
+          "inst": "hat",
+          "play": "pattern",
+          "pattern": "x.x. x.x. x.x. x.xx",
+          "notes": "1",
+          "octave": 5,
+          "gain": 0.35,
+          "from": 29,
+          "to": 32,
+          "vel": [
+            0.45,
+            0.9
+          ],
+          "pan": 0.32,
+          "send": 0.08
+        },
+        {
+          "inst": "bell",
+          "play": "pattern",
+          "pattern": ".... .... .... ..x.",
+          "notes": "8 5 3 6",
+          "octave": 5,
+          "gain": 0.32,
+          "from": 29,
+          "to": 32,
+          "pan": -0.4,
+          "send": 0.5
         }
       ]
     }
@@ -315,8 +1400,8 @@
   "vars": {
     "score": 0,
     "combo": 0,
-    "lives": 3,
-    "timeleft": 45,
+    "lives": 4,
+    "timeleft": 0,
     "best": 0,
     "best1": 0,
     "best2": 0,
@@ -332,7 +1417,29 @@
     "slam": 0,
     "bounces": 0,
     "boosts": 0,
-    "started": 0
+    "started": 0,
+    "survived": 0,
+    "wave": 1,
+    "next_hazard": 3,
+    "hazard_index": 0,
+    "spawned": 0,
+    "survival_best": 0,
+    "survival_best1": 0,
+    "survival_best2": 0,
+    "best_seconds": 0,
+    "best_seconds1": 0,
+    "best_seconds2": 0,
+    "furthest_wave": 1,
+    "run_total": 0,
+    "last_seconds": 0,
+    "hop_ready": 0,
+    "beat_origin": 0,
+    "beat_offset": 0,
+    "last_tick": 0,
+    "gust_ready": 0,
+    "stormx": 240,
+    "fall_at": 999,
+    "next_storm": 7
   },
   "persist": [
     "best",
@@ -343,7 +1450,16 @@
     "wins",
     "total",
     "rank",
-    "last_score"
+    "last_score",
+    "survival_best",
+    "survival_best1",
+    "survival_best2",
+    "best_seconds",
+    "best_seconds1",
+    "best_seconds2",
+    "furthest_wave",
+    "run_total",
+    "last_seconds"
   ],
   "prefabs": {
     "pickup": {
@@ -385,13 +1501,7 @@
         15
       ],
       "layer": 3,
-      "move": {
-        "drift": [
-          -65,
-          0
-        ]
-      },
-      "ttl": 9
+      "ttl": 8
     },
     "decor": {
       "shape": {
@@ -439,7 +1549,7 @@
           480,
           18
         ],
-        "color": "#96dbcb"
+        "color": "#eaf5e7"
       },
       "body": {
         "type": "static"
@@ -448,7 +1558,7 @@
     "cloud": {
       "shape": {
         "circle": 26,
-        "color": "#385474"
+        "color": "#fdf7e8"
       },
       "layer": -2
     },
@@ -458,7 +1568,7 @@
           22,
           3
         ],
-        "color": "#57ada4"
+        "color": "#b5dace"
       },
       "layer": 1
     },
@@ -478,9 +1588,95 @@
           14,
           3
         ],
-        "color": "#692f60"
+        "color": "#8a4555"
       },
       "layer": 0
+    },
+    "gust": {
+      "tag": "gust",
+      "shape": {
+        "circle": 42,
+        "color": "#bbfff166"
+      },
+      "size": [
+        84,
+        84
+      ],
+      "ttl": 0.15,
+      "layer": 3
+    },
+    "warning": {
+      "shape": {
+        "rect": [
+          8,
+          155
+        ],
+        "color": "#ffcc6644"
+      },
+      "size": [
+        1,
+        1
+      ],
+      "layer": 1,
+      "ttl": 0.8
+    },
+    "sky_wash": {
+      "shape": {
+        "rect": [
+          480,
+          95
+        ],
+        "color": "#a1dbe6"
+      },
+      "layer": -5
+    },
+    "horizon": {
+      "shape": {
+        "rect": [
+          480,
+          60
+        ],
+        "color": "#c6ebed"
+      },
+      "layer": -4
+    },
+    "sun_halo": {
+      "shape": {
+        "circle": 32,
+        "color": "#cce8da"
+      },
+      "layer": -3
+    },
+    "sun": {
+      "shape": {
+        "circle": 23,
+        "color": "#fff1bb"
+      },
+      "layer": -2
+    },
+    "cloud_lobe": {
+      "shape": {
+        "circle": 18,
+        "color": "#fdf7e8"
+      },
+      "layer": -2
+    },
+    "cloud_base": {
+      "shape": {
+        "rect": [
+          76,
+          12
+        ],
+        "color": "#fdf7e8"
+      },
+      "layer": -2
+    },
+    "under_cloud": {
+      "shape": {
+        "circle": 20,
+        "color": "#eaf5e7"
+      },
+      "layer": -1
     }
   },
   "scene": [
@@ -673,126 +1869,409 @@
         450,
         210
       ]
+    },
+    {
+      "prefab": "sky_wash",
+      "at": [
+        240,
+        170
+      ]
+    },
+    {
+      "prefab": "horizon",
+      "at": [
+        240,
+        228
+      ]
+    },
+    {
+      "prefab": "sun_halo",
+      "at": [
+        410,
+        41
+      ]
+    },
+    {
+      "prefab": "sun",
+      "at": [
+        410,
+        41
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        23,
+        102
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        67,
+        102
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        128,
+        82
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        172,
+        82
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        268,
+        95
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        312,
+        95
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        388,
+        71
+      ]
+    },
+    {
+      "prefab": "cloud_lobe",
+      "at": [
+        432,
+        71
+      ]
+    },
+    {
+      "prefab": "cloud_base",
+      "at": [
+        45,
+        113
+      ]
+    },
+    {
+      "prefab": "cloud_base",
+      "at": [
+        150,
+        93
+      ]
+    },
+    {
+      "prefab": "cloud_base",
+      "at": [
+        290,
+        106
+      ]
+    },
+    {
+      "prefab": "cloud_base",
+      "at": [
+        410,
+        82
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        12,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        50,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        88,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        126,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        164,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        202,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        240,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        278,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        316,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        354,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        392,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        430,
+        252
+      ]
+    },
+    {
+      "prefab": "under_cloud",
+      "at": [
+        468,
+        252
+      ]
     }
   ],
   "ui": [
     {
       "panel": {
         "at": [
-          0,
-          0
+          7,
+          5
         ],
         "size": [
-          480,
-          42
+          99,
+          16
         ],
-        "color": "#111627ee"
-      }
+        "color": "#fff3dcc9"
+      },
+      "show": "!ended"
     },
     {
-      "text": "PIP CLOUD POST",
+      "text": "P{player}  {score}",
       "at": [
-        12,
-        7
+        13,
+        10
       ],
-      "color": "#ffde90",
-      "scale": 2
+      "color": "#244659",
+      "show": "!ended"
     },
     {
-      "text": "P{player}   SCORE {score}   CHAIN {combo}   TIME {timeleft}",
+      "text": "{survived}s",
       "at": [
-        12,
-        29
+        240,
+        10
       ],
-      "color": "#ffffff"
-    },
-    {
-      "text": "P1 BEST {best1}   P2 BEST {best2}   RANK {rank}",
-      "at": [
-        12,
-        254
-      ],
-      "color": "#ffde90"
+      "align": "center",
+      "color": "#244659",
+      "show": "!ended"
     },
     {
       "bar": {
         "var": "lives",
-        "max": 3,
+        "max": 4,
         "at": [
-          390,
-          29
+          410,
+          10
         ],
         "size": [
-          76,
-          7
+          58,
+          6
         ],
-        "color": "#ff86a0",
-        "back": "#41283f"
-      }
+        "color": "#cf5371",
+        "back": "#385a70"
+      },
+      "show": "!ended"
     },
     {
       "panel": {
         "at": [
           40,
-          75
+          65
         ],
         "size": [
           400,
-          138
+          158
         ],
-        "color": "#111627f5"
+        "color": "#fff3dcee"
       },
       "show": "ended"
     },
     {
-      "text": "ROUND COMPLETE!",
+      "text": "RUN OVER!",
       "at": [
         240,
-        88
+        85
       ],
       "align": "center",
       "scale": 2,
-      "color": "#ffde90",
-      "show": "ended == 1"
-    },
-    {
-      "text": "ONE MORE TRY?",
-      "at": [
-        240,
-        88
-      ],
-      "align": "center",
-      "scale": 2,
-      "color": "#ff86a0",
+      "color": "#244659",
       "show": "ended == 2"
-    },
-    {
-      "text": "P{player}: {last_score} POINTS   BEST {best}",
-      "at": [
-        240,
-        116
-      ],
-      "align": "center",
-      "show": "ended"
     },
     {
       "text": "PASS THE CONTROLLER TO P{next_player}",
       "at": [
         240,
-        135
+        149
       ],
       "align": "center",
-      "color": "#ffde90",
+      "color": "#244659",
       "show": "ended"
     },
     {
-      "text": "AUTO-SAVED: {rounds} ROUNDS / {wins} WINS",
+      "button": {
+        "id": "music",
+        "label": "",
+        "at": [
+          478,
+          269
+        ],
+        "size": [
+          1,
+          1
+        ],
+        "key": "KeyM",
+        "do": [
+          {
+            "music": "toggle"
+          }
+        ]
+      }
+    },
+    {
+      "text": "ROOKIE",
       "at": [
         240,
-        152
+        205
       ],
       "align": "center",
-      "show": "ended"
+      "color": "#244659",
+      "show": "ended && rank == 1"
+    },
+    {
+      "text": "QUICK FEET",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#244659",
+      "show": "ended && rank == 2"
+    },
+    {
+      "text": "CHAIN ACE",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#244659",
+      "show": "ended && rank == 3"
+    },
+    {
+      "text": "SUPERSTAR",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#244659",
+      "show": "ended && rank == 4"
+    },
+    {
+      "text": "ARCADE LEGEND",
+      "at": [
+        240,
+        205
+      ],
+      "align": "center",
+      "color": "#244659",
+      "show": "ended && rank == 5"
+    },
+    {
+      "button": {
+        "id": "sync",
+        "label": "",
+        "at": [
+          479,
+          269
+        ],
+        "size": [
+          1,
+          1
+        ],
+        "key": "KeyQ",
+        "do": [
+          {
+            "set": [
+              "beat_origin",
+              "tick / 60"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "text": "{last_score} POINTS / {last_seconds}s / WAVE {wave}",
+      "at": [
+        240,
+        119
+      ],
+      "align": "center",
+      "show": "ended",
+      "color": "#244659"
+    },
+    {
+      "text": "P1 BEST {best_seconds1}s   P2 BEST {best_seconds2}s",
+      "at": [
+        240,
+        164
+      ],
+      "align": "center",
+      "show": "ended",
+      "color": "#244659"
     },
     {
       "button": {
@@ -813,98 +2292,34 @@
           }
         ]
       },
-      "show": "ended"
+      "show": "ended && tick / 60 > last_tick + .6"
     },
     {
-      "button": {
-        "id": "music",
-        "label": "MIX",
-        "at": [
-          440,
-          251
-        ],
-        "size": [
-          34,
-          14
-        ],
-        "key": "KeyM",
-        "do": [
-          {
-            "music": "toggle"
-          }
-        ]
-      }
-    },
-    {
-      "text": "ROOKIE",
+      "text": "WAVE {wave}",
       "at": [
         240,
-        205
+        37
       ],
       "align": "center",
-      "color": "#ffde90",
-      "show": "ended && rank == 1"
-    },
-    {
-      "text": "QUICK FEET",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffde90",
-      "show": "ended && rank == 2"
-    },
-    {
-      "text": "CHAIN ACE",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffde90",
-      "show": "ended && rank == 3"
-    },
-    {
-      "text": "SUPERSTAR",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffde90",
-      "show": "ended && rank == 4"
-    },
-    {
-      "text": "ARCADE LEGEND",
-      "at": [
-        240,
-        205
-      ],
-      "align": "center",
-      "color": "#ffde90",
-      "show": "ended && rank == 5"
-    },
-    {
-      "text": "FAST WINS + HEARTS = BONUS POINTS",
-      "at": [
-        240,
-        166
-      ],
-      "align": "center",
-      "color": "#a8afcf",
-      "show": "ended == 1"
-    },
-    {
-      "text": "STEER: LEFT/RIGHT   A: SLAM + SUPER SPRING   GOAL: 12",
-      "at": [
-        14,
-        47
-      ],
-      "color": "#c9e6f0"
+      "color": "#244659",
+      "show": "wave > 1 && time % 20 < 1 && !ended"
     }
   ],
   "rules": [
+    {
+      "id": "result debounce",
+      "when": {
+        "end": "any"
+      },
+      "do": [
+        {
+          "set": [
+            "last_tick",
+            "tick / 60"
+          ]
+        }
+      ]
+    },
     {
       "id": "whose turn",
       "when": {
@@ -934,75 +2349,6 @@
       ]
     },
     {
-      "id": "clock",
-      "when": {
-        "every": 1
-      },
-      "do": [
-        {
-          "add": [
-            "timeleft",
-            -1
-          ]
-        }
-      ]
-    },
-    {
-      "id": "hurt",
-      "when": {
-        "touch": [
-          "player",
-          "hazard"
-        ]
-      },
-      "do": [
-        {
-          "add": [
-            "lives",
-            -1
-          ]
-        },
-        {
-          "set": [
-            "combo",
-            0
-          ]
-        },
-        {
-          "set": [
-            "invuln",
-            "time + 1.1"
-          ]
-        },
-        {
-          "destroy": "other"
-        },
-        {
-          "play": "hit"
-        },
-        {
-          "shake": 4
-        },
-        {
-          "burst": {
-            "at": "self",
-            "n": 14,
-            "color": "#ff86a0",
-            "speed": [
-              35,
-              95
-            ],
-            "life": [
-              0.2,
-              0.55
-            ],
-            "size": 2
-          }
-        }
-      ],
-      "if": "time > invuln"
-    },
-    {
       "id": "no hearts",
       "when": {
         "every": 0.05
@@ -1015,147 +2361,6 @@
       "if": "lives <= 0"
     },
     {
-      "id": "bank speed bonus",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "banked",
-            "score + (ended == 1)*(timeleft + lives*5)"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "save record",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "last_score",
-            "banked"
-          ]
-        },
-        {
-          "add": [
-            "rounds",
-            1
-          ]
-        },
-        {
-          "add": [
-            "total",
-            "banked"
-          ]
-        },
-        {
-          "set": [
-            "next_player",
-            "3-player"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "best overall",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best",
-            "banked"
-          ]
-        }
-      ],
-      "if": "banked > best"
-    },
-    {
-      "id": "best player one",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best1",
-            "banked"
-          ]
-        }
-      ],
-      "if": "player == 1 && banked > best1"
-    },
-    {
-      "id": "best player two",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "best2",
-            "banked"
-          ]
-        }
-      ],
-      "if": "player == 2 && banked > best2"
-    },
-    {
-      "id": "rank up",
-      "when": {
-        "end": "any"
-      },
-      "do": [
-        {
-          "set": [
-            "rank",
-            "1 + (total >= 150) + (total >= 400) + (total >= 800) + (total >= 1500)"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "celebrate",
-      "when": {
-        "end": "win"
-      },
-      "do": [
-        {
-          "add": [
-            "wins",
-            1
-          ]
-        },
-        {
-          "play": "win"
-        },
-        {
-          "burst": {
-            "at": [
-              240,
-              120
-            ],
-            "n": 45,
-            "color": "#ffde90",
-            "speed": [
-              35,
-              95
-            ],
-            "life": [
-              0.2,
-              0.55
-            ],
-            "size": 2
-          }
-        }
-      ]
-    },
-    {
       "id": "next turn",
       "when": {
         "press": "action"
@@ -1165,7 +2370,7 @@
           "restart": true
         }
       ],
-      "if": "ended"
+      "if": "ended && tick / 60 > last_tick + .6"
     },
     {
       "id": "controller music",
@@ -1350,9 +2555,6 @@
           ]
         },
         {
-          "play": "pick"
-        },
-        {
           "burst": {
             "at": "other",
             "n": 14,
@@ -1370,6 +2572,9 @@
         },
         {
           "destroy": "other"
+        },
+        {
+          "emit": "pickup sound"
         }
       ]
     },
@@ -1398,77 +2603,492 @@
       "if": "count_pickup < 8"
     },
     {
-      "id": "raincloud",
+      "id": "survival clock",
       "when": {
-        "every": 6
+        "every": 1
+      },
+      "do": [
+        {
+          "add": [
+            "survived",
+            1
+          ]
+        },
+        {
+          "add": [
+            "score",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next wave",
+      "when": {
+        "every": 20
+      },
+      "do": [
+        {
+          "add": [
+            "wave",
+            1
+          ]
+        },
+        {
+          "play": "wave"
+        },
+        {
+          "burst": {
+            "at": [
+              240,
+              125
+            ],
+            "n": 28,
+            "color": "#ffde90",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "live best",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "survival_best",
+            "score"
+          ]
+        }
+      ],
+      "if": "score > survival_best"
+    },
+    {
+      "id": "live P1 score",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "survival_best1",
+            "score"
+          ]
+        }
+      ],
+      "if": "player == 1 && score > survival_best1"
+    },
+    {
+      "id": "live P2 score",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "survival_best2",
+            "score"
+          ]
+        }
+      ],
+      "if": "player == 2 && score > survival_best2"
+    },
+    {
+      "id": "live time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds",
+            "survived"
+          ]
+        }
+      ],
+      "if": "survived > best_seconds"
+    },
+    {
+      "id": "live P1 time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds1",
+            "survived"
+          ]
+        }
+      ],
+      "if": "player == 1 && survived > best_seconds1"
+    },
+    {
+      "id": "live P2 time",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "best_seconds2",
+            "survived"
+          ]
+        }
+      ],
+      "if": "player == 2 && survived > best_seconds2"
+    },
+    {
+      "id": "wave record",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "furthest_wave",
+            "wave"
+          ]
+        }
+      ],
+      "if": "wave > furthest_wave"
+    },
+    {
+      "id": "mastery",
+      "when": {
+        "every": 1
+      },
+      "do": [
+        {
+          "set": [
+            "rank",
+            "1 + (best_seconds >= 30) + (best_seconds >= 60) + (best_seconds >= 90) + (best_seconds >= 150)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "survival result",
+      "when": {
+        "end": "lose"
+      },
+      "do": [
+        {
+          "set": [
+            "last_score",
+            "score"
+          ]
+        },
+        {
+          "set": [
+            "last_seconds",
+            "survived"
+          ]
+        },
+        {
+          "add": [
+            "rounds",
+            1
+          ]
+        },
+        {
+          "add": [
+            "run_total",
+            "score"
+          ]
+        },
+        {
+          "set": [
+            "next_player",
+            "3-player"
+          ]
+        },
+        {
+          "play": "lose"
+        }
+      ]
+    },
+    {
+      "id": "hurt hazard",
+      "when": {
+        "touch": [
+          "player",
+          "hazard"
+        ]
+      },
+      "do": [
+        {
+          "add": [
+            "lives",
+            -1
+          ]
+        },
+        {
+          "set": [
+            "combo",
+            0
+          ]
+        },
+        {
+          "set": [
+            "invuln",
+            "time + .85"
+          ]
+        },
+        {
+          "destroy": "other"
+        },
+        {
+          "play": "hit"
+        },
+        {
+          "shake": 3
+        },
+        {
+          "burst": {
+            "at": "self",
+            "n": 12,
+            "color": "#ff86a0",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
+          }
+        }
+      ],
+      "if": "time > invuln"
+    },
+    {
+      "id": "pickup voice 0",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick0"
+        }
+      ],
+      "if": "combo % 3 == 0"
+    },
+    {
+      "id": "pickup voice 1",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick1"
+        }
+      ],
+      "if": "combo % 3 == 1"
+    },
+    {
+      "id": "pickup voice 2",
+      "when": {
+        "event": "pickup sound"
+      },
+      "do": [
+        {
+          "play": "pick2"
+        }
+      ],
+      "if": "combo % 3 == 2"
+    },
+    {
+      "id": "two sided rain",
+      "when": {
+        "every": 0.05
+      },
+      "do": [
+        {
+          "add": [
+            "hazard_index",
+            1
+          ]
+        },
+        {
+          "add": [
+            "spawned",
+            1
+          ]
+        },
+        {
+          "spawn": {
+            "prefab": "hazard",
+            "at": [
+              "(hazard_index % 2)*456 + 12",
+              "115 + (hazard_index % 3)*36"
+            ],
+            "vel": [
+              "(1 - 2*(hazard_index % 2))*(90 + wave*14)",
+              0
+            ]
+          }
+        },
+        {
+          "set": [
+            "next_hazard",
+            "time + 3.2 / (1 + wave*.18)"
+          ]
+        }
+      ],
+      "if": "time >= next_hazard && count_hazard < 18"
+    },
+    {
+      "id": "storm warning",
+      "when": {
+        "every": 0.05
+      },
+      "do": [
+        {
+          "set": [
+            "stormx",
+            "p_x"
+          ]
+        },
+        {
+          "spawn": {
+            "prefab": "warning",
+            "at": [
+              "stormx",
+              147
+            ]
+          }
+        },
+        {
+          "set": [
+            "fall_at",
+            "time + .8"
+          ]
+        },
+        {
+          "set": [
+            "next_storm",
+            "time + 4.2 / (1 + wave*.08)"
+          ]
+        }
+      ],
+      "if": "time >= next_storm && wave >= 2"
+    },
+    {
+      "id": "falling rain",
+      "when": {
+        "every": 0.05
       },
       "do": [
         {
           "spawn": {
             "prefab": "hazard",
             "at": [
-              474,
-              164
+              "stormx",
+              70
+            ],
+            "vel": [
+              0,
+              "160 + wave*18"
             ]
           }
+        },
+        {
+          "set": [
+            "fall_at",
+            "time + 999"
+          ]
+        },
+        {
+          "add": [
+            "spawned",
+            1
+          ]
         }
       ],
-      "if": "count_hazard < 3"
+      "if": "time >= fall_at"
     },
     {
-      "id": "B music",
+      "id": "gust",
       "when": {
         "press": "secondary"
       },
       "do": [
         {
-          "music": "toggle"
+          "spawn": {
+            "prefab": "gust",
+            "at": [
+              "p_x",
+              "p_y"
+            ]
+          }
+        },
+        {
+          "set": [
+            "gust_ready",
+            "time + 4.5"
+          ]
+        },
+        {
+          "play": "perfect"
+        }
+      ],
+      "if": "!ended && time >= gust_ready"
+    },
+    {
+      "id": "gust clears rain",
+      "when": {
+        "touch": [
+          "gust",
+          "hazard"
+        ]
+      },
+      "do": [
+        {
+          "add": [
+            "score",
+            3
+          ]
+        },
+        {
+          "burst": {
+            "at": "other",
+            "n": 12,
+            "color": "#caffef",
+            "speed": [
+              30,
+              85
+            ],
+            "life": [
+              0.15,
+              0.4
+            ],
+            "size": 2
+          }
+        },
+        {
+          "destroy": "other"
         }
       ]
-    },
-    {
-      "id": "target reached",
-      "when": {
-        "every": 0.05
-      },
-      "do": [
-        {
-          "end": "win"
-        }
-      ],
-      "if": "score >= 12"
-    },
-    {
-      "id": "goal at bell",
-      "when": {
-        "every": 0.05
-      },
-      "do": [
-        {
-          "end": "win"
-        }
-      ],
-      "if": "timeleft <= 0 && score >= 12"
-    },
-    {
-      "id": "missed goal",
-      "when": {
-        "every": 0.05
-      },
-      "do": [
-        {
-          "end": "lose"
-        }
-      ],
-      "if": "timeleft <= 0 && score < 12"
     }
   ],
   "checks": {
     "scenarios": [
       {
-        "name": "automatic bounces collect a letter",
+        "name": "bouncing collects letters without ending the run",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "wait": 1.6
@@ -1484,7 +3104,7 @@
             "gte": 1
           },
           {
-            "sound": "pick"
+            "sound": "pick1"
           },
           {
             "not_ended": true
@@ -1493,9 +3113,9 @@
         "smoke": true
       },
       {
-        "name": "slam charges a super spring",
+        "name": "slam supercharges the rebound",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "wait": 0.3
@@ -1519,145 +3139,124 @@
         "smoke": false
       },
       {
-        "name": "a roaming courier can complete the delivery",
+        "name": "an active player survives into faster waves",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
+            "seconds": 2.6
           },
           {
             "hold": [
               "right"
             ],
-            "seconds": 2.2
+            "seconds": 2.6
           },
           {
             "hold": [
               "left"
             ],
-            "seconds": 2.5
-          },
-          {
-            "hold": [
-              "right"
-            ],
-            "seconds": 2.2
-          },
-          {
-            "hold": [
-              "left"
-            ],
-            "seconds": 2.5
-          },
-          {
-            "hold": [
-              "right"
-            ],
-            "seconds": 2.2
-          },
-          {
-            "hold": [
-              "left"
-            ],
-            "seconds": 2.5
+            "seconds": 2.6
           }
         ],
         "expect": [
           {
-            "ended": "win"
+            "not_ended": true
           },
           {
-            "var": "score",
-            "gte": 12
+            "var": "wave",
+            "gte": 2
           },
           {
-            "var": "wins",
-            "eq": 1
+            "var": "survived",
+            "gte": 25
           },
           {
-            "var": "best1",
-            "gte": 12
+            "var": "spawned",
+            "gte": 6
           }
         ],
         "smoke": false
       },
       {
-        "name": "idle run ends and saves the next turn",
+        "name": "standing still eventually loses and saves the next turn",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
-            "wait": 46
+            "wait_until": {
+              "ended": "lose"
+            },
+            "timeout": 160
           }
         ],
         "expect": [
@@ -1671,17 +3270,31 @@
           {
             "var": "next_player",
             "eq": 2
+          },
+          {
+            "var": "last_seconds",
+            "gte": 5
+          },
+          {
+            "var": "best_seconds",
+            "gte": 5
           }
         ],
         "smoke": false
       },
       {
-        "name": "controller restart alternates players and keeps progress",
+        "name": "restart alternates players and retains survival progress",
+        "max_seconds": 185,
         "seed": 1,
-        "max_seconds": 65,
         "script": [
           {
-            "wait": 46
+            "wait_until": {
+              "ended": "lose"
+            },
+            "timeout": 160
+          },
+          {
+            "wait": 1
           },
           {
             "press": "action"
@@ -1703,8 +3316,12 @@
             "eq": 1
           },
           {
-            "var": "timeleft",
-            "eq": 45
+            "var": "survived",
+            "eq": 0
+          },
+          {
+            "var": "best_seconds",
+            "gte": 5
           }
         ],
         "smoke": false
@@ -1712,10 +3329,10 @@
     ],
     "browser": [
       {
-        "name": "music setting survives reload",
+        "name": "music choice persists",
         "click": [
-          454,
-          258
+          478,
+          269
         ],
         "changes": [
           "music_on"
@@ -1740,7 +3357,7 @@
     "layout": "lr",
     "a": "SLAM",
     "b": {
-      "label": "MUSIC",
+      "label": "GUST",
       "action": "secondary"
     },
     "pause": false

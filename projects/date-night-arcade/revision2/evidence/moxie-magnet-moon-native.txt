@@ -1,0 +1,34 @@
+PASS  [render] first frame: 480x270, 27 colours, 29.2% of pixels differ from the background
+PASS  [simulation] scenario `snap collects a cluster without ending the run`: 0.2 s of play, ended not, hash 0c3116f87883b636
+PASS  [render] final frame of `snap collects a cluster without ending the run`: 87 colours, 28.8% covered
+PASS  [simulation] determinism of `snap collects a cluster without ending the run`: two runs, one hash
+PASS  [simulation] scenario `magnet cannot be spammed through recharge`: 0.3 s of play, ended not, hash db45b326861147cc
+PASS  [render] final frame of `magnet cannot be spammed through recharge`: 73 colours, 28.8% covered
+PASS  [simulation] determinism of `magnet cannot be spammed through recharge`: two runs, one hash
+PASS  [simulation] scenario `an active player survives into faster waves`: 40.7 s of play, ended not, hash 310a38973d7d60e5
+PASS  [render] final frame of `an active player survives into faster waves`: 48 colours, 36.3% covered
+PASS  [simulation] determinism of `an active player survives into faster waves`: two runs, one hash
+PASS  [simulation] scenario `standing still eventually loses and saves the next turn`: 15.7 s of play, ended lose, hash b018b79cb15b8e61
+PASS  [render] final frame of `standing still eventually loses and saves the next turn`: 47 colours, 58.9% covered
+PASS  [simulation] determinism of `standing still eventually loses and saves the next turn`: two runs, one hash
+PASS  [simulation] scenario `restart alternates players and retains survival progress`: 16.8 s of play, ended not, hash 965615d7c81915af
+PASS  [render] final frame of `restart alternates players and retains survival progress`: 27 colours, 29.2% covered
+PASS  [simulation] determinism of `restart alternates players and retains survival progress`: two runs, one hash
+PASS  [audio-waveform] sound `pick0`: 0.28 s, peak -9.9 dBFS, -17.8 LUFS
+PASS  [audio-waveform] sound `pick1`: 0.28 s, peak -9.9 dBFS, -17.5 LUFS
+PASS  [audio-waveform] sound `pick2`: 0.28 s, peak -9.9 dBFS, -17.5 LUFS
+PASS  [audio-waveform] sound `pick`: 0.28 s, peak -9.9 dBFS, -17.8 LUFS
+PASS  [audio-waveform] sound `boost`: 0.30 s, peak -11.1 dBFS, -18.6 LUFS
+PASS  [audio-waveform] sound `perfect`: 0.40 s, peak -9.9 dBFS, -16.5 LUFS
+PASS  [audio-waveform] sound `hit`: 0.40 s, peak -8.9 dBFS, -18.8 LUFS
+PASS  [audio-waveform] sound `wave`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] sound `lose`: 0.90 s, peak -11.1 dBFS, -16.9 LUFS
+PASS  [audio-waveform] sound `win`: 0.55 s, peak -9.4 dBFS, -14.2 LUFS
+PASS  [audio-waveform] music `theme`: 72.45 s, peak -6.7 dBFS, -20.0 LUFS
+PASS  [simulation] save round trip: restored 19 saved value(s)
+PASS  [authoring] browser check `music choice persists`: declared; it runs only in `web verify` (a real browser), not here
+PASS  [authoring] browser check `stick equivalent moves Moxie`: declared; it runs only in `web verify` (a real browser), not here
+WARN  `gamepad` input on `web` is built but unverified: the browser's Gamepad API is mapped to the game's actions (move, action), but no controller was available to test it
+30 passed, 0 failed in 6.7 s
+PROVEN HERE: the scripted playthroughs run and end as asserted, deterministically (simulation); the first and last frames are not blank (CPU render); every sound is finite, unclipped and not silent (waveform).
+NOT PROVEN HERE: that it runs in a browser (`red_engine2 web verify`), that anything is audible or sounds good, that it is fun.

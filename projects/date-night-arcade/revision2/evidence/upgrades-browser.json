@@ -1,0 +1,32 @@
+[
+  {
+    "game": "pip-cloud-post",
+    "fullscreen_F": true,
+    "persistent_install_menu": true,
+    "menu_pauses_run": true,
+    "wave_two_survival_seconds": 37,
+    "records_reload": true,
+    "music_worker_ms": 0,
+    "errors": []
+  },
+  {
+    "game": "moxie-magnet-moon",
+    "fullscreen_F": true,
+    "persistent_install_menu": true,
+    "menu_pauses_run": true,
+    "wave_two_survival_seconds": 42,
+    "records_reload": true,
+    "music_worker_ms": 0,
+    "errors": []
+  },
+  {
+    "game": "riff-rooftop-rush",
+    "fullscreen_F": true,
+    "persistent_install_menu": true,
+    "menu_pauses_run": true,
+    "wave_two_survival_seconds": 43,
+    "records_reload": true,
+    "music_worker_ms": 0,
+    "errors": []
+  }
+]

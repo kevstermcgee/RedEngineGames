@@ -1,0 +1,182 @@
+[
+  {
+    "hold": [
+      "right"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "down"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "left"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "up"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "right"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "down"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "left"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "up"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "right"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "down"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "left"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "up"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "right"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "down"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "left"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "up"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "right"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "down"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "left"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  },
+  {
+    "hold": [
+      "up"
+    ],
+    "seconds": 2
+  },
+  {
+    "press": "secondary"
+  }
+]

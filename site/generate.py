@@ -44,8 +44,32 @@ def load_web_games() -> list[dict]:
     return json.loads(catalog.read_text(encoding="utf-8")).get("games", [])
 
 
+def browser_download(g: dict) -> dict:
+    path = REPO / "site" / "browser-downloads.json"
+    return json.loads(path.read_text()).get(g["id"], {}) if path.exists() else {}
+
+
+def browser_game_page(g: dict) -> str:
+    play = f'../../play/{g["url"]}'
+    download = browser_download(g)
+    install = (f'<a class="dl" href="{e(download["url"])}">Install for Windows</a>' if download else f'<a href="{e(play)}">Open the game to install its browser app</a>')
+    controls = {
+        "pip-cloud-post": "Left/right or stick: steer. A / Space: slam for a super spring. B / Shift: gust away nearby rain.",
+        "moxie-magnet-moon": "Arrows / WASD or stick: move and aim. A / Space: magnetic dash. B / Shift: stationary pulse. Watch the recharge meter.",
+        "riff-rooftop-rush": "Up/down or D-pad: switch lanes. A / Space: hop. B / Shift: center lane. Jump low speakers; stay grounded beneath high drones.",
+    }.get(g["id"], "Use the keyboard, controller or touch controls shown on the game’s start screen.")
+    survival = '<h2>Survive, then pass the controller</h2><p>Four hearts. Every 20 seconds, hazards become faster and more frequent. Survive as long as you can, then hand over the controller. Best scores, survival records and player turns save automatically.</p>' if download else ''
+    desktop = '<h2>Windows installation</h2><p>Download and run the installer. It installs without administrator rights and adds desktop and Start menu shortcuts. All game files and music are included for offline play. Microsoft Edge opens the game in a dedicated app window. Windows 10 or 11 with Edge is required.</p><p>The installer is unsigned; Windows may show an unknown-publisher prompt. Its checksum is below. Uninstall through Windows Settings → Apps; the separate save profile is retained for reinstalling.</p><p>Browser and desktop saves are separate. Use Back up progress and Restore on the start screen to transfer your records.</p>' if download else '<h2>Browser installation</h2><p>Open the game in Chrome or Edge and use the address-bar install icon or the browser menu’s Apps option. Installation availability depends on your browser. Let offline caching complete before disconnecting.</p>'
+    checksum = f'<details><summary>Installer checksum and version</summary><p>Version {e(download.get("version", "2.0"))} · {human_size(download.get("bytes",0))}</p><code style="overflow-wrap:anywhere">SHA-256: {e(download.get("sha256", ""))}</code></details>' if download else ''
+    body = f'<p><a href="../../">← All games</a></p><section class="hero"><img class="thumb" src="../../play/{e(g["thumbnail"])}" alt="{e(g["title"])} gameplay" style="image-rendering:pixelated"><div><h2>{e(g["title"])}</h2><p>{e(g["description"])}</p><a class="dl" href="{e(play)}">Play now</a> {install}</div></section>{survival}<h2>Controls</h2><p>{e(controls)}</p><p>F toggles fullscreen. M or controller Start toggles music. A / Space starts the next player’s turn after a run. The small Menu button opens installation and audio controls during play.</p>{desktop}{checksum}'
+    return shell(f'{g["title"]} — RedEngineGames', g['description'], body, 2)
+
+
 def web_card(g: dict) -> str:
     page = f'play/{g["url"]}'
+    detail = f'browser/{g["id"]}/'
+    download = browser_download(g)
+    install = f'<a href="{e(download["url"])}">Install for Windows</a>' if download else ""
     inputs = " + ".join(g.get("input", []))
     pres = g["presentation"]
     return f'''
@@ -53,11 +77,11 @@ def web_card(g: dict) -> str:
   <a href="{e(page)}"><img class="thumb" src="play/{e(g["thumbnail"])}" alt="{e(g["title"])} screenshot" loading="lazy" width="640" height="360" style="image-rendering:pixelated"></a>
   <button class="heart" type="button" aria-pressed="false" aria-label="Favourite {e(g["title"])}" title="Favourite: keep it at the top of your feed">&#x2661;</button>
   <div class="body">
-    <h3><a href="{e(page)}">{e(g["title"])}</a></h3>
+    <h3><a href="{e(detail)}">{e(g["title"])}</a></h3>
     <p class="meta"><span class="pres">{e(pres.upper())}</span><span>{e(inputs)}</span><span>{e(g["build_timestamp"][:10])}</span></p>
     <p class="desc">{e(g["description"])}</p>
     <a class="dl" href="{e(page)}">Play in your browser</a>
-    <div class="card-links"><a href="play/games/{e(g["id"])}/game.json">details</a></div>
+    <div class="card-links"><a href="{e(detail)}">Game page</a>{install}</div>
   </div>
 </article>'''
 
@@ -204,7 +228,7 @@ def shell(title: str, description: str, body: str, depth: int, script: str = "")
 <body>
 <header class="site">
   <h1><a href="{up or "./"}"><span>Red</span>EngineGames</a></h1>
-  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Installs in a click, updates itself.</p>
+  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Play in your browser or install for Windows.</p>
 </header>
 <main>
 {body}
@@ -344,8 +368,7 @@ def index_page(games: list[dict], web: list[dict] | None = None) -> str:
     <ol>
       <li><strong>Play</strong> a browser game with one click, or <strong>install</strong> a Windows game and run the installer. It needs no administrator rights and offers a desktop shortcut.</li>
       <li><strong>Play</strong> from the Start menu or the shortcut. Most games support a gamepad; several players can share one screen where a game allows it.</li>
-      <li><strong>Updates</strong> arrive by themselves: when a new version is released the game offers it, installs it over the old one and keeps your saved games
-        (they live in <code>Saved Games</code>, not in the install folder).</li>
+      <li><strong>Updates:</strong> browser games refresh when online. Native games with an updater offer new versions automatically. Update Date Night Arcade desktop games by running the latest installer; their separate save profiles are retained.</li>
     </ol>
     <p class="fine">Tap the heart on a game to keep it at the top of your feed (it is remembered in this browser). Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
     {signed_note(games)}
@@ -464,6 +487,10 @@ def main() -> int:
     if web:
         shutil.copytree(WEB, out / "play")
     (out / "index.html").write_text(index_page(games, web), encoding="utf-8")
+    for g in web:
+        folder = out / "browser" / g["id"]
+        folder.mkdir(parents=True)
+        (folder / "index.html").write_text(browser_game_page(g), encoding="utf-8")
     for g in games:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)

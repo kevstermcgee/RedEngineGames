@@ -1,28 +1,40 @@
-# Date Night Arcade
+# Date Night Arcade: Survival Edition
 
-Three original 2D solo arcade games for passing one controller, built with Red Engine `6a42dd1ed650`.
+Three solo 2D games for passing one controller, built on Red Engine `6a42dd1ed650`.
 
-| Play | Character and mechanic | Controller | Keyboard |
-| --- | --- | --- | --- |
-| [Pip Cloud Post](https://kevstermcgee.github.io/RedEngineGames/play/games/pip-cloud-post/) | Cloud rabbit with automatic bounces and slam boosts | Left/right to steer, A to slam, B for music | Arrows, Space, X |
-| [Moxie Magnet Moon](https://kevstermcgee.github.io/RedEngineGames/play/games/moxie-magnet-moon/) | Axolotl with snap dashes and magnetic scrap chains | Stick to aim/move, A to snap, B for a stationary pulse | Arrows/WASD, Space, X |
-| [Riff Rooftop Rush](https://kevstermcgee.github.io/RedEngineGames/play/games/riff-rooftop-rush/) | Skating fox with three rails and timed aerial tricks | Up/down for lanes, A to hop, B to center | Up/down, Space, X |
+| Game page and Windows download | World and mechanic | Controller |
+| --- | --- | --- |
+| [Pip Cloud Post](https://kevstermcgee.github.io/RedEngineGames/browser/pip-cloud-post/) | Bright paper-and-cloud sky. Bunny bounces, collects letters and slams into super springs. | Left/right steer; A slam; B gust |
+| [Moxie Magnet Moon](https://kevstermcgee.github.io/RedEngineGames/browser/moxie-magnet-moon/) | Luminous blue cosmos. Axolotl dashes into scrap chains and clears hunters with magnetic pulses. | Stick move/aim; A dash; B pulse |
+| [Riff Rooftop Rush](https://kevstermcgee.github.io/RedEngineGames/browser/riff-rooftop-rush/) | Warm sunset city. Skating fox changes rooftops and catches notes while dodging low speakers and high drones. | Up/down lanes; A hop; B center |
 
-Connect a standard controller and open a game in a desktop browser. Click or press a key once to start audio if needed. A or Space starts the next player's turn after a result. Start toggles music. Each round lasts at most 45 seconds; fast wins and remaining hearts add bonus points. Riff's gold meter is the timing reference.
+Four hearts, endless runs, harder waves every 20 seconds. Riff cannot farm points by jumping in place. A / Space starts the next player's turn after a result; Start or M toggles music. F toggles fullscreen. The Menu button opens audio and installation controls and pauses the run. Active gameplay shows only score/player, elapsed time, health and a relevant mechanic meter. Controls and records live on the start, game and results pages.
 
-P1 and P2 have separate high scores and share a five rank mastery ladder. Scores, wins, rounds, rank and next turn auto-save. Unfinished rounds restart on reload. Use the start card's backup and restore controls to move saves between devices. The games can be installed from the browser and run offline after the initial visit.
+Each game has an original 32-bar soundtrack with eight arranged sections, alternate melodies, counterlines, bridges and percussion variations, plus its own layered effects and cycling pickup tones. Music is synthesized by Red Engine at build time and included as PCM; a worker decodes it without delaying gameplay.
 
-## Source and development
+## Windows installation and saves
 
-Each character, sprite, score and mechanic is defined in its game's `.game2d.json`. There are no downloaded character or music assets. `build_games.py` and `polish_games.py` rebuild the definitions with Python 3. Native and browser verification use the pinned Red Engine checkout:
+Use **Install for Windows** on each game page and run the downloaded `.exe`. Installers include all game and music assets, need no administrator rights, create desktop and Start menu shortcuts, and launch Microsoft Edge in an app window. Windows 10/11 with Edge is required. They are unsigned. Uninstall through Windows Settings → Apps.
+
+Desktop progress uses an isolated Edge profile in `%LOCALAPPDATA%\RedEngineGames\profiles\<game-id>`. Uninstall retains it, and reinstalling keeps records. Browser and desktop saves are separate: use **Back up progress / Restore** on the start screen to transfer them. Best scores, survival times, ranks, rounds and the next player save automatically; unfinished runs restart on reload.
+
+## Rebuild and verify
+
+Python 3 generates all characters, scenery, rules and scores; no third-party character or audio assets are downloaded.
 
 ```bash
 python3 build_games.py
 python3 polish_games.py
+python3 upgrade_survival.py
+python3 visual_refresh.py
 red_engine2 verify pip-cloud-post/pip-cloud-post.game2d.json
-red_engine2 web verify pip-cloud-post/pip-cloud-post.game2d.json
+red_engine2 web build pip-cloud-post/pip-cloud-post.game2d.json --out revision2/packages/pip-cloud-post
+python3 package_client.py revision2/packages/pip-cloud-post
+red_engine2 web verify --package revision2/packages/pip-cloud-post --out revision2/evidence/pip-cloud-post-browser
 ```
 
-Repeat the last two commands for Moxie and Riff. `check_controller_saves.py` adds controller ability and progress reload checks using Playwright; set `RED2D_WEB_ROOT` to the directory containing built web packages before running it.
+Repeat build/verify for each ID. Set `RED_ENGINE2` to the engine CLI path if it is not on PATH. `windows/build.py --packages revision2/packages --out revision2/windows --target x86_64-pc-windows-gnu` cross-compiles the installers with Rust and MinGW; omit `--target` on Windows. The launcher uses Rust's standard library and Windows APIs, with no downloaded runtime dependencies. Its server binds only to loopback and serves only embedded package files.
 
-[Engine feedback and measured resources](ENGINE_FEEDBACK.md) documents timing, byte sizes, memory measurements, verification and improvements. `evidence/metrics.json` and `evidence/controller-progress.json` provide structured results. Physical controllers and human playtesting remain unqualified; the simulated browser paths pass.
+`revision2/check_upgrades.py` checks fullscreen, menu pausing, music controls, harder-wave survival, saved progress and phone layouts. Set `RED2D_WEB_ROOT=revision2/packages` when running `revision2/check_controller_v2.py` with a Playwright-enabled Python. The Windows CI workflow tests the exact release installers, including Unicode paths, embedded hashes, shortcuts, reinstalling, offline HTTP assets, blocked traversal and uninstalling.
+
+[Engine feedback and resources](ENGINE_FEEDBACK.md) includes measured timing and evidence. Physical controller feel and human audio/gameplay judgments remain for playtesting.
