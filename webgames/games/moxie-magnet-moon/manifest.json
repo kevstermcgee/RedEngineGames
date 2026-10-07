@@ -1,0 +1,201 @@
+{
+  "schema": "red2d-web-package/1",
+  "package_id": "9db2d9f6ca034b2a",
+  "entry": "index.html",
+  "game": {
+    "id": "moxie-magnet-moon",
+    "title": "Moxie Magnet Moon",
+    "description": "Moxie the axolotl salvager has a magnetic backpack! Move with the stick; A/Space snaps 58 pixels in your last direction and pulls all nearby stardust into a combo. Recharge between bursts, dodge dust bunnies, bank 30 points before 45 seconds. Fast wins earn bonus points. B skips a ready dash to fire a stationary pulse. Progress auto-saves.",
+    "game_revision": "1bed9c55ce1901ac",
+    "presentation": "2d",
+    "platforms": [
+      "web"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "mouse",
+      "touch",
+      "gamepad"
+    ],
+    "persistence": [
+      "settings",
+      "progress"
+    ],
+    "controls": {
+      "layout": "stick",
+      "visible": true,
+      "declared": true,
+      "buttons": [
+        {
+          "id": "a",
+          "label": "SNAP",
+          "action": "action"
+        },
+        {
+          "id": "b",
+          "label": "PULSE",
+          "action": "secondary"
+        }
+      ],
+      "pause": false
+    },
+    "distribution": [
+      "online",
+      "install"
+    ],
+    "install": {
+      "web_app": true,
+      "offline": true,
+      "icons": [
+        "icon-192.png",
+        "icon-512.png"
+      ],
+      "native_installer": false
+    },
+    "screen": {
+      "width": 480,
+      "height": 270,
+      "scale": "fit"
+    }
+  },
+  "engine": {
+    "revision": "6a42dd1ed650",
+    "dirty": false,
+    "player": "red2d",
+    "player_version": "0.1.0",
+    "player_build": "built from crates/red2d (--profile web)"
+  },
+  "compat": {
+    "requires": [
+      "WebAssembly",
+      "Canvas 2D"
+    ],
+    "optional": [
+      "localStorage (saves)",
+      "Web Audio (sound)",
+      "Gamepad API"
+    ],
+    "networking": "none: the game never touches the network after loading"
+  },
+  "native": {
+    "initial": {
+      "state_hash": "2978adbad7975dca",
+      "frame": "a1a6f28ed1bf5533",
+      "seed": 1
+    },
+    "scenarios": [
+      {
+        "name": "a snap magnetically collects the starting cluster",
+        "ticks": 11,
+        "hash": "4eda5621679e9533",
+        "smoke": true
+      },
+      {
+        "name": "magnet has a real recharge",
+        "ticks": 16,
+        "hash": "44f78fa40c21d739",
+        "smoke": false
+      },
+      {
+        "name": "salvage route banks enough points",
+        "ticks": 2760,
+        "hash": "4cf91ac479e8580e",
+        "smoke": false
+      },
+      {
+        "name": "idle run ends and saves the next turn",
+        "ticks": 2760,
+        "hash": "03368bb6beec43e5",
+        "smoke": false
+      },
+      {
+        "name": "controller restart alternates players and keeps progress",
+        "ticks": 2768,
+        "hash": "b0e83a2c8c7ca3de",
+        "smoke": false
+      }
+    ]
+  },
+  "browser_checks": [
+    {
+      "name": "music setting survives reload",
+      "keys": [],
+      "click": [
+        454.0,
+        258.0
+      ],
+      "ms": 400,
+      "changes": [
+        "music_on"
+      ],
+      "persists": [
+        "music_on"
+      ]
+    },
+    {
+      "name": "stick equivalent moves Moxie",
+      "keys": [
+        "ArrowRight"
+      ],
+      "click": null,
+      "ms": 450,
+      "changes": [
+        "p_x"
+      ],
+      "persists": []
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/game.json",
+      "bytes": 32040,
+      "sha256": "c3a0e1d4f3257256896e83e469d46f0e245ca2db645f0b3d9a63433779e58866"
+    },
+    {
+      "path": "audio-worker.js",
+      "bytes": 1433,
+      "sha256": "9dbced8f2cbf115de217900dab59ef32e240b10d2fb968c1f5c49f249d65b6e1"
+    },
+    {
+      "path": "game.wasm",
+      "bytes": 679249,
+      "sha256": "1c4e09eed047b9b681c026a2d19b6d8064a47af08f51679c0d6c1fe294636a99"
+    },
+    {
+      "path": "icon-192.png",
+      "bytes": 5209,
+      "sha256": "ce715cf9efd1714ad45c520c3a2b42ff34e31656de1a14a3e3984eb1682ff933"
+    },
+    {
+      "path": "icon-512.png",
+      "bytes": 13100,
+      "sha256": "670ce85b4fe49f23b50a902be9e5f51e7fb11ed4e3f40bbd7602ba046fc6fa45"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7999,
+      "sha256": "6c310f78c82af5f81223ce0fe2255fa719d89d324b725b6412575d6c8caa04a2"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 908,
+      "sha256": "a2d7f7a60bccea1d97659eb4656f6df68123d62d14be8b09e90d47af2ba164f2"
+    },
+    {
+      "path": "runtime.js",
+      "bytes": 30966,
+      "sha256": "f4185df74afbc26ae01d30f1d135217378cea40332940b15767808826268e251"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 2109,
+      "sha256": "2360fa93f0bdd89407ddf001096dda1aa315ec1c9bfa027be563ef86456a244b"
+    },
+    {
+      "path": "thumbnail.png",
+      "bytes": 13303,
+      "sha256": "2fbfec19ab95500256ae5aca83c4d120e31744b5fd6748b24eaf214182c62705"
+    }
+  ]
+}
