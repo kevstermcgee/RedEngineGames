@@ -7,7 +7,7 @@ on:
       - projects/date-night-arcade/windows/**
       - .github/workflows/arcade-windows.yml
 permissions:
-  contents: read
+  contents: write # Required to read unpublished draft release assets.
 jobs:
   installers:
     runs-on: windows-latest
