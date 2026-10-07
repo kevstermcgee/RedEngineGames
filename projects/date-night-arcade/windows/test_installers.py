@@ -6,10 +6,11 @@ for i,id in enumerate(['pip-cloud-post','moxie-magnet-moon','riff-rooftop-rush']
   root=pathlib.Path(tmp)/'Offline games Ω'/id;exe=pathlib.Path(a.installers).resolve()/f'setup-{id}.exe'
   subprocess.run([str(exe),'--install-root',str(root),'--no-launch'],check=True,timeout=30)
   manifest=json.loads((root/'web/manifest.json').read_text());assert manifest['game']['id']==id
+  game=json.loads((root/'web/assets/game.json').read_text());assert 'player' not in game['vars'] and 'next_player' not in game['vars'];assert not any('PASS THE CONTROLLER' in u.get('text','') for u in game['ui'])
   for f in manifest['files']:
    data=(root/'web'/f['path']).read_bytes();assert len(data)==f['bytes'];assert hashlib.sha256(data).hexdigest()==f['sha256']
   if os.name=='nt':
-   title=manifest['game']['title'];ps=rf"""Add-Type -Path '{root}/shell_link.cs';$l=Join-Path ([Environment]::GetFolderPath('Desktop')) '{title}.lnk';if(!(Test-Path $l)){{throw 'No desktop shortcut'}};$target=[ArcadeShortcut]::ReadLink($l);if(!(Test-Path -LiteralPath $target)){{throw ('Shortcut target missing: '+$target)}};$v=(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\RedEngineGames-{id}').DisplayVersion;if($v -ne '2.0'){{throw 'No uninstall registration'}};[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($target))"""
+   title=manifest['game']['title'];ps=rf"""Add-Type -Path '{root}/shell_link.cs';$l=Join-Path ([Environment]::GetFolderPath('Desktop')) '{title}.lnk';if(!(Test-Path $l)){{throw 'No desktop shortcut'}};$target=[ArcadeShortcut]::ReadLink($l);if(!(Test-Path -LiteralPath $target)){{throw ('Shortcut target missing: '+$target)}};$v=(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\RedEngineGames-{id}').DisplayVersion;if($v -ne '2.1'){{throw 'No uninstall registration'}};[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($target))"""
    check=subprocess.run(['powershell','-NoProfile','-Command',ps],timeout=15,capture_output=True,text=True);assert check.returncode==0,check.stderr;import base64;target=base64.b64decode(check.stdout.strip()).decode('utf8');assert os.path.samefile(target,root/'play.exe'),(target,str(root/'play.exe'))
   sentinel=root/'keep-user-data.txt';sentinel.write_text('progress stays on update')
   subprocess.run([str(exe),'--install-root',str(root),'--no-launch'],check=True,timeout=30);assert sentinel.read_text()=='progress stays on update'

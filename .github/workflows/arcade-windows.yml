@@ -17,7 +17,7 @@ jobs:
       - name: Download the exact release installers
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release download date-night-arcade-v2 --repo "$env:GITHUB_REPOSITORY" --pattern 'setup-*.exe' --dir installers
+        run: gh release download date-night-arcade-v2-1 --repo "$env:GITHUB_REPOSITORY" --pattern 'setup-*.exe' --dir installers
       - name: Install, verify shortcuts and offline assets, reinstall and uninstall
         run: python projects/date-night-arcade/windows/test_installers.py --installers installers --out windows-installer-evidence.json
       - uses: actions/upload-artifact@v4
