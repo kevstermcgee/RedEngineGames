@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 61,
+    "demos": 65,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -13,6 +13,22 @@
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
       "sha256": "71e6ee6c6259cb959c189ad6f9edee88c728fec85c900c9fbbc6585deb6ccce9"
+    },
+    {
+      "path": "demos/examples/2d/idea-forge.game2d.json",
+      "sha256": "8f08430c5fa4745ebf53e699f594121f03333fe372dd071ecd10a5c741e5df63"
+    },
+    {
+      "path": "demos/examples/2d/idea-forge/README.md",
+      "sha256": "d86ffa9f9d3d0e2b32676ecfd54de69d652240c1ab0b8d1fcdd37589f5454ad0"
+    },
+    {
+      "path": "demos/examples/2d/idea-forge/build.py",
+      "sha256": "315c29d2579317c9c388e4ab387a81b0352aee8e75de7cd4af4da58a6ae780b7"
+    },
+    {
+      "path": "demos/examples/2d/idea-forge/vocabulary.json",
+      "sha256": "c074caa061d8cf00fa525eac647c8eeb6c2c33e588e523cdf8210b284d6732b1"
     },
     {
       "path": "demos/examples/2d/lantern-yard.game2d.json",
@@ -554,6 +570,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "f58e15db0e7383519f472ef0ba5f84871e18bf77",
+  "source_revision": "7f8b26414ae91e44b30d29d7797d805d947a0778",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
