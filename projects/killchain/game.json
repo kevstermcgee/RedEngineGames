@@ -6,7 +6,9 @@
   },
   "blueprints": [],
   "maps": [
-    "maps/main.json"
+    "maps/main.json",
+    "maps/quarry.json",
+    "maps/terminus.json"
   ],
   "server": {
     "map": "maps/main.json",

@@ -5,7 +5,9 @@
   "resolution": [
    1280,
    720
-  ]
+  ],
+  "x-name": "Ironworks",
+  "x-short": "WORKS"
  },
  "camera": {
   "position": [
@@ -25,20 +27,20 @@
   "sky_bottom": "#cfd3c4"
  },
  "ambient": {
-  "color": "#e8eeff",
-  "intensity": 0.55
+  "color": "#f0e6dc",
+  "intensity": 0.5
  },
  "lights": [
   {
    "id": "sun",
    "type": "directional",
    "direction": [
-    -0.45,
-    -1,
-    -0.35
+    -0.7,
+    -0.6,
+    -0.4
    ],
-   "color": "#fff0d6",
-   "intensity": 2.3
+   "color": "#ffe0b0",
+   "intensity": 2.6
   },
   {
    "id": "furnace_glow",
@@ -199,21 +201,23 @@
  ],
  "player": {
   "fov": 90,
-  "walk_speed": 4.6,
-  "sprint_speed": 7.0,
+  "walk_speed": 4.7,
+  "sprint_speed": 7.2,
   "crouch_multiplier": 0.45,
   "jump_speed": 5.0,
   "gravity": 15.0,
-  "acceleration": 38,
-  "air_acceleration": 10,
-  "friction": 10,
-  "max_speed": 7.2
+  "acceleration": 46,
+  "air_acceleration": 14,
+  "friction": 9,
+  "max_speed": 7.4
  },
  "music": false,
  "combat": {
-  "respawn_secs": 8,
+  "respawn_secs": 6,
   "spawn": "farthest",
-  "spawn_protect_secs": 2.0
+  "spawn_protect_secs": 2.0,
+  "regen_delay_secs": 5,
+  "regen_per_sec": 20
  },
  "match": {
   "min_players": 1,
@@ -860,8 +864,201 @@
      44
     ],
     "respawn_secs": 30
+   },
+   {
+    "weapon": "reaper",
+    "at": [
+     -21.0,
+     0.3,
+     0.0
+    ],
+    "respawn_secs": 60
+   },
+   {
+    "weapon": "reaper",
+    "at": [
+     21.5,
+     0.3,
+     0.9
+    ],
+    "respawn_secs": 60
+   },
+   {
+    "weapon": "breaker",
+    "at": [
+     -42.6,
+     0.3,
+     39.5
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "breaker",
+    "at": [
+     43.0,
+     0.3,
+     -38.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "hunter",
+    "at": [
+     -52.0,
+     0.3,
+     -36.0
+    ],
+    "respawn_secs": 40
+   },
+   {
+    "weapon": "hunter",
+    "at": [
+     52.0,
+     0.3,
+     36.0
+    ],
+    "respawn_secs": 40
+   },
+   {
+    "weapon": "flare",
+    "at": [
+     -62.0,
+     0.3,
+     18.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "flare",
+    "at": [
+     65.0,
+     0.3,
+     -18.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "lobber",
+    "at": [
+     -30.0,
+     0.3,
+     -4.0
+    ],
+    "respawn_secs": 45
+   },
+   {
+    "weapon": "lobber",
+    "at": [
+     30.0,
+     0.3,
+     4.0
+    ],
+    "respawn_secs": 45
+   },
+   {
+    "weapon": "impact",
+    "at": [
+     -46.0,
+     0.3,
+     8.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "impact",
+    "at": [
+     46.0,
+     0.3,
+     -8.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "machete",
+    "at": [
+     -46.5,
+     0.3,
+     -23.4
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "machete",
+    "at": [
+     51.0,
+     0.3,
+     26.0
+    ],
+    "respawn_secs": 30
+   },
+   {
+    "weapon": "sledge",
+    "at": [
+     -64.0,
+     0.3,
+     20.0
+    ],
+    "respawn_secs": 40
+   },
+   {
+    "weapon": "sledge",
+    "at": [
+     65.0,
+     0.3,
+     -20.0
+    ],
+    "respawn_secs": 40
    }
-  ]
+  ],
+  "flags": [
+   {
+    "team": 1,
+    "at": [
+     -70,
+     0,
+     0
+    ]
+   },
+   {
+    "team": 2,
+    "at": [
+     70,
+     0,
+     0
+    ]
+   }
+  ],
+  "sites": [
+   {
+    "name": "A",
+    "at": [
+     22,
+     0,
+     -3
+    ],
+    "radius": 5
+   },
+   {
+    "name": "B",
+    "at": [
+     24,
+     0,
+     -30
+    ],
+    "radius": 6
+   }
+  ],
+  "objective": {
+   "capture_limit": 3,
+   "return_secs": 15,
+   "win_rounds": 4,
+   "swap_after": 3,
+   "round_secs": 100,
+   "freeze_secs": 5,
+   "plant_secs": 3,
+   "defuse_secs": 5,
+   "fuse_secs": 40
+  }
  },
  "spawns": [
   {
@@ -983,6 +1180,86 @@
    ],
    "yaw_deg": 270,
    "group": "team2"
+  },
+  {
+   "id": "ffa_12",
+   "position": [
+    -44.0,
+    0,
+    3.0
+   ],
+   "yaw_deg": 86,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_13",
+   "position": [
+    44.0,
+    0,
+    -3.0
+   ],
+   "yaw_deg": 266,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_14",
+   "position": [
+    -20.0,
+    0,
+    -30.0
+   ],
+   "yaw_deg": 146,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_15",
+   "position": [
+    24.0,
+    0,
+    30.0
+   ],
+   "yaw_deg": 321,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_16",
+   "position": [
+    -30.0,
+    0,
+    16.0
+   ],
+   "yaw_deg": 62,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_17",
+   "position": [
+    30.0,
+    0,
+    -16.0
+   ],
+   "yaw_deg": 242,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_18",
+   "position": [
+    0.5,
+    0,
+    -6.1
+   ],
+   "yaw_deg": 185,
+   "group": "ffa"
+  },
+  {
+   "id": "ffa_19",
+   "position": [
+    -0.5,
+    0,
+    6.1
+   ],
+   "yaw_deg": 5,
+   "group": "ffa"
   }
  ],
  "nav": {
@@ -12935,5 +13212,20 @@
    },
    "collide": false
   }
- ]
+ ],
+ "sky": {
+  "zenith": "#4d7fc4",
+  "horizon": "#f3cf9a",
+  "gradient_power": 0.6,
+  "sun": {
+   "direction": [
+    0.7,
+    0.6,
+    0.4
+   ],
+   "size_deg": 2.4,
+   "color": "#ffe2b0",
+   "glow": 0.7
+  }
+ }
 }

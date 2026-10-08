@@ -7,39 +7,13 @@ pipe racks. South lane: the same turned around. Scale sits between Dust 2 and Nu
 Run: python3 tools/gen_map.py  (then scripts/red check)
 """
 import json, math, random
+sys_path = __import__("os").path.dirname(__import__("os").path.abspath(__file__))
+__import__("sys").path.insert(0, sys_path)
+import mapkit as mk
+from mapkit import objs, solids, pick, spawns, lights, nid, mat, box, cyl, wall_solids, building, free, clear_line, spot, add_node, link, nearest
 
-rnd = random.Random(9)
-objs = []
-solids = []
-pick = []
-spawns = []
-_n = {}
-
-def nid(p):
-    _n[p] = _n.get(p, 0) + 1
-    return f"{p}_{_n[p]}"
-
-def mat(color, rough=0.9, metal=0.0, emissive=None, opacity=None):
-    m = {"color": color, "roughness": rough}
-    if metal: m["metallic"] = metal
-    if emissive: m["emissive"] = emissive
-    if opacity is not None: m["opacity"] = opacity
-    return m
-
-def box(p, x, z, sx, sy, sz, color, y=0.0, rough=0.9, metal=0.0, collide=True, rot=None):
-    o = {"id": nid(p), "type": "box", "size": [sx, sy, sz], "position": [x, y + sy / 2, z], "material": mat(color, rough, metal)}
-    if not collide: o["collide"] = False
-    if rot: o["rotation"] = [0, rot, 0]
-    objs.append(o)
-    if collide and sy > 0.4:
-        solids.append((x - sx / 2 - 0.3, z - sz / 2 - 0.3, x + sx / 2 + 0.3, z + sz / 2 + 0.3))
-    return o
-
-def cyl(p, x, z, r, h, color, y=0.0, rot=None, metal=0.3, rough=0.6, pos_y=None):
-    o = {"id": nid(p), "type": "cylinder", "radius": r, "height": h, "position": [x, (y + h / 2) if pos_y is None else pos_y, z],
-         "material": mat(color, rough, metal), "collide": False}
-    if rot: o["rotation"] = rot
-    objs.append(o)
+mk.configure(86, 54, ground=(220, 150), seed=9)
+rnd = mk.rnd
 
 def sym(x, z):
     return -x, -z
@@ -140,27 +114,10 @@ def hall():
     for (x, z) in [(-26, 0), (26, 0), (0, -17), (0, 17)]:
         lights.append({"id": nid("hall_lamp"), "type": "point", "position": [x, 7.5, z], "color": "#cfe0ff", "intensity": 9, "range": 22})
 
-lights = [{"id": "sun", "type": "directional", "direction": [-0.45, -1, -0.35], "color": "#fff0d6", "intensity": 2.3}]
+lights.append({"id": "sun", "type": "directional", "direction": [-0.7, -0.6, -0.4], "color": "#ffe0b0", "intensity": 2.6})
 hall()
 
 # ---- buildings --------------------------------------------------------------------------------------------------------------
-def building(x0, z0, x1, z1, h, doors, color, roof=True, label="bldg", windows=True):
-    """A walled building. `doors` = [(side, at, width)], side in n/s/e/w; `at` from the wall's start (west->east, north->south)."""
-    solids.append((x0 - 1, z0 - 1, x1 + 1, z1 + 1))
-    sides = {"n": (x0, z0, x1, z0), "s": (x0, z1, x1, z1), "w": (x0, z0, x0, z1), "e": (x1, z0, x1, z1)}
-    for side, (fx, fz, tx, tz) in sides.items():
-        ops = [{"kind": "door", "at": at, "width": w, "height": min(h - 0.3, 3.4)} for (sd, at, w) in doors if sd == side]
-        length = abs(tx - fx) + abs(tz - fz)
-        if windows:
-            k = 6.0
-            while k < length - 4:
-                if all(abs(k - o["at"]) > o["width"] / 2 + 2 for o in ops):
-                    ops.append({"kind": "window", "at": k, "width": 1.6, "height": 1.0, "sill": 1.7})
-                k += 8.0
-        objs.append({"id": nid(label), "type": "wall", "from": [fx, fz], "to": [tx, tz], "height": h, "thickness": 0.4, "openings": ops, "material": mat(color, 0.9)})
-    if roof:
-        box(label + "_roof", (x0 + x1) / 2, (z0 + z1) / 2, abs(x1 - x0) + 0.8, 0.4, abs(z1 - z0) + 0.8, DARK, y=h, rough=0.8)
-
 def control_room(cx, cz, flip):
     """Two-level office on the lane: ground-floor rooms, an outside stair to a flat roof that overlooks the lane."""
     x0, x1, z0, z1 = cx - 8, cx + 8, cz - 5, cz + 5
@@ -270,11 +227,6 @@ for z in (-24, 24):
 lane_line(0, -44, 0, 44, WHITE)
 
 # ---- weapons and ammunition ---------------------------------------------------------------------------------------------------
-def spot(w, x, z, y=0.3, respawn=30, twin=True):
-    pick.append({"weapon": w, "at": [round(x, 1), y, round(z, 1)], "respawn_secs": respawn} if w != "ammo" else {"ammo": True, "at": [round(x, 1), y, round(z, 1)], "respawn_secs": respawn})
-    if twin:
-        pick.append({"weapon": w, "at": [round(-x, 1), y if y < 3 else y, round(-z, 1)], "respawn_secs": respawn} if w != "ammo" else {"ammo": True, "at": [round(-x, 1), y, round(-z, 1)], "respawn_secs": respawn})
-
 # by the spawns: sidearms, an SMG, ammunition, a grenade
 for (w, x, z) in [("bulldog", -72, -6), ("marshal", -72, 6), ("stinger", -76, -14), ("wasp", -76, 14), ("ammo", -78, -2), ("frag", -68, 0)]:
     spot(w, x, z)
@@ -299,72 +251,25 @@ spot("sentinel", -12, -38, y=3.8, respawn=45, twin=False)
 pick.append({"weapon": "scout", "at": [12, 3.8, 38], "respawn_secs": 45})
 spot("ammo", -10, -44)
 
+# the newer weapons: heavy ones in contested places, quiet and utility ones off the main lanes
+for (w, x, z, r) in [("reaper", -22, 0, 60), ("breaker", -40, 38, 30), ("hunter", -52, -36, 40), ("flare", -62, 18, 30), ("lobber", -30, -4, 45),
+                     ("impact", -46, 8, 30), ("machete", -48, -26, 30), ("sledge", -64, 20, 40)]:
+    mk.spot_near(w, x, z, respawn=r)
+
 # ---- spawns -----------------------------------------------------------------------------------------------------------------
 for i in range(6):
     x, z = -82 + (i % 2) * 4, -10 + (i // 2) * 8 + (i % 2) * 2
     spawns.append({"id": f"ridge_{i}", "position": [x, 0, z], "yaw_deg": 90, "group": "team1"})
     spawns.append({"id": f"night_{i}", "position": [-x, 0, -z], "yaw_deg": 270, "group": "team2"})
 
-for p in pick:
-    if p.get("weapon") == "machinepistol":
-        p["weapon"] = "machine-pistol"
-    if p.get("weapon") == "handcannon":
-        p["weapon"] = "hand-cannon"
-
-
 # ---- the nav graph bots route along ---------------------------------------------------------------------------------------
 # Hall walls block the ground graph except at their openings (solids only knows boxes and whole buildings).
-def wall_solids(x0, z0, x1, z1, gaps):
-    horizontal = z0 == z1
-    a, b = (x0, x1) if horizontal else (z0, z1)
-    cuts = sorted([(c - w / 2, c + w / 2) for c, w in gaps])
-    cur = a
-    for lo, hi in cuts + [(b, b)]:
-        if lo > cur:
-            solids.append((cur, z0 - 0.5, lo, z0 + 0.5) if horizontal else (x0 - 0.5, cur, x0 + 0.5, lo))
-        cur = max(cur, hi)
 wall_solids(-HX, -HZ, HX, -HZ, [(-15, 5), (15, 5)])
 wall_solids(-HX, HZ, HX, HZ, [(-15, 5), (15, 5)])
 wall_solids(-HX, -HZ, -HX, HZ, [(0, 7)])
 wall_solids(HX, -HZ, HX, HZ, [(0, 7)])
 
-def free(x, z, pad=0.9):
-    if abs(x) > W - 2.5 or abs(z) > H - 2.5:
-        return False
-    return not any(a - pad < x < c + pad and b - pad < z < e + pad for (a, b, c, e) in solids)
-
-def clear_line(x0, z0, x1, z1):
-    n = int(math.hypot(x1 - x0, z1 - z0) / 0.6) + 1
-    return all(free(x0 + (x1 - x0) * k / n, z0 + (z1 - z0) * k / n, 0.6) for k in range(n + 1))
-
-nodes, index = [], {}
-STEP = 7.0
-xs = [(-W + 4) + STEP * i for i in range(int((2 * W - 8) / STEP) + 1)]
-zs = [(-H + 4) + STEP * i for i in range(int((2 * H - 8) / STEP) + 1)]
-for x in xs:
-    for z in zs:
-        # stair footprints are not ground
-        if free(x, z, 1.0):
-            index[(x, z)] = len(nodes)
-            nodes.append({"id": f"n{len(nodes)}", "pos": [round(x, 1), 0, round(z, 1)]})
-edges = []
-for (x, z), i in index.items():
-    for dx, dz in [(STEP, 0), (0, STEP), (STEP, STEP), (STEP, -STEP)]:
-        j = index.get((x + dx, z + dz))
-        if j is not None and clear_line(x, z, x + dx, z + dz):
-            edges.append([nodes[i]["id"], nodes[j]["id"]])
-def add_node(name, x, y, z):
-    nodes.append({"id": name, "pos": [x, y, z]})
-    return name
-def link(a, b, kind=None):
-    edges.append([a, b] if kind is None else [a, b, kind])
-def nearest(x, z, maxd=11.0):
-    best = None
-    for (nx, nz), i in index.items():
-        d = math.hypot(nx - x, nz - z)
-        if d < maxd and clear_line(x, z, nx, nz) and (best is None or d < best[0]):
-            best = (d, nodes[i]["id"])
-    return best[1] if best else None
+mk.build_ground_nav()
 # the catwalk: up the west stairs to the north deck, up the east stairs to the south deck
 for (nm, bx, bz, tx, dxs) in [("nw", -31, -9.5, -11, [0, 14]), ("se", 31, 9.5, 11, [0, -14])]:
     b = add_node(f"{nm}_stairs_bottom", bx, 0, bz)
@@ -385,23 +290,38 @@ for (nm, bx, bz, tx) in [("o1", -37.4, -36.0, -20.4), ("o2", 37.4, 36.0, 20.4)]:
     link(b, t)
     r = add_node(f"{nm}_roof", -12.0 if nm == "o1" else 12.0, 3.8, bz)
     link(t, r)
-scene_nav = {"nodes": nodes, "edges": edges}
+# ---- neutral spawns: free for all starts spread over the whole works instead of the two yards -------------------------------
+def near_free(x, z, pad=1.2):
+    """The free point nearest (x, z): the wanted spot if it is clear, else the closest clear one on a growing ring."""
+    for r in [0.0] + [1.0 * i for i in range(1, 12)]:
+        for a in range(0, 360, 30) if r else [0]:
+            px, pz = x + r * math.cos(math.radians(a)), z + r * math.sin(math.radians(a))
+            if free(px, pz, pad):
+                return round(px, 1), round(pz, 1)
+    raise AssertionError((x, z))
 
-scene = {
-    "meta": {"fps": 30, "duration": 10, "resolution": [1280, 720]},
-    "camera": {"position": [-80, 1.7, 0], "target": [0, 1.7, 0], "fov": 90},
-    "background": {"sky_top": "#7fa6cf", "sky_bottom": "#cfd3c4"},
-    "ambient": {"color": "#e8eeff", "intensity": 0.55},
-    "lights": lights[:200],
-    "player": {"fov": 90, "walk_speed": 4.6, "sprint_speed": 7.0, "crouch_multiplier": 0.45, "jump_speed": 5.0, "gravity": 15.0,
-               "acceleration": 38, "air_acceleration": 10, "friction": 10, "max_speed": 7.2},
-    "music": False,
-    "combat": {"respawn_secs": 8, "spawn": "farthest", "spawn_protect_secs": 2.0},
-    "match": {"min_players": 1, "countdown_secs": 5, "round_secs": 600, "results_secs": 3600, "score_to_win": 50, "join_in_progress": True, "ready_check": True},
-    "shooter": {"start": ["pistol", "knife"], "friendly_fire": False, "pickups": pick},
-    "spawns": spawns,
-    "nav": scene_nav,
-    "objects": objs,
+def ffa_spawn(x, z):
+    x, z = near_free(x, z)
+    spawns.append({"id": f"ffa_{len(spawns)}", "position": [x, 0, z], "yaw_deg": round(math.degrees(math.atan2(-x, z)) % 360), "group": "ffa"})
+for (x, z) in [(-44, 3), (44, -3), (-22, -30), (22, 30), (-30, 16), (30, -16), (0, -7), (0, 7)]:
+    ffa_spawn(x, z)
+
+# ---- game modes -----------------------------------------------------------------------------------------------------------------
+# Capture the flag: each flag sits in the nook between the containers behind its own yard wall, reached through the 6 m gap in the wall.
+# Search and destroy: attackers (the "team1" spawns, west) carry the bomb to site A in the east half of the foundry or site B on the north lane
+# in front of the warehouse; defenders (the "team2" spawns, east) hold them. Sides swap after three rounds and the spawns swap with them.
+MODES = {
+    "flags": [{"team": 1, "at": [-70, 0, 0]}, {"team": 2, "at": [70, 0, 0]}],
+    "sites": [{"name": "A", "at": [22, 0, -3], "radius": 5}, {"name": "B", "at": [24, 0, -30], "radius": 6}],
+    "objective": {"capture_limit": 3, "return_secs": 15, "win_rounds": 4, "swap_after": 3, "round_secs": 100, "freeze_secs": 5, "plant_secs": 3, "defuse_secs": 5, "fuse_secs": 40},
 }
-json.dump(scene, open("maps/main.json", "w"), indent=1)
-print(len(nodes), "nav nodes,", len(edges), "edges;", len(objs), "objects,", len(pick), "pickups,", len(lights), "lights")
+for f in MODES["flags"]:
+    assert free(f["at"][0], f["at"][2], 1.0), f
+for st in MODES["sites"]:
+    assert free(st["at"][0], st["at"][2], 0.5), st
+
+mk.emit("maps/main.json", camera={"position": [-80, 1.7, 0], "target": [0, 1.7, 0], "fov": 90},
+        background={"sky_top": "#7fa6cf", "sky_bottom": "#cfd3c4"}, ambient={"color": "#f0e6dc", "intensity": 0.5}, name="Ironworks", short="WORKS",
+        extra_shooter=MODES,
+        sky={"zenith": "#4d7fc4", "horizon": "#f3cf9a", "gradient_power": 0.6, "sun": {"direction": [0.7, 0.6, 0.4], "size_deg": 2.4, "color": "#ffe2b0", "glow": 0.7}},
+        combat={"respawn_secs": 6, "spawn": "farthest", "spawn_protect_secs": 2.0, "regen_delay_secs": 5, "regen_per_sec": 20})

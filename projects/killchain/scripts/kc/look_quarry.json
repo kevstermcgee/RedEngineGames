@@ -1,0 +1,13 @@
+{"size":[1280,720],"secs":30,"out":"out/kc/quarry","pace_ms":5,"steps":[
+ {"at":0.5,"do":"click","id":"solo"},
+ {"at":0.8,"do":"click","id":"mode_0"},
+ {"at":1.0,"do":"click","id":"size_3"},
+ {"at":1.2,"do":"click","id":"skill_0"},
+ {"at":1.6,"do":"click","id":"start"},
+ {"at":4.5,"do":"click","id":"ready"},
+ {"at":11.5,"do":"shot","name":"01-spawn"},
+ {"at":12.0,"do":"key","key":"W","down":true},
+ {"at":16.0,"do":"shot","name":"02-forward"},
+ {"at":22.0,"do":"shot","name":"03-further"},
+ {"at":26.0,"do":"quit"}
+]}

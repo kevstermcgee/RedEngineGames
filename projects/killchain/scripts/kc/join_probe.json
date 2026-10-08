@@ -1,0 +1,8 @@
+{"size":[1280,720],"secs":30,"out":"out/kc/join","pace_ms":5,"steps":[
+ {"at":0.5,"do":"click","id":"join"},
+ {"at":0.8,"do":"click","id":"field_address"},
+ {"at":1.0,"do":"type","text":"127.0.0.1:27975#sha256:c3330f215440e31dd72c9ae0e445ab1ade85f648b231166f95ef211e8623130d"},
+ {"at":2.0,"do":"click","id":"connect"},
+ {"at":14.0,"do":"shot","name":"01-joined"},
+ {"at":18.0,"do":"quit"}
+]}

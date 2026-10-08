@@ -10,6 +10,6 @@
     "online": "Online arena FPS. One player hosts, the others join."
   },
   "killchain": {
-    "online": "Online FPS. One player hosts, the others join."
+    "online": "Online FPS: team deathmatch, free for all, capture the flag, search and destroy and 1v1 duels on three maps. One player hosts and shares a six-character code; the others paste it."
   }
 }

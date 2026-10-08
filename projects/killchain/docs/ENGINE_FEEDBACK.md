@@ -1,4 +1,70 @@
-# Feedback on developing with RedEngine (Killchain build, 2026-09-30)
+# Feedback on developing with RedEngine
+
+Two rounds, newest first. Round 2 is the modes-and-maps update (2026-10-07); round 1 (2026-09-30) built the game.
+
+---
+
+# Round 2 (2026-10-07): game modes, three maps, eight weapons, soldier looks, easy joining
+
+Scope: free for all, duels, capture the flag, search and destroy, two new maps and a reworked one, eight weapons, four looks per team, a join flow that needs no setup.
+What follows is what the work actually cost and what I would change in the engine, in the order they hurt.
+
+## What worked
+- **The mode checklist from round 1 was the right ask, and writing it down helped.** `docs/adr/2026-10-07-killchain-game-modes-...md` now lists every place a mode touches. The
+  second mode took a fraction of the time of the first because the seams were named. Keep that ADR current when a fifth mode arrives.
+- **Pure state machines with a `step(tick, actors) -> commands` shape** (`sim/objective.rs`) were fast to write and trivially testable: ten unit tests passed on the first run, and
+  the match glue was ~120 lines. This is the pattern to promote to an engine convention for modes.
+- **`KC_SCRIPT` plus `Read` on the PNG** is still the most valuable tool: I saw the CTF HUD, the lobby, the setup screen and each map from the player's eye on a box with no display.
+  It caught real problems layout audits cannot (washed-out Quarry, near-black Terminus, a stale note on the setup screen, "S&D" printing as "S D" because the font has no `&`).
+- **`lint` / `nav` / `plan` / `tour`** found stairs that led nowhere, rails that blocked their own stairs, drops at every plateau edge and unreachable raised floors before any play test.
+  The nav pruner (`tools/prune_nav.py`) discarded 216 broken edges the first time a raised floor was linked wrongly: exactly its job.
+- **`audio report`** let me check eight new sounds for clipping, tails and loudness without listening.
+- **`preflight --fix`** turned eight chores (feature ownership, doc facts, formatting) into one command.
+- **Worktrees with a shared target dir** kept the other session's uncommitted work untouched.
+
+## What cost the most (and the fix I would like)
+1. **A weapon is nine edits across eight files.** Enum, roster (wire order), name, parse, kit row, sound voice, model shape, bot profile, the flyer list for projectiles, plus the golden
+   audio file. The compiler finds most of them, which is why it was possible, but the information is data. *Want:* weapons (stats, model recipe, voice, bot profile, payload) as JSON
+   assets read at start-up, with the wire id assigned by order of appearance in one file. Then `Weapon` stops being an enum and a new gun is a file.
+2. **A look is a new `Character` and 26 match sites.** Four looks per team meant six new enum variants, a wire map, avatar pool sizing and changes in `session`, `costumes`,
+   `characters`, `avatar` and `main`. *Want:* a character is a body plus a *look* (palette, headgear, accessories) chosen from data, so a team's look count does not grow the enum or the
+   avatar pool arithmetic (pool size per body kind, with a "stand-in" fallback, made this survivable).
+3. **Tests that encode today's design break when the design grows.** `arsenal::every_weapon_has_a_sane_row` required every grenade to have a fuse and every launcher to be explosive;
+   the impact grenade (contact) and the flare gun (fire) are legitimate. I changed the invariants to what the sim actually supports. *Want:* invariants written as "the sim handles this
+   field combination" with a pointer to the code that proves it, not as a list of shapes.
+4. **No way to *measure* a bot match.** The first CTF and S&D bot runs showed zero captures and no way to say why. I wrote an ignored test (`real_map_bots`) that loads any map, adds bots,
+   and prints positions and objective events. It found three real things (bots always in "fight" mode in open arenas; both teams' raiders funnelling down one lane; equal-skill bots
+   trading kills evenly at a shared central route). *Want:* `red_engine2 bot-match MAP --mode ctf --bots 3v3 --minutes 5` printing events, per-bot distance travelled and time in fight/objective.
+5. **The scene hash does not cover the host's mode choice** (by design, so a joiner's file matches). The client therefore cannot read the mode from its own map and must take it from
+   `Status`. That is right, but every client screen that branches on mode needed the same plumbing. *Want:* a `MatchInfo` struct on the client (mode, size, limit, names) that every screen reads.
+6. **UI layout at 480x270 is a hard budget** (240 virtual pixels at the audit's worst case). Adding the MODE, SIZE and MAP rows to setup meant merging BOTS and SKILL into one row and
+   shortening a label to fit a 38 px chip. The audit made this tractable; the budget makes the next row expensive. *Want:* a scrolling or two-column setup screen helper.
+7. **`ui-shot` knows the engine's screens, not a game's.** Killchain's screens can only be photographed by running the client script. *Want:* `ui-shot --game` that asks the game's own
+   `ui::killchain::build` (the audit already iterates `all()`), so screens render without a GPU context.
+8. **Map generation was copy-paste.** Ironworks' generator had helpers inline; a second and third map needed them. I extracted `tools/mapkit.py` (boxes, rooms, nav grid, raised floors,
+   snapped pickups). *Want:* the engine's `blueprint` language grows these primitives (a "room with doors" that keeps its interior walkable for nav, raised floors with rails and
+   stairs, a "nearest free point" snap) so a map is data, not a script.
+9. **`building` blocks its whole footprint for nav**, so bots cannot enter a building made with it; `wall_solids` per wall with door gaps is the workaround (now `mapkit.room`).
+   *Want:* the nav grid builder to understand wall openings itself.
+10. **Raised floors need explicit nav** (`raised_nav`, `stair_link`): a staircase foot sits inside the padding of the blocks beside it, so a ground node cannot see it. An approach node
+    a few metres out fixed every case. *Want:* `nav --auto` that links floors through stairs it finds in the scene.
+11. **Reachability from outside cannot be tested from inside.** The relay answers on loopback but not on its public name from the same network (a router without NAT loopback), so
+    "the cousin can join" is unverifiable without the cousin. *Want:* `red_engine2 net-check` that probes a relay or server from a hosted probe and reports
+    forwarded / blocked / CGNAT, with the router's LAN address to forward to.
+12. **A full CI run was 47 minutes** on the 4-core box while other work competed for it (22 minutes alone). The first stage that fails should stop the rest and `affected` should remember
+    green stages across a rebase, as it does for content-identical runs.
+13. **Strict `meta`** rejected a `name` field (right, with a clear message); map labels live under `x-` keys, which worked. Documenting `x-` as the convention for tool data would help.
+
+## Smaller notes
+- Wire order is part of the protocol for weapons (`ROSTER` index) and for characters (`ALL` index); appending kept every old number. Say so in the enum docs.
+- The client knows the host's mode only from `Status`, so the first frame of a lobby can briefly show the map file's default; it corrects in 200 ms.
+- A scout's pouches, a heavy's pauldrons, a ghost's headset were each ten lines of boxes and spheres; the costume code (`costumes::soldier_gear`) is a good place to learn the style.
+- The server log gained `objective:` lines (flag taken, bomb planted, round won): invaluable for headless runs. Keep them.
+- `LocalHost` and `red_server` each parse the same overrides; a shared options struct would remove the duplication.
+
+---
+
+# Round 1 (2026-09-30): the first build
 
 Killchain needed a new game mode, not just a map, so this is feedback from extending the engine as well as from using it. Ordered by how much
 time each item cost.
