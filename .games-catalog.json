@@ -20,11 +20,11 @@
     },
     {
       "path": "demos/examples/2d/idea-forge/README.md",
-      "sha256": "d86ffa9f9d3d0e2b32676ecfd54de69d652240c1ab0b8d1fcdd37589f5454ad0"
+      "sha256": "a2969e637769415e155a8d18f3e5415d230b40b21ba5f0aecdf012a7c3bb09c2"
     },
     {
       "path": "demos/examples/2d/idea-forge/build.py",
-      "sha256": "315c29d2579317c9c388e4ab387a81b0352aee8e75de7cd4af4da58a6ae780b7"
+      "sha256": "450efd4cdc433e4d72b47cc3fbed7742f13bda558b4f6716ccace92d6cb77651"
     },
     {
       "path": "demos/examples/2d/idea-forge/vocabulary.json",
@@ -570,6 +570,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "7f8b26414ae91e44b30d29d7797d805d947a0778",
+  "source_revision": "4d641814474426b5a5411a290652e797a2d0ddf2",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
