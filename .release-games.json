@@ -230,6 +230,13 @@
       "kind": "2d",
       "files": ["projects/date-night-arcade/riff-rooftop-rush"],
       "arguments": ["content/projects/date-night-arcade/riff-rooftop-rush/riff-rooftop-rush.game2d.json"]
+    },
+    {
+      "slug": "idea-forge",
+      "name": "Idea Forge",
+      "kind": "2d",
+      "files": ["projects/idea-forge"],
+      "arguments": ["content/projects/idea-forge/idea-forge.game2d.json"]
     }
   ],
   "native_playables": []
