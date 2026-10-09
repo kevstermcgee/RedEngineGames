@@ -64,7 +64,7 @@
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/drowsy-marathon.json",
-      "sha256": "1fc73f7a89f5a56eb11d01ef0c02cde5f80de6f91baa5dc22744db6d54dc53c1"
+      "sha256": "defee59f5f615defdd65fef681f139363c478185b963b7dbf2214229cf7ec070"
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/lullaby.json",
@@ -598,6 +598,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "18eba8412125008334c443f554ef00a93cebe8a9",
+  "source_revision": "901fb31359ab195e2e21accfe922272b086655d1",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
