@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 68,
+    "demos": 70,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -61,6 +61,14 @@
     {
       "path": "demos/examples/3d/drowsy-marathon/lullaby.json",
       "sha256": "f960ac0ce26a4f5a28a64409440a243462861ce415d6abcfda2758f35f94722e"
+    },
+    {
+      "path": "demos/examples/3d/gentle-carousel/audio/night.json",
+      "sha256": "09035aa0bd8c6da77bcc8fe3f81a9dd06d5fe3486c9928a21b82360c032a52e4"
+    },
+    {
+      "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
+      "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
     },
     {
       "path": "demos/examples/arsenal_poses.rs",
@@ -582,6 +590,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c8f87cc0e01859d0ea5d7e3d0c8866feaeea91d4",
+  "source_revision": "cd38fb05eaa9793485ca83130747d708cf5246d9",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
