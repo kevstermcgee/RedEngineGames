@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 70,
+    "demos": 71,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -45,6 +45,10 @@
     {
       "path": "demos/examples/2d/moon-hopper.game2d.json",
       "sha256": "6ca34a70d4268c9b080556e4fa0387b648354ac4798911edadc23cb449891d0b"
+    },
+    {
+      "path": "demos/examples/2d/patient-loom.game2d.json",
+      "sha256": "1e3c6ddda93609c551751d35cfd978c20752d980c783b9ad7eb42357e2882a2a"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
@@ -590,6 +594,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "cd38fb05eaa9793485ca83130747d708cf5246d9",
+  "source_revision": "2d9f2251d3bb1221d84c5cad4d55988146f2b276",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
