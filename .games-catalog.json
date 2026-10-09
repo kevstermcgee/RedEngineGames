@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 72,
+    "demos": 69,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -77,10 +77,6 @@
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
       "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
-    },
-    {
-      "path": "demos/examples/arsenal_poses.rs",
-      "sha256": "b553192f09541b1d51530e6bccc22d62444539b4bfa33a48a71e4eb3ee866442"
     },
     {
       "path": "demos/examples/avatar_poses.rs",
@@ -173,10 +169,6 @@
     {
       "path": "demos/examples/house.json",
       "sha256": "c8dcfa798cdc346c7dd905765902ef2f96fe7979b3653328543c1a01dc4066ec"
-    },
-    {
-      "path": "demos/examples/killchain_screens.rs",
-      "sha256": "bc87df47658e35e7371f38c700a7b612edf3dd2983fc49ba4e97f808f7471095"
     },
     {
       "path": "demos/examples/lantern_walk/README.md",
@@ -281,10 +273,6 @@
     {
       "path": "demos/examples/weapon_poses.rs",
       "sha256": "46099e3845d3ca1a7234ce16fa86f2e066fd9330da7aa0e1f52e9508418fff14"
-    },
-    {
-      "path": "demos/examples/weapons_table.rs",
-      "sha256": "65e4444c56f57ec5305d0a35780cba7f630271141c8613ffd185f8917da0a5c6"
     },
     {
       "path": "demos/multiplayer/lobby_demo.ps1",
@@ -598,6 +586,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "901fb31359ab195e2e21accfe922272b086655d1",
+  "source_revision": "17adec575cbbd5952503a923f767922473a04baf",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
