@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 69,
+    "demos": 70,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -53,6 +53,10 @@
     {
       "path": "demos/examples/2d/patient-loom.game2d.json",
       "sha256": "1e3c6ddda93609c551751d35cfd978c20752d980c783b9ad7eb42357e2882a2a"
+    },
+    {
+      "path": "demos/examples/2d/phantom-harvest.game2d.json",
+      "sha256": "a3d0fb7fb4ce1afd010cc293edf569422f7853cb84ab6b359c2811f87aa3be01"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
@@ -586,6 +590,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "9c62ea7b3b030106681e69a147f9739136adcdd1",
+  "source_revision": "384d1b0748a98226720018dca463aea15b789a29",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
