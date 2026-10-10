@@ -68,7 +68,7 @@
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/drowsy-marathon.json",
-      "sha256": "defee59f5f615defdd65fef681f139363c478185b963b7dbf2214229cf7ec070"
+      "sha256": "0ed855561b91a1ce0c8f549fe828794fcffb09dfdd12e5d9a03216c43cb72117"
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/lullaby.json",
@@ -288,7 +288,7 @@
     },
     {
       "path": "games/coin-run/coin_run.json",
-      "sha256": "98b2777013c17fbd335161dc0af087999cd3e71df1201aa0c08ebc611ba783a8"
+      "sha256": "8a973a9b0d7092d6696d28dc5f96360f149c0fa447a4956b051f59faf1d94283"
     },
     {
       "path": "games/marcel/README.md",
@@ -324,7 +324,7 @@
     },
     {
       "path": "prototypes/recipes/coin_run.json",
-      "sha256": "98b2777013c17fbd335161dc0af087999cd3e71df1201aa0c08ebc611ba783a8"
+      "sha256": "8a973a9b0d7092d6696d28dc5f96360f149c0fa447a4956b051f59faf1d94283"
     },
     {
       "path": "prototypes/recipes/convenience_store.json",
@@ -332,7 +332,7 @@
     },
     {
       "path": "prototypes/recipes/gated_garden.json",
-      "sha256": "63e23728788d83f3d2f492b130fe7d0a56419178b633db08d12e08b89fa5c6c0"
+      "sha256": "314ef813850c864e52d0505bea2d9f7c1b72dd028de7f387bb00b88a6f9ff545"
     },
     {
       "path": "prototypes/recipes/golden/classroom_wing/class.png",
@@ -590,6 +590,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "384d1b0748a98226720018dca463aea15b789a29",
+  "source_revision": "0b0db36cd947c5b62e3dbb685e3155ffed4a2afc",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
