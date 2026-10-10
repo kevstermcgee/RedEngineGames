@@ -1,0 +1,18 @@
+{
+  "bpm": 150, "beats": 4, "bars": 8, "key": "A", "scale": "chromatic", "seed": 5, "lufs": -23,
+  "reverb": { "decay": 1.2, "size": 0.8, "damp": 0.5, "predelay": 0.01, "mix": 0.2 },
+  "delay": { "time": 0.2, "feedback": 0.2, "damp": 0.5, "mix": 0.1 },
+  "instruments": {
+    "alarm": { "seconds": 0.75, "level": 0.5, "layers": [
+      { "sine": 1, "harmonics": [[2, 0.5], [3, 0.3], [4, 0.2]], "attack": 0.01, "decay": 3.5 } ] },
+    "tick": { "seconds": 0.06, "level": 0.4, "layers": [
+      { "noise": "hp 0.75", "decay": 70 }, { "sine": 6, "decay": 80, "gain": 0.4 } ] },
+    "pulse": { "seconds": 0.5, "level": 0.6, "layers": [
+      { "glide": [120, 50, 18], "decay": 8 } ] }
+  },
+  "tracks": [
+    { "inst": "alarm", "play": "pattern", "pattern": "x.......x.......", "steps": 16, "notes": "13 14", "octave": 4, "gain": 0.8, "send": 0.4 },
+    { "inst": "tick", "play": "pattern", "pattern": "xxxxxxxxxxxxxxxx", "steps": 16, "notes": "1", "octave": 6, "gain": 0.5, "pan": -0.3 },
+    { "inst": "pulse", "play": "pattern", "pattern": "x..xx..xx..xx..x", "steps": 16, "notes": "1", "octave": 1, "gain": 0.8 }
+  ]
+}

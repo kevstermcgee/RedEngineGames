@@ -237,6 +237,12 @@
       "kind": "2d",
       "files": ["projects/idea-forge"],
       "arguments": ["content/projects/idea-forge/idea-forge.game2d.json"]
+    },
+    {
+      "slug": "redline",
+      "name": "Redline",
+      "files": ["projects/redline"],
+      "arguments": ["content/projects/redline/maps/main.json"]
     }
   ],
   "native_playables": []

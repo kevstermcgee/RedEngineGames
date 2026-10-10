@@ -1,0 +1,24 @@
+{
+  "game": 1,
+  "id": "redline",
+  "name": "redline",
+  "engine": {
+    "path": "../../../RedEngine"
+  },
+  "capabilities": {
+    "presentation": "3d",
+    "platforms": [
+      "windows",
+      "linux"
+    ],
+    "networking": "offline",
+    "input": [
+      "keyboard",
+      "mouse"
+    ]
+  },
+  "blueprints": [],
+  "maps": [
+    "maps/main.json"
+  ]
+}

@@ -16,6 +16,9 @@ released, keeps its saves in `Saved Games`, and every older version stays downlo
 
 ## Standalone projects
 
+- [Redline](projects/redline) — a first-person momentum roguelite: dive from the Foundry through 19 chambers over lava against a
+  draining clock, beat par for streaks, bank sparks for seven upgrades, escape to open six Heats, and hunt 18 hidden relics.
+
 - [Gravity Gauntlet](projects/gravity-gauntlet) — a high-octane 3D physics gauntlet featuring supercharged jump pads, cascading megaton domino collapses, kinetic hazard bumpers, and four collectible plasma cores.
 
 - [RedEngineSandbox](projects/redengine-sandbox) — an asset inspection and testing hub with 202 catalogue assets, 35 maps, six playable characters, and native controller navigation.
