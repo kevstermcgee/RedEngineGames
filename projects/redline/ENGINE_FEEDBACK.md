@@ -1,6 +1,6 @@
 # What building Redline taught us about Red (2026-10-10)
 
-An AI session (Claude) built **Redline**, a first-person momentum roguelite, on RedEngine `main` at `9c62ea7` with no engine changes: one
+An AI session (Claude) built **Redline** ([RedEngineGames/projects/redline](https://github.com/kevstermcgee/RedEngineGames/tree/main/projects/redline)), a first-person momentum roguelite, on RedEngine `main` at `9c62ea7` with no engine changes: one
 generated scene (2,525 objects, 657 rules, 227 vars, 44 persisted, 19 chambers 520 m apart, a hub, synthesized music), 1,784 lines of
 Python generator and test tooling, and 25 `checks.sim` scenarios that prove every chamber can be cleared at base speed and that the
 run loop works (dive, clear a chamber, go deeper, burn, burn out). This is observation from that build, not instruction: each item
@@ -20,6 +20,8 @@ roguelite meta-progression in pure data, which is the strongest thing in this re
 4. **`lint`/`reach` abort with an allocation failure** on a map spread over a large area (item 5).
 5. **Proving a platformer is expensive**: making 19 chambers provable needed a 320-line route planner (item 6). A few scenario
    primitives would remove most of it.
+6. **A minimal HUD cannot be built**: the banner and the stats panel have fixed widths, and the panel jumps down whenever a banner
+   shows (item 11).
 
 ## Findings, most valuable first
 
@@ -137,7 +139,21 @@ roguelite meta-progression in pure data, which is the strongest thing in this re
   textures is not supported in GLSL". Installing `mesa-vulkan-drivers` (lavapipe) fixed it and every picture tool then worked headless.
   Suggest `doctor` checks for a Vulkan ICD and the render path errors with that advice instead of panicking.
 
-### 11. Smaller things
+### 11. A minimal HUD is not possible from the `ui` block
+
+- **Problem.** The objective banner is always `260 * s` px wide and the counters panel always `140 * s` px wide (`s = height / 240`),
+  whatever they hold, and the panel sits `40 * s` px lower whenever a banner is showing (`src/ui/game.rs`, `hud_layout`). A scene
+  controls only which rows exist and whether there is an objective; not size, scale, position or width.
+- **Evidence.** Asked for a minimal HUD, Redline cut the panel to four rows, dropped its title and every standing banner, and kept
+  banners for real events only. Even so, at 1280x720 "BURNED -3S" draws a 780 x 81 px gold bar, and while it shows the stats panel
+  (420 px wide for "CLOCK: 16.9") jumps down 120 px. Counters cannot be conditional either, so the hub shows `PAR: 0 / 0`.
+- **Suggested change.** Size the banner and the panel to their content; keep the panel where it is whether or not a banner shows (a
+  fixed lane for the banner); let `ui` choose a corner and a scale (`"hud_style": {"corner": "top-left", "scale": 0.75}`); and give
+  counters the objective's `if`. All presentation-only, checkable by `ui-check`.
+- **How we'll know.** `ui-shot game-hud` of a four-counter HUD with a short banner shows a panel as wide as its longest row, in the same
+  place with and without the banner.
+
+### 12. Smaller things
 
 - **No "Restart" in the offline pause menu.** A run can only end by burning out or quitting the game; a game with `ui.end` cards would
   want a pause-menu row that restarts the scene the way the end card's button does.
@@ -147,6 +163,16 @@ roguelite meta-progression in pure data, which is the strongest thing in this re
 - **Offline play starts at the first spawn in the list**; worth one line in `describe scene` next to `spawns` (it decides which room a
   teleport-based game opens in).
 - **Trace and sim JSON disagree on event shape** (`[tick, rule, name, player]` in a trace, objects in `sim --json`).
+- **The `--dump` audio report describes countryside that is not playing.** Redline has no `audio.ambience`, so no bed is loaded and no
+  call is played, but `re2 --headless --script --dump` reports `wind 0.42`, `bees 0.40` and a blackbird and a cuckoo in `recent`. In
+  `src/bin/re2/ambient.rs` the bed levels and `recent` are recorded before the `spec.nature` gate. An AI reading the dump concludes its
+  lava reactor has birdsong. Report zero (or omit `beds`/`calls`) when `nature` is off.
+- **`describe scene` has drifted from the `player` parser.** Its `player` line lists `character: human|rat|wizard|cowboy|alien|robot`;
+  the parser (`src/schema.rs`) prefers `humans_play_as`, also takes `boy`, and accepts `view` (first|third) and `mode` (peaceful), none
+  of which the line mentions. `view` was found through `search`, not `describe`.
+- **The player's look is a pick from seven bodies, never a colour.** `HumanLook::styled` says "scene authors can still override
+  individual colours", but that is true of `human` objects, not of the player: `characters::character_object` fixes the shirt per
+  character. Redline wanted a heat-suit orange robot and took the stock teal one. A `player.look: {shirt, pants, skin}` would do.
 
 ## What worked well (keep it)
 
@@ -167,5 +193,6 @@ roguelite meta-progression in pure data, which is the strongest thing in this re
 ## Not recommended
 
 - Do not add a roguelite, time-trial or "run" runtime to the engine because of this game. Every gap above is a small, general primitive
-  (a cue action, maths built-ins, teleport options, scenario steps, two bug fixes, a lint that copes with spread-out maps).
+  (a cue action, maths built-ins, teleport options, scenario steps, two bug fixes, a lint that copes with spread-out maps, a HUD
+  that sizes to its content).
 - Do not loosen validation to make generated content easier; it caught real mistakes every time.

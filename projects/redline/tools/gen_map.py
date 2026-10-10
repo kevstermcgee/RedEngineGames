@@ -266,7 +266,7 @@ S.rule("choose", {"event": "next"},
 for c in chambers:
     S.rule(f"go_{c.code}", {"event": "go"},
            [{"teleport": f"{c.code}_cp0"}, {"set": ["room", c.room]}, {"set": ["cp", 0]}, {"set": [f"used_{c.code}", 1]},
-            {"set": ["room_start", "time"]}, {"set": ["_par", c.par]}, {"set": ["_msg", 100 + c.room]}, {"set": ["_msg_t", "time"]}, {"set": ["_msg_on", 1]}],
+            {"set": ["room_start", "time"]}, {"set": ["_par", c.par]}],   # no banner: the chamber names itself in the world, and its par is on the PAR row
            if_=f"tier == {c.tier} && pick == {c.slot}")
 
 S.rule("clock", {"every": 0.05},
@@ -306,7 +306,7 @@ for c in chambers:
     # checkpoints
     for j, (cid, zone) in enumerate(c.cps):
         if zone:
-            S.rule(f"{cid}_reach", {"enter": {"zone": zone}}, [{"set": ["cp", j]}, {"show": f"{cid}.lit"}] + msg("cp"), if_=f"room == {k} && cp < {j}")
+            S.rule(f"{cid}_reach", {"enter": {"zone": zone}}, [{"set": ["cp", j]}, {"show": f"{cid}.lit"}], if_=f"room == {k} && cp < {j}")
             S.rule(f"{cid}_dark", {"start": True}, [{"hide": f"{cid}.lit"}])
     # sparks: three pick-up radii, one per MAGNET level
     for sid in c.sparks:
@@ -314,7 +314,7 @@ for c in chambers:
         for m, pad in enumerate([0.45, 1.4, 2.4]):
             S.rule(f"{sid}_m{m}", {"enter": {"object": sid, "pad": pad}},
                    [{"set": [f"got_{sid}", 1]}, {"hide": sid}, {"set": ["_gain", "spark_val"]}, {"add": ["bank", "spark_val"]},
-                    {"add": ["run_sparks", "spark_val"]}, {"add": ["life_sparks", "spark_val"]}] + msg("spark"),
+                    {"add": ["run_sparks", "spark_val"]}, {"add": ["life_sparks", "spark_val"]}],   # no message: the SPARKS row counting up is enough
                    if_=f"got_{sid} == 0 && lvl_magnet == {m}")
     # the relic: once ever
     if c.relic:
@@ -348,12 +348,12 @@ for c in chambers:
     S.rule(f"{c.code}_vent", {"enter": {"zone": c.exit_zone}}, [{"emit": f"vent_{c.code}"}], if_=f"room == {k} && _vent_t != {k}")
     S.rule(f"{c.code}_vent_mark", {"enter": {"zone": c.exit_zone}}, [{"set": ["_vent_t", k]}], if_=f"room == {k}")
     S.rule(f"{c.code}_vent_par", {"event": f"vent_{c.code}"},
-           [{"add": ["streak", 1]}, {"set": ["_bonus", f"{c.par} * (1 - 0.07 * heat) + lvl_vents"]}, {"add": ["deadline", "_bonus"]},
+           [{"add": ["streak", 1]}, {"set": ["_bonus", f"{c.par} * (1 - 0.07 * heat) + lvl_vents"]}, {"set": ["_bonus", "_bonus - _bonus % 0.1"]}, {"add": ["deadline", "_bonus"]},
             {"set": ["_gain", "spark_val * (streak + (streak > 5) * (5 - streak))"]}, {"add": ["bank", "_gain"]}, {"add": ["run_sparks", "_gain"]},
             {"add": ["life_sparks", "_gain"]}] + msg("par") + [{"add": ["depth", 1]}, {"emit": "cleared"}],
            if_=f"running == 1 && time - room_start <= {c.par}")
     S.rule(f"{c.code}_vent_slow", {"event": f"vent_{c.code}"},
-           [{"set": ["streak", 0]}, {"set": ["_bonus", f"{c.par} * (1 - 0.07 * heat) + lvl_vents"]}, {"add": ["deadline", "_bonus"]}] + msg("vent")
+           [{"set": ["streak", 0]}, {"set": ["_bonus", f"{c.par} * (1 - 0.07 * heat) + lvl_vents"]}, {"set": ["_bonus", "_bonus - _bonus % 0.1"]}, {"add": ["deadline", "_bonus"]}] + msg("vent")
            + [{"add": ["depth", 1]}, {"emit": "cleared"}],
            if_=f"running == 1 && time - room_start > {c.par}")
 
@@ -366,15 +366,17 @@ esc += [{"set": ["heat_unlocked", "heat_unlocked + (heat == heat_unlocked) * (he
 S.rule("escaped", {"event": "cleared"}, esc, if_=f"depth > {DEPTH_GOAL}")
 
 # ------------------------------------------------------------------ what the game says (ui)
+# A minimal HUD: a small panel of four rows (clock, depth, chamber time against par, sparks) and NO standing banner. The top bar only
+# appears for a moment when something happens (a chamber's name and par on entry, a vent, a burn, a purchase), when you stand at a
+# Foundry station, and on your very first visit. The engine draws the bar and the panel at fixed widths, so fewer rows and an empty
+# objective are the only ways to make them smaller (see ENGINE_FEEDBACK.md).
 objective = []
 M = MSG
 objective += [
-    {"if": f"_msg_on == 1 && _msg == {M['spark']}", "text": "+{_gain:SPARK|SPARKS}"},
     {"if": f"_msg_on == 1 && _msg == {M['relic']}", "text": "RELIC! {relics} OF 18 - +{_gain} SPARKS"},
-    {"if": f"_msg_on == 1 && _msg == {M['cp']}", "text": "CHECKPOINT"},
     {"if": f"_msg_on == 1 && _msg == {M['burn']} && running == 1", "text": "BURNED  -{penalty}S"},
     {"if": f"_msg_on == 1 && _msg == {M['vent']}", "text": "VENTED  +{_bonus}S"},
-    {"if": f"_msg_on == 1 && _msg == {M['par']}", "text": "UNDER PAR! +{_bonus}S +{_gain} - STREAK {streak}"},
+    {"if": f"_msg_on == 1 && _msg == {M['par']}", "text": "UNDER PAR +{_bonus}S - STREAK {streak}"},
     {"if": f"_msg_on == 1 && _msg == {M['wind']}", "text": "SECOND WIND!  +{_bonus}S"},
     {"if": f"_msg_on == 1 && _msg == {M['bought']}", "text": "INSTALLED! {bank:SPARK|SPARKS} LEFT"},
     {"if": f"_msg_on == 1 && _msg == {M['need']}", "text": "NEED {_need} MORE SPARKS"},
@@ -382,8 +384,6 @@ objective += [
     {"if": f"_msg_on == 1 && _msg == {M['heat']}", "text": "HEAT {heat} SELECTED"},
     {"if": f"_msg_on == 1 && _msg == {M['locked']}", "text": "LOCKED - ESCAPE AT HEAT {heat_unlocked} FIRST"},
 ]
-for c in chambers:
-    objective.append({"if": f"_msg_on == 1 && _msg == {100 + c.room}", "text": f"{{depth}}/15 {c.name} - PAR {c.par}S"})
 for fi, (key, name, desc, costs) in enumerate(UPGRADES, start=1):
     objective.append({"if": f"_focus == {fi} && lvl_{key} < {len(costs)}", "text": FOCUS_TEXT[key] + " - NEXT {cost_" + key + "}"})
     objective.append({"if": f"_focus == {fi}", "text": FOCUS_TEXT[key] + " - MAXED"})
@@ -392,20 +392,17 @@ objective += [
     {"if": "_focus == 9", "text": "RUNS {runs} - ESCAPES {escapes} - BEST {best_h0}/{best_h1}/{best_h2}/{best_h3}/{best_h4}/{best_h5}"},
     {"if": "_focus == 10", "text": "RELICS {relics} OF 18 - ONE HIDES IN EVERY CHAMBER"},
     {"if": "_focus == 11", "text": "DIVE WITH {start_clock}S ON THE CLOCK - HEAT {heat}"},
-    {"if": "running == 1", "text": "{_rt}S - PAR {_par}S"},
-    {"if": "runs == 0", "text": "WALK INTO THE RED GATE TO DIVE"},
-    {"text": "THE FOUNDRY - BEST DEPTH {_best_now}/15 - HEAT {heat}"},
+    {"if": "runs == 0 && running == 0", "text": "WALK INTO THE RED GATE"},
 ]
 ui = {
-    "title": "REDLINE",
-    "labels": {"clock": "Clock", "depth": "Depth", "bank": "Sparks", "streak": "Streak"},
-    "counters": [{"var": "clock", "label": "CLOCK"}, {"var": "depth", "of": DEPTH_GOAL, "label": "DEPTH"}, {"var": "bank", "label": "SPARKS"},
-                 {"var": "streak", "label": "STREAK"}],
+    "labels": {"clock": "Clock", "depth": "Depth", "bank": "Sparks", "_rt": "Par"},
+    "counters": [{"var": "clock", "label": "CLOCK"}, {"var": "depth", "of": DEPTH_GOAL, "label": "DEPTH"},
+                 {"var": "_rt", "of": "_par", "label": "PAR"}, {"var": "bank", "label": "SPARKS"}],
     "objective": objective,
     "start": {"title": "REDLINE",
-              "text": "THE REACTOR IS REDLINING. DIVE THROUGH ITS CHAMBERS BEFORE THE CLOCK BURNS DOWN. EVERY VENT BUYS TIME. "
-                      "BEAT PAR FOR A STREAK. SPARKS ARE YOURS TO KEEP: SPEND THEM IN THE FOUNDRY. "
-                      "WASD MOVE, MOUSE LOOK, SPACE JUMP. HOLD SPACE TO BUNNY HOP, STRAFE AND TURN IN THE AIR TO GO FASTER.",
+              "text": "THE REACTOR IS REDLINING AND YOU ARE ITS LAST REPAIR ROBOT. DIVE THROUGH ITS CHAMBERS BEFORE THE CLOCK BURNS DOWN. "
+                      "EVERY VENT BUYS TIME. BEAT PAR FOR A STREAK. SPARKS ARE YOURS TO KEEP: SPEND THEM IN THE FOUNDRY. "
+                      "WASD MOVE, MOUSE LOOK, SPACE JUMP. HOLD SPACE TO BUNNY HOP, STRAFE AND TURN IN THE AIR TO GO FASTER. Q SWITCHES THE VIEW.",
               "button": "ENTER THE FOUNDRY"},
     "pause": "{bank:SPARK|SPARKS}  RELICS {relics}/18  ESCAPES {escapes}",
     "end": {
@@ -462,7 +459,8 @@ scene = {
     "ambient": {"color": "#ffd9c4", "intensity": 0.34},
     # the scene camera is only for pictures (`frame`, the download site's thumbnail): it looks up the Stairwell chamber
     "camera": {"fov": 70, "position": [1043, 12, -1020], "target": [1040, 5, -1060], "far": 220},
-    "player": {"humans_play_as": "human", "mode": "peaceful", "fov": FOV, "walk_speed": SPEED, "sprint_speed": SPEED, "jump_speed": JUMP, "gravity": GRAVITY,
+    # a foundry repair robot (same body and movement as the human; only the model differs); the game opens out of its eyes (Q toggles)
+    "player": {"humans_play_as": "robot", "view": "first", "mode": "peaceful", "fov": FOV, "walk_speed": SPEED, "sprint_speed": SPEED, "jump_speed": JUMP, "gravity": GRAVITY,
                "acceleration": GROUND_ACCEL, "air_acceleration": AIR_ACCEL, "friction": FRICTION, "max_speed": MAX_SPEED},
     "hud": {"show_rules_vars": False, "show_events": False, "show_combat": False, "show_scoreboard": False, "show_round": False, "show_ping": False},
     "ui": ui,

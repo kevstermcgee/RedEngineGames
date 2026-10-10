@@ -1,7 +1,8 @@
 # REDLINE
 
-A first-person momentum roguelite on Red Engine. The reactor is redlining: dive from the Foundry through a chain of chambers over a
-sea of lava, against a clock that only grows when you vent a chamber. How deep can you get before it burns down?
+A first-person momentum roguelite on Red Engine. The reactor is redlining and you are its last repair robot: dive from the Foundry
+through a chain of chambers over a sea of lava, against a clock that only grows when you vent a chamber. How deep can you get before
+it burns down?
 
 ## How a run works
 
@@ -12,8 +13,8 @@ sea of lava, against a clock that only grows when you vent a chamber. How deep c
   - depth 6-10, **the Furnace**: crumbling floors, phase platforms (magenta and cyan take turns to exist), heat curtains, narrow beams
   - depth 11-14, **the Core**: all of it at once, longer and less forgiving
   - depth 15, **the Redline**: the finale. Vent it and you escape.
-- **Par and streaks.** Every chamber has a par time (shown when you enter it, and live on the HUD). Beat it for a streak: each
-  chamber under par in a row pays more sparks (up to 5x).
+- **Par and streaks.** Every chamber has a par time (the HUD's PAR row shows your time in the chamber against it). Beat it for a
+  streak: each chamber under par in a row pays more sparks (up to 5x).
 - **Burns.** Touch the lava or a glowing heat curtain and you are put back at the last checkpoint, and it costs you seconds.
 - **Burnout.** When the clock hits zero the run is over. Everything you banked stays banked.
 
@@ -39,7 +40,11 @@ a pad's arc. They need speed and air control. Each is worth 10 sparks and appear
 
 ## Controls and movement
 
-WASD move, mouse look, Space jump, Escape pauses. You always run (no sprint key).
+WASD move, mouse look, Space jump, Q switches between first and third person, Escape pauses. You always run (no sprint key). The
+game opens in first person.
+
+The HUD is four rows in the corner (CLOCK, DEPTH, PAR, SPARKS). A banner shows for a moment only when something happens: a vent
+(the time it bought, and your streak), a burn, a relic, a purchase.
 
 Movement is Quake-style: **hold Space to bunny hop**, and **strafe + turn the mouse in the air** to steer and to build speed past
 the normal 9.5 m/s. Momentum does not turn in the air on its own, so line your run up before a sideways jump, or steer with the

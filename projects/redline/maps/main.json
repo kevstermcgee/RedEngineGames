@@ -31,7 +31,8 @@
   "far": 220
  },
  "player": {
-  "humans_play_as": "human",
+  "humans_play_as": "robot",
+  "view": "first",
   "mode": "peaceful",
   "fov": 104,
   "walk_speed": 9.5,
@@ -52,12 +53,11 @@
   "show_ping": false
  },
  "ui": {
-  "title": "REDLINE",
   "labels": {
    "clock": "Clock",
    "depth": "Depth",
    "bank": "Sparks",
-   "streak": "Streak"
+   "_rt": "Par"
   },
   "counters": [
    {
@@ -70,26 +70,19 @@
     "label": "DEPTH"
    },
    {
-    "var": "bank",
-    "label": "SPARKS"
+    "var": "_rt",
+    "of": "_par",
+    "label": "PAR"
    },
    {
-    "var": "streak",
-    "label": "STREAK"
+    "var": "bank",
+    "label": "SPARKS"
    }
   ],
   "objective": [
    {
-    "if": "_msg_on == 1 && _msg == 1",
-    "text": "+{_gain:SPARK|SPARKS}"
-   },
-   {
     "if": "_msg_on == 1 && _msg == 2",
     "text": "RELIC! {relics} OF 18 - +{_gain} SPARKS"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 3",
-    "text": "CHECKPOINT"
    },
    {
     "if": "_msg_on == 1 && _msg == 4 && running == 1",
@@ -101,7 +94,7 @@
    },
    {
     "if": "_msg_on == 1 && _msg == 6",
-    "text": "UNDER PAR! +{_bonus}S +{_gain} - STREAK {streak}"
+    "text": "UNDER PAR +{_bonus}S - STREAK {streak}"
    },
    {
     "if": "_msg_on == 1 && _msg == 7",
@@ -126,82 +119,6 @@
    {
     "if": "_msg_on == 1 && _msg == 12",
     "text": "LOCKED - ESCAPE AT HEAT {heat_unlocked} FIRST"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 101",
-    "text": "{depth}/15 FIRST LIGHT - PAR 7.7S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 102",
-    "text": "{depth}/15 STAIRWELL - PAR 8.2S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 103",
-    "text": "{depth}/15 LAUNCH BAY - PAR 7.7S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 104",
-    "text": "{depth}/15 SIDESTEP - PAR 10.3S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 105",
-    "text": "{depth}/15 SPLIT DECISION - PAR 8.1S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 106",
-    "text": "{depth}/15 THE SLOPE - PAR 10.1S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 107",
-    "text": "{depth}/15 CRUMBLE RUN - PAR 8.4S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 108",
-    "text": "{depth}/15 PHASE SHIFT - PAR 12.7S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 109",
-    "text": "{depth}/15 HEAT CURTAINS - PAR 12.5S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 110",
-    "text": "{depth}/15 PAD CHAIN - PAR 8.5S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 111",
-    "text": "{depth}/15 THE BEAM - PAR 7.7S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 112",
-    "text": "{depth}/15 THE CLIMB - PAR 10.2S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 113",
-    "text": "{depth}/15 MELTDOWN - PAR 10.5S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 114",
-    "text": "{depth}/15 STROBE - PAR 17.8S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 115",
-    "text": "{depth}/15 THE GAUNTLET - PAR 18.7S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 116",
-    "text": "{depth}/15 SKYWALK - PAR 11.2S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 117",
-    "text": "{depth}/15 FREEFALL - PAR 9.9S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 118",
-    "text": "{depth}/15 OVERPASS - PAR 12.3S"
-   },
-   {
-    "if": "_msg_on == 1 && _msg == 119",
-    "text": "{depth}/15 THE REDLINE - PAR 25.3S"
    },
    {
     "if": "_focus == 1 && lvl_coolant < 4",
@@ -276,20 +193,13 @@
     "text": "DIVE WITH {start_clock}S ON THE CLOCK - HEAT {heat}"
    },
    {
-    "if": "running == 1",
-    "text": "{_rt}S - PAR {_par}S"
-   },
-   {
-    "if": "runs == 0",
-    "text": "WALK INTO THE RED GATE TO DIVE"
-   },
-   {
-    "text": "THE FOUNDRY - BEST DEPTH {_best_now}/15 - HEAT {heat}"
+    "if": "runs == 0 && running == 0",
+    "text": "WALK INTO THE RED GATE"
    }
   ],
   "start": {
    "title": "REDLINE",
-   "text": "THE REACTOR IS REDLINING. DIVE THROUGH ITS CHAMBERS BEFORE THE CLOCK BURNS DOWN. EVERY VENT BUYS TIME. BEAT PAR FOR A STREAK. SPARKS ARE YOURS TO KEEP: SPEND THEM IN THE FOUNDRY. WASD MOVE, MOUSE LOOK, SPACE JUMP. HOLD SPACE TO BUNNY HOP, STRAFE AND TURN IN THE AIR TO GO FASTER.",
+   "text": "THE REACTOR IS REDLINING AND YOU ARE ITS LAST REPAIR ROBOT. DIVE THROUGH ITS CHAMBERS BEFORE THE CLOCK BURNS DOWN. EVERY VENT BUYS TIME. BEAT PAR FOR A STREAK. SPARKS ARE YOURS TO KEEP: SPEND THEM IN THE FOUNDRY. WASD MOVE, MOUSE LOOK, SPACE JUMP. HOLD SPACE TO BUNNY HOP, STRAFE AND TURN IN THE AIR TO GO FASTER. Q SWITCHES THE VIEW.",
    "button": "ENTER THE FOUNDRY"
   },
   "pause": "{bank:SPARK|SPARKS}  RELICS {relics}/18  ESCAPES {escapes}",
@@ -8845,24 +8755,6 @@
       "_par",
       7.7
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      101
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -8904,24 +8796,6 @@
      "set": [
       "_par",
       8.2
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      102
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -8965,24 +8839,6 @@
       "_par",
       7.7
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      103
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9024,24 +8880,6 @@
      "set": [
       "_par",
       10.3
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      104
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9085,24 +8923,6 @@
       "_par",
       8.1
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      105
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9144,24 +8964,6 @@
      "set": [
       "_par",
       10.1
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      106
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9205,24 +9007,6 @@
       "_par",
       8.4
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      107
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9264,24 +9048,6 @@
      "set": [
       "_par",
       12.7
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      108
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9325,24 +9091,6 @@
       "_par",
       12.5
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      109
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9384,24 +9132,6 @@
      "set": [
       "_par",
       8.5
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      110
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9445,24 +9175,6 @@
       "_par",
       7.7
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      111
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9504,24 +9216,6 @@
      "set": [
       "_par",
       10.2
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      112
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9565,24 +9259,6 @@
       "_par",
       10.5
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      113
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9624,24 +9300,6 @@
      "set": [
       "_par",
       17.8
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      114
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9685,24 +9343,6 @@
       "_par",
       18.7
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      115
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9744,24 +9384,6 @@
      "set": [
       "_par",
       11.2
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      116
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -9805,24 +9427,6 @@
       "_par",
       9.9
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      117
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9865,24 +9469,6 @@
       "_par",
       12.3
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      118
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -9924,24 +9510,6 @@
      "set": [
       "_par",
       25.3
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      119
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -10827,24 +10395,6 @@
     },
     {
      "show": "a1_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -10901,24 +10451,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -10963,24 +10495,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -11027,24 +10541,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11089,24 +10585,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -11153,24 +10631,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11215,24 +10675,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -11351,6 +10793,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -11426,6 +10874,12 @@
      "set": [
       "_bonus",
       "7.7 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -11521,24 +10975,6 @@
     },
     {
      "show": "a2_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11595,24 +11031,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11657,24 +11075,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -11721,24 +11121,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11783,24 +11165,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -11847,24 +11211,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -11909,24 +11255,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -12045,6 +11373,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -12120,6 +11454,12 @@
      "set": [
       "_bonus",
       "8.2 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -12215,24 +11555,6 @@
     },
     {
      "show": "a3_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -12289,24 +11611,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -12351,24 +11655,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -12415,24 +11701,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -12477,24 +11745,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -12541,24 +11791,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -12603,24 +11835,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -12739,6 +11953,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -12814,6 +12034,12 @@
      "set": [
       "_bonus",
       "7.7 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -12909,24 +12135,6 @@
     },
     {
      "show": "a4_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -12983,24 +12191,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13045,24 +12235,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -13109,24 +12281,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13171,24 +12325,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -13235,24 +12371,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13297,24 +12415,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -13433,6 +12533,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -13508,6 +12614,12 @@
      "set": [
       "_bonus",
       "10.3 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -13603,24 +12715,6 @@
     },
     {
      "show": "a5_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13677,24 +12771,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13739,24 +12815,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -13803,24 +12861,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13865,24 +12905,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -13929,24 +12951,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -13991,24 +12995,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -14127,6 +13113,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -14202,6 +13194,12 @@
      "set": [
       "_bonus",
       "8.1 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -14297,24 +13295,6 @@
     },
     {
      "show": "a6_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -14371,24 +13351,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -14433,24 +13395,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -14497,24 +13441,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -14559,24 +13485,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -14623,24 +13531,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -14685,24 +13575,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -14821,6 +13693,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -14896,6 +13774,12 @@
      "set": [
       "_bonus",
       "10.1 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -14991,24 +13875,6 @@
     },
     {
      "show": "b1_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -15065,24 +13931,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -15127,24 +13975,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -15191,24 +14021,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -15253,24 +14065,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -15317,24 +14111,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -15379,24 +14155,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -16289,6 +15047,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -16364,6 +15128,12 @@
      "set": [
       "_bonus",
       "8.4 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -16459,24 +15229,6 @@
     },
     {
      "show": "b2_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -16533,24 +15285,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -16595,24 +15329,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -16659,24 +15375,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -16721,24 +15419,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -16785,24 +15465,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -16847,24 +15509,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -17045,6 +15689,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -17120,6 +15770,12 @@
      "set": [
       "_bonus",
       "12.7 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -17215,24 +15871,6 @@
     },
     {
      "show": "b3_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -17289,24 +15927,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -17352,24 +15972,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -17414,24 +16016,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -17802,6 +16386,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -17877,6 +16467,12 @@
      "set": [
       "_bonus",
       "12.5 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -17972,24 +16568,6 @@
     },
     {
      "show": "b4_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -18046,24 +16624,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -18108,24 +16668,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -18172,24 +16714,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -18234,24 +16758,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -18298,24 +16804,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -18360,24 +16848,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -18775,6 +17245,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -18850,6 +17326,12 @@
      "set": [
       "_bonus",
       "8.5 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -18945,24 +17427,6 @@
     },
     {
      "show": "b5_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19019,24 +17483,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19081,24 +17527,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -19145,24 +17573,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19207,24 +17617,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -19271,24 +17663,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19333,24 +17707,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -19469,6 +17825,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -19544,6 +17906,12 @@
      "set": [
       "_bonus",
       "7.7 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -19639,24 +18007,6 @@
     },
     {
      "show": "b6_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19713,24 +18063,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19775,24 +18107,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -19839,24 +18153,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -19901,24 +18197,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -19965,24 +18243,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -20027,24 +18287,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -20163,6 +18405,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -20238,6 +18486,12 @@
      "set": [
       "_bonus",
       "10.2 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -20333,24 +18587,6 @@
     },
     {
      "show": "c1_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -20407,24 +18643,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -20469,24 +18687,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -20533,24 +18733,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -20595,24 +18777,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -20659,24 +18823,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -20721,24 +18867,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -21496,6 +19624,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -21571,6 +19705,12 @@
      "set": [
       "_bonus",
       "10.5 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -21666,24 +19806,6 @@
     },
     {
      "show": "c2_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -21740,24 +19862,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -21802,24 +19906,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -21866,24 +19952,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -21928,24 +19996,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -21992,24 +20042,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22054,24 +20086,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -22378,6 +20392,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -22453,6 +20473,12 @@
      "set": [
       "_bonus",
       "17.8 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -22548,24 +20574,6 @@
     },
     {
      "show": "c3_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22597,24 +20605,6 @@
     },
     {
      "show": "c3_cp2.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22671,24 +20661,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22733,24 +20705,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -22797,24 +20751,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22859,24 +20795,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -22923,24 +20841,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -22985,24 +20885,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -23642,6 +21524,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -23717,6 +21605,12 @@
      "set": [
       "_bonus",
       "18.7 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -23812,24 +21706,6 @@
     },
     {
      "show": "c4_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -23886,24 +21762,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -23948,24 +21806,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -24012,24 +21852,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24074,24 +21896,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -24138,24 +21942,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24200,24 +21986,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -24336,6 +22104,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -24411,6 +22185,12 @@
      "set": [
       "_bonus",
       "11.2 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -24506,24 +22286,6 @@
     },
     {
      "show": "c5_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24580,24 +22342,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24642,24 +22386,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -24706,24 +22432,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24768,24 +22476,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -24832,24 +22522,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -24894,24 +22566,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -25030,6 +22684,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -25105,6 +22765,12 @@
      "set": [
       "_bonus",
       "9.9 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -25200,24 +22866,6 @@
     },
     {
      "show": "c6_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25274,24 +22922,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25336,24 +22966,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -25400,24 +23012,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25462,24 +23056,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -25526,24 +23102,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25588,24 +23146,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -25724,6 +23264,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -25799,6 +23345,12 @@
      "set": [
       "_bonus",
       "12.3 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
@@ -25894,24 +23446,6 @@
     },
     {
      "show": "core_cp1.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25943,24 +23477,6 @@
     },
     {
      "show": "core_cp2.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -25992,24 +23508,6 @@
     },
     {
      "show": "core_cp3.lit"
-    },
-    {
-     "set": [
-      "_msg",
-      3
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26066,24 +23564,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26128,24 +23608,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -26192,24 +23654,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26254,24 +23698,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -26318,24 +23744,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26380,24 +23788,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -26444,24 +23834,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26507,24 +23879,6 @@
       "life_sparks",
       "spark_val"
      ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
-     ]
     }
    ]
   },
@@ -26569,24 +23923,6 @@
      "add": [
       "life_sparks",
       "spark_val"
-     ]
-    },
-    {
-     "set": [
-      "_msg",
-      1
-     ]
-    },
-    {
-     "set": [
-      "_msg_t",
-      "time"
-     ]
-    },
-    {
-     "set": [
-      "_msg_on",
-      1
      ]
     }
    ]
@@ -27226,6 +24562,12 @@
      ]
     },
     {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
+     ]
+    },
+    {
      "add": [
       "deadline",
       "_bonus"
@@ -27301,6 +24643,12 @@
      "set": [
       "_bonus",
       "25.3 * (1 - 0.07 * heat) + lvl_vents"
+     ]
+    },
+    {
+     "set": [
+      "_bonus",
+      "_bonus - _bonus % 0.1"
      ]
     },
     {
