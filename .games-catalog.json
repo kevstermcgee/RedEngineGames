@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 70,
+    "demos": 74,
     "games": 8,
     "prototypes": 13,
     "tests": 29
@@ -219,6 +219,10 @@
       "sha256": "df7df46dccfde290e3e888e4cff491f5f21e939089f7d02ba73085f4b5d7b14f"
     },
     {
+      "path": "demos/examples/patterns/branching-dialogue.game2d.json",
+      "sha256": "cf78bd6fdb2f55bb7319326e411cf313817b8bf34f2f9f1ecad52e97530ccaa0"
+    },
+    {
       "path": "demos/examples/patterns/checkpoint-respawn.game2d.json",
       "sha256": "a08715b84cecdf3778fa2dbaddc2f8c1eb5f7830a29e010bcc5173abd9cb7870"
     },
@@ -235,6 +239,10 @@
       "sha256": "900ca263bf249a30590d738dc67a9bb6b0e1bb0306782dc41dc9a8b6319138ba"
     },
     {
+      "path": "demos/examples/patterns/random-pick.game2d.json",
+      "sha256": "88998a8d8d4288351c4b0e1467351cef9256f5f28b269b808e6cbaf14c4e7f58"
+    },
+    {
       "path": "demos/examples/patterns/shared-effect.game2d.json",
       "sha256": "66cd4e817c727d9c2992aefd9445774e6f6aa9ddfd8e63fda1e3f911ba6666d4"
     },
@@ -243,8 +251,16 @@
       "sha256": "41c53cd890882a9cf19f59370aa3f1672b253650b0a082420b74267356c91e47"
     },
     {
+      "path": "demos/examples/patterns/story-beat.game2d.json",
+      "sha256": "95b16cc8ba694be49a531c8cf33ba4916c22fc9455f254e29063553f048ec59b"
+    },
+    {
       "path": "demos/examples/patterns/survive-then-escape.game2d.json",
       "sha256": "e5da9c6139decdec3e3adfdbf1e96238319d2136e611c8fe53365eb7a95e3c40"
+    },
+    {
+      "path": "demos/examples/patterns/text-table.game2d.json",
+      "sha256": "4bbe9575121acefb35b3adf579fe39f1e40a5b6c51a5ccf2f7ca01ff62166247"
     },
     {
       "path": "demos/examples/patterns/timer-lose.game2d.json",
@@ -590,6 +606,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0b0db36cd947c5b62e3dbb685e3155ffed4a2afc",
+  "source_revision": "af7175f4d52e95e53aa15ca1fe13f8e87e08da8e",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
