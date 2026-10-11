@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 85,
+    "demos": 87,
     "games": 19,
     "prototypes": 13,
     "tests": 29
@@ -65,6 +65,14 @@
     {
       "path": "demos/examples/2d/warden-arena.game2d.json",
       "sha256": "4453bbe3201eb77988cf0b4a44bcb25c56e8d16e48af77103e9080fc459bbd51"
+    },
+    {
+      "path": "demos/examples/3d/borrowed-foundry/audio/hive.json",
+      "sha256": "ee06ee913dabe3e0ddead812376a92538167301f75f3fa18ec6139f9f93e9e9a"
+    },
+    {
+      "path": "demos/examples/3d/borrowed-foundry/borrowed-foundry.json",
+      "sha256": "a013ac70ec45d838cae7657ed9dd2aad1507f1cdb0583a3c4b459ee2c3df328a"
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/drowsy-marathon.json",
@@ -716,6 +724,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "55de6ce99ae561e14c6d92ab009c079a9e279a68",
+  "source_revision": "90ca7a2ab2e4db3a12c0c248f6657e2a9f20a41d",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
