@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 87,
+    "demos": 88,
     "games": 19,
     "prototypes": 13,
     "tests": 29
@@ -57,6 +57,10 @@
     {
       "path": "demos/examples/2d/phantom-harvest.game2d.json",
       "sha256": "a3d0fb7fb4ce1afd010cc293edf569422f7853cb84ab6b359c2811f87aa3be01"
+    },
+    {
+      "path": "demos/examples/2d/tangled-bridge.game2d.json",
+      "sha256": "db2fc3cb42919041cc0f065c6191cc0e0ff06e937bd7ddc16cd246fe6cd304bf"
     },
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
@@ -724,6 +728,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "90ca7a2ab2e4db3a12c0c248f6657e2a9f20a41d",
+  "source_revision": "0e2bd1155ec400157380e83d721e0699559ae592",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
