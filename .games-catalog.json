@@ -1,7 +1,7 @@
 {
   "collections": {
-    "demos": 74,
-    "games": 8,
+    "demos": 82,
+    "games": 16,
     "prototypes": 13,
     "tests": 29
   },
@@ -104,7 +104,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "4a6960b48dfe7ead1a1bc8f504961f17ae62ec97db982c47e6e343c78eed4425"
+      "sha256": "281c1e41c432563b9a3492e155429e40d84e65cbdd8e9829e8a5cb052b443739"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -295,6 +295,38 @@
       "sha256": "46099e3845d3ca1a7234ce16fa86f2e066fd9330da7aa0e1f52e9508418fff14"
     },
     {
+      "path": "demos/examples/wormhole/README.md",
+      "sha256": "c17e609e5e4932f24d275ae7b7c8dfaa2b4007577808de35bbf2816ab8da841b"
+    },
+    {
+      "path": "demos/examples/wormhole/audio/aurora.json",
+      "sha256": "e39dc031c1b9e52f41c53e4763991311e931c24195ab532e07cc8979704f04c9"
+    },
+    {
+      "path": "demos/examples/wormhole/audio/choir_of_stars.json",
+      "sha256": "12c5854de0e82e6fd21518bc7d8dd653e2b2690a7990351546379e7a3bb95ed3"
+    },
+    {
+      "path": "demos/examples/wormhole/audio/event_horizon.json",
+      "sha256": "a3eeb10f041e0961e363bb3cb47dd6d09dbc88035e57028797f7eda4103df6f9"
+    },
+    {
+      "path": "demos/examples/wormhole/audio/glass_rain.json",
+      "sha256": "409fb63837f79fface6dc7326be7e65f7de19d754c8a2625e3e951695e72a8f0"
+    },
+    {
+      "path": "demos/examples/wormhole/audio/tide.json",
+      "sha256": "452e3e0cef5bf7d79ea06b3ce339f35560c6e9fccf093afa981fa540ae3a4766"
+    },
+    {
+      "path": "demos/examples/wormhole/sky/wormhole.wgsl",
+      "sha256": "1eee852acd726926b7f43333bf466317cb7b664c78a1699ca6ed822867f760c0"
+    },
+    {
+      "path": "demos/examples/wormhole/wormhole.json",
+      "sha256": "8e9f4317d46636be7a252ec1082037491c105fe74c023f55a9d022a6e94119b1"
+    },
+    {
       "path": "demos/multiplayer/lobby_demo.ps1",
       "sha256": "9ff83a44338d1ea12e7052821a79fbe77f19dc133b9f2567bbe136194b87d03a"
     },
@@ -333,6 +365,38 @@
     {
       "path": "games/prop-hunt/prop_hunt_yard.json",
       "sha256": "ad5aa91a8b0961584a6a599f9e43780b9d6edec13511cae5d05ecd3efa07efcb"
+    },
+    {
+      "path": "games/wormhole/README.md",
+      "sha256": "c17e609e5e4932f24d275ae7b7c8dfaa2b4007577808de35bbf2816ab8da841b"
+    },
+    {
+      "path": "games/wormhole/audio/aurora.json",
+      "sha256": "e39dc031c1b9e52f41c53e4763991311e931c24195ab532e07cc8979704f04c9"
+    },
+    {
+      "path": "games/wormhole/audio/choir_of_stars.json",
+      "sha256": "12c5854de0e82e6fd21518bc7d8dd653e2b2690a7990351546379e7a3bb95ed3"
+    },
+    {
+      "path": "games/wormhole/audio/event_horizon.json",
+      "sha256": "a3eeb10f041e0961e363bb3cb47dd6d09dbc88035e57028797f7eda4103df6f9"
+    },
+    {
+      "path": "games/wormhole/audio/glass_rain.json",
+      "sha256": "409fb63837f79fface6dc7326be7e65f7de19d754c8a2625e3e951695e72a8f0"
+    },
+    {
+      "path": "games/wormhole/audio/tide.json",
+      "sha256": "452e3e0cef5bf7d79ea06b3ce339f35560c6e9fccf093afa981fa540ae3a4766"
+    },
+    {
+      "path": "games/wormhole/sky/wormhole.wgsl",
+      "sha256": "1eee852acd726926b7f43333bf466317cb7b664c78a1699ca6ed822867f760c0"
+    },
+    {
+      "path": "games/wormhole/wormhole.json",
+      "sha256": "8e9f4317d46636be7a252ec1082037491c105fe74c023f55a9d022a6e94119b1"
     },
     {
       "path": "prototypes/recipes/classroom_wing.json",
@@ -539,6 +603,17 @@
     },
     {
       "arguments": [
+        "content/games/wormhole/wormhole.json"
+      ],
+      "entry": "games/wormhole/wormhole.json",
+      "files": [
+        "games/wormhole"
+      ],
+      "name": "Wormhole",
+      "slug": "wormhole"
+    },
+    {
+      "arguments": [
         "content/tests/test-lab/test_lab.json"
       ],
       "entry": "tests/test-lab/test_lab.json",
@@ -606,6 +681,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "e7b8d900d652fd34f4527d73499ae68a82dfab26",
+  "source_revision": "c0f81ef1716bcc7904007db0c2d76c84dfd9d058",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
