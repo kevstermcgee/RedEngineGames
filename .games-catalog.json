@@ -1,7 +1,7 @@
 {
   "collections": {
-    "demos": 88,
-    "games": 19,
+    "demos": 101,
+    "games": 32,
     "prototypes": 13,
     "tests": 29
   },
@@ -128,7 +128,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "64084d371e52a0c066a70ae49a624a6e0794a2d7983d6403d99004496c97b10c"
+      "sha256": "8b4133acc2eebaf3b267d6b97bd3ecd231bd6317bd814ce5e81b8794f2a12c91"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -153,6 +153,58 @@
     {
       "path": "demos/examples/external/topdown_switch/topdown_switch.json",
       "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
+    },
+    {
+      "path": "demos/examples/frameless/README.md",
+      "sha256": "2fb5e9b8786c6715313b765dfe226181ff5b8668539e5cfd9def50b0cb9fbc58"
+    },
+    {
+      "path": "demos/examples/frameless/audio/cathedral.json",
+      "sha256": "3a3228fe420793e612633054ee599405d1989877c2feff143e85059988b11ee0"
+    },
+    {
+      "path": "demos/examples/frameless/audio/embrace.json",
+      "sha256": "e7233a8af687e07b51cf0b784f6c82e05998a90a8ca08b547a7d6ec36d19b7f2"
+    },
+    {
+      "path": "demos/examples/frameless/audio/lanterns.json",
+      "sha256": "0585912dd41a4c468593dc3cc425a264de3ff8c6d9d7a469c736f2b0c22a18cb"
+    },
+    {
+      "path": "demos/examples/frameless/audio/letters.json",
+      "sha256": "657413fa1e5be5be0a1a1908c7435ced95bb483bd4d6a25c73a97cc9af8b96ec"
+    },
+    {
+      "path": "demos/examples/frameless/audio/sunlit.json",
+      "sha256": "141aa0dd55eec6317612e99e80e613d2f17cca3cd45032cc33143d5824b675b1"
+    },
+    {
+      "path": "demos/examples/frameless/audio/the_long_gallery.json",
+      "sha256": "24ebce8708863f8323af5298e4198e6a23ea528e9a729f9ce792d54e1bcf5285"
+    },
+    {
+      "path": "demos/examples/frameless/audio/undertow.json",
+      "sha256": "cc23cfb7a2507381c8d4775a96c949a693477d0dce1f59cae88b540d9d28256c"
+    },
+    {
+      "path": "demos/examples/frameless/audio/vigil.json",
+      "sha256": "5e3aa6e9d562bd4007c0f9beb6672a8a6be7a96b8077a1a6407b00174a376459"
+    },
+    {
+      "path": "demos/examples/frameless/collection.json",
+      "sha256": "0bafbaabc18f61ff6a2a0a05297290080465e46cfb6e94500b678d4e81375ba4"
+    },
+    {
+      "path": "demos/examples/frameless/frameless.json",
+      "sha256": "0d1d55235bfece16b55371482881d143e51bf7f372fe939d7a660f2b4ae83861"
+    },
+    {
+      "path": "demos/examples/frameless/shaders/art.wgsl",
+      "sha256": "bd6fefb6a5229fbe92008ea598f1299c74dbf09d617ade1e06092b588f9ae43d"
+    },
+    {
+      "path": "demos/examples/frameless/shaders/sky.wgsl",
+      "sha256": "055785fe131ec17f4bc7b1a4bcbf76ede8ab04f629f54dcffca4370810fd6544"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -373,6 +425,58 @@
     {
       "path": "games/coin-run/coin_run.json",
       "sha256": "8a973a9b0d7092d6696d28dc5f96360f149c0fa447a4956b051f59faf1d94283"
+    },
+    {
+      "path": "games/frameless/README.md",
+      "sha256": "2fb5e9b8786c6715313b765dfe226181ff5b8668539e5cfd9def50b0cb9fbc58"
+    },
+    {
+      "path": "games/frameless/audio/cathedral.json",
+      "sha256": "3a3228fe420793e612633054ee599405d1989877c2feff143e85059988b11ee0"
+    },
+    {
+      "path": "games/frameless/audio/embrace.json",
+      "sha256": "e7233a8af687e07b51cf0b784f6c82e05998a90a8ca08b547a7d6ec36d19b7f2"
+    },
+    {
+      "path": "games/frameless/audio/lanterns.json",
+      "sha256": "0585912dd41a4c468593dc3cc425a264de3ff8c6d9d7a469c736f2b0c22a18cb"
+    },
+    {
+      "path": "games/frameless/audio/letters.json",
+      "sha256": "657413fa1e5be5be0a1a1908c7435ced95bb483bd4d6a25c73a97cc9af8b96ec"
+    },
+    {
+      "path": "games/frameless/audio/sunlit.json",
+      "sha256": "141aa0dd55eec6317612e99e80e613d2f17cca3cd45032cc33143d5824b675b1"
+    },
+    {
+      "path": "games/frameless/audio/the_long_gallery.json",
+      "sha256": "24ebce8708863f8323af5298e4198e6a23ea528e9a729f9ce792d54e1bcf5285"
+    },
+    {
+      "path": "games/frameless/audio/undertow.json",
+      "sha256": "cc23cfb7a2507381c8d4775a96c949a693477d0dce1f59cae88b540d9d28256c"
+    },
+    {
+      "path": "games/frameless/audio/vigil.json",
+      "sha256": "5e3aa6e9d562bd4007c0f9beb6672a8a6be7a96b8077a1a6407b00174a376459"
+    },
+    {
+      "path": "games/frameless/collection.json",
+      "sha256": "0bafbaabc18f61ff6a2a0a05297290080465e46cfb6e94500b678d4e81375ba4"
+    },
+    {
+      "path": "games/frameless/frameless.json",
+      "sha256": "0d1d55235bfece16b55371482881d143e51bf7f372fe939d7a660f2b4ae83861"
+    },
+    {
+      "path": "games/frameless/shaders/art.wgsl",
+      "sha256": "bd6fefb6a5229fbe92008ea598f1299c74dbf09d617ade1e06092b588f9ae43d"
+    },
+    {
+      "path": "games/frameless/shaders/sky.wgsl",
+      "sha256": "055785fe131ec17f4bc7b1a4bcbf76ede8ab04f629f54dcffca4370810fd6544"
     },
     {
       "path": "games/marcel/README.md",
@@ -661,6 +765,17 @@
     },
     {
       "arguments": [
+        "content/games/frameless/frameless.json"
+      ],
+      "entry": "games/frameless/frameless.json",
+      "files": [
+        "games/frameless"
+      ],
+      "name": "Frameless",
+      "slug": "frameless"
+    },
+    {
+      "arguments": [
         "content/tests/test-lab/test_lab.json"
       ],
       "entry": "tests/test-lab/test_lab.json",
@@ -728,6 +843,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0e2bd1155ec400157380e83d721e0699559ae592",
+  "source_revision": "94d7e76249e0659e49a473e306eedaf8c379021c",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
