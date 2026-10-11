@@ -243,6 +243,46 @@
       "name": "Redline",
       "files": ["projects/redline"],
       "arguments": ["content/projects/redline/maps/main.json"]
+    },
+    {
+      "slug": "electric-tide",
+      "name": "Electric Tide",
+      "kind": "2d",
+      "files": ["projects/electric-tide"],
+      "arguments": ["content/projects/electric-tide/electric-tide.game2d.json"]
+    },
+    {
+      "slug": "drowsy-marathon",
+      "name": "Drowsy Marathon",
+      "files": ["projects/drowsy-marathon"],
+      "arguments": ["content/projects/drowsy-marathon/drowsy-marathon.json"]
+    },
+    {
+      "slug": "gentle-carousel",
+      "name": "Gentle Carousel",
+      "files": ["projects/gentle-carousel"],
+      "arguments": ["content/projects/gentle-carousel/gentle-carousel.json"]
+    },
+    {
+      "slug": "patient-loom",
+      "name": "Patient Loom",
+      "kind": "2d",
+      "files": ["projects/patient-loom"],
+      "arguments": ["content/projects/patient-loom/patient-loom.game2d.json"]
+    },
+    {
+      "slug": "midnight-engine",
+      "name": "Midnight Engine",
+      "kind": "2d",
+      "files": ["projects/midnight-engine"],
+      "arguments": ["content/projects/midnight-engine/midnight-engine.game2d.json"]
+    },
+    {
+      "slug": "phantom-harvest",
+      "name": "Phantom Harvest",
+      "kind": "2d",
+      "files": ["projects/phantom-harvest"],
+      "arguments": ["content/projects/phantom-harvest/phantom-harvest.game2d.json"]
     }
   ],
   "native_playables": []
