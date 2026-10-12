@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 109,
+    "demos": 111,
     "games": 33,
     "prototypes": 13,
     "tests": 29
@@ -125,6 +125,14 @@
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
       "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
+    },
+    {
+      "path": "demos/examples/3d/velvet-orchestra/audio/waltz.json",
+      "sha256": "ecd239ccdb374eeb1efa6a7e5f74096a7c9de2efa0e903099d8360d6825f99ec"
+    },
+    {
+      "path": "demos/examples/3d/velvet-orchestra/velvet-orchestra.json",
+      "sha256": "036ed89445d47b74e18e318a12385e1b61f30f44607ddf9cb4594a485507f45a"
     },
     {
       "path": "demos/examples/avatar_poses.rs",
@@ -891,6 +899,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0846fa26638b44527678eba8fb7b2710f0a857dd",
+  "source_revision": "a341ce04886e7735a0d9bb617d566d1ea2e820fe",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
