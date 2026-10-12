@@ -283,6 +283,19 @@
       "kind": "2d",
       "files": ["projects/phantom-harvest"],
       "arguments": ["content/projects/phantom-harvest/phantom-harvest.game2d.json"]
+    },
+    {
+      "slug": "borrowed-foundry",
+      "name": "Borrowed Foundry",
+      "files": ["projects/borrowed-foundry"],
+      "arguments": ["content/projects/borrowed-foundry/borrowed-foundry.json"]
+    },
+    {
+      "slug": "tangled-bridge",
+      "name": "Tangled Bridge",
+      "kind": "2d",
+      "files": ["projects/tangled-bridge"],
+      "arguments": ["content/projects/tangled-bridge/tangled-bridge.game2d.json"]
     }
   ],
   "native_playables": []
