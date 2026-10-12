@@ -296,6 +296,12 @@
       "kind": "2d",
       "files": ["projects/tangled-bridge"],
       "arguments": ["content/projects/tangled-bridge/tangled-bridge.game2d.json"]
+    },
+    {
+      "slug": "velvet-orchestra",
+      "name": "Velvet Orchestra",
+      "files": ["projects/velvet-orchestra"],
+      "arguments": ["content/projects/velvet-orchestra/velvet-orchestra.json"]
     }
   ],
   "native_playables": []
