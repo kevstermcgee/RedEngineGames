@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 112,
+    "demos": 113,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -17,6 +17,10 @@
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
       "sha256": "71e6ee6c6259cb959c189ad6f9edee88c728fec85c900c9fbbc6585deb6ccce9"
+    },
+    {
+      "path": "demos/examples/2d/hollow-weather.game2d.json",
+      "sha256": "cf4dacb9cc854af65082bba8bb18f8955d564a0fbf8927c1ed9f8a2343535076"
     },
     {
       "path": "demos/examples/2d/honeybound.game2d.json",
@@ -907,6 +911,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "4c45d86b6a855ef958b455cd423e6252e7d66c3b",
+  "source_revision": "fc728d6b8bac093fa047d6bcb8c7e9c0e8a7a8aa",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
