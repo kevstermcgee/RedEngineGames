@@ -740,7 +740,7 @@
     },
     {
       "path": "tests/performance/render_prep.rs",
-      "sha256": "669379189c6467f09be96dd2dd1be974dde586494c8ce07adf2a4a7a279e34b9"
+      "sha256": "9a5c034936e3a92c1f81e6742782fe833f185ca8f2d63dc1f821b1c9c8421015"
     },
     {
       "path": "tests/performance/render_scenes.json",
@@ -911,6 +911,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "220a2df740534945e0081d65d1e0d5734c435c66",
+  "source_revision": "ae8482e27b2a8666c460055dd9647f2e2a49082a",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
