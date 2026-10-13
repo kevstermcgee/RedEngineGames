@@ -2,7 +2,7 @@
   "collections": {
     "demos": 112,
     "games": 33,
-    "prototypes": 13,
+    "prototypes": 14,
     "tests": 29
   },
   "files": [
@@ -136,7 +136,7 @@
     },
     {
       "path": "demos/examples/3d/velvet-orchestra/velvet-orchestra.json",
-      "sha256": "036ed89445d47b74e18e318a12385e1b61f30f44607ddf9cb4594a485507f45a"
+      "sha256": "ac75de61d3d7ace2b2f666437bf61903e32c8192ee3703c5cf54d6a54e634e26"
     },
     {
       "path": "demos/examples/avatar_poses.rs",
@@ -639,6 +639,10 @@
       "sha256": "ae6fd838cb123670c3b8f5f7c76a57d4ce92c37c47f9717db2ce4320e1c5d520"
     },
     {
+      "path": "prototypes/recipes/whistle_herd.json",
+      "sha256": "4af68c4249da0e06fd1a104e7b38ddad5a96bd336fd631d805ab706ce97b6ad9"
+    },
+    {
       "path": "tests/performance/README.md",
       "sha256": "6b882837d41a8ba01b630931970fb18d27a74b3869f38d5729aafe887e16f212"
     },
@@ -903,6 +907,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "e13908ffa95456e0b29f4ed66bf7d5f13f008600",
+  "source_revision": "4c45d86b6a855ef958b455cd423e6252e7d66c3b",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
