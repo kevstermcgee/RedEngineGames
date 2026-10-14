@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 113,
+    "demos": 100,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -201,58 +201,6 @@
     {
       "path": "demos/examples/external/topdown_switch/topdown_switch.json",
       "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
-    },
-    {
-      "path": "demos/examples/frameless/README.md",
-      "sha256": "2fb5e9b8786c6715313b765dfe226181ff5b8668539e5cfd9def50b0cb9fbc58"
-    },
-    {
-      "path": "demos/examples/frameless/audio/cathedral.json",
-      "sha256": "3a3228fe420793e612633054ee599405d1989877c2feff143e85059988b11ee0"
-    },
-    {
-      "path": "demos/examples/frameless/audio/embrace.json",
-      "sha256": "e7233a8af687e07b51cf0b784f6c82e05998a90a8ca08b547a7d6ec36d19b7f2"
-    },
-    {
-      "path": "demos/examples/frameless/audio/lanterns.json",
-      "sha256": "0585912dd41a4c468593dc3cc425a264de3ff8c6d9d7a469c736f2b0c22a18cb"
-    },
-    {
-      "path": "demos/examples/frameless/audio/letters.json",
-      "sha256": "657413fa1e5be5be0a1a1908c7435ced95bb483bd4d6a25c73a97cc9af8b96ec"
-    },
-    {
-      "path": "demos/examples/frameless/audio/sunlit.json",
-      "sha256": "141aa0dd55eec6317612e99e80e613d2f17cca3cd45032cc33143d5824b675b1"
-    },
-    {
-      "path": "demos/examples/frameless/audio/the_long_gallery.json",
-      "sha256": "24ebce8708863f8323af5298e4198e6a23ea528e9a729f9ce792d54e1bcf5285"
-    },
-    {
-      "path": "demos/examples/frameless/audio/undertow.json",
-      "sha256": "cc23cfb7a2507381c8d4775a96c949a693477d0dce1f59cae88b540d9d28256c"
-    },
-    {
-      "path": "demos/examples/frameless/audio/vigil.json",
-      "sha256": "5e3aa6e9d562bd4007c0f9beb6672a8a6be7a96b8077a1a6407b00174a376459"
-    },
-    {
-      "path": "demos/examples/frameless/collection.json",
-      "sha256": "0bafbaabc18f61ff6a2a0a05297290080465e46cfb6e94500b678d4e81375ba4"
-    },
-    {
-      "path": "demos/examples/frameless/frameless.json",
-      "sha256": "0d1d55235bfece16b55371482881d143e51bf7f372fe939d7a660f2b4ae83861"
-    },
-    {
-      "path": "demos/examples/frameless/shaders/art.wgsl",
-      "sha256": "bd6fefb6a5229fbe92008ea598f1299c74dbf09d617ade1e06092b588f9ae43d"
-    },
-    {
-      "path": "demos/examples/frameless/shaders/sky.wgsl",
-      "sha256": "055785fe131ec17f4bc7b1a4bcbf76ede8ab04f629f54dcffca4370810fd6544"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -823,6 +771,7 @@
       "arguments": [
         "content/games/frameless/frameless.json"
       ],
+      "binary": "frameless",
       "entry": "games/frameless/frameless.json",
       "files": [
         "games/frameless"
@@ -911,6 +860,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "6afadaa261c9a59c59917bea02fee57eab384ec4",
+  "source_revision": "e4a20bb131798b9eb204283a9aa79dbea8d63521",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
