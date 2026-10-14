@@ -1,3 +1,4 @@
+import hashlib
 import json
 import subprocess
 import tempfile
@@ -74,6 +75,22 @@ class Content(unittest.TestCase):
             self.assertNotEqual(rt.content_hash(repo, PLAYABLES[0]), first)
             self.assertEqual(rt.change_notes(repo, PLAYABLES[0], run("rev-parse", "HEAD~1") and subprocess.run(["git", "-C", d, "rev-parse", "HEAD~1"], capture_output=True, text=True).stdout.strip()), ["Fix the door"])
 
+    def test_a_game_that_moves_to_its_own_client_is_a_new_version_and_the_others_keep_their_fingerprint(self):
+        with tempfile.TemporaryDirectory() as d:
+            repo = Path(d)
+            run = lambda *a: subprocess.run(["git", "-C", d, "-c", "user.email=t@t", "-c", "user.name=t", *a], check=True, capture_output=True)
+            run("init", "-q")
+            (repo / "games/a").mkdir(parents=True)
+            (repo / "games/a/m.json").write_text("{}\n")
+            run("add", "."), run("commit", "-qm", "one")
+            plain = dict(PLAYABLES[0])
+            before = rt.content_hash(repo, plain)
+            h = hashlib.sha256()
+            h.update(json.dumps([plain["name"], plain["arguments"]]).encode())
+            h.update(subprocess.run(["git", "-C", d, "ls-tree", "-r", "HEAD", "--", *plain["files"]], capture_output=True, text=True).stdout.encode())
+            self.assertEqual(before, h.hexdigest(), "a game without a binary is fingerprinted exactly as before")
+            self.assertNotEqual(rt.content_hash(repo, dict(plain, binary="frameless")), before)
+
     def test_release_notes_carry_the_machine_readable_line_the_site_reads_back(self):
         meta = {"slug": "a", "name": "A", "version": 2, "notes": ["Fix the door"], "engine_revision": "e" * 40,
                 "installer": {"name": "a-2-setup.exe"}, "zip": {"name": "a-2-windows-x64.zip"}, "content_hash": "h", "repo_commit": "c"}
@@ -101,6 +118,35 @@ class Content(unittest.TestCase):
             self.assertEqual((d / "s2/RedEngine2D.exe").read_bytes(), b"2d")
             self.assertEqual((d / "s3/engine.name").read_text().strip(), "RedEngine.exe")
             self.assertEqual((d / "s2/launch.args").read_text().strip(), "content/g/x.game2d.json")
+
+    def test_a_game_with_its_own_client_is_staged_with_it(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "bin").mkdir()
+            (d / "bin/killchain.exe").write_bytes(b"own client")
+            (d / "Play.exe").write_bytes(b"launcher")
+            repo = d / "repo"
+            (repo / "p/maps").mkdir(parents=True)
+            (repo / "p/maps/main.json").write_text("{}")
+            rt.REPO = repo
+            entry = {"slug": "killchain", "name": "Killchain", "version": 2}
+            own = {"slug": "killchain", "binary": "killchain", "files": ["p"], "arguments": ["content/p/maps/main.json"]}
+
+            class Args:
+                bin_dir = str(d / "bin")
+                engine = str(d / "re2.exe")
+                engine_2d = None
+
+            rt.stage_game(entry, own, rt.engine_for(own, Args), d / "Play.exe", d / "s")
+            self.assertEqual((d / "s/engine.name").read_text().strip(), "killchain.exe")
+            self.assertEqual((d / "s/killchain.exe").read_bytes(), b"own client")
+            self.assertEqual(rt.game_binary({"slug": "m"}), None)
+            self.assertEqual(rt.game_binary({"slug": "m", "binary": "re2"}), None)
+            Args.bin_dir = None
+            with self.assertRaises(SystemExit):
+                rt.engine_for(own, Args)
+            with self.assertRaises(SystemExit):
+                rt.game_binary({"slug": "m", "binary": "../evil"})
 
 
 if __name__ == "__main__":
