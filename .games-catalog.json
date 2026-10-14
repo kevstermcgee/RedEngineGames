@@ -176,7 +176,7 @@
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.lock",
-      "sha256": "b2537e8f02ae0b87814b28c66da61238f775587916604782e815bd0a98e118c5"
+      "sha256": "4ca7fda919999c4b85bb74d8bec0b3cac2f003af2ca925d35edb8bb9e9907a01"
     },
     {
       "path": "demos/examples/external/topdown_switch/Cargo.toml",
@@ -688,7 +688,7 @@
     },
     {
       "path": "tests/performance/flows/net_edit_loop.json",
-      "sha256": "02873c881c67280b9e4fa1710036218fc37f3b9da3099d5309d9927cdec4ef90"
+      "sha256": "898c9dc8e0fd6511b1279a878800033efc0d7b180deda2696746b74dcf71e51e"
     },
     {
       "path": "tests/performance/flows/new_game_2d.json",
@@ -911,6 +911,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "e325a59c0ec37e8ddd321a495fef7a0a340a4db8",
+  "source_revision": "a511d4c29ecc4e5f5129c633b2bb58b77087c256",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
