@@ -704,7 +704,7 @@
     },
     {
       "path": "tests/performance/sim.rs",
-      "sha256": "0e1da0763e076bceb62b764842b09f8f49d6f5dd0e6b05a014e2efc1555d150c"
+      "sha256": "499721785e392c5c72d8b0a0b1488e0357b339734d73173775c5b1d42e64babb"
     },
     {
       "path": "tests/test-lab/test_lab.json",
@@ -860,6 +860,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "920db0868c3b9f868bc7645bd681d954ba059e57",
+  "source_revision": "2ce9c7a3bfd97eeb4089e8a1c9ee746e21ce1a55",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
