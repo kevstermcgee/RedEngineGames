@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 100,
+    "demos": 103,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -133,6 +133,18 @@
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
       "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/audio/lullaby.json",
+      "sha256": "f8c6fce2960ab15c1e253b73af75311031a53c2141344fb564d2df941fb39914"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/gen_scene.py.txt",
+      "sha256": "8a8c9b0fd7e73947906e1cb2d42a147ae1c991f7ab2d9f53523429d66c4387ff"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/quiet-compass.json",
+      "sha256": "c6f21b29983c92a7039ec067d994cb797c16b078f64e315ffae235a2e8eef31c"
     },
     {
       "path": "demos/examples/3d/velvet-orchestra/audio/waltz.json",
@@ -860,6 +872,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "7981702a1723fab448eb95f80c3600e046a7eff2",
+  "source_revision": "ba9ab008f1daece218cc42c3ffe0f8e797242545",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
