@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 103,
+    "demos": 104,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -13,6 +13,10 @@
     {
       "path": "demos/examples/2d/electric-tide.game2d.json",
       "sha256": "7b95cbecb78cd48b13b1bc88535a322d2ca543e1a20ef0714a538b039d0387e8"
+    },
+    {
+      "path": "demos/examples/2d/final-staircase.game2d.json",
+      "sha256": "5196b6f468e242341be2436e54781769d5bb2a1225f74397495a999852f3ff25"
     },
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
@@ -872,6 +876,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "ba9ab008f1daece218cc42c3ffe0f8e797242545",
+  "source_revision": "9f455cbcd060a73b4f134663a5aa78dc68921953",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
