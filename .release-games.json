@@ -309,6 +309,19 @@
       "kind": "2d",
       "files": ["projects/hollow-weather"],
       "arguments": ["content/projects/hollow-weather/hollow-weather.game2d.json"]
+    },
+    {
+      "slug": "quiet-compass",
+      "name": "Quiet Compass",
+      "files": ["projects/quiet-compass"],
+      "arguments": ["content/projects/quiet-compass/quiet-compass.json"]
+    },
+    {
+      "slug": "final-staircase",
+      "name": "Final Staircase",
+      "kind": "2d",
+      "files": ["projects/final-staircase"],
+      "arguments": ["content/projects/final-staircase/final-staircase.game2d.json"]
     }
   ],
   "native_playables": []
