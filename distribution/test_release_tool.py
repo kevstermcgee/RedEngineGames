@@ -102,6 +102,21 @@ class Content(unittest.TestCase):
             self.assertEqual((d / "s3/engine.name").read_text().strip(), "RedEngine.exe")
             self.assertEqual((d / "s2/launch.args").read_text().strip(), "content/g/x.game2d.json")
 
+    def test_a_2d_game_with_an_icon_sprite_gets_it_as_its_shortcut_icon(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            game = {"icon": "face", "sprites": {"face": {"rows": ["ab", "b."], "palette": {"a": "#ff0000", "b": "#00ff00"}}}}
+            (d / "g").mkdir()
+            (d / "g/x.game2d.json").write_text(json.dumps(game))
+            self.assertTrue(rt.game_icon({"entry": "g/x.game2d.json"}, d / "game.ico", repo=d))
+            ico = (d / "game.ico").read_bytes()
+            self.assertEqual(ico[:6], b"\x00\x00\x01\x00\x05\x00", "an icon with five sizes")
+            self.assertEqual(ico[6], 16, "the first is 16 px")
+            self.assertIn(b"\x89PNG", ico, "PNG entries")
+            (d / "g/y.game2d.json").write_text(json.dumps({"sprites": {}}))
+            self.assertFalse(rt.game_icon({"entry": "g/y.game2d.json"}, d / "none.ico", repo=d), "no icon sprite: the website picture is used instead")
+            self.assertFalse((d / "none.ico").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
