@@ -322,6 +322,19 @@
       "kind": "2d",
       "files": ["projects/final-staircase"],
       "arguments": ["content/projects/final-staircase/final-staircase.game2d.json"]
+    },
+    {
+      "slug": "sunken-marathon",
+      "name": "Sunken Marathon",
+      "files": ["projects/sunken-marathon"],
+      "arguments": ["content/projects/sunken-marathon/sunken-marathon.json"]
+    },
+    {
+      "slug": "electric-carousel",
+      "name": "Electric Carousel",
+      "kind": "2d",
+      "files": ["projects/electric-carousel"],
+      "arguments": ["content/projects/electric-carousel/electric-carousel.game2d.json"]
     }
   ],
   "native_playables": []
