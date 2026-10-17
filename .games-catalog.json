@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 109,
+    "demos": 110,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -113,6 +113,10 @@
     {
       "path": "demos/examples/2d/tiny-station.game2d.json",
       "sha256": "3a4bcc18b86c7415a42324ce53345b62bf8787ac0238eb7779cc11ed2388ba5e"
+    },
+    {
+      "path": "demos/examples/2d/wandering-engine.game2d.json",
+      "sha256": "2024482ea41523d7bd5d7e97bb2a97c3b6067c93142d7038e4695537d9e194d0"
     },
     {
       "path": "demos/examples/2d/warden-arena.game2d.json",
@@ -896,6 +900,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "58de4d32139be0235c47f55978d541e309dec5c8",
+  "source_revision": "e117f9a9a2b41732af31343fea8cb3acddc8ed0e",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
