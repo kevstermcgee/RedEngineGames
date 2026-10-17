@@ -211,6 +211,79 @@ def play_cfg(entry: dict, installed: bool) -> str:
     ])
 
 
+def _png(width: int, height: int, rgba: bytes) -> bytes:
+    """A PNG from RGBA bytes (standard library only)."""
+    import struct
+    import zlib
+
+    raw = b"".join(b"\x00" + rgba[y * width * 4:(y + 1) * width * 4] for y in range(height))
+
+    def chunk(tag: bytes, data: bytes) -> bytes:
+        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
+
+    return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 6, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
+
+
+def _hex_rgba(color: str) -> bytes:
+    c = color.lstrip("#")
+    if len(c) in (3, 4):
+        c = "".join(ch * 2 for ch in c)
+    if len(c) == 6:
+        c += "ff"
+    return bytes(int(c[i:i + 2], 16) for i in (0, 2, 4, 6))
+
+
+def sprite_icon(game: dict) -> bytes | None:
+    """The `icon` sprite of a 2D game (`"icon": "name"`) as a Windows .ico: square, scaled with crisp pixels to 16, 32, 48, 64 and 256 px, each a PNG entry
+    (what Windows Vista and later read). The same sprite is the game's window and taskbar icon, so the shortcut and the running game match."""
+    import struct
+
+    name = game.get("icon")
+    sprite = game.get("sprites", {}).get(name) if isinstance(name, str) else None
+    if not sprite:
+        return None
+    rows = sprite.get("rows") or (sprite.get("frames") or [[]])[0]
+    if not rows:
+        return None
+    palette = {k: _hex_rgba(v) for k, v in sprite.get("palette", {}).items()}
+    h, w = len(rows), max(len(r) for r in rows)
+    side = max(w, h)
+    ox, oy = (side - w) // 2, (side - h) // 2
+    entries = []
+    for size in (16, 32, 48, 64, 256):
+        px = bytearray(size * size * 4)
+        for y in range(size):
+            sy = y * side // size - oy
+            for x in range(size):
+                sx = x * side // size - ox
+                if 0 <= sy < h and 0 <= sx < len(rows[sy]) and rows[sy][sx] != ".":
+                    px[(y * size + x) * 4:(y * size + x) * 4 + 4] = palette.get(rows[sy][sx], b"\x00\x00\x00\x00")
+        entries.append((size, _png(size, size, bytes(px))))
+    header = struct.pack("<HHH", 0, 1, len(entries))
+    offset = 6 + 16 * len(entries)
+    directory, blobs = b"", b""
+    for size, png in entries:
+        directory += struct.pack("<BBBBHHII", size % 256, size % 256, 0, 0, 1, 32, len(png), offset + len(blobs))
+        blobs += png
+    return header + directory + blobs
+
+
+def game_icon(playable: dict, target: Path, repo: Path | None = None) -> bool:
+    """A 2D game's own icon sprite (its `game2d.json` `icon`), written to `target` as an .ico; False when the game has none."""
+    repo = repo or REPO
+    entry = playable.get("entry", "")
+    if not entry.endswith(".game2d.json") or not (repo / entry).is_file():
+        return False
+    try:
+        ico = sprite_icon(json.loads((repo / entry).read_text(encoding="utf-8")))
+    except (ValueError, OSError):
+        return False
+    if not ico:
+        return False
+    target.write_bytes(ico)
+    return True
+
+
 def make_icon(slug: str, target: Path) -> bool:
     """A square icon from the game's picture on the website (centre crop), if there is one and Pillow is installed."""
     thumb = REPO / "site" / "thumbs" / f"{slug}.png"
@@ -250,7 +323,9 @@ def stage_game(entry: dict, playable: dict, engine: Path, launcher: Path, stage:
             shutil.copytree(src, dst)
         else:
             shutil.copy2(src, dst)
-    make_icon(entry["slug"], stage / "game.ico")
+    # the game's own icon (a 2D game's `icon` sprite) when it has one, else a crop of its picture on the website
+    if not game_icon(playable, stage / "game.ico"):
+        make_icon(entry["slug"], stage / "game.ico")
     (stage / "README.txt").write_text(
         f"{entry['name']} (version {entry['version']})\n\nDouble-click Play-{entry['slug']}.exe to start.\n"
         f"Your saved games and settings are kept in Saved Games\\{clean_name(entry['name'])}.\n"
