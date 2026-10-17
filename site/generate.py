@@ -26,6 +26,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "distribution"))
 import release_tool as rt  # noqa: E402
+sys.path.insert(0, str(REPO / "site"))
+import wiki  # noqa: E402
 
 PALETTE = json.loads((REPO / "site" / "palette.json").read_text())
 CONFIG = rt.CONFIG
@@ -74,6 +76,8 @@ def load_games(releases: list[dict]) -> list[dict]:
     history = rt.release_history(releases)
     legacy = legacy_builds(releases)
     meta = json.loads((REPO / "site" / "games-meta.json").read_text())
+    pending = set(json.loads((REPO / "site" / "wiki-pending.json").read_text())["pending"])
+    wiki_errors = []
     games = []
     for p in rt.load_playables():
         slug = p["slug"]
@@ -87,7 +91,18 @@ def load_games(releases: list[dict]) -> list[dict]:
         if not versions and not old:
             continue
         first = versions[-1]["released"] if versions else old[-1]["date"]
+        author = meta.get(slug, {}).get("author", "human")
+        page_dir = REPO / "site" / "wiki" / slug
+        page = None
+        if (page_dir / "wiki.json").is_file():
+            page = json.loads((page_dir / "wiki.json").read_text())
+            wiki_errors += [f"{slug}: {m}" for m in wiki.problems(page, author, page_dir)]
+            if slug in pending:
+                wiki_errors.append(f"{slug}: has a wiki page, so remove it from site/wiki-pending.json")
+        elif slug not in pending:
+            wiki_errors.append(f"{slug}: needs a wiki page (site/wiki/{slug}/wiki.json, see site/wiki.py): every new game has one")
         games.append({
+            "wiki": page,
             "slug": slug,
             "name": p["name"],
             "presentation": p.get("kind", "3d"),
@@ -99,6 +114,8 @@ def load_games(releases: list[dict]) -> list[dict]:
             "versions": versions,
             "earlier": old,
         })
+    if wiki_errors:
+        raise SystemExit("wiki pages are incomplete:\n  " + "\n  ".join(wiki_errors))
     games.sort(key=lambda g: g["name"].lower())
     games.sort(key=lambda g: g["added"], reverse=True)
     return games
@@ -109,7 +126,7 @@ def load_games(releases: list[dict]) -> list[dict]:
 
 def css() -> str:
     c = PALETTE
-    return f'''
+    return wiki.WIKI_CSS + f'''
 :root {{ --accent: {c["accent"]}; --bg: {c["background"]}; --surface: {c["surface"]}; --card: {c["card"]}; --muted: {c["muted"]}; }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; background: var(--bg); color: #F3E6EC; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }}
@@ -419,7 +436,7 @@ def game_page(g: dict) -> str:
       <p class="fine">An installed game checks for updates when it starts and installs them in place; your saved games stay in <code>Saved Games\\{e(rt.clean_name(g["name"]))}</code>.</p>
       {signed_note([g])}
     </div>
-  </section>{table}{earlier}'''
+  </section>{wiki.render(g["wiki"], g["author"]) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
     return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
 
 
@@ -456,10 +473,14 @@ def main() -> int:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)
         (folder / "index.html").write_text(game_page(g), encoding="utf-8")
+        if g["wiki"]:
+            for f in (REPO / "site" / "wiki" / g["slug"]).iterdir():
+                if f.name != "wiki.json":
+                    shutil.copy(f, folder / f.name)
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
-        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "wiki", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0
