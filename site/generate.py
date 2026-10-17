@@ -31,6 +31,7 @@ PALETTE = json.loads((REPO / "site" / "palette.json").read_text())
 CONFIG = rt.CONFIG
 LEGACY_TAG = re.compile(r"^redengine-([0-9a-f]{7,40})$")
 e = html.escape
+AUTHORS = {"ai": "AI-designed", "human": "Human-designed"}
 
 
 def human_size(n) -> str:
@@ -80,6 +81,8 @@ def load_games(releases: list[dict]) -> list[dict]:
         for v in versions:
             v["installer"]["url"] = asset_url(v["tag"], v["installer"]["name"])
             v["zip"]["url"] = asset_url(v["tag"], v["zip"]["name"])
+        if meta.get(slug, {}).get("author", "human") not in AUTHORS:
+            raise SystemExit(f"site/games-meta.json: {slug}: author must be one of {sorted(AUTHORS)}")
         old = legacy.get(slug, [])
         if not versions and not old:
             continue
@@ -91,6 +94,7 @@ def load_games(releases: list[dict]) -> list[dict]:
             "description": rt.describe(rt.game_directory(p), f"{p['name']}, built with RedEngine."),
             "added": added_date(p, first),
             "online": meta.get(slug, {}).get("online", ""),
+            "author": meta.get(slug, {}).get("author", "human"),
             "thumb": f"thumbs/{slug}.png" if (REPO / "site" / "thumbs" / f"{slug}.png").exists() else "",
             "versions": versions,
             "earlier": old,
@@ -130,6 +134,9 @@ header.site p {{ margin: 4px 0 0; color: var(--muted); }}
 .heart {{ position: absolute; top: 8px; right: 8px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 0; background: rgba(20, 8, 14, .72); color: #F3E6EC; font-size: 1.35rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }}
 .heart:hover {{ background: rgba(20, 8, 14, .9); }}
 .heart[aria-pressed="true"] {{ color: var(--accent); }}
+.by {{ border-radius: 4px; padding: 0 6px; font-weight: 700; border: 1px solid var(--accent); color: var(--accent); }}
+.by.ai {{ background: transparent; }}
+.by.human {{ border-color: var(--muted); color: var(--muted); }}
 .pres {{ background: var(--accent); color: #1C0810; border-radius: 4px; padding: 0 6px; font-weight: 700; }}
 .thumb {{ width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--surface); }}
 .thumb-missing {{ display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .85rem; }}
@@ -199,6 +206,10 @@ def signed_note(games: list[dict]) -> str:
             '<strong>More info</strong>, then <strong>Run anyway</strong>. The SHA-256 of every file is listed with it.</p>')
 
 
+def by_badge(g: dict) -> str:
+    return f'<span class="by {e(g["author"])}" title="{"Designed by an AI on its own" if g["author"] == "ai" else "Designed by a person"}">{AUTHORS[g["author"]]}</span>'
+
+
 def card(g: dict, index: int) -> str:
     v = g["versions"][0] if g["versions"] else None
     loading = "eager" if index < 6 else "lazy"
@@ -219,12 +230,12 @@ def card(g: dict, index: int) -> str:
         links = f'<a href="{page}">all builds ({count})</a>'
         size = o["size"]
     return f'''
-<article class="game" data-id="win:{e(g["slug"])}" data-pres="{e(g["presentation"])}" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}" data-size="{size or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
+<article class="game" data-id="win:{e(g["slug"])}" data-pres="{e(g["presentation"])}" data-author="{e(g["author"])}" data-name="{e(g["name"].lower())}" data-added="{e(g["added"])}" data-size="{size or 0}" data-text="{e((g["name"] + " " + g["description"]).lower())}">
   {thumb}
   <button class="heart" type="button" aria-pressed="false" aria-label="Favourite {e(g["name"])}" title="Favourite: keep it at the top of your feed">&#x2661;</button>
   <div class="body">
     <h3><a href="{page}">{e(g["name"])}</a></h3>
-    <p class="meta"><span class="pres">{e(g["presentation"].upper())}</span>{meta}</p>
+    <p class="meta"><span class="pres">{e(g["presentation"].upper())}</span>{by_badge(g)}{meta}</p>
     {online}
     <p class="desc">{e(g["description"])}</p>
     {button}
@@ -235,7 +246,7 @@ def card(g: dict, index: int) -> str:
 
 FILTER_JS = '''<script>
 (function () {
-  var q = document.getElementById("q"), sort = document.getElementById("sort"), kind = document.getElementById("kind"), pres = document.getElementById("pres"),
+  var q = document.getElementById("q"), sort = document.getElementById("sort"), kind = document.getElementById("kind"), pres = document.getElementById("pres"), who = document.getElementById("who"),
       grid = document.getElementById("games"), count = document.getElementById("count");
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".game"));
   var KEY = "redengine:hearts";
@@ -266,7 +277,7 @@ FILTER_JS = '''<script>
     cards.sort(function (a, b) { return (isFav(b) ? 1 : 0) - (isFav(a) ? 1 : 0); });
     var shown = 0;
     cards.forEach(function (c) {
-      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) && (kind.value !== "online" || c.querySelector(".online")) && (kind.value !== "fav" || isFav(c)) && presOk(c);
+      var ok = (!needle || c.dataset.text.indexOf(needle) !== -1) && (kind.value !== "online" || c.querySelector(".online")) && (kind.value !== "fav" || isFav(c)) && presOk(c) && (!who.value || c.dataset.author === who.value);
       c.classList.toggle("hidden", !ok);
       if (ok) shown++;
       grid.appendChild(c);
@@ -281,6 +292,7 @@ FILTER_JS = '''<script>
     if (sort.value !== "added-desc") p.set("sort", sort.value);
     if (kind.value) p.set("kind", kind.value);
     if (pres.value) p.set("pres", pres.value);
+    if (who.value) p.set("by", who.value);
     var qs = p.toString();
     history.replaceState(null, "", qs ? "?" + qs : location.pathname);
   }
@@ -297,11 +309,13 @@ FILTER_JS = '''<script>
   sort.addEventListener("change", applyAndShare);
   kind.addEventListener("change", applyAndShare);
   pres.addEventListener("change", applyAndShare);
+  who.addEventListener("change", applyAndShare);
   var init = new URLSearchParams(location.search);
   if (init.get("q")) q.value = init.get("q");
   if (init.get("sort")) sort.value = init.get("sort");
   if (init.get("kind")) kind.value = init.get("kind");
   if (init.get("pres")) pres.value = init.get("pres");
+  if (init.get("by")) who.value = init.get("by");
   paint();
   apply();
 })();
@@ -318,7 +332,7 @@ def index_page(games: list[dict]) -> str:
       <li><strong>Play</strong> from the Start menu or the shortcut. Most games support a gamepad; several players can share one screen where a game allows it.</li>
       <li><strong>Updates:</strong> games with an updater offer new versions automatically. Update Date Night Arcade games by running the latest installer; their separate save profiles are retained.</li>
     </ol>
-    <p class="fine">Tap the heart on a game to keep it at the top of your feed (it is remembered in this browser). Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
+    <p class="fine"><strong>Who designed it?</strong> Every game is labelled <em>Human-designed</em> or <em>AI-designed</em>. AI-designed games are invented and built by an AI on its own, a new one most days, so they vary in quality; use the “Designed by” filter to see only one kind. Tap the heart on a game to keep it at the top of your feed (it is remembered in this browser). Every game keeps all its earlier versions: open a game’s “all versions” page to install an older one.</p>
     {signed_note(games)}
   </section>
   <div class="toolbar">
@@ -334,6 +348,11 @@ def index_page(games: list[dict]) -> str:
       <option value="" selected>2D and 3D</option>
       <option value="2d">2D</option>
       <option value="3d">3D</option>
+    </select>
+    <select id="who" aria-label="Designed by">
+      <option value="" selected>Human and AI designed</option>
+      <option value="human">Human-designed</option>
+      <option value="ai">AI-designed</option>
     </select>
     <select id="kind" aria-label="Show">
       <option value="" selected>All games</option>
@@ -393,6 +412,7 @@ def game_page(g: dict) -> str:
     {thumb}
     <div>
       <h2>{e(g["name"])}</h2>
+      <p class="meta">{by_badge(g)}</p>
       {online}
       <p>{e(g["description"])}</p>
       {hero_button}
@@ -439,7 +459,7 @@ def main() -> int:
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
-        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0
