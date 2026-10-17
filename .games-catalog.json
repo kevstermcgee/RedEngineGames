@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 107,
+    "demos": 109,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -153,6 +153,14 @@
     {
       "path": "demos/examples/3d/quiet-compass/quiet-compass.json",
       "sha256": "c6f21b29983c92a7039ec067d994cb797c16b078f64e315ffae235a2e8eef31c"
+    },
+    {
+      "path": "demos/examples/3d/restless-tide/audio/low_tide.json",
+      "sha256": "b609ee627c8481a8a862622f6e05dc3412ef80825d2e1de13edad511bd419670"
+    },
+    {
+      "path": "demos/examples/3d/restless-tide/restless-tide.json",
+      "sha256": "690f4909a298b53729b0285b258b20e9cfcc677f43180588703ddf47dc2d05d6"
     },
     {
       "path": "demos/examples/3d/sunken-marathon/audio/undertow.json",
@@ -888,6 +896,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c4860ce0252af6785c9e1cace7b0b7704a1ec456",
+  "source_revision": "58de4d32139be0235c47f55978d541e309dec5c8",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
