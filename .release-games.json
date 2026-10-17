@@ -335,6 +335,19 @@
       "kind": "2d",
       "files": ["projects/electric-carousel"],
       "arguments": ["content/projects/electric-carousel/electric-carousel.game2d.json"]
+    },
+    {
+      "slug": "restless-tide",
+      "name": "Restless Tide",
+      "files": ["projects/restless-tide"],
+      "arguments": ["content/projects/restless-tide/restless-tide.json"]
+    },
+    {
+      "slug": "wandering-engine",
+      "name": "Wandering Engine",
+      "kind": "2d",
+      "files": ["projects/wandering-engine"],
+      "arguments": ["content/projects/wandering-engine/wandering-engine.game2d.json"]
     }
   ],
   "native_playables": []
