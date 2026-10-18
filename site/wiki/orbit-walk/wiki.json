@@ -1,0 +1,98 @@
+{
+ "tagline": "A tiny animation demo: a figure walks across a grassy clearing while the camera circles slowly around it.",
+ "overview": "Orbit Walk is one of RedEngine's smallest example scenes, made for the engine's video renderer rather than for play. In a grassy clearing with two little cone-shaped trees, under a warm sunset sky, a figure walks forward with swinging arms while the camera glides in a slow circle around it, all over six seconds.\n\nIt has no player start, goals, rules or scores: it shows off keyframed animation (the walk, the camera path) and soft shadows. It is listed here because it is part of the engine's content, not because there is anything to win.",
+ "story": "No story: a figure out for a short walk in a clearing at sunset. The scene was built to test keyframed animation, camera motion and soft shadows in the engine's offline video renderer.",
+ "goal": "There is no goal: it is an animation demonstration.",
+ "rules": [
+  "The figure walks forward about three metres over six seconds.",
+  "The camera circles once around the clearing in the same six seconds.",
+  "There is no player, so nothing for you to do but watch."
+ ],
+ "controls": [
+  {
+   "input": "(none)",
+   "action": "This scene is an animation to watch"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Walker",
+   "role": "The star",
+   "description": "A plain wooden-toned figure that walks forward with swinging arms.",
+   "shot": {
+    "frame": {
+     "eye": "1.6,1.6,4",
+     "at": "0,1,1",
+     "fov": 45,
+     "t": 1
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "497e239b9b8b"
+  },
+  {
+   "name": "The Trees",
+   "role": "Scenery",
+   "description": "Two cone-shaped trees.",
+   "shot": {
+    "frame": {
+     "eye": "0,2.2,6",
+     "at": "0,1,0",
+     "fov": 45
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "5bdd3fe11b24"
+  }
+ ],
+ "tips": [
+  "This is a technical demo: try the House, School, Office or Store demos for places to walk around."
+ ],
+ "gallery": [
+  {
+   "caption": "The start of the orbit: the figure walking toward the trees.",
+   "shot": {
+    "frame": {
+     "t": 0
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "b9b49ec53f29"
+  },
+  {
+   "caption": "A quarter of the way round (1.5 seconds).",
+   "shot": {
+    "frame": {
+     "t": 1.5
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "31f3332ec283"
+  },
+  {
+   "caption": "From the far side (3 seconds).",
+   "shot": {
+    "frame": {
+     "t": 3
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "8a3075603c5c"
+  },
+  {
+   "caption": "Three quarters round (4.5 seconds).",
+   "shot": {
+    "frame": {
+     "t": 4.5
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "3b63388cc98d"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Orbit Walk is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}

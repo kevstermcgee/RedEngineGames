@@ -1,0 +1,154 @@
+{
+ "tagline": "A walk-around demo: a two-storey suburban house with furnished rooms and a fenced garden full of trees and flowers.",
+ "overview": "The House Demo is one of RedEngine's example scenes: a place to look around rather than a game to win. It is a suburban house, open inside, with a hall, a living room and a study, a porch and front walk, and a large fenced garden with trees, hedges, flowerbeds, a patio and a garden shed.\n\nYou walk around it in first person (Q switches to third person) carrying the baseball bat every RedEngine player starts with. There are no goals, scores or timers. It is a good place to see the engine's lighting, shadows and furniture models, or to host a session and wander around with friends.",
+ "story": "No story: it is an ordinary family house on an ordinary sunny afternoon, with nobody home. It was built as a showcase for the engine's houses, gardens, trees and furniture, and as a quiet place to try out walking around.",
+ "goal": "There is no goal and no way to win or lose: explore.",
+ "rules": [
+  "Walk anywhere inside the house and the fenced garden.",
+  "Your bat can knock loose objects around.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Visitor",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The House",
+   "role": "The setting",
+   "description": "A two-storey house with a porch and front walk.",
+   "shot": {
+    "frame": {
+     "eye": "-21.7,8.7,29.3",
+     "at": "0,1,7.6"
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Garden",
+   "role": "The setting",
+   "description": "A fenced garden with trees, hedges, flowerbeds and a little shed.",
+   "shot": {
+    "frame": {
+     "eye": "11.6,1.9,20.0",
+     "at": "9.0,0.6,17.4",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Press Q to see yourself in third person.",
+  "The roof is removed in the picture from above; inside, the house is open plan."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The house and garden from above, with the roof lifted off.",
+   "shot": {
+    "frame": {
+     "eye": "0.0,43.4,34.1",
+     "at": "0.0,0,7.6",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The front of the house.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "The living room.",
+   "shot": {
+    "frame": {
+     "eye": "-1.6,1.9,6.1",
+     "at": "-4.2,0.6,3.5",
+     "fov": 50
+    }
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Inside the house, toward the back door and the garden.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,16.9",
+     "at": "0.0,0.6,14.3",
+     "fov": 50
+    }
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "Walking in the garden.",
+   "shot": {
+    "playtest": "fp"
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. The House Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}

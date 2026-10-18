@@ -1,0 +1,182 @@
+{
+ "tagline": "A walk-around demo: a school building with corridors of lockers, a gym, a lobby with a trophy, a cafeteria and a bus out front.",
+ "overview": "The School Demo is one of RedEngine's example scenes: a full school to wander around rather than a game to win. A low school building stands in fenced grounds with a yellow school bus out front. Inside are a lobby with a trophy on a plinth, corridors lined with coloured lockers, a gym with a basketball court and stands, and a cafeteria with long tables.\n\nYou walk around in first person (Q switches to third person) carrying the default baseball bat. There are no goals or scores; it exists to show what the engine's building tools and furniture catalogue can make, and makes a good map for hide and seek with friends.",
+ "story": "No story: an empty school on a quiet day, after the last bell, with the bus still parked out front. It was built as a showcase of RedEngine's buildings and furniture, from lockers and benches to the gym's court.",
+ "goal": "There is no goal and no way to win or lose: explore.",
+ "rules": [
+  "Walk anywhere in the school and its grounds.",
+  "Your bat can knock loose objects around.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Visitor",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Gym",
+   "role": "Room",
+   "description": "A basketball court with stands.",
+   "shot": {
+    "frame": {
+     "eye": "-11.9,1.9,24.6",
+     "at": "-14.5,0.6,22.0",
+     "fov": 50
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Lobby",
+   "role": "Room",
+   "description": "The entrance hall, with a trophy on a plinth.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,24.6",
+     "at": "0.0,0.6,22.0",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "The Cafeteria",
+   "role": "Room",
+   "description": "Long tables and benches.",
+   "shot": {
+    "frame": {
+     "eye": "17.1,1.9,22.6",
+     "at": "14.5,0.6,20.0",
+     "fov": 50
+    }
+   },
+   "image": "c4.jpg"
+  }
+ ],
+ "tips": [
+  "Press Q to see yourself in third person.",
+  "Good map for an informal game of hide and seek: there are plenty of rooms."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The school from above, roof removed.",
+   "shot": {
+    "frame": {
+     "eye": "-0.1,80.7,64.5",
+     "at": "-0.1,0,15.2",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The front of the school.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "The grounds, the bus and the fence.",
+   "shot": {
+    "frame": {
+     "eye": "-40.4,16.1,55.5",
+     "at": "-0.1,1,15.2"
+    }
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Lockers along a corridor.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,17.6",
+     "at": "0.0,0.6,15.0",
+     "fov": 50
+    }
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "The gym.",
+   "shot": {
+    "frame": {
+     "eye": "-11.9,1.9,24.6",
+     "at": "-14.5,0.6,22.0",
+     "fov": 50
+    }
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "The cafeteria.",
+   "shot": {
+    "frame": {
+     "eye": "17.1,1.9,22.6",
+     "at": "14.5,0.6,20.0",
+     "fov": 50
+    }
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. The School Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}

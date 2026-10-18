@@ -5,7 +5,7 @@
   python3 site/wiki_build.py --all [--engine PATH] [--redraw]
 
 A page's `scene_patch` {"drop": ["weapons.revolver", ...]} draws from a temporary copy of the scene without those keys, for a game whose data the
-current engine refuses (the page itself should say so). Only missing pictures are drawn unless --redraw (a playtest does not replay exactly, so a captioned picture is kept until asked).
+current engine refuses (the page itself should say so). Only missing pictures, and pictures whose `shot` changed (`drawn_from` records it), are drawn unless --redraw (a playtest does not replay exactly, so a captioned picture is kept until asked).
 
 The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Needs Pillow (JPEG and 2D sprite portraits).
 Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
@@ -272,11 +272,13 @@ def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list
                 entry["image"] = f"{prefix}{n}{ext}"
                 taken.add(entry["image"])
             out = folder / entry["image"]
-            if out.is_file() and not redraw:
+            key = hashlib.sha1(json.dumps(shot, sort_keys=True).encode()).hexdigest()[:12]
+            if out.is_file() and not redraw and entry.setdefault("drawn_from", key) == key:   # a picture without a record predates it: taken as current
                 drawn.append((entry.get("name") or entry.get("caption", ""), out))
                 continue
             try:
                 draw(engine, scene, shot, out, playtest)
+                entry["drawn_from"] = key
                 drawn.append((entry.get("name") or entry.get("caption", ""), out))
             except (RuntimeError, KeyError, subprocess.TimeoutExpired, OSError) as e:
                 problems.append(f"{entry['image']}: {e}")

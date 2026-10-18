@@ -1,0 +1,151 @@
+{
+ "tagline": "The engine's own test map: a row of plain rooms, one per system under test, from stairs and platforms to props and characters.",
+ "overview": "Red Test Lab is a deliberately basic map that RedEngine's developers use to check the engine's systems. It is a long building of plain, colour-coded rooms in a row: a spawn hall, a clearance room of tall panels to squeeze between, a vertical room with stairs and a raised platform, a props room with crates and a ladder, a range with targets, and a characters room.\n\nThere is no game here: it exists so that movement, collisions, climbing and the engine's props can be tested in isolation. It is on this site because it is part of the engine's content, and it can be fun to poke at.",
+ "story": "No story: this is a test facility. It was built so the engine's developers (and the AI agents that work on the engine) can check movement, collisions, climbing and physics props one room at a time.",
+ "goal": "There is no goal: it is a test map.",
+ "rules": [
+  "Each room tests one thing: spawning, squeezing through gaps, stairs and platforms, loose props, a target range and character models.",
+  "Your bat can knock the loose props around.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Tester",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "Stairs and platform",
+   "role": "Test room",
+   "description": "A staircase up to a raised platform.",
+   "shot": {
+    "frame": {
+     "eye": "-3.9,1.9,7.2",
+     "at": "-6.5,0.6,4.6",
+     "fov": 50
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Range",
+   "role": "Test room",
+   "description": "Upright coloured panels to swing at.",
+   "shot": {
+    "frame": {
+     "eye": "14.6,1.9,2.6",
+     "at": "12.0,0.6,0.0",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Walk along the row from the spawn hall to the characters room."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The whole lab from above: one room per system, side by side.",
+   "shot": {
+    "frame": {
+     "eye": "0.8,37.4,22.5",
+     "at": "0.8,0,-0.3",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The clearance room: tall panels to squeeze between.",
+   "shot": {
+    "frame": {
+     "eye": "-9.4,1.9,2.6",
+     "at": "-12.0,0.6,0.0",
+     "fov": 50
+    }
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "The props room: crates and a ladder.",
+   "shot": {
+    "frame": {
+     "eye": "6.6,1.9,2.6",
+     "at": "4.0,0.6,0.0",
+     "fov": 50
+    }
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "The raised platform.",
+   "shot": {
+    "frame": {
+     "eye": "-3.5,3.8,4.9",
+     "at": "-6.1,2.5,2.3",
+     "fov": 50
+    }
+   },
+   "image": "g4.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Red Test Lab is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}

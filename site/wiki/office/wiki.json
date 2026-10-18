@@ -1,0 +1,157 @@
+{
+ "tagline": "A walk-around demo: a two-storey office block with desks, a lounge with a pool table and a car park full of cars.",
+ "overview": "The Office Demo is one of RedEngine's example scenes: an office building to wander around rather than a game to win. It stands in a fenced lot with a car park full of parked cars. Inside are open-plan desks and a staff lounge with a pool table, and you can go up to the roof.\n\nYou walk around in first person (Q switches to third person) carrying the default baseball bat. There are no goals or scores; it exists to show off the engine's building, vehicle and furniture models.",
+ "story": "No story: an office block after hours, the desks empty and everyone gone home, the cars still in the car park. It was built as a showcase of RedEngine's buildings, vehicles and office furniture.",
+ "goal": "There is no goal and no way to win or lose: explore.",
+ "rules": [
+  "Walk anywhere in the office, on the roof and around the car park.",
+  "Your bat can knock loose objects around.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Visitor",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Office Block",
+   "role": "The setting",
+   "description": "A two-storey office with a flat roof.",
+   "shot": {
+    "frame": {
+     "eye": "-37.7,15.0,56.6",
+     "at": "-0.1,1,18.9"
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Lounge",
+   "role": "Room",
+   "description": "A staff lounge with a pool table.",
+   "shot": {
+    "frame": {
+     "eye": "4.7,5.0,23.2",
+     "at": "2.1,3.7,20.6",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Press Q to see yourself in third person."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The office and its car park from above, roof removed.",
+   "shot": {
+    "frame": {
+     "eye": "-0.1,75.2,64.9",
+     "at": "-0.1,0,18.9",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Arriving in the car park.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Inside: open-plan desks.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,22.6",
+     "at": "0.0,0.6,20.0",
+     "fov": 50
+    }
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "The lounge with its pool table.",
+   "shot": {
+    "frame": {
+     "eye": "4.7,5.0,23.2",
+     "at": "2.1,3.7,20.6",
+     "fov": 50
+    }
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "On the roof.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,8.6,2.6",
+     "at": "0.0,7.3,0.0",
+     "fov": 50
+    }
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. The Office Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}
