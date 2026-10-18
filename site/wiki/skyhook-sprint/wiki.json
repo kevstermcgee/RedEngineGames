@@ -1,0 +1,183 @@
+{
+ "tagline": "Sprint down a corridor over three launch pads that fling you through three gates hanging in the air.",
+ "overview": "Skyhook Sprint is a tiny first-person jump-pad course, built as a quick physics experiment. A narrow corridor holds three cyan launch pads in a row, and above the floor just past each pad hangs a yellow gate bar.\n\nSprint forward: each pad hurls you into the air, and you need to pass through each gate as you fly. The gates disappear as you pass them. Fly through all three to win. A straight sprint does it in about two seconds; the challenge is not overshooting or drifting to the side, and you can steer a little in mid-air.",
+ "story": "A skyhook training lane on a rooftop: three launch pads, three gates hanging in the air and a runner who has to thread all of them in a single sprint, without slowing down or drifting off line.",
+ "goal": "Fly through all three gates (GATES 3): VICTORY. There is no way to lose.",
+ "rules": [
+  "Running onto a cyan pad launches you upward and forward.",
+  "Each yellow gate counts when you pass through it in the air; it then disappears.",
+  "Three gates win."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look, and steer a little while in the air"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Launch pads",
+   "role": "Springboards",
+   "description": "Three cyan squares on the floor, one after another.",
+   "shot": {
+    "frame": {
+     "eye": "2,2,3",
+     "at": "0,0,-3",
+     "fov": 65
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "Gates",
+   "role": "Targets",
+   "description": "Yellow bars hanging in the air just past each pad.",
+   "shot": {
+    "frame": {
+     "eye": "0,2.6,1.5",
+     "at": "0,2.7,-8",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg"
+  }
+ ],
+ "tips": [
+  "Hold sprint and forward the whole way and keep your view straight down the corridor.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       8,
+       7,
+       4
+      ],
+      "at": [
+       0,
+       2,
+       -7
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "look": {
+      "yaw": 0,
+      "pitch": 5
+     }
+    },
+    {
+     "hold": [
+      "forward",
+      "sprint"
+     ],
+     "secs": 0.5
+    },
+    {
+     "shot": "air1",
+     "camera": "third"
+    },
+    {
+     "hold": [
+      "forward",
+      "sprint"
+     ],
+     "secs": 0.7
+    },
+    {
+     "shot": "air2",
+     "camera": "first"
+    },
+    {
+     "hold": [
+      "forward",
+      "sprint"
+     ],
+     "secs": 1.0
+    },
+    {
+     "shot": "air3",
+     "camera": "third"
+    },
+    {
+     "hold": [
+      "forward",
+      "sprint"
+     ],
+     "secs": 2.5
+    },
+    {
+     "wait": 0.5
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The course from the side: three cyan pads and three yellow gates.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The start, looking down the course.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Launched off the first pad toward the first gate.",
+   "shot": {
+    "playtest": "air1"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Through the first gate (GATES 1), the next one ahead.",
+   "shot": {
+    "playtest": "air2"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "All three gates in about two seconds: VICTORY.",
+   "shot": {
+    "playtest": "air3"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Skyhook Sprint is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."
+}

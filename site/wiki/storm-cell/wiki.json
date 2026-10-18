@@ -1,0 +1,222 @@
+{
+ "tagline": "Grab three glowing cores in a room where four crates are flung around by a storm, then get out through the green exit.",
+ "overview": "Storm Cell is a tiny first-person dodging game, built as a quick physics experiment. Three yellow energy cores sit in three corners of a dark room, and a green exit is set in the far wall. In the middle, four pale blue crates are hit by gusts of wind every second or so, each on its own rhythm, so they slide and tumble around the room.\n\nWalk into a core to collect it, avoiding the crates as you go, and once you have all three, walk into the exit to win. The crates are only obstacles: they can push you around, but they do not hurt you.",
+ "story": "A containment cell with a storm trapped inside it. Somebody has to walk in, collect the three energy cores before the gusts scatter everything across the floor, and then get out through the far door.",
+ "goal": "Collect all three yellow cores (CORES 3), then walk into the green exit: VICTORY. There is no way to lose.",
+ "rules": [
+  "Walking into a yellow core collects it.",
+  "Four crates in the middle are pushed by gusts every 0.8 to 1.7 seconds; they can block or shove you.",
+  "The exit only works once you have all three cores."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Cores",
+   "role": "What you collect",
+   "description": "Glowing yellow spheres in three corners of the room.",
+   "shot": {
+    "frame": {
+     "eye": "-4,1.5,-4",
+     "at": "-6,0.8,-6",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Storm Crates",
+   "role": "Obstacles",
+   "description": "Four pale blue crates around the centre, shoved by the storm.",
+   "shot": {
+    "frame": {
+     "eye": "3.5,3,3.5",
+     "at": "0,0.4,0",
+     "fov": 60
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Exit",
+   "role": "Goal",
+   "description": "The green door in the far wall.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.8,-4.5",
+     "at": "0,1.2,-8.5",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Go round the edge of the room rather than through the middle where the crates are.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       14,
+       12
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "shot": "w1",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -45.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.82
+    },
+    {
+     "shot": "w2",
+     "camera": "first"
+    },
+    {
+     "shot": "t2",
+     "camera": "third"
+    },
+    {
+     "look": {
+      "yaw": 90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.55
+    },
+    {
+     "shot": "w3",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -155.2,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 3.03
+    },
+    {
+     "shot": "w4",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 0.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 3.17
+    },
+    {
+     "shot": "w5",
+     "camera": "first"
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The cell from above: three cores in the corners, the storm crates in the middle and the green exit at the top.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The start, in the middle of the storm crates.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Crossing to the second core while the crates slide around.",
+   "shot": {
+    "playtest": "t2"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "All three cores (CORES 3); the exit ahead.",
+   "shot": {
+    "playtest": "w4"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Out through the exit: VICTORY.",
+   "shot": {
+    "playtest": "end"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Storm Cell is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."
+}
