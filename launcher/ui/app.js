@@ -36,6 +36,14 @@ const latest = (g) => (g.versions && g.versions[0]) || null;
 const pic = (g, name) => `${S.site}games/${encodeURIComponent(g.slug)}/${encodeURIComponent(name)}`;
 const tagline = (g) => (g.wiki && g.wiki.tagline) || g.description || "";
 
+/** "2026-10-18" as the player's own short date ("Oct 18, 2026"); anything else as it is. Read as a local date: `new Date("2026-10-18")` is
+ *  UTC midnight, which is still the 17th in America. */
+function day(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
+  if (!m) return String(iso || "");
+  return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
 function thumb(g) {
   if (g.thumb) return S.site + g.thumb;
   const first = g.wiki && g.wiki.gallery && g.wiki.gallery[0];
@@ -232,22 +240,37 @@ function jobHtml(slug) {
   return `<div class="job"><div class="bar${unpack ? " busy" : ""}"><i style="width:${queued ? 0 : pct}%"></i></div><span class="what">${what}</span>${cancelBtn}</div>`;
 }
 
-/** The main button(s) for a game. `big` is the game's own page. */
-function actHtml(g, big) {
+/** The main button(s) for a game. `size` is "big" on the game's own page, "mini" in Favorites, "" on cards and rows. */
+function actHtml(g, size) {
   const s = h(g.slug);
-  const size = big ? " big" : "";
+  const big = size === "big" ? " big" : "";
   if (S.jobs.has(g.slug)) return jobHtml(g.slug);
   const v = latest(g);
   const st = state(g);
   const starting = S.playing.has(g.slug);
-  const playBtn = `<button class="btn play${size}" data-act="play" data-slug="${s}"${starting ? " disabled" : ""}>${starting ? "Starting…" : "&#x25B6; Play"}</button>`;
+  const playBtn = `<button class="btn play${big}" data-act="play" data-slug="${s}"${starting ? " disabled" : ""}>${starting ? "Starting…" : "&#x25B6; Play"}</button>`;
   if (st === "update_available") {
-    const upd = `<button class="btn primary${size}" data-act="install" data-slug="${s}">Update <span class="sub">v${g.status.latest} · ${mb(v.zip.size)}</span></button>`;
-    return big ? playBtn + upd : upd + `<button class="btn link" data-act="play" data-slug="${s}" title="Play the installed version">Play</button>`;
+    if (size) return playBtn + newerHtml(g, size);
+    return `<button class="btn primary" data-act="install" data-slug="${s}">Update <span class="sub">v${g.status.latest} · ${mb(v.zip.size)}</span></button>`
+      + `<button class="btn link" data-act="play" data-slug="${s}" title="Play the installed version">Play</button>`;
   }
   if (st === "installed") return playBtn;
-  if (!v) return `<button class="btn${size}" disabled>Not available</button>`;
-  return `<button class="btn primary${size}" data-act="install" data-slug="${s}">Install <span class="sub">${mb(v.zip.size)}</span></button>`;
+  if (!v) return `<button class="btn${big}" disabled>Not available</button>`;
+  return `<button class="btn primary${big}" data-act="install" data-slug="${s}">Install <span class="sub">${mb(v.zip.size)}</span></button>`;
+}
+
+/** The small button beside Play when a newer version is out: which one and when, and a click updates the game. */
+function newerHtml(g, size) {
+  const v = latest(g);
+  const tip = `Version ${v.version} is ready (released ${day(v.released)}, ${mb(v.zip.size)}). Click to update; your saves stay.`;
+  const text = size === "big" ? `New version ${v.version} · ${h(day(v.released))}` : `v${v.version}`;
+  return `<button class="newer" data-act="install" data-slug="${h(g.slug)}" title="${h(tip)}" aria-label="${h(tip)}"><span class="up" aria-hidden="true">&#x2191;</span>${text}</button>`;
+}
+
+function heartHtml(g) {
+  const on = !!g.favorite;
+  return `<button class="heart" data-act="heart" data-slug="${h(g.slug)}" data-heart-for="${h(g.slug)}" aria-pressed="${on}" aria-label="Favorite ${h(g.name)}"
+    title="${on ? "In your Favorites: click to remove it" : "Add to your Favorites"}">${on ? "&#x2665;" : "&#x2661;"}</button>`;
 }
 
 function ownedHtml(g) {
@@ -258,10 +281,42 @@ function ownedHtml(g) {
 }
 
 function card(g) {
-  return `<article class="card" data-open="${h(g.slug)}">
-    ${shot(thumb(g), g.name, `<span data-owned-for="${h(g.slug)}">${ownedHtml(g)}</span>`)}
+  return `<article class="card${g.favorite ? " fav" : ""}" data-open="${h(g.slug)}">
+    ${shot(thumb(g), g.name, `<span data-owned-for="${h(g.slug)}">${ownedHtml(g)}</span>${heartHtml(g)}`)}
     <div class="body">${badges(g)}<h3>${h(g.name)}</h3><p class="tagline">${h(tagline(g))}</p>
-    <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, false)}</div></div></article>`;
+    <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, "")}</div></div></article>`;
+}
+
+// ---------- favorites: the hearted games, in a small section at the top of Games (kept in library.json by the window)
+
+function favoritesHtml() {
+  const favs = S.games.filter((g) => g.favorite).sort((a, b) => a.name.localeCompare(b.name));
+  if (!favs.length) return `<h2 class="section">&#x2665; Favorites</h2><p class="fine">Click the &#x2661; on any game to keep it here.</p>`;
+  const tile = (g) => `<article class="fav-tile" data-open="${h(g.slug)}">${shot(thumb(g), g.name)}
+    <div class="body"><h3 title="${h(g.name)}">${h(g.name)}</h3><div class="act" data-act-for="${h(g.slug)}" data-size="mini">${actHtml(g, "mini")}</div></div>${heartHtml(g)}</article>`;
+  return `<h2 class="section">&#x2665; Favorites <span class="count">${favs.length}</span></h2><div class="fav-list">${favs.map(tile).join("")}</div>`;
+}
+
+async function setFavorite(slug, on) {
+  const g = S.bySlug.get(slug);
+  if (!g) return;
+  g.favorite = on;
+  paintHearts(slug);
+  try {
+    await invoke("favorite", { slug, on });
+  } catch (e) {
+    g.favorite = !on;
+    paintHearts(slug);
+    toast(`${g.name} could not be ${on ? "added to" : "removed from"} your Favorites: ${e}`, "error");
+  }
+}
+
+function paintHearts(slug) {
+  const g = S.bySlug.get(slug);
+  document.querySelectorAll(`[data-heart-for="${CSS.escape(slug)}"]`).forEach((b) => { b.outerHTML = heartHtml(g); });
+  document.querySelectorAll(`.card[data-open="${CSS.escape(slug)}"]`).forEach((c) => c.classList.toggle("fav", !!g.favorite));
+  const favs = $("#favs");
+  if (favs) favs.innerHTML = favoritesHtml();
 }
 
 function matches(g) {
@@ -284,7 +339,8 @@ function matches(g) {
 function gamesView() {
   const f = S.filters;
   const opt = (value, label, cur) => `<option value="${value}"${cur === value ? " selected" : ""}>${label}</option>`;
-  return `<p class="intro">Every game says who designed it. <strong>Human-designed</strong> games were designed by a person, and each page shows the prompt that made it.
+  return `<section class="favs" id="favs">${favoritesHtml()}</section>
+  <p class="intro">Every game says who designed it. <strong>Human-designed</strong> games were designed by a person, and each page shows the prompt that made it.
     <strong>AI-designed</strong> games were invented and built by an AI on its own, a new one most days, so they vary; each page says why the AI made it.</p>
   <div class="toolbar">
     <input id="q" type="search" placeholder="Search games" value="${h(f.q)}" aria-label="Search games">
@@ -322,8 +378,8 @@ function libraryView() {
     const st = state(g);
     const meta = st === "update_available" ? `<p class="meta upd">Version ${i.version} installed · version ${g.status.latest} is ready</p>` : `<p class="meta">Version ${i.version}${g.retired ? "" : " · up to date"}</p>`;
     return `<div class="row" data-open="${h(g.slug)}">${shot(thumb(g), g.name)}
-      <div><h3>${h(g.name)}</h3>${badges(g)}${meta}<p class="meta">${i.played ? `Last played ${h(i.played)}` : "Not played yet"}</p></div>
-      <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, false)}</div></div>`;
+      <div><h3>${h(g.name)}</h3>${badges(g)}${meta}<p class="meta">${i.played ? `Last played ${h(day(i.played))}` : "Not played yet"}</p></div>
+      <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, "")}</div></div>`;
   }).join("");
   return `<div class="lib-head"><h2>Installed games <span class="count">${mine.length}</span></h2>${upAll}</div><div class="rows">${rows}</div>`;
 }
@@ -338,7 +394,7 @@ function downloadsView() {
   if (done.length) {
     out += `<h2 class="section">Finished</h2><div class="dl-list">${done.map(([r, g]) => {
       const text = r.phase === "done" ? `<div class="state good">Installed</div>` : r.phase === "cancelled" ? `<div class="state">Cancelled</div>` : `<div class="state bad">Failed: ${h(r.message)}</div>`;
-      const again = r.phase === "done" ? actHtml(g, false) : state(g) !== "installed" && latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : "";
+      const again = r.phase === "done" ? actHtml(g, "") : state(g) !== "installed" && latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : "";
       return `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${text}</div><div class="act" data-act-for="${h(g.slug)}" data-finished="1">${again}</div></div>`;
     }).join("")}</div>`;
   }
@@ -418,7 +474,7 @@ function ownReview(slug) {
 function reviewCard(r, pending) {
   const text = (s) => h(s).replace(/\n/g, "<br>");
   const meta = pending ? "your review: it shows for everyone within about half an hour"
-    : `${h(r.date)}${r.version ? ` · version ${r.version}` : ""}${r.source === "app" ? " · in the app" : ""}`;
+    : `${h(day(r.date))}${r.version ? ` · version ${r.version}` : ""}${r.source === "app" ? " · in the app" : ""}`;
   return `<article class="rv${pending ? " pending" : ""}"><header><span class="rv-n">${r.score}<small>/10</small></span><span><strong>${h(r.name || "Anonymous player")}</strong> <span class="fine">${meta}</span></span></header>
     ${r.liked ? `<p><span class="rv-k">Enjoyed</span>${text(r.liked)}</p>` : ""}${r.disliked ? `<p><span class="rv-k">Didn't enjoy</span>${text(r.disliked)}</p>` : ""}</article>`;
 }
@@ -485,20 +541,44 @@ document.addEventListener("submit", (e) => {
   sendReview(form);
 });
 
+/** Every version of the game, newest first, as on the website's game page: when it came out and what changed. */
 function versionsHtml(g) {
   const mine = g.installed && g.installed.version;
-  const vs = (g.versions || []).map((v) => `<div class="v"><strong>Version ${v.version}</strong><span class="fine">${h(v.released)} · ${mb(v.zip.size)}</span>${v.version === mine ? `<span class="tag">Installed</span>` : ""}
-    ${v.notes && v.notes.length ? `<ul>${v.notes.map((x) => `<li>${h(x)}</li>`).join("")}</ul>` : ""}</div>`).join("");
-  return `<section id="versions"><h2>Versions</h2>${vs ? `<div class="versions">${vs}</div><p class="fine">The launcher always installs the newest version and keeps it up to date.</p>` : `<p class="fine">No version of this game is on the site.</p>`}</section>`;
+  const vs = g.versions || [];
+  if (!vs.length) return `<section id="versions"><h2>Versions</h2><p class="fine">No version of this game is on the site.</p></section>`;
+  const rows = vs.map((v, n) => {
+    const tags = (n === 0 ? `<span class="tag latest">Latest</span>` : "") + (v.version === mine ? `<span class="tag">Installed</span>` : "");
+    const notes = v.notes && v.notes.length ? `<ul>${v.notes.map((x) => `<li>${h(x)}</li>`).join("")}</ul>`
+      : `<span class="fine">${v.engine_revision ? `Built with RedEngine ${h(v.engine_revision.slice(0, 12))}` : "No notes"}</span>`;
+    return `<tr${v.version === mine ? ' class="mine"' : ""}><td><strong>Version ${v.version}</strong>${tags}</td><td>${h(day(v.released))}</td><td>${notes}</td><td>${mb(v.zip.size)}</td></tr>`;
+  }).join("");
+  const older = g.retired ? "" : ` Every version can still be downloaded from the game's <button class="inline-link" data-act="page" data-slug="${h(g.slug)}">web page</button>.`;
+  return `<section id="versions"><h2>Versions</h2>
+    <table class="versions"><thead><tr><th>Version</th><th>Released</th><th>What changed</th><th>Download</th></tr></thead><tbody>${rows}</tbody></table>
+    <p class="fine">The app installs the newest version and keeps it up to date; your saves stay when it updates.${older}</p></section>`;
+}
+
+/** Under the title: the version the player has (or would get) and when it was released. */
+function verLineHtml(g) {
+  const vs = g.versions || [];
+  const i = g.installed;
+  const all = vs.length > 1 ? ` · <button class="inline-link" data-scroll="versions">all ${vs.length} versions</button>` : "";
+  if (i) {
+    const mine = vs.find((v) => v.version === i.version);
+    const when = mine && mine.released ? `Released ${h(day(mine.released))}` : i.installed ? `Installed ${h(day(i.installed))}` : "";
+    return `<strong>Version ${i.version} installed</strong>${when ? ` · ${when}` : ""}${all}`;
+  }
+  const v = latest(g);
+  return v ? `<strong>Version ${v.version}</strong> · Released ${h(day(v.released))}${all}` : "";
 }
 
 function factsHtml(g) {
   const v = latest(g);
   const i = g.installed;
   const rows = [];
-  if (i) rows.push(["Installed", `version ${i.version}${i.installed ? ` on ${h(i.installed)}` : ""}`], ["Last played", i.played ? h(i.played) : "not yet"]);
-  if (v) rows.push(["Latest", `version ${v.version}, ${h(v.released)}`], ["Download", mb(v.zip.size)]);
-  if (g.added) rows.push(["On the site since", h(g.added)]);
+  if (i) rows.push(["Installed on", i.installed ? h(day(i.installed)) : "–"], ["Last played", i.played ? h(day(i.played)) : "not yet"]);
+  if (v) rows.push(["Download", mb(v.zip.size)]);
+  if (g.added) rows.push(["On the site since", h(day(g.added))]);
   return rows.map(([k, val]) => `<dt>${k}</dt><dd>${val}</dd>`).join("");
 }
 
@@ -520,8 +600,9 @@ function gameView(g) {
   return `<button class="btn link back" data-act="back">&#x2039; Back</button>
   <section class="hero">
     <div ${first ? `data-zoom="hero" data-src="${h(hero)}" data-caption="${h(first.caption)}"` : ""}>${shot(hero, g.name)}</div>
-    <div><h1>${h(g.name)}</h1>${badges(g)}<p class="lead">${h(tagline(g))}</p>
-      <div class="act" data-act-for="${h(g.slug)}" data-big="1">${actHtml(g, true)}</div>
+    <div><div class="title-row"><h1>${h(g.name)}</h1>${heartHtml(g)}</div>${badges(g)}<p class="lead">${h(tagline(g))}</p>
+      <p class="ver-line" data-ver-for="${h(g.slug)}">${verLineHtml(g)}</p>
+      <div class="act" data-act-for="${h(g.slug)}" data-size="big">${actHtml(g, "big")}</div>
       <div class="more" data-more-for="${h(g.slug)}">${moreHtml(g)}</div>
       <dl class="facts" data-facts-for="${h(g.slug)}">${factsHtml(g)}</dl>${online}</div>
   </section>${body}`;
@@ -612,7 +693,8 @@ function changed(slug, statusChanged) {
     if (up) up.disabled = updatable().every((u) => S.jobs.has(u.slug));
   }
   if (!g) return;
-  document.querySelectorAll(`[data-act-for="${CSS.escape(slug)}"]`).forEach((el) => { if (!el.dataset.finished) el.innerHTML = actHtml(g, !!el.dataset.big); });
+  document.querySelectorAll(`[data-act-for="${CSS.escape(slug)}"]`).forEach((el) => { if (!el.dataset.finished) el.innerHTML = actHtml(g, el.dataset.size || ""); });
+  document.querySelectorAll(`[data-ver-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = verLineHtml(g); });
   document.querySelectorAll(`[data-owned-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = ownedHtml(g); });
   document.querySelectorAll(`[data-facts-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = factsHtml(g); });
   document.querySelectorAll(`[data-more-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = moreHtml(g); });
@@ -744,6 +826,7 @@ document.addEventListener("click", async (e) => {
       case "install": return enqueue(slug);
       case "cancel": return cancel(slug);
       case "play": return play(slug);
+      case "heart": return setFavorite(slug, !(S.bySlug.get(slug) || {}).favorite);
       case "uninstall": return uninstall(slug);
       case "saves": case "folder": case "page":
         return invoke("open", { slug, what: act.dataset.act }).catch((err) => toast(String(err), "error"));

@@ -15,7 +15,7 @@ so games and the app's own updates never trigger it.
 ## On a player's PC
 
 - The app installs per user (no administrator rights) to `%LOCALAPPDATA%\RedEngine Games`.
-- Games live in `%LOCALAPPDATA%\RedEngineGames\games\<slug>\v<N>\`, recorded in `library.json`.
+- Games live in `%LOCALAPPDATA%\RedEngineGames\games\<slug>\v<N>\`, recorded in `library.json`. The player's favorites (the hearts) are kept in the same file, so they outlast app updates and uninstalls.
 - An update unpacks the new version beside the old one and switches over only when it is complete, so a failed update leaves the game playable.
 - Saves are in `%USERPROFILE%\Saved Games\<game>`, the same folder the stand-alone installers use. Uninstalling a game never touches them.
 - A game starts the way its own `Play-<slug>.exe` starts it: the engine named in `engine.name` with the arguments in `launch.args`, and `RE2_SAVE_DIR` set.

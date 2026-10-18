@@ -157,11 +157,51 @@ table.controls th { color: var(--muted); font-weight: 500; font-size: .8rem; }
 blockquote { margin: 8px 0; padding: 6px 16px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; overflow-wrap: anywhere; }
 blockquote.prompt { font: .86rem/1.55 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
 .fine { color: var(--muted); font-size: .86rem; }
-.versions { display: flex; flex-direction: column; gap: 8px; }
-.versions .v { background: var(--surface); border-radius: 6px; padding: 8px 12px; }
-.versions .v strong { margin-right: 8px; }
-.versions .v ul { margin: 4px 0 0; }
+table.versions { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: .9rem; }
+table.versions th, table.versions td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.versions th { color: var(--muted); font-weight: 500; font-size: .8rem; }
+table.versions td:first-child, table.versions td:nth-child(2), table.versions td:last-child { white-space: nowrap; }
+table.versions td:nth-child(2), table.versions td:last-child { color: var(--soft); }
+table.versions td:nth-child(3) { overflow-wrap: anywhere; }
+table.versions ul { margin: 0; padding-left: 18px; }
+table.versions tr.mine td { background: var(--surface); }
 .tag { background: var(--good); color: #06210F; border-radius: 4px; padding: 0 6px; font-size: .72rem; font-weight: 700; margin-left: 6px; }
+.tag.latest { background: var(--accent); color: var(--ink); }
+.inline-link { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.inline-link:hover { color: var(--text); }
+
+/* The top of a game's page: the heart, which version and when, and the newer version beside Play */
+.title-row { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; }
+.title-row h1 { margin: 0; min-width: 0; }
+.title-row .heart { position: static; flex: 0 0 auto; width: 40px; height: 40px; font-size: 1.4rem; background: var(--card); }
+.ver-line { margin: 10px 0 0; color: var(--soft); }
+.ver-line strong { color: var(--text); }
+.newer { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--accent); background: rgba(255, 92, 122, .14); color: var(--accent); border-radius: 999px;
+  padding: 3px 11px 3px 4px; font-size: .8rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.newer .up { display: inline-flex; align-items: center; justify-content: center; width: 19px; height: 19px; border-radius: 50%; background: var(--accent); color: var(--ink); font-size: .78rem; }
+.newer:hover { background: var(--accent); color: var(--ink); }
+.newer:hover .up { background: var(--ink); color: var(--accent); }
+
+/* Favorites: a heart on every game, and the hearted ones in a small section at the top of Games */
+.heart { position: absolute; top: 8px; right: 8px; z-index: 2; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: rgba(20, 8, 14, .72);
+  color: var(--text); font-size: 1.2rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.heart:hover { background: rgba(20, 8, 14, .92); }
+.heart[aria-pressed="true"] { color: var(--accent); }
+.card.fav { box-shadow: 0 0 0 2px var(--accent); }
+.card.fav:hover { box-shadow: 0 6px 20px rgba(0,0,0,.45), 0 0 0 2px var(--accent); }
+.favs { margin: 18px 0 0; }
+.favs h2.section { margin: 0 0 10px; }
+.favs > .fine { margin: 0; }
+.fav-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; }
+.fav-tile { position: relative; display: grid; grid-template-columns: 124px 1fr; min-height: 74px; background: var(--card); border-radius: 8px; overflow: hidden; cursor: pointer; }
+.fav-tile:hover { box-shadow: 0 0 0 1px var(--line); }
+.fav-tile .shot { aspect-ratio: auto; height: 100%; }
+.fav-tile .body { padding: 8px 42px 8px 12px; display: flex; flex-direction: column; justify-content: center; gap: 6px; min-width: 0; }
+.fav-tile h3 { margin: 0; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fav-tile .act { display: flex; gap: 6px; align-items: center; }
+.fav-tile .btn { padding: 5px 12px; font-size: .85rem; }
+.fav-tile .heart { top: 50%; right: 6px; transform: translateY(-50%); width: 32px; height: 32px; font-size: 1.1rem; background: none; }
+.fav-tile .heart:hover { background: var(--surface); }
 
 /* Player reviews */
 .rv-summary { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 14px; }

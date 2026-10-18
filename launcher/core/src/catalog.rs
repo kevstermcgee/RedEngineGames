@@ -52,6 +52,9 @@ pub struct Version {
     pub released: String,
     #[serde(default)]
     pub notes: Vec<String>,
+    /// The engine it was built with: what a version with no notes says it is.
+    #[serde(default)]
+    pub engine_revision: String,
     /// The portable build: what the launcher installs.
     pub zip: Asset,
 }
