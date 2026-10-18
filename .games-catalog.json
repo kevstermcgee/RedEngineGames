@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 110,
+    "demos": 111,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -9,6 +9,10 @@
     {
       "path": "demos/examples/2d/coin-dash.game2d.json",
       "sha256": "3a0bf6f378b4f91a32e94d5060ac86e10869e2fd9fd873455b404cd62b58f899"
+    },
+    {
+      "path": "demos/examples/2d/copper-choir.game2d.json",
+      "sha256": "b6856125b4af2344d875d3778b924932d91b390c08ad01b122f9ac9fb34399c9"
     },
     {
       "path": "demos/examples/2d/electric-carousel.game2d.json",
@@ -900,6 +904,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c80834594799693dbc2cc9626035d914a58a0f42",
+  "source_revision": "63b2bc6f2a00785fac9093665a5d53f7fe8ef9ad",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
