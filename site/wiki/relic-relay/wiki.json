@@ -1,0 +1,239 @@
+{
+ "tagline": "Grab an unstable relic and sprint it down a long corridor; it melts down six seconds after you take it unless you recharge it halfway.",
+ "overview": "Relic Relay is a tiny first-person sprint, one of a set of quick minigames built to test RedEngine. You start at the south end of a long, narrow corridor. Just ahead is the depot with a glowing blue relic, halfway down is an orange recharge pad, and at the far end a green vault.\n\nStep onto the depot to take the relic, and its decay timer starts counting. After six seconds it melts down. Running over the orange recharge pad resets the timer once, which gives you just enough time to reach the green vault and deliver it.",
+ "story": "A courier is carrying an unstable relic from its depot to a sealed vault. It overloads within seconds of being moved, and there is exactly one recharging station on the way.",
+ "goal": "Take the relic, recharge it on the orange pad, and reach the green vault with DECAY_TIMER under 6: VICTORY. Let the timer reach 6 and the relic melts down (MELTDOWN FAILED).",
+ "rules": [
+  "Walk onto the depot (the area around the blue relic near the start) to take the relic.",
+  "From then on DECAY_TIMER goes up by 1 every second. At 6 the relic melts down.",
+  "Crossing the orange recharge pad halfway down resets DECAY_TIMER to 0, once.",
+  "Reaching the green vault at the far end with the timer under 6 wins."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Relic",
+   "role": "Cargo",
+   "description": "The glowing blue cylinder at the depot near the start.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,1.4,-10.5",
+     "at": "0,0.3,-8.5",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Recharge Pad",
+   "role": "Checkpoint",
+   "description": "The orange block halfway down the corridor. It resets the timer once.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,1.4,-1.8",
+     "at": "0,0.2,0.5",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Vault",
+   "role": "Goal",
+   "description": "The green block at the far north end of the corridor.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,1.4,7",
+     "at": "0,0.3,9.5",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Sprint the whole way: the corridor is about 20 metres from depot to vault.",
+  "Do not wait at the depot; the timer starts the moment you step onto it.",
+  "The bat, ROUND and health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        6,
+        12,
+        -13
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 70
+      }
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.99
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.86
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.86
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "lose": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.99
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "wait": 9
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The corridor from above: the blue relic near the start, the orange recharge pad and the green vault at the far end.",
+   "shot": {
+    "playtest": "win/over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The start, facing the relic.",
+   "shot": {
+    "playtest": "win/w0"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Relic taken, recharged on the orange pad (RECHARGED 1, timer back to 0).",
+   "shot": {
+    "playtest": "win/t2"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Delivered with 3 seconds to spare: VICTORY.",
+   "shot": {
+    "playtest": "win/end"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Waiting at the depot: the relic melted down.",
+   "shot": {
+    "playtest": "lose/end"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Relic Relay is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}
