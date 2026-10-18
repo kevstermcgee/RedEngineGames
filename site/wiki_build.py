@@ -14,6 +14,8 @@ saved as JPEG); an entry without `image` gets one (`c1.jpg`, `g1.png`, ...). Kin
   {"prefab": NAME}                                                       a 3D game's own prefab, as `red_engine2 catalog --sheet` draws it (label band cropped)
   {"studio": [OBJECTS], "eye": "x,y,z", "at": "x,y,z", "fov": 40}         objects (e.g. a `humanoid`) in a small lit room with the game's prefabs and style
   {"file": PATH}                                                         an existing picture in the repository
+  {"playtest": NAME}                                                     the picture the page's `playtest` script took with {"shot": NAME, "camera": ...}: the real
+                                                                         game running headless (rules, HUD, cards), via `red_engine2 playtest --script`
 
 `--sheet` writes one contact sheet of everything drawn, for a person to check that each picture shows what its caption says.
 Then `python3 site/wiki.py`'s rules run on the page (`site/generate.py` runs them again for the site).
@@ -177,8 +179,41 @@ def draw_studio(engine, scene, shot, out):
         finish(png, out)
 
 
-def draw(engine, scene, shot, out):
-    if "frame" in shot:
+class Playtest:
+    """The page's `playtest` scripts, each run once in the real game (`red_engine2 playtest`): rules, HUD and cards as a player sees them.
+    `playtest` is {"script": {...}} (one run) or {RUN: {"script": {...}}, ...} (several); a shot names a picture its `shot` steps took: "NAME" or "RUN/NAME"."""
+
+    def __init__(self, engine, scene, spec):
+        self.engine, self.scene = engine, scene
+        self.runs = {"": spec} if "script" in spec else spec
+        self.dirs = {}
+
+    def picture(self, ref):
+        run, _, name = ref.rpartition("/")
+        if run not in self.runs:
+            raise RuntimeError(f"no playtest run `{run}`")
+        if run not in self.dirs:
+            d = self.dirs[run] = Path(tempfile.mkdtemp(prefix="wiki-playtest-"))
+            (d / "script.json").write_text(json.dumps(self.runs[run]["script"]))
+            # exit 1 only means an expectation or a remote player failed; the pictures are what matter here, and each is checked below
+            subprocess.run([self.engine, "playtest", str(self.scene), "--script", str(d / "script.json"), "--out", str(d / "out"),
+                            "--size", f"{SIZE_3D[0]}x{SIZE_3D[1]}"], capture_output=True, text=True, timeout=900, cwd=REPO)
+        found = sorted((self.dirs[run] / "out" / "shots").glob(f"*-{name}.png"))
+        if not found:
+            raise RuntimeError(f"the playtest {run or 'run'} took no picture named `{name}`")
+        return found[-1]
+
+    def close(self):
+        for d in self.dirs.values():
+            shutil.rmtree(d, ignore_errors=True)
+
+
+def draw(engine, scene, shot, out, playtest=None):
+    if "playtest" in shot:
+        if playtest is None:
+            raise RuntimeError("a `playtest` shot needs the page's `playtest` script")
+        finish(playtest.picture(shot["playtest"]), out)
+    elif "frame" in shot:
         draw_frame(engine, scene, shot, out)
     elif "sprite" in shot:
         draw_sprite(scene, shot, out)
@@ -203,6 +238,7 @@ def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
     path = folder / "wiki.json"
     data = json.loads(path.read_text())
     scene = scene_of(slug)
+    playtest = Playtest(engine, scene, data["playtest"]) if data.get("playtest") else None
     default_ext = ".png" if is_2d(scene) else ".jpg"
     drawn, problems = [], []
     taken = {e.get("image") for k in ("characters", "gallery") for e in data.get(k, [])}
@@ -220,10 +256,12 @@ def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
                 taken.add(entry["image"])
             out = folder / entry["image"]
             try:
-                draw(engine, scene, shot, out)
+                draw(engine, scene, shot, out, playtest)
                 drawn.append((entry.get("name") or entry.get("caption", ""), out))
             except (RuntimeError, KeyError, subprocess.TimeoutExpired, OSError) as e:
                 problems.append(f"{entry['image']}: {e}")
+    if playtest:
+        playtest.close()
     digests = [hashlib.sha256((folder / g["image"]).read_bytes()).hexdigest() for g in data.get("gallery", []) if (folder / g.get("image", "-")).is_file()]
     if len(set(digests)) != len(digests):
         problems.append("two gallery pictures are identical: change a shot")

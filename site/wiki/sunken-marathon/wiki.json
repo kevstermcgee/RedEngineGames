@@ -1,0 +1,357 @@
+{
+ "tagline": "Two twins share one pair of hands: lay a railway one piece at a time, exactly five for each twin, before a runaway cart catches up and the tide shuts one lane.",
+ "overview": "Sunken Marathon is a first-person race against two clocks in a long, flooded tunnel. Down the tunnel run ten pairs of floor plates: a teal plate for the twin called Ash and an orange plate for the twin called Ember. Stepping onto the next plate lays the next piece of track in that twin's colour. You must lay all ten pieces, and the twins must end exactly even: five teal and five orange.\n\nBehind you a runaway ore cart follows the track you lay, and if it reaches the end of your track you are run over. From the teal side, a wall of tide rises band by band; once it is three bands high the teal plates stop working. The cart and the tide share one speed budget: small plates on the side shelf make the cart faster and the tide slower or the other way round, and a third plate shoves the tide back at the cost of one of your two spare pieces, for good.",
+ "story": "Ash and Ember are twins with one pair of hands between them, racing to lay a railway through a sunken tunnel before the water closes it. Every piece one twin lays is a piece the other cannot, so the work must be shared perfectly evenly or the twins cannot finish together.",
+ "goal": "Lay all ten pieces with exactly 5 teal and 5 orange: VICTORY. You lose if the count ends uneven or one twin passes five (LOPSIDED), if the cart reaches the end of your track (CRUSHED), or if the tide wall reaches six bands (DROWNED).",
+ "rules": [
+  "Plates come in pairs down the tunnel. Only the next pair counts: step onto its teal plate for an Ash piece, or its orange plate for an Ember piece.",
+  "Track: 10 pieces in all. Ash (teal) and Ember (orange) must each lay exactly 5.",
+  "The ore cart moves along the track you have laid. If it reaches your last piece, you are run over (CART AT counts its position).",
+  "The tide wall rises from the teal side (TIDE WALL). At 3 bands the teal plates stop working; at 6 the tunnel floods.",
+  "Cart share and tide share always add up to 4: the faster one goes, the slower the other. Shelf plates by the start and the finish change them: one speeds the cart up (tide slower), one slows it down (tide faster).",
+  "The third shelf plate shoves the tide back two bands but uses up one of your 2 spare pieces forever."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "(walk onto a plate)",
+   "action": "Lay the next piece of track"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Twins, Ash and Ember",
+   "role": "You",
+   "description": "One body, one pair of hands. Teal is Ash, orange is Ember.",
+   "shot": {
+    "playtest": "win/third"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Runaway Cart",
+   "role": "Pursuer",
+   "description": "A rusty ore tub with a hot lamp that rolls along whatever track you have laid, closing in on the end of it.",
+   "shot": {
+    "prefab": "ore_cart"
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "Track pieces",
+   "role": "What you build",
+   "description": "Each plate you step on lays one length of rail in its lane.",
+   "shot": {
+    "prefab": "rail_piece"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "The Tide Wall",
+   "role": "Hazard",
+   "description": "Bands of wet stone with a glowing seam that rise from the teal side of the tunnel.",
+   "shot": {
+    "prefab": "tide_slab"
+   },
+   "image": "c4.jpg"
+  },
+  {
+   "name": "Shelf plates",
+   "role": "Speed and shove",
+   "description": "Three small plates on the side shelf near the start (and again near the finish): one speeds the cart up and slows the tide, one does the opposite, and one shoves the tide back for a spare piece.",
+   "shot": {
+    "frame": {
+     "eye": "-8.5,1.8,1.5",
+     "at": "-8.5,0.2,4.1",
+     "fov": 60
+    }
+   },
+   "image": "c5.jpg"
+  }
+ ],
+ "tips": [
+  "Lay Ash's five teal pieces first, straight down the teal lane, before the tide reaches three bands; then cross over and lay Ember's five orange pieces.",
+  "Do not stop: the cart moves on its own clock and catches a slow builder.",
+  "Spend a spare piece on a shove only if the teal lane is about to shut with teal pieces still missing.",
+  "Only the next pair of plates counts; stepping on a plate further down the tunnel does nothing."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "start",
+      "camera": "first"
+     },
+     {
+      "look_at": "pa_0"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.1
+     },
+     {
+      "look": {
+       "yaw": 90,
+       "pitch": -8
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.1
+     },
+     {
+      "shot": "teal",
+      "camera": "first"
+     },
+     {
+      "shot": "behind",
+      "camera": {
+       "eye": [
+        -13,
+        2.7,
+        0.9
+       ],
+       "at": [
+        -4,
+        0,
+        0.9
+       ],
+       "fov": 70
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.1
+     },
+     {
+      "look_at": "pb_5"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look": {
+       "yaw": 90,
+       "pitch": -8
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.05
+     },
+     {
+      "shot": "tide",
+      "camera": {
+       "eye": [
+        1,
+        2.9,
+        5.4
+       ],
+       "at": [
+        1,
+        0,
+        -2.6
+       ],
+       "fov": 80
+      }
+     },
+     {
+      "shot": "third",
+      "camera": "third"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 3.2
+     },
+     {
+      "wait": 0.8
+     },
+     {
+      "shot": "won",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "zig": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "look_at": "pa_0"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.1
+     },
+     {
+      "look_at": "pb_1"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pa_2"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pb_3"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pa_4"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pb_5"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pa_6"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pb_7"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pa_8"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "look_at": "pb_9"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.55
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "lost",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The start of the tunnel: teal and orange plates stretch toward the finish arch.",
+   "shot": {
+    "playtest": "win/start"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Racing down the teal lane: Ash's pieces laid one after another.",
+   "shot": {
+    "playtest": "win/teal"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "From behind: the track so far, and the cart following it.",
+   "shot": {
+    "playtest": "win/behind"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "The tide wall has risen on the teal side; Ember lays the orange pieces.",
+   "shot": {
+    "playtest": "win/tide"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Five and five: VICTORY.",
+   "shot": {
+    "playtest": "win/won"
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "Alternating lanes is too slow: the tide shut the teal lane after four pieces and the cart caught up: CRUSHED.",
+   "shot": {
+    "playtest": "zig/lost"
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you lay down track one piece at a time while a runaway cart gains on you; but speed is shared, whatever you speed up slows something else down; a wall closes in from one side, and each push back costs something you cannot get again; balance everything, finishing with exactly the same amount on both sides; and, as optional story, a pair of twins who share one pair of hands.\n\nThe AI used every part of the card: the twins became the two colours of track that must end even, the shared speed became one budget split between the cart and the tide, and the push-back became a shove that burns a spare piece forever. It said the engine could not move an object from a number, so the cart and the tide are many copies switched on and off, and laying track is stepping onto a plate rather than holding a button.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-16."
+}
