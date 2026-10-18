@@ -1,0 +1,187 @@
+{
+ "tagline": "Music you can see: pick songs from your computer and watch them turn into light. Every song has its own look, and every listen is different.",
+ "overview": "Chroma is a music visualiser. Choose one or more songs from your computer (MP3, FLAC, OGG, WAV or M4A) with the button on the start screen, or drag them onto the window, and the screen becomes a living picture of the music: shapes and colours that pulse with the bass, ripple with the high notes and jump on the beat.\n\nThere are eight kinds of scene (a halo spectrum, a kaleidoscope, a tunnel, light waves, liquid blobs, a neon grid with mountains made of the spectrum, a starburst and nested polygons), and a listen is a run of them, 14 to 30 seconds each, crossfading into one another. Each song picks its own colour family and three favourite scenes it keeps coming back to, so a song always looks like itself, yet the order, colours and shapes are drawn fresh every time you play it. The screen is otherwise clean: the song's title shows for ten seconds in the bottom-left corner when it starts.",
+ "story": "No story: Chroma is a light show for your own music. Nothing ships with it but the visuals; the songs are yours, read from your disk while you listen, and every play paints them a little differently.",
+ "goal": "There is no goal: choose your music and watch.",
+ "rules": [
+  "The start button (or O at any time) opens a file picker; you can also drop audio files onto the window. Pick one song or many.",
+  "Songs play in order; the title appears in the bottom-left corner for ten seconds.",
+  "Each song has its own colours and favourite scenes; each play rearranges them, so a second listen never looks quite the same.",
+  "Space pauses the music and the picture together; the arrow keys skip between songs."
+ ],
+ "controls": [
+  {
+   "input": "Click Choose music, or O",
+   "action": "Pick songs from your computer"
+  },
+  {
+   "input": "Drag files onto the window",
+   "action": "Add songs"
+  },
+  {
+   "input": "Space",
+   "action": "Pause / play"
+  },
+  {
+   "input": "Left / right arrows",
+   "action": "Previous / next song"
+  },
+  {
+   "input": "N",
+   "action": "Mute"
+  },
+  {
+   "input": "Mouse",
+   "action": "Look around"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  },
+  {
+   "input": "F or F11",
+   "action": "Fullscreen"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Halo spectrum",
+   "role": "Scene",
+   "description": "A ring of spectrum bars around a glowing centre.",
+   "shot": {
+    "frame": {
+     "t": 10,
+     "play": 1,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "45aaef4c7aa6"
+  },
+  {
+   "name": "Neon grid",
+   "role": "Scene",
+   "description": "A retro neon floor running toward mountains made of the spectrum and a striped sun.",
+   "shot": {
+    "frame": {
+     "t": 10,
+     "play": 4,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "1828a4d3a391"
+  },
+  {
+   "name": "Tunnel",
+   "role": "Scene",
+   "description": "Rings and beams of light rushing out of the centre.",
+   "shot": {
+    "frame": {
+     "t": 25,
+     "play": 1,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "6589d4e6de76"
+  },
+  {
+   "name": "Starburst",
+   "role": "Scene",
+   "description": "Streaks of light flying out of a blue core.",
+   "shot": {
+    "frame": {
+     "t": 25,
+     "play": 4,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "a66261b25ed2"
+  },
+  {
+   "name": "Kaleidoscope",
+   "role": "Scene",
+   "description": "A mirrored, endlessly turning mandala.",
+   "shot": {
+    "frame": {
+     "t": 45,
+     "play": 1,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "c5.jpg",
+   "drawn_from": "d08438254e2b"
+  }
+ ],
+ "tips": [
+  "Play the same song twice: the second listen is drawn differently.",
+  "Make it fullscreen (F): with the HUD hidden, the whole screen is the picture.",
+  "Chroma does not come with music; any song file on your computer works."
+ ],
+ "gallery": [
+  {
+   "caption": "One minute into a song, second listen.",
+   "shot": {
+    "frame": {
+     "t": 60,
+     "play": 2,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "fb36e67d139c"
+  },
+  {
+   "caption": "80 seconds, third listen.",
+   "shot": {
+    "frame": {
+     "t": 80,
+     "play": 3,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "49518a852bca"
+  },
+  {
+   "caption": "100 seconds, fifth listen.",
+   "shot": {
+    "frame": {
+     "t": 100,
+     "play": 5,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "56e8c56b7a60"
+  },
+  {
+   "caption": "130 seconds, sixth listen.",
+   "shot": {
+    "frame": {
+     "t": 130,
+     "play": 6,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "5f38c71b5ec1"
+  },
+  {
+   "caption": "150 seconds, second listen.",
+   "shot": {
+    "frame": {
+     "t": 150,
+     "play": 2,
+     "song_journey": "games/wormhole/wormhole.json"
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "d4eb365cd0bd"
+  }
+ ],
+ "prompt": "Next create a music visualizer with this engine. Have a super simple file picker allowing a person to import 1 or multiple audio files. Have a variety of visualization options. Different shapes, colors, movements, etc. the idea is that not only should songs have their own unique visualizations, but listening to the same song should have different kinds of visualizations (different colors, shapes, etc).\n\nHide the hud, but show what song is playing for 10 seconds in a discrete spot whenever a song is played \n\nGive it a short catchy name that makes sense. \n\nOnce done, publish the project to the games repository and give your feedback notes to the engine so it can improve in the future",
+ "prompt_source": "Given to Claude Code on 2026-10-11, right after Wormhole, in the same session. The name Chroma was the AI's choice, as the prompt asked. (The pictures on this page were drawn while playing a piece of Wormhole's music.)"
+}

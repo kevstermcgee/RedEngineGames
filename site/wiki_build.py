@@ -11,7 +11,8 @@ The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Need
 Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
 saved as JPEG); an entry without `image` gets one (`c1.jpg`, `g1.png`, ...). Kinds of shot:
 
-  {"frame": {t, scenario, eye, at, fov, hide, hour, cut_above, seed}}    the game itself, as `red_engine2 frame` draws it (a 2D game is drawn at 3x its screen);
+  {"frame": {t, scenario, eye, at, fov, hide, hour, cut_above, seed, play, song_journey}}  the game itself (song_journey: a scene whose music journey to play to it)
+                                                                        , as `red_engine2 frame` draws it (a 2D game is drawn at 3x its screen);
                                                                          "crop": [l, t, r, b] (fractions) keeps and enlarges part of it
   {"sprite": NAME | [NAMES], "index": 0, "scale": 0}                     a 2D game's own pixel art, from its `sprites`, enlarged without blur
   {"prefab": NAME}                                                       a 3D game's own prefab, as `red_engine2 catalog --sheet` draws it (label band cropped)
@@ -81,6 +82,19 @@ def need_pil():
         raise RuntimeError("this shot needs Pillow (pip install pillow)")
 
 
+_SONGS = {}
+
+
+def journey_song(engine, scene_rel, sections):
+    """`red_engine2 audio journey SCENE --sections N --out song.wav`, once per build."""
+    key = (scene_rel, sections)
+    if key not in _SONGS:
+        out = Path(tempfile.mkdtemp(prefix="wiki-song-")) / "song.wav"
+        run(engine, ["audio", "journey", str(REPO / scene_rel), "--sections", str(sections), "--out", str(out)])
+        _SONGS[key] = out
+    return _SONGS[key]
+
+
 def draw_frame(engine, scene, shot, out):
     opts = shot["frame"]
     if is_2d(scene):
@@ -89,9 +103,11 @@ def draw_frame(engine, scene, shot, out):
     else:
         size = SIZE_3D
     args = ["frame", str(scene), "", "--size", f"{size[0]}x{size[1]}"]
-    for k in ("t", "scenario", "eye", "at", "fov", "hour", "cut_above", "seed"):
+    for k in ("t", "scenario", "eye", "at", "fov", "hour", "cut_above", "seed", "play"):
         if opts.get(k) is not None:
             args += [f"--{k.replace('_', '-')}", str(opts[k])]
+    if opts.get("song_journey"):   # a song for a game that listens to music: the music journey of a scene, rendered by the engine (nothing to commit)
+        args += ["--song", str(journey_song(engine, opts["song_journey"], opts.get("sections", 1)))]
     for h in ([opts["hide"]] if isinstance(opts.get("hide"), str) else opts.get("hide") or []):
         args += ["--hide", h]
     with tempfile.TemporaryDirectory() as tmp:
@@ -264,7 +280,8 @@ def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list
             shot = entry.get("shot")
             if not shot:
                 continue
-            if not entry.get("image"):   # a new entry: the first free name, so inserting one never takes another's picture
+            fresh = not entry.get("image")
+            if fresh:   # a new entry: the first free name, so inserting one never takes another's picture
                 ext = ".png" if "sprite" in shot else default_ext
                 n = i + 1
                 while f"{prefix}{n}{ext}" in taken:
@@ -273,7 +290,7 @@ def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list
                 taken.add(entry["image"])
             out = folder / entry["image"]
             key = hashlib.sha1(json.dumps(shot, sort_keys=True).encode()).hexdigest()[:12]
-            if out.is_file() and not redraw and entry.setdefault("drawn_from", key) == key:   # a picture without a record predates it: taken as current
+            if out.is_file() and not redraw and not fresh and entry.setdefault("drawn_from", key) == key:   # a picture without a record predates it: taken as current
                 drawn.append((entry.get("name") or entry.get("caption", ""), out))
                 continue
             try:
