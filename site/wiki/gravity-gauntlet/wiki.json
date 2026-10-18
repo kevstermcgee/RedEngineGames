@@ -44,7 +44,8 @@
    "shot": {
     "playtest": "w0"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "name": "The Dominoes",
@@ -53,7 +54,8 @@
    "shot": {
     "playtest": "dominoes"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "3eb4059d2ce8"
   },
   {
    "name": "Hazard blocks",
@@ -62,7 +64,8 @@
    "shot": {
     "playtest": "t5"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "eb2f636423a3"
   },
   {
    "name": "The Victory Nexus",
@@ -71,7 +74,8 @@
    "shot": {
     "playtest": "w6"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "3b516f4a97f7"
   }
  ],
  "tips": [
@@ -296,49 +300,56 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start: a launch pad and Core Alpha floating above it.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Launched off the pad toward Core Alpha.",
    "shot": {
     "playtest": "t1"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "8e9aaffda6a3"
   },
   {
    "caption": "The detonator fired: the dominoes start to fall (DOMINO_TRIPPED 1).",
    "shot": {
     "playtest": "t3"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
   },
   {
    "caption": "The hazard blocks and Core Gamma in the demolition sector.",
    "shot": {
     "playtest": "t5"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "eb2f636423a3"
   },
   {
    "caption": "The nexus: Core Delta on its pedestal and the portal behind it.",
    "shot": {
     "playtest": "w6"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "3b516f4a97f7"
   },
   {
    "caption": "The domino row after the cascade.",
    "shot": {
     "playtest": "dominoes"
    },
-   "image": "g7.jpg"
+   "image": "g7.jpg",
+   "drawn_from": "3eb4059d2ce8"
   }
  ],
  "prompt_unavailable": "Not recorded. Gravity Gauntlet was added to RedEngineGames on 2026-09-28 from the owner's account, before the Claude Code sessions on this machine began recording RedEngine work, and its project files do not include the prompt that started it."

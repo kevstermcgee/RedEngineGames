@@ -108,7 +108,7 @@ def render(data: dict, author: str) -> str:
   <section id="overview"><h2>Overview</h2><p class="lead">{e(data["tagline"])}</p>{paras(data["overview"])}</section>
   <section id="story"><h2>Story</h2>{paras(data["story"])}</section>
   <section id="play"><h2>How to play</h2><p><strong>Goal.</strong> {e(data["goal"])}</p><h3>Rules</h3><ol>{"".join(f"<li>{e(r)}</li>" for r in data["rules"])}</ol>
-    <h3>Controls</h3><table class="versions"><tr><th>Input</th><th>Does</th></tr>{controls}</table></section>
+    <h3>Controls</h3><table class="controls"><tr><th>Input</th><th>Does</th></tr>{controls}</table></section>
   <section id="characters"><h2>Characters</h2><div class="chars">{chars}</div></section>{tips}
   <section id="gallery"><h2>Gallery</h2><div class="gallery">{gallery}</div></section>
   {origin}'''
@@ -127,6 +127,12 @@ kbd { background: var(--surface); border: 1px solid var(--card); border-radius: 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
 .gallery figure { margin: 0; } .gallery figcaption { color: var(--muted); font-size: .85rem; padding-top: 4px; }
 blockquote { margin: 8px 0; padding: 4px 16px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; }
-blockquote.prompt { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9rem; white-space: pre-wrap; }
+blockquote.prompt { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+blockquote, .lead, section p { overflow-wrap: anywhere; }
 .soon { color: var(--muted); font-style: italic; }
+table.controls { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 8px 0 18px; font-size: .92rem; }
+table.controls th, table.controls td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--card); vertical-align: top; overflow-wrap: anywhere; }
+table.controls th { color: var(--muted); font-weight: 500; font-size: .8rem; }
+kbd { white-space: normal; }
+@media (max-width: 640px) { table.versions { display: block; overflow-x: auto; } .toc { position: static; } }
 '''

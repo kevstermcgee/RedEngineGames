@@ -41,7 +41,8 @@
      0.65
     ]
    },
-   "image": "c1.png"
+   "image": "c1.png",
+   "drawn_from": "c0d3a29b69fe"
   },
   {
    "name": "The Pet Storm",
@@ -59,7 +60,8 @@
      0.65
     ]
    },
-   "image": "c2.png"
+   "image": "c2.png",
+   "drawn_from": "ef1ade20b337"
   },
   {
    "name": "Lamps",
@@ -77,7 +79,8 @@
      0.65
     ]
    },
-   "image": "c3.png"
+   "image": "c3.png",
+   "drawn_from": "791d3d8169fd"
   },
   {
    "name": "Decoy lamps",
@@ -94,7 +97,8 @@
      0.65
     ]
    },
-   "image": "c4.png"
+   "image": "c4.png",
+   "drawn_from": "2772a7979923"
   },
   {
    "name": "Thieves",
@@ -112,7 +116,8 @@
      0.92
     ]
    },
-   "image": "c5.png"
+   "image": "c5.png",
+   "drawn_from": "ea919d058b71"
   },
   {
    "name": "Rubble",
@@ -130,7 +135,8 @@
      0.75
     ]
    },
-   "image": "c6.png"
+   "image": "c6.png",
+   "drawn_from": "41470238fae7"
   }
  ],
  "tips": [
@@ -147,7 +153,8 @@
      "t": 0.5
     }
    },
-   "image": "g1.png"
+   "image": "g1.png",
+   "drawn_from": "76ac2abb9739"
   },
   {
    "caption": "A lit lamp (yellow) and the storm drifting next to a decoy.",
@@ -157,7 +164,8 @@
      "t": 8
     }
    },
-   "image": "g2.png"
+   "image": "g2.png",
+   "drawn_from": "1c80fdec9956"
   },
   {
    "caption": "A zap: the storm's flash of lightning.",
@@ -167,7 +175,8 @@
      "t": 2
     }
    },
-   "image": "g3.png"
+   "image": "g3.png",
+   "drawn_from": "420d56b09702"
   },
   {
    "caption": "After a mistake the rooms are rebuilt with rubble.",
@@ -177,7 +186,8 @@
      "t": 8
     }
    },
-   "image": "g4.png"
+   "image": "g4.png",
+   "drawn_from": "a4725a5e9c0a"
   },
   {
    "caption": "LIT 3/3: the map is done. A red thief is still on its way to a lamp.",
@@ -187,7 +197,8 @@
      "t": 20
     }
    },
-   "image": "g5.png"
+   "image": "g5.png",
+   "drawn_from": "103cbed09d82"
   },
   {
    "caption": "Four mistakes and the rooms are full of rubble: the game is lost.",
@@ -197,7 +208,8 @@
      "t": 20
     }
    },
-   "image": "g6.png"
+   "image": "g6.png",
+   "drawn_from": "1582553c58fc"
   }
  ],
  "why_made": "Idea Forge dealt this card: you keep a pet storm on a leash and aim its lightning with your footsteps; but each new room is built from your last three mistakes; a flock of thieves steals whatever you set down; light every lamp without ever lighting two in neighbouring rooms; and, as optional story, a cartographer mapping a country that dislikes being mapped.\n\nThe AI kept the storm and the mistake-built rooms as the heart of the game. It said the engine had no real leash, so the storm simply chases you, and no way to carry and set things down, so the thieves steal light from lamps instead. It changed the goal from \"never light neighbouring lamps\" to \"light the three true lamps and avoid the purple decoys\", which it found easier to show on screen.",

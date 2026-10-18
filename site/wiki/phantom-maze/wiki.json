@@ -38,7 +38,8 @@
      "fov": 65
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "a83438c52462"
   },
   {
    "name": "The Exit Beacon",
@@ -51,7 +52,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "3abcdebb07e7"
   }
  ],
  "tips": [
@@ -198,42 +200,48 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, facing the walls.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "First ping (PINGS_USED 1).",
    "shot": {
     "playtest": "w1"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "a8f19de151fa"
   },
   {
    "caption": "Down the west side, past the second sonar pad.",
    "shot": {
     "playtest": "t3"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
   },
   {
    "caption": "The beacon ahead.",
    "shot": {
     "playtest": "w4"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "9790d31794af"
   },
   {
    "caption": "Out of the maze: VICTORY.",
    "shot": {
     "playtest": "w5"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "8e9d087f274d"
   }
  ],
  "prompt_unavailable": "Not recorded. Phantom Maze is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

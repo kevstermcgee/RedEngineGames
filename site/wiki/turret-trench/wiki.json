@@ -39,7 +39,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "5263e3a689bd"
   },
   {
    "name": "The Override Terminal",
@@ -52,7 +53,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "4954493d1831"
   },
   {
    "name": "The Bunker Wall",
@@ -65,7 +67,8 @@
      "fov": 60
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "1db68f21ab3a"
   }
  ],
  "tips": [
@@ -272,7 +275,8 @@
    "shot": {
     "playtest": "win/over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
   },
   {
    "caption": "The start, looking up the trench toward the bunker wall.",
@@ -282,35 +286,40 @@
      "at": "0,1.4,2"
     }
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "676badc258d2"
   },
   {
    "caption": "Into the trench during a cool-down, around the bunker wall.",
    "shot": {
     "playtest": "win/t2"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
   },
   {
    "caption": "The red turret and the green terminal ahead.",
    "shot": {
     "playtest": "win/w3"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "d565927b75d2"
   },
   {
    "caption": "Override hacked with no hits: VICTORY.",
    "shot": {
     "playtest": "win/end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
   },
   {
    "caption": "Running in while the turret fires: hit twice (HITS 2). The terminal no longer works.",
    "shot": {
     "playtest": "hit/end"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "83b720a2c8a4"
   }
  ],
  "prompt_unavailable": "Not recorded. Turret Trench is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

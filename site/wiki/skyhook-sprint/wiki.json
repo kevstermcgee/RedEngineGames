@@ -42,7 +42,8 @@
      "fov": 65
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "bbf2748ce12a"
   },
   {
    "name": "Gates",
@@ -55,7 +56,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "5d0dd6765955"
   }
  ],
  "tips": [
@@ -148,35 +150,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, looking down the course.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Launched off the first pad toward the first gate.",
    "shot": {
     "playtest": "air1"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "26d8eec07fb8"
   },
   {
    "caption": "Through the first gate (GATES 1), the next one ahead.",
    "shot": {
     "playtest": "air2"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "37e1779eeac7"
   },
   {
    "caption": "All three gates in about two seconds: VICTORY.",
    "shot": {
     "playtest": "air3"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "df58608029ee"
   }
  ],
  "prompt_unavailable": "Not recorded. Skyhook Sprint is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."

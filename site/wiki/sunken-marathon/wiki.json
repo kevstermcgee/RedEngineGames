@@ -41,7 +41,8 @@
    "shot": {
     "playtest": "win/third"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "409abf403e64"
   },
   {
    "name": "The Runaway Cart",
@@ -50,7 +51,8 @@
    "shot": {
     "prefab": "ore_cart"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "31bb7c6e8b46"
   },
   {
    "name": "Track pieces",
@@ -59,7 +61,8 @@
    "shot": {
     "prefab": "rail_piece"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "8139e4823a1e"
   },
   {
    "name": "The Tide Wall",
@@ -68,7 +71,8 @@
    "shot": {
     "prefab": "tide_slab"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "d47cc578cb9d"
   },
   {
    "name": "Shelf plates",
@@ -81,7 +85,8 @@
      "fov": 60
     }
    },
-   "image": "c5.jpg"
+   "image": "c5.jpg",
+   "drawn_from": "2125db07511c"
   }
  ],
  "tips": [
@@ -314,42 +319,48 @@
    "shot": {
     "playtest": "win/start"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "c79c96b9f931"
   },
   {
    "caption": "Racing down the teal lane: Ash's pieces laid one after another.",
    "shot": {
     "playtest": "win/teal"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "1948a0f5a391"
   },
   {
    "caption": "From behind: the track so far, and the cart following it.",
    "shot": {
     "playtest": "win/behind"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "7ed18d98d66a"
   },
   {
    "caption": "The tide wall has risen on the teal side; Ember lays the orange pieces.",
    "shot": {
     "playtest": "win/tide"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "8656d8e68fa0"
   },
   {
    "caption": "Five and five: VICTORY.",
    "shot": {
     "playtest": "win/won"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "ff4496280f70"
   },
   {
    "caption": "Alternating lanes is too slow: the tide shut the teal lane after four pieces and the cart caught up: CRUSHED.",
    "shot": {
     "playtest": "zig/lost"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "2ee7d2f1aa5b"
   }
  ],
  "why_made": "Idea Forge dealt this card: you lay down track one piece at a time while a runaway cart gains on you; but speed is shared, whatever you speed up slows something else down; a wall closes in from one side, and each push back costs something you cannot get again; balance everything, finishing with exactly the same amount on both sides; and, as optional story, a pair of twins who share one pair of hands.\n\nThe AI used every part of the card: the twins became the two colours of track that must end even, the shared speed became one budget split between the cart and the tide, and the push-back became a shove that burns a spare piece forever. It said the engine could not move an object from a number, so the cart and the tide are many copies switched on and off, and laying track is stepping onto a plate rather than holding a button.",

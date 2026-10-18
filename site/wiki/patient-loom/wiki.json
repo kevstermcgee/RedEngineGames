@@ -47,7 +47,8 @@
      0.85
     ]
    },
-   "image": "c1.png"
+   "image": "c1.png",
+   "drawn_from": "9f22fd2eba6f"
   },
   {
    "name": "The five parts",
@@ -64,7 +65,8 @@
      0.97
     ]
    },
-   "image": "c2.png"
+   "image": "c2.png",
+   "drawn_from": "69c643fe8a18"
   },
   {
    "name": "The Machine",
@@ -82,7 +84,8 @@
      0.97
     ]
    },
-   "image": "c3.png"
+   "image": "c3.png",
+   "drawn_from": "dbf5499fedb5"
   },
   {
    "name": "The dials and their pads",
@@ -99,7 +102,8 @@
      0.97
     ]
    },
-   "image": "c4.png"
+   "image": "c4.png",
+   "drawn_from": "73e91bd881c9"
   },
   {
    "name": "The Wardens",
@@ -117,7 +121,8 @@
      0.8
     ]
    },
-   "image": "c5.png"
+   "image": "c5.png",
+   "drawn_from": "f82d49e89712"
   }
  ],
  "tips": [
@@ -134,7 +139,8 @@
      "t": 2
     }
    },
-   "image": "g1.png"
+   "image": "g1.png",
+   "drawn_from": "c707c32a6227"
   },
   {
    "caption": "A part thrown while the gate is shut stops against the machine.",
@@ -144,7 +150,8 @@
      "t": 20
     }
    },
-   "image": "g2.png"
+   "image": "g2.png",
+   "drawn_from": "bc40e1846b3f"
   },
   {
    "caption": "Three parts built (GREEN, RED, VIOLET).",
@@ -154,7 +161,8 @@
      "t": 40
     }
    },
-   "image": "g3.png"
+   "image": "g3.png",
+   "drawn_from": "e9f14a32fbdb"
   },
   {
    "caption": "The machine is built: BUILT 5/5.",
@@ -164,7 +172,8 @@
      "t": 80
     }
    },
-   "image": "g4.png"
+   "image": "g4.png",
+   "drawn_from": "ddb4bccd11eb"
   },
   {
    "caption": "LULL is empty: a warden (red) has woken and is chasing the student.",
@@ -174,7 +183,8 @@
      "t": 28
     }
    },
-   "image": "g6.png"
+   "image": "g6.png",
+   "drawn_from": "4ab2ddc88ba0"
   },
   {
    "caption": "Caught: the game is over, even though the banner says \"THE MACHINE IS BUILT\" (BUILT 0/5).",
@@ -184,7 +194,8 @@
      "t": 40
     }
    },
-   "image": "g5.png"
+   "image": "g5.png",
+   "drawn_from": "f8f70c7ad9a3"
   }
  ],
  "why_made": "Idea Forge dealt this card: you juggle three timers, each one running a different law of the room; but thrown objects remember where they came from and return when thrown again; every success wakes something bigger; gather five parts of a machine and assemble them in the right order; and, as optional story, a student whose homework turns into the place they must walk through.\n\nThe AI made the three timers into GLIDE, GATE and LULL, each with its own pad to refill, used \"objects remember where they came from\" as the recall button, and made every built part feed a bigger warden. It said the engine had no way for an object to remember its own starting place, so each part's home is written into the game by hand, and it generated about 55 rules with a script.",

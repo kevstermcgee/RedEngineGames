@@ -50,7 +50,8 @@
    "shot": {
     "playtest": "you"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "f761500bade0"
   },
   {
    "name": "Stairs and platform",
@@ -63,7 +64,8 @@
      "fov": 50
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "73bc7c3c2b8f"
   },
   {
    "name": "The Range",
@@ -76,7 +78,8 @@
      "fov": 50
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "7c31195e858a"
   }
  ],
  "tips": [
@@ -111,7 +114,8 @@
      "cut_above": 2.6
     }
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "a5f0c0cebbcf"
   },
   {
    "caption": "The clearance room: tall panels to squeeze between.",
@@ -122,7 +126,8 @@
      "fov": 50
     }
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "c6d11178d659"
   },
   {
    "caption": "The props room: crates and a ladder.",
@@ -133,7 +138,8 @@
      "fov": 50
     }
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "2582fdd13bfa"
   },
   {
    "caption": "The raised platform.",
@@ -144,7 +150,8 @@
      "fov": 50
     }
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "213b340ba1bd"
   }
  ],
  "prompt_unavailable": "Not recorded. Red Test Lab is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."

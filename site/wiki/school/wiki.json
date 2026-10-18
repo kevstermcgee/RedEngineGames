@@ -50,7 +50,8 @@
    "shot": {
     "playtest": "you"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "f761500bade0"
   },
   {
    "name": "The Gym",
@@ -63,7 +64,8 @@
      "fov": 50
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "610913de2dbc"
   },
   {
    "name": "The Lobby",
@@ -76,7 +78,8 @@
      "fov": 50
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "943b5e56d791"
   },
   {
    "name": "The Cafeteria",
@@ -89,7 +92,8 @@
      "fov": 50
     }
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "ef2da4df8ac2"
   }
  ],
  "tips": [
@@ -125,14 +129,16 @@
      "cut_above": 2.6
     }
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "8ff4b1a7546b"
   },
   {
    "caption": "The front of the school.",
    "shot": {
     "frame": {}
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "c3effa27e24c"
   },
   {
    "caption": "The grounds, the bus and the fence.",
@@ -142,7 +148,8 @@
      "at": "-0.1,1,15.2"
     }
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "305259d4c041"
   },
   {
    "caption": "Lockers along a corridor.",
@@ -153,7 +160,8 @@
      "fov": 50
     }
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "8d393b5da637"
   },
   {
    "caption": "The gym.",
@@ -164,7 +172,8 @@
      "fov": 50
     }
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "610913de2dbc"
   },
   {
    "caption": "The cafeteria.",
@@ -175,7 +184,8 @@
      "fov": 50
     }
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "ef2da4df8ac2"
   }
  ],
  "prompt_unavailable": "Not recorded. The School Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."

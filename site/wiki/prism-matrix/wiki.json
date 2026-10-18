@@ -44,7 +44,8 @@
      "fov": 60
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "a54582361d35"
   },
   {
    "name": "The Emitter",
@@ -57,7 +58,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "d9bf073f49de"
   },
   {
    "name": "The Plates",
@@ -66,7 +68,8 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "name": "The Mainframe",
@@ -79,7 +82,8 @@
      "fov": 55
     }
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "b80c6c939e48"
   }
  ],
  "tips": [
@@ -224,42 +228,48 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "Carrying the red prism toward the red plate.",
    "shot": {
     "playtest": "carry_r"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "86e2953c1e51"
   },
   {
    "caption": "Red in place: the beam now turns toward the green plate.",
    "shot": {
     "playtest": "placed_r"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "d3db543f8b7b"
   },
   {
    "caption": "Green in place: the beam reaches across to the blue plate.",
    "shot": {
     "playtest": "placed_g"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "274c1c88bc38"
   },
   {
    "caption": "Blue in place: the beam reaches the mainframe.",
    "shot": {
     "playtest": "placed_b"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "1041602e5e5e"
   },
   {
    "caption": "Two seconds lit: VICTORY.",
    "shot": {
     "playtest": "over2"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "03c22358af8c"
   }
  ],
  "prompt_unavailable": "Not recorded. Prism Matrix is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

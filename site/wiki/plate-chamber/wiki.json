@@ -49,7 +49,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "8464b71fedce"
   },
   {
    "name": "The Heavy Block",
@@ -58,7 +59,8 @@
    "shot": {
     "playtest": "push"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "3077c17e9091"
   },
   {
    "name": "Pressure plates",
@@ -67,7 +69,8 @@
    "shot": {
     "playtest": "plate1"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "3f68ba97e6ed"
   },
   {
    "name": "The Doors",
@@ -76,7 +79,8 @@
    "shot": {
     "playtest": "w0"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "4d01b4071c20"
   }
  ],
  "tips": [
@@ -275,42 +279,48 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "Room 1: the crate goes on the plate, the plate turns green and the blue door opens.",
    "shot": {
     "playtest": "plate1"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "3f68ba97e6ed"
   },
   {
    "caption": "Room 2: the purple block pushed onto the scale; the orange door is open.",
    "shot": {
     "playtest": "push"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "3077c17e9091"
   },
   {
    "caption": "Room 3: aiming up at the window with a crate.",
    "shot": {
     "playtest": "aim"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "17bc5f84b103"
   },
   {
    "caption": "The crate lobbed through the window onto the plate: all three doors open.",
    "shot": {
     "playtest": "lob"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "da0f82575d19"
   },
   {
    "caption": "Into the yellow exit: VICTORY.",
    "shot": {
     "playtest": "end"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "91589a81524f"
   }
  ],
  "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",

@@ -38,7 +38,8 @@
      "fov": 70
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "ba53c0e8e3e5"
   },
   {
    "name": "The Pressure Pads",
@@ -51,7 +52,8 @@
      "fov": 75
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "7256be55ad05"
   },
   {
    "name": "The Exit",
@@ -64,7 +66,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "dc067074af6f"
   }
  ],
  "tips": [
@@ -203,35 +206,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, facing the red row.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "The red pad fired: its dominoes are down (BANKS 1).",
    "shot": {
     "playtest": "t2"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "126740249220"
   },
   {
    "caption": "Two banks down, heading for the blue pad.",
    "shot": {
     "playtest": "t3"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
   },
   {
    "caption": "All three rows toppled and the exit open: VICTORY.",
    "shot": {
     "playtest": "banks"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "b9ef61f967ac"
   }
  ],
  "prompt_unavailable": "Not recorded. Domino Dynamo is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."

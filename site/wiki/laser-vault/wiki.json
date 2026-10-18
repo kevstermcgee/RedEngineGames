@@ -40,7 +40,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "dba269f74cef"
   },
   {
    "name": "Console B",
@@ -53,7 +54,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "fa290bb0e244"
   },
   {
    "name": "The Vault Door",
@@ -66,7 +68,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "c346ca212f6c"
   },
   {
    "name": "The Safe",
@@ -75,7 +78,8 @@
    "shot": {
     "playtest": "win/w7"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "465f4c7a78d5"
   }
  ],
  "tips": [
@@ -355,42 +359,48 @@
    "shot": {
     "playtest": "win/over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
   },
   {
    "caption": "Console A hacked (HACKED_A 1).",
    "shot": {
     "playtest": "win/w2"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "58d938b11db1"
   },
   {
    "caption": "Sneaking along the side, clear of the lasers.",
    "shot": {
     "playtest": "win/t2"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
   },
   {
    "caption": "Both consoles hacked: the vault door is gone and the safe is in view.",
    "shot": {
     "playtest": "win/w5"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "2357b2edf7d7"
   },
   {
    "caption": "Into the vault: VICTORY.",
    "shot": {
     "playtest": "win/end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
   },
   {
    "caption": "Walking straight up the middle three times: three alarms, LOCKDOWN FAILED.",
    "shot": {
     "playtest": "lose/end"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "8de8da9f4760"
   }
  ],
  "prompt_unavailable": "Not recorded. Laser Vault is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

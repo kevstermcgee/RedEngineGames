@@ -39,7 +39,8 @@
      0.98
     ]
    },
-   "image": "c1.png"
+   "image": "c1.png",
+   "drawn_from": "9466293adb4a"
   },
   {
    "name": "The Lamp",
@@ -56,7 +57,8 @@
      0.33
     ]
    },
-   "image": "c2.png"
+   "image": "c2.png",
+   "drawn_from": "8b341f454164"
   },
   {
    "name": "The Crate",
@@ -73,7 +75,8 @@
      0.42
     ]
    },
-   "image": "c3.png"
+   "image": "c3.png",
+   "drawn_from": "64c0a1626040"
   },
   {
    "name": "The Bell",
@@ -90,7 +93,8 @@
      0.68
     ]
    },
-   "image": "c4.png"
+   "image": "c4.png",
+   "drawn_from": "02f8bd5dd1a8"
   },
   {
    "name": "The Ghosts",
@@ -108,7 +112,8 @@
      0.8
     ]
    },
-   "image": "c5.png"
+   "image": "c5.png",
+   "drawn_from": "8516db3e8380"
   },
   {
    "name": "A dark treasure",
@@ -126,7 +131,8 @@
      0.33
     ]
    },
-   "image": "c6.png"
+   "image": "c6.png",
+   "drawn_from": "a687480dacfd"
   },
   {
    "name": "The Door",
@@ -144,7 +150,8 @@
      1.0
     ]
    },
-   "image": "c7.png"
+   "image": "c7.png",
+   "drawn_from": "ab8270b5844a"
   }
  ],
  "tips": [
@@ -161,7 +168,8 @@
      "t": 0.5
     }
    },
-   "image": "g1.png"
+   "image": "g1.png",
+   "drawn_from": "76ac2abb9739"
   },
   {
    "caption": "Walking in a straight line: you crossed the room and TURNS is still 1.",
@@ -171,7 +179,8 @@
      "t": 8
     }
    },
-   "image": "g2.png"
+   "image": "g2.png",
+   "drawn_from": "ea6ca18a4b99"
   },
   {
    "caption": "Six turns in: the ghosts are closing in and the bell has gone dark (HOME 2/3).",
@@ -181,7 +190,8 @@
      "t": 8
     }
    },
-   "image": "g3.png"
+   "image": "g3.png",
+   "drawn_from": "05e37649a5ca"
   },
   {
    "caption": "A win: back on the door with everything lit after 10 turns.",
@@ -191,7 +201,8 @@
      "t": 8
     }
    },
-   "image": "g4.png"
+   "image": "g4.png",
+   "drawn_from": "ab666ff38c93"
   },
   {
    "caption": "A loss: all three treasures dark (HOME 0/3).",
@@ -201,7 +212,8 @@
      "t": 8
     }
    },
-   "image": "g5.png"
+   "image": "g5.png",
+   "drawn_from": "a437c5114ad6"
   }
  ],
  "why_made": "Idea Forge dealt this card: you juggle three timers, each one running a different law of the room; but time passes only when you change direction; a tide of rival ghosts races you to claim the same objects; leave the level exactly as you found it; and, as optional story, a sailor on a ship that sails across the sky at low tide.\n\nThe AI took \"time passes only when you change direction\" as the heart of the game, so walking straight is free and every corner costs a beat. It made the three timers into wind, tide and hurry, and turned \"leave the level as you found it\" into keeping all three treasures lit. It said the engine had no simple way to make things step on a custom clock, so each ghost is moved by its own rules.",

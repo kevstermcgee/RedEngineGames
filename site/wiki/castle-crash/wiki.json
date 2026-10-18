@@ -45,7 +45,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "27640e1e0904"
   },
   {
    "name": "The Flag",
@@ -58,7 +59,8 @@
      "fov": 45
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "7dd8f49c280f"
   },
   {
    "name": "The Ammo",
@@ -71,7 +73,8 @@
      "fov": 70
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "aab098f4f1d3"
   },
   {
    "name": "The Fence",
@@ -84,7 +87,8 @@
      "fov": 65
     }
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "691c0eef9d9f"
   }
  ],
  "tips": [
@@ -416,35 +420,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, on the ammo pad.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Holding a crate, aimed up for a lob.",
    "shot": {
     "playtest": "aim"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "17bc5f84b103"
   },
   {
    "caption": "A crate in flight toward the castle.",
    "shot": {
     "playtest": "flight"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "3a8d1941e0be"
   },
   {
    "caption": "Six throws later the castle is down: KNOCKED 6 and the flag fell, SCORE 9: VICTORY.",
    "shot": {
     "playtest": "after5"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "615ad9d61782"
   }
  ],
  "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",

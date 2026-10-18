@@ -42,7 +42,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "ea7348898ca1"
   },
   {
    "name": "The Storm Crates",
@@ -55,7 +56,8 @@
      "fov": 60
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "f3f9542bc073"
   },
   {
    "name": "The Exit",
@@ -68,7 +70,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "dc067074af6f"
   }
  ],
  "tips": [
@@ -187,35 +190,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, in the middle of the storm crates.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Crossing to the second core while the crates slide around.",
    "shot": {
     "playtest": "t2"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "126740249220"
   },
   {
    "caption": "All three cores (CORES 3); the exit ahead.",
    "shot": {
     "playtest": "w4"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "9790d31794af"
   },
   {
    "caption": "Out through the exit: VICTORY.",
    "shot": {
     "playtest": "end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "91589a81524f"
   }
  ],
  "prompt_unavailable": "Not recorded. Storm Cell is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."

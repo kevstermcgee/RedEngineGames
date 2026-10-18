@@ -30,7 +30,8 @@
    "shot": {
     "sprite": "guide"
    },
-   "image": "c1.png"
+   "image": "c1.png",
+   "drawn_from": "1f83f9ba3a77"
   },
   {
    "name": "The Anchors",
@@ -39,7 +40,8 @@
    "shot": {
     "sprite": "anchor"
    },
-   "image": "c2.png"
+   "image": "c2.png",
+   "drawn_from": "44333171723e"
   },
   {
    "name": "The Rope",
@@ -56,7 +58,8 @@
      0.72
     ]
    },
-   "image": "c3.png"
+   "image": "c3.png",
+   "drawn_from": "d902485a7e5d"
   },
   {
    "name": "The Tools",
@@ -65,7 +68,8 @@
    "shot": {
     "sprite": "tool"
    },
-   "image": "c4.png"
+   "image": "c4.png",
+   "drawn_from": "4c1ba31c1e67"
   },
   {
    "name": "The Slots",
@@ -74,7 +78,8 @@
    "shot": {
     "sprite": "slot"
    },
-   "image": "c5.png"
+   "image": "c5.png",
+   "drawn_from": "2c919e9e6226"
   },
   {
    "name": "The Storm Front",
@@ -92,7 +97,8 @@
      1.0
     ]
    },
-   "image": "c6.png"
+   "image": "c6.png",
+   "drawn_from": "5d8b5c79fd0d"
   }
  ],
  "tips": [
@@ -110,7 +116,8 @@
      "t": 0.5
     }
    },
-   "image": "g1.png"
+   "image": "g1.png",
+   "drawn_from": "76ac2abb9739"
   },
   {
    "caption": "Mid-flight with a tool in hand.",
@@ -120,7 +127,8 @@
      "t": 5
     }
    },
-   "image": "g2.png"
+   "image": "g2.png",
+   "drawn_from": "0e4abb858b11"
   },
   {
    "caption": "One tool placed (TOOLS 1/2).",
@@ -130,7 +138,8 @@
      "t": 11
     }
    },
-   "image": "g3.png"
+   "image": "g3.png",
+   "drawn_from": "1692f72ea797"
   },
   {
    "caption": "The storm front sweeping through the room.",
@@ -140,7 +149,8 @@
      "t": 34
     }
    },
-   "image": "g4.png"
+   "image": "g4.png",
+   "drawn_from": "a53032a39c6c"
   },
   {
    "caption": "Both tools home: a win in 11.6 seconds.",
@@ -150,7 +160,8 @@
      "t": 20
     }
    },
-   "image": "g5.png"
+   "image": "g5.png",
+   "drawn_from": "aaf03c1caa15"
   },
   {
    "caption": "Out of time: the game is lost, although the message still says \"YOU WON\".",
@@ -160,7 +171,8 @@
      "t": 152
     }
    },
-   "image": "g6.png"
+   "image": "g6.png",
+   "drawn_from": "dbf1293c9809"
   }
  ],
  "why_made": "Idea Forge dealt this card: you stretch a rope between two drifting anchors and play it like a slingshot; but up is whichever way you last fell; a storm front sweeps across the map and scatters your tools if it catches them; leave the level exactly as you found it; and, as optional story, a tour guide leading visitors through a city that exists only while it is being described.\n\nThe AI built the slingshot and the shifting gravity as the whole game: every shot changes which way you will fall next. It turned \"leave the level as you found it\" into putting two tools back in their slots. It said the engine had no rope, no gravity direction and no key-release input, so roughly 45 of its rules rebuild that physics by hand, and that it cut the game from three tools to two because it could not find a winning route with three.",

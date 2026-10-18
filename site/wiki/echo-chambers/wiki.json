@@ -39,7 +39,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "671715148d2b"
   },
   {
    "name": "The Magenta Monolith",
@@ -52,7 +53,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "71f2e003a0af"
   },
   {
    "name": "The Yellow Monolith",
@@ -65,7 +67,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "4cedfc7c7729"
   },
   {
    "name": "The Orange Monolith",
@@ -78,7 +81,8 @@
      "fov": 55
     }
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "6ae56f6120d8"
   },
   {
    "name": "The Altar",
@@ -91,7 +95,8 @@
      "fov": 55
     }
    },
-   "image": "c5.jpg"
+   "image": "c5.jpg",
+   "drawn_from": "d53e06d1fc21"
   }
  ],
  "tips": [
@@ -223,35 +228,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, on the altar, facing the teal monolith.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Second note struck (SEQ_STEP 2), crossing the chamber.",
    "shot": {
     "playtest": "t2"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "126740249220"
   },
   {
    "caption": "All four notes: SEALED 0, back to the altar.",
    "shot": {
     "playtest": "w4"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "9790d31794af"
   },
   {
    "caption": "The sanctum is cleared: VICTORY.",
    "shot": {
     "playtest": "end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "91589a81524f"
   }
  ],
  "prompt_unavailable": "Not recorded. Echo Chambers is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

@@ -40,7 +40,8 @@
      "fov": 55
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "e44ffe3401f5"
   },
   {
    "name": "Station Alpha",
@@ -53,7 +54,8 @@
      "fov": 55
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "1df1765e6356"
   },
   {
    "name": "Station Beta",
@@ -66,7 +68,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "70af8c02ab01"
   },
   {
    "name": "Station Gamma",
@@ -79,7 +82,8 @@
      "fov": 55
     }
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "dfe1f0bd4e18"
   }
  ],
  "tips": [
@@ -195,42 +199,48 @@
    "shot": {
     "playtest": "win/over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
   },
   {
    "caption": "The start: eight seconds on the clock.",
    "shot": {
     "playtest": "win/w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "9fc724b444f3"
   },
   {
    "caption": "Wire Alpha cut, heading for Beta.",
    "shot": {
     "playtest": "win/t1"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "f88e53ab4015"
   },
   {
    "caption": "Alpha and Beta done, three seconds left.",
    "shot": {
     "playtest": "win/w2"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "58d938b11db1"
   },
   {
    "caption": "All three wires cut in order: VICTORY.",
    "shot": {
     "playtest": "win/end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
   },
   {
    "caption": "Standing still: the countdown ran out.",
    "shot": {
     "playtest": "lose/boom"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "0132930f9a2b"
   }
  ],
  "prompt_unavailable": "Not recorded. Bomb Defusal is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

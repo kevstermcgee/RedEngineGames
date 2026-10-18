@@ -50,7 +50,8 @@
    "shot": {
     "playtest": "you"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "f761500bade0"
   },
   {
    "name": "The Store",
@@ -59,7 +60,8 @@
    "shot": {
     "frame": {}
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "c3effa27e24c"
   },
   {
    "name": "The Forecourt",
@@ -72,7 +74,8 @@
      "fov": 50
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "c482e8d98366"
   }
  ],
  "tips": [
@@ -107,14 +110,16 @@
      "cut_above": 2.6
     }
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "94b1411f7e1a"
   },
   {
    "caption": "Pulling in: the canopy and the shop.",
    "shot": {
     "frame": {}
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "c3effa27e24c"
   },
   {
    "caption": "The lot from a corner.",
@@ -124,7 +129,8 @@
      "at": "0.1,1,19.0"
     }
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "e1bd5dec5351"
   },
   {
    "caption": "On the forecourt by the shop window.",
@@ -135,14 +141,16 @@
      "fov": 50
     }
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "c482e8d98366"
   },
   {
    "caption": "Walking around the store.",
    "shot": {
     "playtest": "fp"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "e7ff85ace356"
   }
  ],
  "prompt_unavailable": "Not recorded. The Store Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."

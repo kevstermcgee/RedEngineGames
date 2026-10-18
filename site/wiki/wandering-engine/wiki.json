@@ -50,7 +50,8 @@
      0.62
     ]
    },
-   "image": "c1.png"
+   "image": "c1.png",
+   "drawn_from": "fad54434790a"
   },
   {
    "name": "The Stranger",
@@ -68,7 +69,8 @@
      0.62
     ]
    },
-   "image": "c2.png"
+   "image": "c2.png",
+   "drawn_from": "7e0050f76aac"
   },
   {
    "name": "The Pendulum of Light",
@@ -86,7 +88,8 @@
      0.95
     ]
    },
-   "image": "c3.png"
+   "image": "c3.png",
+   "drawn_from": "37d885b2893d"
   },
   {
    "name": "Blue paint and ice",
@@ -104,7 +107,8 @@
      0.75
     ]
    },
-   "image": "c4.png"
+   "image": "c4.png",
+   "drawn_from": "49eccb0ff6bb"
   },
   {
    "name": "Yellow paint",
@@ -122,7 +126,8 @@
      0.75
     ]
    },
-   "image": "c5.png"
+   "image": "c5.png",
+   "drawn_from": "81d549c94975"
   },
   {
    "name": "Red paint",
@@ -140,7 +145,8 @@
      0.75
     ]
    },
-   "image": "c6.png"
+   "image": "c6.png",
+   "drawn_from": "30d850b72d06"
   },
   {
    "name": "The Wind",
@@ -158,7 +164,8 @@
      1.0
     ]
    },
-   "image": "c7.png"
+   "image": "c7.png",
+   "drawn_from": "86cee48e3125"
   }
  ],
  "tips": [
@@ -175,7 +182,8 @@
      "t": 0.5
     }
    },
-   "image": "g1.png"
+   "image": "g1.png",
+   "drawn_from": "76ac2abb9739"
   },
   {
    "caption": "Blue paint freezes part of the water into ice you can walk through.",
@@ -185,7 +193,8 @@
      "t": 8
     }
    },
-   "image": "g2.png"
+   "image": "g2.png",
+   "drawn_from": "d7dbcd581184"
   },
   {
    "caption": "Yellow paint at the edge of the purple wind.",
@@ -195,7 +204,8 @@
      "t": 8
     }
    },
-   "image": "g3.png"
+   "image": "g3.png",
+   "drawn_from": "6f992673877b"
   },
   {
    "caption": "Waiting safely on red paint near the gate.",
@@ -205,7 +215,8 @@
      "t": 20
     }
    },
-   "image": "g4.png"
+   "image": "g4.png",
+   "drawn_from": "8a997d78b54e"
   },
   {
    "caption": "Stand still in the light too long and the burn bar (top left) fills: the run is over.",
@@ -215,7 +226,8 @@
      "t": 8
     }
    },
-   "image": "g5.png"
+   "image": "g5.png",
+   "drawn_from": "e91c3dbb8351"
   },
   {
    "caption": "The end: the baker reaches the stranger.",
@@ -225,7 +237,8 @@
      "t": 41.5
     }
    },
-   "image": "g6.png"
+   "image": "g6.png",
+   "drawn_from": "fcd9bf661311"
   }
  ],
  "why_made": "Idea Forge dealt this card: you pour paint, and each colour changes the physics of whatever it soaks; but the left half of the world runs at half speed; a pendulum of light scorches anything standing still; reach a stranger on the far side who has the very same problem; and, as optional story, a baker whose bread remembers whoever eats it.\n\nThe AI kept every part of the card. It turned \"each colour changes the physics\" into three colours with one clear effect each (blue freezes water, yellow speeds you up, red shades you) so that every pour is a decision, and it used the pendulum to force you to keep moving or pay for shade. It said the engine had no way to slow down half of the world, so it faked that with six versions of the baker that swap as you cross the middle; that is also why the baker changes colour.",

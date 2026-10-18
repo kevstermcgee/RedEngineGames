@@ -45,7 +45,8 @@
    "shot": {
     "playtest": "hedge"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "ffe110f8551c"
   },
   {
    "name": "The Kite-tree",
@@ -54,7 +55,8 @@
    "shot": {
     "playtest": "won"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "8ca6b5379097"
   },
   {
    "name": "Rival sprouts",
@@ -63,7 +65,8 @@
    "shot": {
     "playtest": "tree"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "7729ecd777cc"
   },
   {
    "name": "Glass walls",
@@ -72,7 +75,8 @@
    "shot": {
     "playtest": "shrunk"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "5d6a0ceab766"
   },
   {
    "name": "The Hedge",
@@ -81,7 +85,8 @@
    "shot": {
     "playtest": "grown"
    },
-   "image": "c5.jpg"
+   "image": "c5.jpg",
+   "drawn_from": "440149392a6f"
   }
  ],
  "tips": [
@@ -226,35 +231,40 @@
    "shot": {
     "playtest": "start"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "624386436662"
   },
   {
    "caption": "Bat swung: the glass is open (NOISE 5) and the hedge ahead is low.",
    "shot": {
     "playtest": "open"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "e200b2a38fdc"
   },
   {
    "caption": "Over the low hedge, heading for the orange pad.",
    "shot": {
     "playtest": "hedge"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "ffe110f8551c"
   },
   {
    "caption": "Tending the kite-tree on the green bed while the red rival sprouts grow beside it.",
    "shot": {
     "playtest": "tree"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "7729ecd777cc"
   },
   {
    "caption": "Kite-tree 10/10 at 19 seconds: VICTORY.",
    "shot": {
     "playtest": "won"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "8ca6b5379097"
   }
  ],
  "why_made": "Idea Forge dealt this card: you pinch the camera to shrink or enlarge the room while you stay the same size; but silence is solid and noise is a doorway; gravity grows stronger with every item you collect; grow one thing to full size before anything else around it can; and, as optional story, a kite maker whose kites carry messages between rival mountains.\n\nThe AI kept the race to grow a plant first and made \"silence is solid, noise is a doorway\" literal: glass walls that open when you swing. It said the engine could not scale a room or read a pinch gesture, so shrinking became a floor pad that swaps a tall hedge for a low one, and it cut the stronger-gravity part entirely because rules cannot change how the player moves.",

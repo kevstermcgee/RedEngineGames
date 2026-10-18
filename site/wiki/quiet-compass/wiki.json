@@ -46,7 +46,8 @@
    "shot": {
     "playtest": "carry3"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "af09fdc7da61"
   },
   {
    "name": "The Sleeping Friend",
@@ -55,7 +56,8 @@
    "shot": {
     "prefab": "sleeper"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "0bb2b50e4e95"
   },
   {
    "name": "Memories",
@@ -64,7 +66,8 @@
    "shot": {
     "prefab": "memory"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "956dd1694695"
   },
   {
    "name": "Rune plinths",
@@ -73,7 +76,8 @@
    "shot": {
     "prefab": "rune_plinth"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "0337bcec069a"
   },
   {
    "name": "Doorways",
@@ -82,7 +86,8 @@
    "shot": {
     "prefab": "door_arch"
    },
-   "image": "c5.jpg"
+   "image": "c5.jpg",
+   "drawn_from": "a0db95363ecb"
   }
  ],
  "tips": [
@@ -205,42 +210,48 @@
    "shot": {
     "playtest": "start"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "624386436662"
   },
   {
    "caption": "Collecting golden memories in the north room.",
    "shot": {
     "playtest": "field"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "9b5ed274f2b8"
   },
   {
    "caption": "COMPASS bought: its rune glows above the plinth (Skills held 1/3).",
    "shot": {
     "playtest": "runes"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "d274b162b86d"
   },
   {
    "caption": "The house from above: the five plinths, the four doorways, and the pillar of light at the exit.",
    "shot": {
     "playtest": "over"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "Carrying your friend: Friend stirring creeps up more slowly while they are in your arms.",
    "shot": {
     "playtest": "carry"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "3183e53ec4a2"
   },
   {
    "caption": "Forty seconds left on the clock: the edges of the house have started to fall.",
    "shot": {
     "playtest": "crumble"
    },
-   "image": "g6.jpg"
+   "image": "g6.jpg",
+   "drawn_from": "c318ba3a1e76"
   }
  ],
  "why_made": "Idea Forge dealt this card: you spend memories to buy skills and can hold only three at once; but the exit drifts toward whatever you ignore the longest; the level crumbles from the edges toward the centre on a visible countdown; carry a sleeping friend through ten rooms without waking them; and, as optional story, a ghost who must finish one chore before the house can be sold.\n\nThe AI kept every part of the card. The three-skill limit and the neglected-room exit are the decisions you make every trip, and the crumbling house is the clock. It cut ten rooms down to three rounds in one house, and said the engine could not move an exit, so the \"drifting\" exit is one of four fixed doorways chosen by how long you have ignored each far room. It also said its own scripted test never used the skills, so a person should judge the balance.",

@@ -44,7 +44,8 @@
      "fov": 60
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "837206279800"
   },
   {
    "name": "The Scale Pans",
@@ -53,7 +54,8 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   }
  ],
  "tips": [
@@ -225,35 +227,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "Picking up the little orange crate.",
    "shot": {
     "playtest": "carry_a"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "706511a12ddf"
   },
   {
    "caption": "Orange and green on the left pan (LEFT_W 45.78).",
    "shot": {
     "playtest": "put_d"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "4690338891fe"
   },
   {
    "caption": "Blue on the right pan; purple to follow.",
    "shot": {
     "playtest": "put_b"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "9330317d372f"
   },
   {
    "caption": "45.78 against 42.6: within 5%, and the scale settles: VICTORY.",
    "shot": {
     "playtest": "end"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "91589a81524f"
   }
  ],
  "prompt_unavailable": "Not recorded. Weight Balance is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."

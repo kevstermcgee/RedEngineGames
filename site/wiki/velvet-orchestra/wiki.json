@@ -49,7 +49,8 @@
    "shot": {
     "playtest": "lean"
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "4e579ee1fb97"
   },
   {
    "name": "The Listener",
@@ -58,7 +59,8 @@
    "shot": {
     "prefab": "listener"
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "30283143d589"
   },
   {
    "name": "Glowing stones",
@@ -67,7 +69,8 @@
    "shot": {
     "prefab": "lode_plinth"
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "f733b1d8d525"
   },
   {
    "name": "The Radio",
@@ -76,7 +79,8 @@
    "shot": {
     "prefab": "radio_set"
    },
-   "image": "c4.jpg"
+   "image": "c4.jpg",
+   "drawn_from": "9fb1ea00f099"
   },
   {
    "name": "Brass slots",
@@ -85,7 +89,8 @@
    "shot": {
     "prefab": "return_slot"
    },
-   "image": "c5.jpg"
+   "image": "c5.jpg",
+   "drawn_from": "538ece80047f"
   }
  ],
  "tips": [
@@ -192,35 +197,40 @@
    "shot": {
     "playtest": "start"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "624386436662"
   },
   {
    "caption": "Touching the west stone: the room now leans west.",
    "shot": {
     "playtest": "stone"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "a90320bdb367"
   },
   {
    "caption": "With the room leaning west, the loose things slide toward the west wall and its brass slot.",
    "shot": {
     "playtest": "lean"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "4e579ee1fb97"
   },
   {
    "caption": "Turning the dial (the teal can) to 94.5 Waltz: RETURNED 1/5.",
    "shot": {
     "playtest": "dial"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "cefcc6f29070"
   },
   {
    "caption": "The west slot has taken the armchair and the table: RETURNED 2/5.",
    "shot": {
     "playtest": "listen"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "788c83c8b1ca"
   }
  ],
  "why_made": "Idea Forge dealt this card: you tune a radio dial where every frequency rewrites one rule of the room; but gravity points toward the last thing you touched; noise draws a patient listener that always arrives from a new direction; empty the level until nothing is left but you; and, as optional story, a thief who must return everything they ever stole, one night at a time.\n\nThe AI kept the whole card: the dial has four stations that each change a rule, the room leans toward the last stone you touched, noise brings the Listener to a new slot each time, and you win when the hall is empty. It said the engine had no real gravity direction or loops over objects, so the lean is about 45 generated pushes toward three walls (not toward the stone itself) and most of its 94 rules are copies of three templates.",

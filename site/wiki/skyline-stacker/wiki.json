@@ -49,7 +49,8 @@
      "fov": 65
     }
    },
-   "image": "c1.jpg"
+   "image": "c1.jpg",
+   "drawn_from": "1a6ddf29fdc2"
   },
   {
    "name": "The Pallet",
@@ -62,7 +63,8 @@
      "fov": 60
     }
    },
-   "image": "c2.jpg"
+   "image": "c2.jpg",
+   "drawn_from": "341358454c0f"
   },
   {
    "name": "The Wrecking Barrel",
@@ -75,7 +77,8 @@
      "fov": 55
     }
    },
-   "image": "c3.jpg"
+   "image": "c3.jpg",
+   "drawn_from": "3d527782615d"
   }
  ],
  "tips": [
@@ -302,35 +305,40 @@
    "shot": {
     "playtest": "over"
    },
-   "image": "g1.jpg"
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
   },
   {
    "caption": "The start, looking down the rooftop toward the pallet.",
    "shot": {
     "playtest": "w0"
    },
-   "image": "g2.jpg"
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
   },
   {
    "caption": "Two crates stacked on the pallet (STACKED 2).",
    "shot": {
     "playtest": "drop1"
    },
-   "image": "g3.jpg"
+   "image": "g3.jpg",
+   "drawn_from": "dbb4d8ef597e"
   },
   {
    "caption": "The third crate lands crooked and knocks the stack over: BEST says 3 were up for a moment, STACKED is back to 1.",
    "shot": {
     "playtest": "drop2"
    },
-   "image": "g4.jpg"
+   "image": "g4.jpg",
+   "drawn_from": "dff91bb2df04"
   },
   {
    "caption": "The crates lie scattered on the pallet. Stacking them straight is the whole game.",
    "shot": {
     "playtest": "tower"
    },
-   "image": "g5.jpg"
+   "image": "g5.jpg",
+   "drawn_from": "b34fae790e1c"
   }
  ],
  "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",
