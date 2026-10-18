@@ -1,0 +1,276 @@
+{
+ "tagline": "A side-scrolling platformer in the spirit of the classics: Tobin the young beekeeper runs, stomps and bounces across eight worlds to free Queen Melli from Baron Thornwick.",
+ "overview": "Honeybound (subtitled Tobin and the Baron of Thorns) is a classic side-scrolling platformer in chunky pixel art. You play Tobin, a young beekeeper in a straw hat, running and jumping right through 32 stages in eight worlds: meadows and rootways, dusky woods and glimmering caves, autumn hollows, frozen vales, sunset dunes, starlit meadows, blossom ridges and finally the ashlands, each world ending in a keep.\n\nStomp grubbles, kick snail shells, dodge wasps, spikebugs, snapvines and leaping cinders, and collect honey drops. Bumping honeycomb blocks from below releases power-ups: royal jelly makes Tobin big, a firebloom lets him throw bouncing seeds, and a starpetal makes him briefly invincible to its own tune. At the end of each world's keep, Tobin frees one of the hive's friends who tells him where the Baron took Queen Melli next, until the final showdown in the Baron's Citadel.",
+ "story": "Baron Thornwick wanted every flower in the land for his thorns, so he raided the Great Hive and carried off its queen, Queen Melli. Tobin, a young beekeeper with nothing but a hat and a few seeds, sets out after him across eight worlds, freeing the hive's friends from the Baron's keeps one by one, until he reaches the Baron's Citadel and brings the queen home. \"The hive has been saving the sweetest honey for you.\"",
+ "goal": "Reach the end of all 32 stages and defeat Baron Thornwick in the Baron's Citadel (8-4) to bring Queen Melli home: \"THE HIVE IS SAFE!\" Losing your last life is GAME OVER; your best score is kept.",
+ "rules": [
+  "Run right to the flagpole at the end of each stage before TIME runs out. Every fourth stage is a keep with the Baron at the end.",
+  "Jump on most enemies to stomp them. Spiky ones (spikebugs, snapvines) and fire (cinders, the Baron's breath) hurt to touch.",
+  "A stomped snail hides in its shell; kick the shell and it rolls, knocking over whatever it hits.",
+  "Bump honeycomb and brick blocks from below: they hold honey drops and power-ups. Royal jelly makes Tobin big (a hit shrinks him instead of costing a life); a firebloom lets him throw bouncing seeds; a starpetal makes him invincible for a while; a clover gives an extra life.",
+  "Hold down on top of a hollow log to go inside: it leads to a hidden honey room.",
+  "After a stage's midpoint, a lost life restarts you there. Falling in a pit costs a life.",
+  "Each keep frees one of the hive's friends, who tells you where the Baron went next."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys (or a gamepad stick / d-pad)",
+   "action": "Move"
+  },
+  {
+   "input": "Z (gamepad A)",
+   "action": "Jump (hold to jump higher)"
+  },
+  {
+   "input": "Hold X (gamepad B)",
+   "action": "Run; with a firebloom, throw seeds"
+  },
+  {
+   "input": "Down on a hollow log",
+   "action": "Go inside"
+  },
+  {
+   "input": "Enter",
+   "action": "Start / play again"
+  },
+  {
+   "input": "Esc",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Tobin",
+   "role": "The hero",
+   "description": "A young beekeeper in a straw hat. Small, and big after eating royal jelly.",
+   "shot": {
+    "sprite": [
+     "tobin",
+     "tobinbig"
+    ]
+   },
+   "image": "c1.png",
+   "drawn_from": "2d3164a6d6e7"
+  },
+  {
+   "name": "Queen Melli",
+   "role": "The queen",
+   "description": "Queen of the Great Hive, carried off by the Baron.",
+   "shot": {
+    "sprite": "queen"
+   },
+   "image": "c2.png",
+   "drawn_from": "457184a6b710"
+  },
+  {
+   "name": "Baron Thornwick",
+   "role": "The villain",
+   "description": "The Baron of Thorns. He waits at the end of every keep and breathes fire.",
+   "shot": {
+    "sprite": "baron"
+   },
+   "image": "c3.png",
+   "drawn_from": "66e28e7751cd"
+  },
+  {
+   "name": "The hive's friends",
+   "role": "Rescued in the keeps",
+   "description": "Left to right: Buzz, Marigold the mapmaker, old Bramwell, Sorrel of the night shift, Thistledown of the royal guard, Fennel the queen's cook, and Burdock, captain of the hive guard.",
+   "shot": {
+    "sprite": [
+     "friend1",
+     "friend2",
+     "friend3",
+     "friend4",
+     "friend5",
+     "friend6",
+     "friend7"
+    ]
+   },
+   "image": "c4.png",
+   "drawn_from": "cd351fd84ad7"
+  },
+  {
+   "name": "Grubbles",
+   "role": "Enemies",
+   "description": "Walking grubs, the commonest foe (the darker kind is faster). Stomp them flat.",
+   "shot": {
+    "sprite": [
+     "grubble",
+     "dgrubble"
+    ]
+   },
+   "image": "c5.png",
+   "drawn_from": "9ac7a5648bf5"
+  },
+  {
+   "name": "Snails",
+   "role": "Enemies",
+   "description": "Stomp one and it hides in its shell; kick the shell to send it rolling.",
+   "shot": {
+    "sprite": [
+     "snail",
+     "shell"
+    ]
+   },
+   "image": "c6.png",
+   "drawn_from": "a4f2d4aa4034"
+  },
+  {
+   "name": "Wasps",
+   "role": "Enemies",
+   "description": "Hover up and down in the air. They can be stomped.",
+   "shot": {
+    "sprite": "wasp"
+   },
+   "image": "c7.png",
+   "drawn_from": "3b7758b22450"
+  },
+  {
+   "name": "Spikebugs and snapvines",
+   "role": "Enemies",
+   "description": "Spiky: never jump on them. Snapvines rise and sink out of pipes and logs.",
+   "shot": {
+    "sprite": [
+     "spikebug",
+     "snapvine"
+    ]
+   },
+   "image": "c8.png",
+   "drawn_from": "f395ad445795"
+  },
+  {
+   "name": "Power-ups",
+   "role": "Items",
+   "description": "Left to right: royal jelly (grow big), firebloom (throw seeds), starpetal (invincible) and clover (extra life).",
+   "shot": {
+    "sprite": [
+     "jelly",
+     "firebloom",
+     "starpetal",
+     "clover"
+    ]
+   },
+   "image": "c9.png",
+   "drawn_from": "c6a6afb5ded5"
+  },
+  {
+   "name": "Honey",
+   "role": "Collectible",
+   "description": "Honey drops: the HONEY counter at the top.",
+   "shot": {
+    "sprite": "honey"
+   },
+   "image": "c10.png",
+   "drawn_from": "8997dea8f96f"
+  }
+ ],
+ "tips": [
+  "Hold X while you jump to run and jump further.",
+  "Keep a firebloom for the keeps: seeds deal with things you would rather not stomp.",
+  "Try pressing down on every hollow log: the honey rooms are full of honey.",
+  "The castle keeps have fire bars; time your run between their turns."
+ ],
+ "gallery": [
+  {
+   "caption": "The title screen.",
+   "shot": {
+    "frame": {
+     "t": 0.3
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "6ad112fd079f"
+  },
+  {
+   "caption": "World 1-1, Meadow Path.",
+   "shot": {
+    "frame": {
+     "scenario": "1-1 meadow path can be finished",
+     "t": 10
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "891975c1d35b"
+  },
+  {
+   "caption": "World 1-2, Rootways: snapvines rise out of the logs.",
+   "shot": {
+    "frame": {
+     "scenario": "1-2 rootways can be finished",
+     "t": 10
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "952277747d6e"
+  },
+  {
+   "caption": "World 1-4, Thornkeep: the castle and its fire bars.",
+   "shot": {
+    "frame": {
+     "scenario": "1-4 thornkeep can be finished",
+     "t": 12
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "8fab4e437b96"
+  },
+  {
+   "caption": "Between stages: the card names the next one.",
+   "shot": {
+    "frame": {
+     "scenario": "1-4 thornkeep can be finished",
+     "t": 24
+    }
+   },
+   "image": "g5.png",
+   "drawn_from": "37d1ed7376df"
+  },
+  {
+   "caption": "World 4-1, Frostvale: snow and ice.",
+   "shot": {
+    "frame": {
+     "scenario": "4-1 frostvale can be finished",
+     "t": 10
+    }
+   },
+   "image": "g6.png",
+   "drawn_from": "e52d558da5d1"
+  },
+  {
+   "caption": "World 6-1, Starlit Meadow.",
+   "shot": {
+    "frame": {
+     "scenario": "6-1 starlit meadow can be finished",
+     "t": 10
+    }
+   },
+   "image": "g7.png",
+   "drawn_from": "88808460ce27"
+  },
+  {
+   "caption": "World 8-1, the Ashlands.",
+   "shot": {
+    "frame": {
+     "scenario": "8-1 the ashlands can be finished",
+     "t": 10
+    }
+   },
+   "image": "g8.png",
+   "drawn_from": "cc6621cab50d"
+  },
+  {
+   "caption": "The ending: THE HIVE IS SAFE!",
+   "shot": {
+    "frame": {
+     "scenario": "8-4 the baron's citadel can be finished",
+     "t": 30
+    }
+   },
+   "image": "g9.png",
+   "drawn_from": "ae1cec6e698d"
+  }
+ ],
+ "prompt": "Generate a 2d game using RedEngine. I want this to be very similar to super Mario bros, however I want original IP and characters. Give it the same depth and level style, controls, just a different unique IP\n\n——— A later prompt, 2026-10-16, asking for an update ———\n\nUpdate Honeybound to the latest version of RedEngine. Add a simple story, a primary antagonist (this games bowser), boss battles, etc. \n\nNo dialogue options, super simple Super Mario Bros-esque interactions with certain characters. \n\nSubtly improve graphics to give the game a truly distinct and polished look. \n\nEnsure the game feels fantastic to play. \n\nEnsure the villains and obstacles feel like true parts of this world. \n\nThe story itself should be a simple heroes journey tale. \n\nThis update should include more, unique music. The music should feel right for the part it is used in. Remember to give each track its own name and allow the player to download it in the pause menu while the song is playing\n\nThis update should include boss battles. The bosses must make sense within the story of this world. \n\nThe game should gradually increase in difficulty \n\nOur protagonist must have a concrete, meaningful call to action. \n\nThese games should be designed around controller use on PC. \n\nInclude stable save state support \n\nCreate high quality feedback about your development hurdles and add them to the Engine’s feedback so the engine can be improved by future runs.\n\nF has to be fullscreen toggle for ALL games\n\nThe game itself looks a little too much like Mario\n\nRevert the name of our main character back to Pip, I was wrong, it’s a cute name!\n\nThe pause menu needs a save option, a close option, etc. Keyboard instructions for a controller based game feel awkward\n\nThe game over screen has the main character on it. I would prefer a clean simple game over message\n\nThe game needs a fun and fitting desktop icon. This icon must also be in the top bar and the task bar.",
+ "prompt_source": "The first prompt was given to Claude Code on 2026-10-12. The second asked for a larger update on 2026-10-16; the version on this site is an earlier build from 2026-10-12 (its hero is still called Tobin; the update, which renames him Pip, has not been published here yet)."
+}
