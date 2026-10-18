@@ -338,6 +338,9 @@ def cmd_plan(args) -> int:
     head = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     for t in todo:
         t["notes"] = change_notes(REPO, by_slug[t["slug"]], t["previous_commit"])
+        # A note for every game in this release (an engine refresh changes no game file, so it has no notes of its own), first.
+        if args.note and args.note.strip() and args.note.strip() not in t["notes"]:
+            t["notes"].insert(0, args.note.strip())
         t["repo_commit"] = head
         t["engine_revision"] = catalog["source_revision"]
         t["released"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -416,6 +419,7 @@ def main() -> int:
     p.add_argument("--releases", help="JSON from `gh api --paginate repos/<repo>/releases`")
     p.add_argument("--force", action="store_true", help="release every game again (an engine refresh)")
     p.add_argument("--only", nargs="*", help="only these slugs")
+    p.add_argument("--note", help="a line for the \"What changed\" notes of every game released (say what an engine refresh brings)")
     p.add_argument("--out", default="plan.json")
     p = sub.add_parser("build")
     p.add_argument("--plan", default="plan.json")
