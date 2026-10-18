@@ -1,0 +1,253 @@
+{
+ "tagline": "A lamplighter traces the outline of a house in chalk on a floor that appears ahead of you and crumbles behind, and may only step while a little blue moth is moving.",
+ "overview": "Gentle Carousel is a first-person drawing puzzle on a 5×5 floor of stone tiles hanging over the dark. Every tile you step onto gets chalked: a lamp lights above it, and a few seconds later the tile crumbles away. Tiles only appear once you step next to them, so the floor builds itself in front of you as it falls apart behind you.\n\nOn the wall, a board of lights shows the picture to draw: the outline of a house, 12 tiles in all. Light those 12 and the picture is done. Stepping on a tile that is not part of the house is a smudge. And there is a rhythm: a little blue moth flutters along a ledge for four seconds, then rests for two. You may only step onto a new tile while it moves; step while it rests and the shy dark startles you back to the start.",
+ "story": "In a town where the dark is alive and rather shy, a lamplighter draws a house in lamplight, one chalked stone at a time, so that strangers will recognise it. The dark tolerates the work only while the moth is dancing.",
+ "goal": "Light all 12 tiles of the house (Lamps lit 12/12) with fewer than 3 smudges: \"A house in lamplight\". You lose if a crumbled tile drops you (\"Down you go\"), after 3 frights (\"The dark fled\"), or with 3 smudges (\"Smudged\").",
+ "rules": [
+  "Step onto a tile to chalk it: its lamp lights. A tile that belongs to the house on the board counts toward Lamps lit; any other tile is a smudge.",
+  "Stepping onto a tile reveals the tiles next to it. Tiles you have not revealed are not there yet.",
+  "Every 4 seconds a crumble wave passes. A chalked tile falls away on the second wave after you chalked it. Standing on it when it goes drops you into the dark.",
+  "The blue moth moves for 4 seconds, then rests for 2 (the objective at the top says WALK or FREEZE). Stepping onto a tile while it rests is a fright: you are sent back to the start.",
+  "Three frights, three smudges or one fall ends the game."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Lamplighter",
+   "role": "You",
+   "description": "Walking the stones, chalking a house into the dark.",
+   "shot": {
+    "playtest": "above"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Moth",
+   "role": "Your partner (the clock)",
+   "description": "A glowing blue shape that flutters along the ledge in front of you. You may only step while it moves.",
+   "shot": {
+    "playtest": "moth"
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Board",
+   "role": "The picture",
+   "description": "A panel of lights on the wall showing the house to draw: a peaked roof, two walls and a floor.",
+   "shot": {
+    "playtest": "board"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "Chalked tiles",
+   "role": "Your drawing",
+   "description": "Each tile you step on lights a lamp above it, until the tile crumbles.",
+   "shot": {
+    "playtest": "above2"
+   },
+   "image": "c4.jpg"
+  }
+ ],
+ "tips": [
+  "Watch the objective line: move only while it says WALK, stand still while it says FREEZE.",
+  "Plan the route from the board before you start: the house is the bottom row, both sides, and the roof up to a peak in the middle of the far row.",
+  "Keep moving forward: a chalked tile only lasts two crumble waves, about 4 to 8 seconds.",
+  "Do not step onto tiles outside the outline just to get somewhere: each one is a smudge, and three lose.",
+  "The panel at the top left also shows two internal counters (T and MOTH MOVING); MOTH MOVING 1 means you may walk."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "start",
+     "camera": "first"
+    },
+    {
+     "shot": "board",
+     "camera": {
+      "eye": [
+       4.5,
+       3.5,
+       -1.5
+      ],
+      "at": [
+       9.5,
+       3.7,
+       -4.0
+      ],
+      "fov": 45
+     }
+    },
+    {
+     "shot": "moth",
+     "camera": {
+      "eye": [
+       -2,
+       2.5,
+       -6
+      ],
+      "at": [
+       -4,
+       0.3,
+       -9.5
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -20
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.9
+    },
+    {
+     "wait": 0.4
+    },
+    {
+     "shot": "chalk1",
+     "camera": "first"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.9
+    },
+    {
+     "wait": 0.4
+    },
+    {
+     "shot": "above",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       9
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "wait": 3
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.9
+    },
+    {
+     "wait": 0.4
+    },
+    {
+     "shot": "later",
+     "camera": "first"
+    },
+    {
+     "shot": "above2",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       9
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "wait": 6
+    },
+    {
+     "shot": "crumble",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       9
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 60
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The start: the first stones of the floor, and the board of lights on the wall.",
+   "shot": {
+    "playtest": "start"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The board shows the house you have to draw.",
+   "shot": {
+    "playtest": "board"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "From above: three lamps lit along the bottom row, more tiles revealed ahead.",
+   "shot": {
+    "playtest": "above"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Four lamps lit; the floor keeps appearing in front of you.",
+   "shot": {
+    "playtest": "later"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Standing still too long: the chalked tile crumbled and the lamplighter fell.",
+   "shot": {
+    "playtest": "crumble"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you mark things with chalk, and whatever is chalked breaks next; but you can only move while a partner you do not control moves; the map builds itself one screen ahead of you while one screen behind decays; draw a picture with your path that a stranger would recognise; and, as optional story, a lamplighter in a town where the dark is alive and rather shy.\n\nThe AI turned chalking into lighting lamps on the tiles you walk, made the picture a house outline, and built the floor ahead while it crumbles behind. It said no rule could stop or slow the player, so \"move only while your partner moves\" became a penalty: step while the moth rests and you are sent back. It also said the 5×5 board needed 252 generated rules because the engine has no timers per tile, and that nobody had played it by hand in a window.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-08."
+}
