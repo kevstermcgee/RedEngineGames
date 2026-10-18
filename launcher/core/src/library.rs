@@ -1,7 +1,7 @@
-//! The player's installed games: `library.json` plus one folder per game. Installing unpacks into a fresh `v<N>` folder and only then switches
-//! the record over, so a failed or cancelled update leaves the old version playable.
+//! The player's installed games and favorites: `library.json` plus one folder per game. Installing unpacks into a fresh `v<N>` folder and only
+//! then switches the record over, so a failed or cancelled update leaves the old version playable.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::AtomicBool;
 
@@ -27,6 +27,9 @@ pub struct Installed {
 struct State {
     #[serde(default)]
     games: BTreeMap<String, Installed>,
+    /// The games the player hearted, installed or not.
+    #[serde(default)]
+    favorites: BTreeSet<String>,
 }
 
 /// A game as the window shows it.
@@ -146,6 +149,19 @@ impl Library {
         }
         Ok(())
     }
+
+    pub fn is_favorite(&self, slug: &str) -> bool {
+        self.state.favorites.contains(slug)
+    }
+
+    /// Heart or unheart a game. Kept with the library rather than in the window, so favorites outlast launcher updates and uninstalls.
+    pub fn set_favorite(&mut self, slug: &str, on: bool) -> Result<()> {
+        let changed = if on { self.state.favorites.insert(slug.into()) } else { self.state.favorites.remove(slug) };
+        if changed {
+            self.save()?;
+        }
+        Ok(())
+    }
 }
 
 fn pick(game: &Game, version: Option<u64>) -> Result<&Version> {
@@ -177,6 +193,7 @@ mod tests {
                     version: n,
                     released: String::new(),
                     notes: vec![],
+                    engine_revision: String::new(),
                     zip: Asset { name: format!("coin-run-{n}.zip"), size: 0, sha256: String::new(), url: String::new() },
                 })
                 .collect(),
@@ -223,6 +240,30 @@ mod tests {
         assert_eq!(lib.installed("coin-run").unwrap().version, 1);
         assert!(lib.dir("coin-run").unwrap().join("RedEngine.exe").is_file());
         assert!(!dir.path().join("lib/games/coin-run/.v2-unpacking").exists());
+    }
+
+    #[test]
+    fn favorites_are_kept_with_the_library_installed_or_not() {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path().join("lib");
+        std::fs::create_dir_all(&root).unwrap();
+        std::fs::write(root.join("library.json"), r#"{"games": {}}"#).unwrap();
+        let mut lib = Library::open(&root).unwrap();
+        assert!(!lib.is_favorite("coin-run"), "a library from before favorites has none");
+
+        lib.set_favorite("coin-run", true).unwrap();
+        lib.set_favorite("restless-tide", true).unwrap();
+        lib.set_favorite("restless-tide", false).unwrap();
+        lib.set_favorite("restless-tide", false).unwrap();
+        let zip = dir.path().join("g.zip");
+        game_zip(&zip, &[]);
+        let g = game(&[1]);
+        lib.install_zip(&g, &g.versions[0], &zip, "d").unwrap();
+        lib.uninstall("coin-run").unwrap();
+
+        let reopened = Library::open(&root).unwrap();
+        assert!(reopened.is_favorite("coin-run"), "a favorite survives a restart and an uninstall");
+        assert!(!reopened.is_favorite("restless-tide"));
     }
 
     #[test]

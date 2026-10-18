@@ -1,11 +1,12 @@
 // A stand-in for the window (app/src/main.rs) so the page can be tested in a plain browser: the same commands and events, backed by
-// `window.__MOCK__` = {catalog, installed: {slug: version}, update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail}. Every call is recorded in
-// `window.__CALLS__`.
+// `window.__MOCK__` = {catalog, installed: {slug: version}, favorites: [slug], update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail}.
+// Every call is recorded in `window.__CALLS__`.
 (function () {
   const M = window.__MOCK__;
   const calls = (window.__CALLS__ = []);
   const handlers = {};
   const lib = {};
+  const favorites = new Set(M.favorites || []);
   const cancelled = new Set();
   for (const [slug, version] of Object.entries(M.installed || {})) {
     const g = M.catalog.games.find((x) => x.slug === slug);
@@ -22,7 +23,7 @@
   };
   const commands = {
     overview() {
-      const games = M.offline && M.noCache ? [] : M.catalog.games.map((g) => ({ ...g, status: status(g), installed: lib[g.slug] || null }));
+      const games = M.offline && M.noCache ? [] : M.catalog.games.map((g) => ({ ...g, status: status(g), installed: lib[g.slug] || null, favorite: favorites.has(g.slug) }));
       return { games, offline: !!M.offline, error: M.offline ? "could not reach https://kevstermcgee.github.io/RedEngineGames/catalog.json: dns failed" : null, launcher_version: "0.1.0", site: "https://kevstermcgee.github.io/RedEngineGames/" };
     },
     async install({ slug }) {
@@ -50,6 +51,7 @@
     cancel({ slug }) { cancelled.add(slug); },
     uninstall({ slug }) { delete lib[slug]; },
     play({ slug }) { if (!lib[slug]) throw `${slug} is not installed`; lib[slug].played = "2026-10-18"; },
+    favorite({ slug, on }) { if (on) favorites.add(slug); else favorites.delete(slug); },
     open() {},
     launcher_update() { if (M.offline) throw "offline"; return M.update || null; },
     async launcher_update_apply() {

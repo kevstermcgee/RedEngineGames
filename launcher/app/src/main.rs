@@ -81,13 +81,14 @@ async fn overview(state: State<'_, App>, refresh: bool) -> Result<Overview, Stri
         let mut v = serde_json::to_value(g).map_err(err)?;
         v["status"] = serde_json::to_value(library.status(g)).map_err(err)?;
         v["installed"] = serde_json::to_value(library.installed(&g.slug)).map_err(err)?;
+        v["favorite"] = library.is_favorite(&g.slug).into();
         games.push(v);
     }
     // A game removed from the site stays playable while it is installed (and with no catalog at all, offline on the first run, every
     // installed game is listed this way, without being called retired).
     for (slug, i) in library.all() {
         if !catalog.as_ref().is_some_and(|c| c.game(slug).is_some()) {
-            games.push(serde_json::json!({"slug": slug, "name": i.name, "versions": [], "status": {"state": "installed", "version": i.version}, "installed": i, "retired": catalog.is_some()}));
+            games.push(serde_json::json!({"slug": slug, "name": i.name, "versions": [], "status": {"state": "installed", "version": i.version}, "installed": i, "retired": catalog.is_some(), "favorite": library.is_favorite(slug)}));
         }
     }
     Ok(Overview { games, offline, error, launcher_version: VERSION, site: SITE })
@@ -161,6 +162,12 @@ fn play(state: State<'_, App>, slug: String) -> Result<(), String> {
     let plan = launch::plan(&library.dir(&slug).map_err(err)?, &installed.name, &profile()).map_err(err)?;
     launch::start(&plan).map_err(err)?;
     library.mark_played(&slug, &core::today()).map_err(err)
+}
+
+/// Heart (`on`) or unheart a game.
+#[tauri::command]
+fn favorite(state: State<'_, App>, slug: String, on: bool) -> Result<(), String> {
+    state.library.lock().unwrap().set_favorite(&slug, on).map_err(err)
 }
 
 /// Open the game's saves folder, its installed folder, or its page on the site.
@@ -296,7 +303,7 @@ fn main() {
                 }
             }
         })
-        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send])
+        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, favorite, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send])
         .run(tauri::generate_context!())
         .expect("the window opens");
 }

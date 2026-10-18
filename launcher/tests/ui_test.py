@@ -7,6 +7,7 @@
 Without --catalog it reads the live site's catalog.json. Pictures come from the live site either way.
 """
 import argparse
+import datetime
 import json
 import sys
 import urllib.request
@@ -65,6 +66,12 @@ def window_still(page, what):
     check(w[0] == 0 and w[1] <= w[2] and w[3] == 0, f"the window does not scroll, only the page in it: {what} {w}")
 
 
+def day(iso):
+    """A catalog date as the page shows it in an American English window ("Oct 4, 2026")."""
+    d = datetime.date.fromisoformat(iso)
+    return f"{d:%b} {d.day}, {d.year}"
+
+
 def snap(page, name, full=False):
     if shots:
         page.screenshot(path=str(shots / f"{name}.png"), full_page=full)
@@ -74,7 +81,7 @@ with sync_playwright() as p:
     browser = p.chromium.launch()
 
     def boot(width=1240, height=800, **mock):
-        page = browser.new_page(viewport={"width": width, "height": height})
+        page = browser.new_page(viewport={"width": width, "height": height}, locale="en-US")
         errors = []
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.on("console", lambda m: m.type == "error" and "Failed to load resource" not in m.text and errors.append(m.text))
@@ -247,6 +254,54 @@ with sync_playwright() as p:
     check(page.locator(".rv.pending").count() == 0, "a review that failed to send is not shown as sent")
     page.close()
 
+    # A game's versions: at the top, which one is installed and when it came out, and a small button beside Play for a newer one that
+    # updates the game; at the bottom, every version in a table as on the website. And favorites: a heart on every game, kept in a section.
+    many = max((g for g in games if g.get("wiki")), key=lambda g: len(g["versions"]))
+    mine, newest = many["versions"][-1], many["versions"][0]
+    page, errors = boot(installed={many["slug"]: mine["version"]})
+    check("Click the ♡ on any game" in page.locator("#favs").inner_text(), "with no favorites yet, the section says how to add one")
+    card(page, many).locator(".heart").click()
+    expect(page.locator("#favs .fav-tile")).to_have_count(1)
+    check(page.locator(".hero").count() == 0, "a heart does not open the game")
+    check("fav" in card(page, many).get_attribute("class") and card(page, many).locator('.heart[aria-pressed="true"]').inner_text() == "♥", "a hearted card is marked")
+    check(["favorite", {"slug": many["slug"], "on": True}] in page.evaluate("window.__CALLS__"), "the heart is kept by the window")
+    check(page.locator(f'#favs [data-act-for="{many["slug"]}"] .newer').inner_text().strip().endswith(f"v{newest['version']}"), "a favorite with an update says so")
+    snap(page, "favorites")
+    page.locator("#favs .fav-tile h3").click()
+    expect(page.locator("h1")).to_have_text(many["name"])
+    ver = page.locator(".ver-line").inner_text()
+    check(f"Version {mine['version']} installed" in ver and f"Released {day(mine['released'])}" in ver and f"all {len(many['versions'])} versions" in ver,
+          f"the top of the page says which version is installed and when it was released: {ver}")
+    newer = page.locator(".hero .newer")
+    check(newer.count() == 1 and f"New version {newest['version']} · {day(newest['released'])}" in newer.inner_text(), f"a newer version shows beside Play, with its date: {newer.all_inner_texts()}")
+    check(page.locator(".hero .act .play").count() == 1, "the installed version still plays")
+    rows = page.locator("table.versions tbody tr")
+    check(rows.count() == len(many["versions"]), f"every version is in the versions table ({rows.count()} of {len(many['versions'])})")
+    check("Latest" in rows.first.inner_text() and "Installed" in rows.last.inner_text() and day(mine["released"]) in rows.last.inner_text(), "the table marks the latest and the installed version, with dates")
+    check(page.locator('.hero .heart[aria-pressed="true"]').count() == 1, "the game's page shows its heart")
+    page.click('.ver-line [data-scroll="versions"]')
+    page.wait_for_timeout(700)
+    window_still(page, "after the link to all versions")
+    check(page.locator("table.versions").is_visible() and page.evaluate("() => document.querySelector('table.versions').getBoundingClientRect().top < innerHeight"), "the link at the top shows the versions table")
+    snap(page, "versions")
+    page.evaluate("() => document.querySelector('main').scrollTop = 0")
+    snap(page, "game-update")
+    newer.click()
+    expect(page.locator(".ver-line")).to_contain_text(f"Version {newest['version']} installed", timeout=10_000)
+    check(["install", {"slug": many["slug"]}] in page.evaluate("window.__CALLS__"), "the newer-version button updates the game")
+    check(page.locator(".hero .newer").count() == 0 and "Installed" in page.locator("table.versions tbody tr").first.inner_text(), "once up to date, the button is gone and the newest version is the installed one")
+    page.locator(".hero .heart").click()
+    check(["favorite", {"slug": many["slug"], "on": False}] in page.evaluate("window.__CALLS__"), "a second click takes the heart away")
+    page.click('[data-act="back"]')
+    expect(page.locator("#favs .fav-tile")).to_have_count(0)
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+    page, errors = boot(favorites=[many["slug"], small["slug"]])
+    expect(page.locator("#favs .fav-tile")).to_have_count(2)
+    check(page.locator(".card.fav").count() == 2, "favorites kept by the window are there when the launcher starts")
+    no_overflow(page, "games with favorites")
+    page.close()
+
     # Downloads in progress, and closing the window while they run.
     page, errors = boot(ms=400)
     act(page, small).locator('[data-act="install"]').click()
@@ -304,6 +359,11 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     no_overflow(page, "game page at 820px")
     snap(page, "game-narrow")
+    page.click('[data-act="back"]')
+    card(page, old).click()
+    page.wait_for_timeout(500)
+    no_overflow(page, "a game page with an update and its versions table at 820px")
+    snap(page, "game-update-narrow")
     page.click('.tabs [data-view="library"]')
     no_overflow(page, "library at 820px")
     check(not errors, f"no script errors {errors[:3]}")
