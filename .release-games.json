@@ -348,6 +348,19 @@
       "kind": "2d",
       "files": ["projects/wandering-engine"],
       "arguments": ["content/projects/wandering-engine/wandering-engine.game2d.json"]
+    },
+    {
+      "slug": "copper-choir",
+      "name": "Copper Choir",
+      "kind": "2d",
+      "files": ["projects/copper-choir"],
+      "arguments": ["content/projects/copper-choir/copper-choir.game2d.json"]
+    },
+    {
+      "slug": "crooked-ferry",
+      "name": "Crooked Ferry",
+      "files": ["projects/crooked-ferry"],
+      "arguments": ["content/projects/crooked-ferry/crooked-ferry.json"]
     }
   ],
   "native_playables": []
