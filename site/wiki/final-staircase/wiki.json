@@ -1,0 +1,224 @@
+{
+ "tagline": "Change between water, gas and ice to slip through coloured gates, get warm from the right guards, then stand still and a door appears.",
+ "overview": "Final Staircase is a one-screen top-down puzzle game about changing state. You are a small blob that can be water, gas or ice, and Space switches between them in that order. Each form fits through one kind of gate and is blocked by the others, so getting around the room means switching at the right moment.\n\nRed and blue guards drift back and forth. Which colour is your friend depends on which half of the room you are in: on the left, blue guards warm you and red ones hurt you; on the right it is the other way round. Collect enough warmth, then stop moving: after three seconds of standing still a door opens right where you are and you pour out of the level. Every ten seconds the gates change kind, so a route that worked a moment ago may not work now.",
+ "story": "The card behind this game imagined a grandmother driving a very slow, very important truck; the game kept none of that. What is left is a small puddle of something trying to get out of a room that keeps changing its rules, and a door that only appears once you stop looking for it.",
+ "goal": "Reach WARM 4/4, then stand completely still for 3 seconds: a door appears under you and you win (\"YOU POURED OUT\"). Lose all three lives and you \"EVAPORATE\".",
+ "rules": [
+  "Space changes your form: water, then gas, then ice, then water again. FORM at the top shows it as a number: 0 = water, 1 = gas, 2 = ice.",
+  "Water (small dark-blue square) is fast and passes through the brown gate.",
+  "Gas (large pale square) is slower and passes through the purple gate.",
+  "Ice (light-blue square) is slowest and passes through the green gate. Ice cannot be hurt by guards.",
+  "Every 10 seconds the gates change kind (SWAP IN at the bottom right counts down): green becomes brown, brown becomes purple, purple becomes green.",
+  "The room has an invisible midline. On the left half, touching a blue guard adds warmth and a red guard costs a life. On the right half it is the reverse.",
+  "Once WARM reaches 4, \"HOLD STILL...\" appears. Let go of every direction key for 3 seconds and a door opens where you stand.",
+  "You have 3 lives; losing them all ends the game."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys / WASD (or a gamepad stick)",
+   "action": "Move"
+  },
+  {
+   "input": "Space / Z / J (gamepad A)",
+   "action": "Change form: water → gas → ice"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You, as water",
+   "role": "You (form 0)",
+   "description": "A small dark-blue square: fast, slips through brown gates.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.0,
+     0.3,
+     0.2,
+     0.7
+    ]
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "You, as gas",
+   "role": "You (form 1)",
+   "description": "A large pale square: slower, drifts through purple gates.",
+   "shot": {
+    "frame": {
+     "scenario": "gas is stopped by the grille",
+     "t": 2
+    },
+    "crop": [
+     0.18,
+     0.3,
+     0.4,
+     0.7
+    ]
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "You, as ice",
+   "role": "You (form 2)",
+   "description": "A light-blue square: slowest, passes green gates, and guards cannot hurt it.",
+   "shot": {
+    "frame": {
+     "scenario": "form key pours you into gas then ice",
+     "t": 2
+    },
+    "crop": [
+     0.0,
+     0.3,
+     0.2,
+     0.7
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "Red guards",
+   "role": "Friend on the right, foe on the left",
+   "description": "Red circles patrolling the room. On the left half they hurt; on the right half they warm you.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.08,
+     0.2,
+     0.26,
+     0.52
+    ]
+   },
+   "image": "c4.png"
+  },
+  {
+   "name": "Blue guards",
+   "role": "Friend on the left, foe on the right",
+   "description": "Light-blue circles. On the left half they warm you; on the right half they hurt.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.1,
+     0.6,
+     0.28,
+     0.88
+    ]
+   },
+   "image": "c5.png"
+  },
+  {
+   "name": "The gates",
+   "role": "Obstacles",
+   "description": "Tall coloured bars: brown lets water through, purple lets gas through, green lets ice through. They change kind every 10 seconds.",
+   "shot": {
+    "frame": {
+     "scenario": "rooms swap rules every ten seconds",
+     "t": 20
+    },
+    "crop": [
+     0.25,
+     0.0,
+     1.0,
+     1.0
+    ]
+   },
+   "image": "c6.png"
+  },
+  {
+   "name": "The door",
+   "role": "Exit",
+   "description": "A small gold door that appears under you once you are warm enough and have stood still for 3 seconds.",
+   "shot": {
+    "frame": {
+     "scenario": "win by warmth and stillness",
+     "t": 20
+    },
+    "crop": [
+     0.08,
+     0.55,
+     0.3,
+     0.92
+    ]
+   },
+   "image": "c7.png"
+  }
+ ],
+ "tips": [
+  "Warm up on the left with the blue guards: it is the closest source of warmth.",
+  "Turn to ice (FORM 2) before you walk past a guard that would hurt you.",
+  "Watch SWAP IN: if a gate is about to change, wait for it rather than switching form twice.",
+  "When HOLD STILL... appears, take your fingers off the keys; even a tap resets the count."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: you (water) on the left, a brown gate, the guards and a purple gate.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "Later: the gates have changed kind. The brown gate is now purple and the purple one green.",
+   "shot": {
+    "frame": {
+     "scenario": "rooms swap rules every ten seconds",
+     "t": 20
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "As gas, the brown gate stops you.",
+   "shot": {
+    "frame": {
+     "scenario": "gas is stopped by the grille",
+     "t": 8
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "Warm enough: HOLD STILL...",
+   "shot": {
+    "frame": {
+     "scenario": "win by warmth and stillness",
+     "t": 6
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "The door opens under you: YOU POURED OUT.",
+   "shot": {
+    "frame": {
+     "scenario": "win by warmth and stillness",
+     "t": 20
+    }
+   },
+   "image": "g5.png"
+  },
+  {
+   "caption": "Out of lives: EVAPORATED.",
+   "shot": {
+    "frame": {
+     "scenario": "lose",
+     "t": 5
+    }
+   },
+   "image": "g6.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you pour yourself into containers and flow through the level as liquid, gas or ice; but friend and foe swap sides whenever you cross the midline; every ten seconds the room swaps its rules with the room next door; escape through a door that exists only once you stop searching for it; and, as optional story, a grandmother driving a very slow, very important truck.\n\nThe AI built the three forms as the core: each one fits through a different gate. It kept the midline swap (guards that help on one side hurt on the other), turned \"the room swaps its rules\" into gates that change kind every ten seconds, and made the door literal: it appears only once you stop moving. It said it could not build real pouring into containers, so the forms are switched with one key, and it dropped the truck story.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-15."
+}

@@ -14,7 +14,12 @@ wiki.json:
   tips           optional list of strings
   gallery        list of at least 3 {image, caption}: different moments of play, not three copies of one view
   why_made       AI-designed games only: why the AI chose to make this game (at least 100 characters)
-  prompt         human-designed games only: the prompt that created the game, as written
+  why_made_note  optional: where `why_made` comes from, when it was not written by the AI at the time (e.g. reconstructed from its design notes)
+  prompt         human-designed games only: the prompt that created the game, exactly as written (several prompts: separate them with a line of their own)
+  prompt_source  optional: where and when the prompt was given
+  prompt_unavailable  instead of `prompt` when it was not recorded: say so honestly and say what is known (at least 40 characters)
+
+Pictures are PNG or JPEG. An entry may carry a `shot` saying how its picture was drawn (`site/wiki_build.py` draws them); the page ignores it.
 """
 import html
 from pathlib import Path
@@ -44,7 +49,10 @@ def problems(data, author: str, folder: Path) -> list[str]:
         out.append("`controls` needs at least one {input, action}")
 
     def image_ok(name):
-        return isinstance(name, str) and "/" not in name and "\\" not in name and (folder / name).is_file() and (folder / name).read_bytes()[:8] == b"\x89PNG\r\n\x1a\n"
+        if not (isinstance(name, str) and "/" not in name and "\\" not in name and (folder / name).is_file()):
+            return False
+        head = (folder / name).read_bytes()[:8]
+        return head == b"\x89PNG\r\n\x1a\n" or head[:3] == b"\xff\xd8\xff"
 
     chars = data.get("characters")
     if not (isinstance(chars, list) and len(chars) >= MIN_CHARACTERS):
@@ -54,22 +62,22 @@ def problems(data, author: str, folder: Path) -> list[str]:
             if not (isinstance(c, dict) and all(text_ok(c.get(k)) for k in ("name", "role", "description"))):
                 out.append(f"character {i + 1} needs name, role and description")
             elif not image_ok(c.get("image")):
-                out.append(f"character `{c['name']}` needs an `image` that is a PNG in the page's folder")
+                out.append(f"character `{c['name']}` needs an `image` that is a PNG or JPEG in the page's folder")
     gallery = data.get("gallery")
     if not (isinstance(gallery, list) and len(gallery) >= MIN_GALLERY):
         out.append(f"`gallery` needs at least {MIN_GALLERY} pictures of different moments")
     else:
         for i, g in enumerate(gallery):
             if not (isinstance(g, dict) and text_ok(g.get("caption")) and image_ok(g.get("image"))):
-                out.append(f"gallery picture {i + 1} needs a caption and an `image` that is a PNG in the page's folder")
+                out.append(f"gallery picture {i + 1} needs a caption and an `image` that is a PNG or JPEG in the page's folder")
         names = [g.get("image") for g in gallery if isinstance(g, dict)]
         if len(set(names)) != len(names):
             out.append("`gallery` repeats a picture")
     if author == "ai":
         if not text_ok(data.get("why_made"), MIN["why_made"]):
             out.append(f"an AI-designed game needs `why_made` (why the AI chose this game, at least {MIN['why_made']} characters)")
-    elif not text_ok(data.get("prompt")):
-        out.append("a human-designed game needs `prompt` (the prompt that created it)")
+    elif not text_ok(data.get("prompt")) and not text_ok(data.get("prompt_unavailable"), 40):
+        out.append("a human-designed game needs `prompt` (the prompt that created it) or, when it was not recorded, `prompt_unavailable` saying so (at least 40 characters)")
     return out
 
 
@@ -87,10 +95,14 @@ def render(data: dict, author: str) -> str:
     chars = "".join(f'<figure class="char"><img src="{e(c["image"])}" alt="{e(c["name"])}" loading="lazy"><figcaption><strong>{e(c["name"])}</strong> <span>{e(c["role"])}</span><p>{e(c["description"])}</p></figcaption></figure>' for c in data["characters"])
     gallery = "".join(f'<figure><a href="{e(g["image"])}"><img src="{e(g["image"])}" alt="{e(g["caption"])}" loading="lazy"></a><figcaption>{e(g["caption"])}</figcaption></figure>' for g in data["gallery"])
     tips = f'<section id="tips"><h2>Tips</h2><ul>{"".join(f"<li>{e(t)}</li>" for t in data["tips"])}</ul></section>' if data.get("tips") else ""
+    note = lambda key: f'<p class="fine">{e(data[key])}</p>' if text_ok(data.get(key)) else ""   # noqa: E731
     if author == "ai":
-        origin = f'<section id="origin"><h2>Why this game exists</h2><p class="fine">This game was designed by an AI on its own. Its reason, in its words:</p><blockquote>{paras(data["why_made"])}</blockquote></section>'
+        intro = "Why it was made:" if text_ok(data.get("why_made_note")) else "Its reason, in its words:"
+        origin = f'<section id="origin"><h2>Why this game exists</h2><p class="fine">This game was designed by an AI on its own. {intro}</p><blockquote>{paras(data["why_made"])}</blockquote>{note("why_made_note")}</section>'
+    elif text_ok(data.get("prompt")):
+        origin = f'<section id="origin"><h2>The prompt</h2><p class="fine">This game was designed by a person. The prompt that created it:</p><blockquote class="prompt">{e(data["prompt"].strip())}</blockquote>{note("prompt_source")}</section>'
     else:
-        origin = f'<section id="origin"><h2>The prompt</h2><p class="fine">This game was designed by a person. The prompt that created it:</p><blockquote class="prompt">{paras(data["prompt"])}</blockquote></section>'
+        origin = f'<section id="origin"><h2>The prompt</h2><p class="fine">This game was designed by a person.</p><p>{e(data["prompt_unavailable"])}</p></section>'
     return f'''
   <nav class="toc" aria-label="On this page"><strong>Contents</strong>{toc}</nav>
   <section id="overview"><h2>Overview</h2><p class="lead">{e(data["tagline"])}</p>{paras(data["overview"])}</section>

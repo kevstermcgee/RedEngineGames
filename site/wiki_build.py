@@ -1,0 +1,270 @@
+#!/usr/bin/env python3
+"""Draw the pictures of wiki pages from the `shot` each entry carries, so a page can be redrawn whenever a game or the engine changes.
+
+  python3 site/wiki_build.py SLUG [SLUG...] [--engine PATH] [--sheet OUT.jpg]
+  python3 site/wiki_build.py --all [--engine PATH]
+
+The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Needs Pillow (JPEG and 2D sprite portraits).
+Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
+saved as JPEG); an entry without `image` gets one (`c1.jpg`, `g1.png`, ...). Kinds of shot:
+
+  {"frame": {t, scenario, eye, at, fov, hide, hour, cut_above, seed}}    the game itself, as `red_engine2 frame` draws it (a 2D game is drawn at 3x its screen);
+                                                                         "crop": [l, t, r, b] (fractions) keeps and enlarges part of it
+  {"sprite": NAME | [NAMES], "index": 0, "scale": 0}                     a 2D game's own pixel art, from its `sprites`, enlarged without blur
+  {"prefab": NAME}                                                       a 3D game's own prefab, as `red_engine2 catalog --sheet` draws it (label band cropped)
+  {"studio": [OBJECTS], "eye": "x,y,z", "at": "x,y,z", "fov": 40}         objects (e.g. a `humanoid`) in a small lit room with the game's prefabs and style
+  {"file": PATH}                                                         an existing picture in the repository
+
+`--sheet` writes one contact sheet of everything drawn, for a person to check that each picture shows what its caption says.
+Then `python3 site/wiki.py`'s rules run on the page (`site/generate.py` runs them again for the site).
+"""
+import argparse
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "distribution"))
+sys.path.insert(0, str(REPO / "site"))
+import release_tool as rt  # noqa: E402
+import wiki  # noqa: E402
+
+try:
+    from PIL import Image, ImageDraw
+except ImportError:  # only the shots that need it fail
+    Image = None
+
+SIZE_3D = (960, 540)
+JPEG_QUALITY = 84
+
+
+def scene_of(slug: str) -> Path:
+    for p in rt.load_playables():
+        if p["slug"] == slug:
+            for arg in p.get("arguments", []):
+                if arg.endswith(".json"):
+                    return REPO / arg.removeprefix("content/")
+    raise SystemExit(f"{slug}: not a listed game (or it has no scene argument)")
+
+
+def is_2d(scene: Path) -> bool:
+    return scene.name.endswith(".game2d.json")
+
+
+def run(engine: str, args: list[str]) -> str:
+    p = subprocess.run([engine] + args, capture_output=True, text=True, timeout=600, cwd=REPO)
+    if p.returncode:
+        raise RuntimeError(f"{' '.join(args[:3])}: {(p.stderr or p.stdout).strip()[-400:]}")
+    return p.stdout
+
+
+def save(img, out: Path):
+    out.parent.mkdir(parents=True, exist_ok=True)
+    if out.suffix.lower() in (".jpg", ".jpeg"):
+        img.convert("RGB").save(out, quality=JPEG_QUALITY, optimize=True, progressive=True)
+    else:
+        img.save(out, optimize=True)
+
+
+def need_pil():
+    if Image is None:
+        raise RuntimeError("this shot needs Pillow (pip install pillow)")
+
+
+def draw_frame(engine, scene, shot, out):
+    opts = shot["frame"]
+    if is_2d(scene):
+        view = json.loads(scene.read_text()).get("view", {})
+        size = (int(view.get("width", 320)) * 3, int(view.get("height", 240)) * 3)
+    else:
+        size = SIZE_3D
+    args = ["frame", str(scene), "", "--size", f"{size[0]}x{size[1]}"]
+    for k in ("t", "scenario", "eye", "at", "fov", "hour", "cut_above", "seed"):
+        if opts.get(k) is not None:
+            args += [f"--{k.replace('_', '-')}", str(opts[k])]
+    for h in ([opts["hide"]] if isinstance(opts.get("hide"), str) else opts.get("hide") or []):
+        args += ["--hide", h]
+    with tempfile.TemporaryDirectory() as tmp:
+        png = Path(tmp) / "f.png"
+        args[2] = str(png)
+        run(engine, args)
+        crop = shot.get("crop")   # [left, top, right, bottom] as fractions of the picture: a close-up, enlarged without blur
+        if crop:
+            need_pil()
+            img = Image.open(png)
+            w, h = img.size
+            box = (int(crop[0] * w), int(crop[1] * h), int(crop[2] * w), int(crop[3] * h))
+            part = img.crop(box)
+            k = max(1, min(SIZE_3D[0] // part.width, SIZE_3D[1] // part.height))
+            save(part.resize((part.width * k, part.height * k), Image.NEAREST if is_2d(scene) else Image.LANCZOS), out)
+        else:
+            finish(png, out)
+
+
+def finish(png: Path, out: Path, crop=None):
+    """Keep a PNG as it is, or convert it (and crop it) with Pillow."""
+    if crop is None and out.suffix.lower() == ".png":
+        out.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(png, out)
+        return
+    need_pil()
+    img = Image.open(png)
+    if crop:
+        img = img.crop(crop)
+    save(img, out)
+
+
+def draw_sprite(scene, shot, out):
+    need_pil()
+    game = json.loads(scene.read_text())
+    names = shot["sprite"] if isinstance(shot["sprite"], list) else [shot["sprite"]]
+    bg = game.get("view", {}).get("background", "#202020")
+    tiles = []
+    for name in names:
+        sp = game["sprites"][name]
+        rows = sp["frames"][shot.get("index", 0)] if "frames" in sp else sp["rows"]
+        pal = sp.get("palette", {})
+        h, w = len(rows), max(len(r) for r in rows)
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        for y, row in enumerate(rows):
+            for x, ch in enumerate(row):
+                if ch in pal:
+                    im.putpixel((x, y), Image.new("RGB", (1, 1), pal[ch]).getpixel((0, 0)) + (255,))
+        tiles.append(im)
+    tallest = max(t.height for t in tiles)
+    scale = shot.get("scale") or max(1, min(300 // tallest, 900 // max(1, sum(t.width for t in tiles) + 4 * (len(tiles) - 1))))
+    gap = 4 * scale
+    width = sum(t.width * scale for t in tiles) + gap * (len(tiles) - 1)
+    canvas = Image.new("RGB", (max(480, width + 80), max(360, tallest * scale + 80)), bg)
+    x = (canvas.width - width) // 2
+    for t in tiles:
+        big = t.resize((t.width * scale, t.height * scale), Image.NEAREST)
+        canvas.paste(big, (x, (canvas.height - big.height) // 2 + (tallest * scale - big.height) // 2), big)
+        x += big.width + gap
+    save(canvas, out)
+
+
+def draw_prefab(engine, scene, shot, out):
+    with tempfile.TemporaryDirectory() as tmp:
+        png = Path(tmp) / "p.png"
+        run(engine, ["catalog", shot["prefab"], "--scene", str(scene), "--sheet", str(png), "--cols", "1"])
+        need_pil()
+        w, h = Image.open(png).size
+        finish(png, out, crop=(0, 30, w, h - 30))   # the sheet's name and size bands
+
+
+def draw_studio(engine, scene, shot, out):
+    src = json.loads(scene.read_text())
+    room = {k: src[k] for k in ("prefabs", "style", "materials") if k in src}
+    room.update({
+        "camera": {"fov": shot.get("fov", 40), "position": [float(v) for v in shot.get("eye", "0,1.6,3.2").split(",")], "target": [float(v) for v in shot.get("at", "0,1,0").split(",")]},
+        "lights": [{"id": "key", "type": "directional", "direction": [-0.4, -1, -0.5], "intensity": 1.1, "cast_shadows": True}],
+        "spawns": [{"id": "start", "position": [0, 0, 8], "yaw_deg": 0}],
+        "objects": [{"id": "floor", "type": "box", "position": [0, -0.05, 0], "scale": [12, 0.1, 12], "material": {"color": shot.get("floor", [0.32, 0.34, 0.38])}}] + shot["studio"],
+    })
+    if isinstance(src.get("sky"), (dict, str)):
+        room["sky"] = src["sky"]
+    with tempfile.TemporaryDirectory(dir=scene.parent) as tmp:   # beside the scene, so its relative paths still resolve
+        path = Path(tmp) / "studio.json"
+        path.write_text(json.dumps(room))
+        png = Path(tmp) / "s.png"
+        run(engine, ["frame", str(path), str(png), "--size", f"{SIZE_3D[0]}x{SIZE_3D[1]}"])
+        finish(png, out)
+
+
+def draw(engine, scene, shot, out):
+    if "frame" in shot:
+        draw_frame(engine, scene, shot, out)
+    elif "sprite" in shot:
+        draw_sprite(scene, shot, out)
+    elif "prefab" in shot:
+        draw_prefab(engine, scene, shot, out)
+    elif "studio" in shot:
+        draw_studio(engine, scene, shot, out)
+    elif "file" in shot:
+        src = REPO / shot["file"]
+        if src.suffix.lower() == out.suffix.lower():
+            shutil.copy(src, out)
+        else:
+            need_pil()
+            save(Image.open(src), out)
+    else:
+        raise RuntimeError(f"unknown shot {sorted(shot)}")
+
+
+def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
+    """Draw one page's pictures. Returns (problems, [(caption, picture)])."""
+    folder = REPO / "site" / "wiki" / slug
+    path = folder / "wiki.json"
+    data = json.loads(path.read_text())
+    scene = scene_of(slug)
+    default_ext = ".png" if is_2d(scene) else ".jpg"
+    drawn, problems = [], []
+    for key, prefix in (("characters", "c"), ("gallery", "g")):
+        for i, entry in enumerate(data.get(key, [])):
+            shot = entry.get("shot")
+            if not shot:
+                continue
+            ext = ".png" if ("sprite" in shot and not entry.get("image")) else default_ext
+            entry.setdefault("image", f"{prefix}{i + 1}{ext}")
+            out = folder / entry["image"]
+            try:
+                draw(engine, scene, shot, out)
+                drawn.append((entry.get("name") or entry.get("caption", ""), out))
+            except (RuntimeError, KeyError, subprocess.TimeoutExpired, OSError) as e:
+                problems.append(f"{entry['image']}: {e}")
+    digests = [hashlib.sha256((folder / g["image"]).read_bytes()).hexdigest() for g in data.get("gallery", []) if (folder / g.get("image", "-")).is_file()]
+    if len(set(digests)) != len(digests):
+        problems.append("two gallery pictures are identical: change a shot")
+    path.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
+    meta = json.loads((REPO / "site" / "games-meta.json").read_text())
+    problems += wiki.problems(data, meta.get(slug, {}).get("author", "human"), folder)
+    used = {e.get("image") for k in ("characters", "gallery") for e in data.get(k, [])} | {"wiki.json"}
+    for f in folder.iterdir():   # a picture no entry names any more
+        if f.name not in used:
+            f.unlink()
+    return problems, drawn
+
+
+def sheet(items, out: Path):
+    need_pil()
+    cols, tw, th = 4, 400, 250
+    rows = (len(items) + cols - 1) // cols
+    canvas = Image.new("RGB", (cols * tw, rows * (th + 22)), "#111")
+    d = ImageDraw.Draw(canvas)
+    for i, (label, pic) in enumerate(items):
+        im = Image.open(pic).convert("RGB")
+        im.thumbnail((tw - 6, th - 6))
+        x, y = (i % cols) * tw, (i // cols) * (th + 22)
+        canvas.paste(im, (x + 3, y + 3))
+        d.text((x + 4, y + th + 4), label[:60], fill="#eee")
+    save(canvas, out)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("slugs", nargs="*")
+    ap.add_argument("--all", action="store_true")
+    ap.add_argument("--engine", default=os.environ.get("RED_ENGINE_EXE") or shutil.which("red_engine2") or "red_engine2")
+    ap.add_argument("--sheet")
+    a = ap.parse_args()
+    slugs = sorted(p.name for p in (REPO / "site" / "wiki").iterdir() if (p / "wiki.json").is_file()) if a.all else a.slugs
+    bad, drawn = 0, []
+    for slug in slugs:
+        problems, pics = build(slug, a.engine)
+        drawn += [(f"{slug}: {c}", p) for c, p in pics]
+        print(f"{slug}: {len(pics)} picture(s)" + ("" if not problems else "\n  " + "\n  ".join(problems)))
+        bad += bool(problems)
+    if a.sheet and drawn:
+        sheet(drawn, Path(a.sheet))
+        print(f"contact sheet: {a.sheet}")
+    return 1 if bad else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,233 @@
+{
+ "tagline": "Pour three colours of paint to change how a little baker moves, and cross a dark kitchen-world before a sweeping beam of light burns you.",
+ "overview": "Wandering Engine is a short top-down puzzle-race. You are a baker (the small square) crossing a long, dark world from left to right to reach a stranger on the far side. You carry four pours of paint in three colours, and each colour changes the physics of whatever it soaks: blue freezes water into ice you can walk through, yellow makes you fast, and red shades you from the light.\n\nTwo things push back. A pillar of light swings back and forth across the world like a pendulum and scorches you if you stand still in it. And the left half of the world runs at half speed: you move slower there, and so does the light. A good run is about pouring the right colour in the right place, then moving at the right moment.",
+ "story": "A baker whose bread remembers whoever eats it sets out across a strange, dim world. On the far side stands a stranger kneading the very same bread. Nobody explains why the left half of the world is slow, or why a pendulum of light sweeps it: the baker simply has to cross it, paint in hand, before the light catches them standing still.",
+ "goal": "Reach the stranger (the orange square on the far right) to win; your best time is saved. You lose if you stand still in the light long enough to fill the burn bar under PAINT.",
+ "rules": [
+  "You have up to 4 pours of paint (PAINT at the top). One pour comes back every 3 seconds.",
+  "Shift changes colour (the line at the top names it); Space pours a puddle of that colour where you stand.",
+  "Blue: a puddle that touches water turns that water into ice, which you can walk through. The blue water columns otherwise block you.",
+  "Yellow: standing in a yellow puddle makes you much faster, fast enough to push through the wind.",
+  "Red: while you stand in a red puddle, the light cannot burn you.",
+  "The light sweeps left and right. Touching it while standing still fills the burn bar; moving, or standing on red paint, keeps you safe. The bar drains when you are out of it. A full bar loses the game.",
+  "The light dries up blue and yellow puddles it passes over. Red puddles stay.",
+  "The left half of the world runs at half speed: you and the light are both slower there.",
+  "The purple wind patch slows you down unless you are soaked in yellow.",
+  "The brown gate near the end is only open while the light is at the far left of the world."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys / WASD (or a gamepad stick)",
+   "action": "Move in any direction"
+  },
+  {
+   "input": "Space / Z / J (gamepad A)",
+   "action": "Pour paint"
+  },
+  {
+   "input": "Shift / X / K (gamepad B)",
+   "action": "Change paint colour"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Baker",
+   "role": "You",
+   "description": "The small square. It is cream in normal ground, turns lilac while the wind slows it and gold while it is soaked in yellow paint.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 2
+    },
+    "crop": [
+     0.2,
+     0.3,
+     0.46,
+     0.62
+    ]
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "The Stranger",
+   "role": "Goal",
+   "description": "The orange square waiting on the far right, kneading the same bread as you. Touch it to win.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 30
+    },
+    "crop": [
+     0.78,
+     0.3,
+     1.0,
+     0.62
+    ]
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "The Pendulum of Light",
+   "role": "Hazard",
+   "description": "The tall pale beam that swings across the world. It burns you only if you stand still in it, and it dries up blue and yellow paint.",
+   "shot": {
+    "frame": {
+     "scenario": "idle_scorched",
+     "t": 2
+    },
+    "crop": [
+     0.0,
+     0.05,
+     0.4,
+     0.95
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "Blue paint and ice",
+   "role": "Tool",
+   "description": "Pour blue next to a water column and the part it touches freezes into pale blue ice that you can walk through.",
+   "shot": {
+    "frame": {
+     "scenario": "blue_freezes_water",
+     "t": 8
+    },
+    "crop": [
+     0.28,
+     0.25,
+     0.58,
+     0.75
+    ]
+   },
+   "image": "c4.png"
+  },
+  {
+   "name": "Yellow paint",
+   "role": "Tool",
+   "description": "A yellow puddle makes you fast while you stand in it, fast enough to cross the wind.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 8
+    },
+    "crop": [
+     0.35,
+     0.25,
+     0.75,
+     0.75
+    ]
+   },
+   "image": "c5.png"
+  },
+  {
+   "name": "Red paint",
+   "role": "Tool",
+   "description": "A red puddle shades you: the light cannot burn you while you stand in it, and the light does not dry it up.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 20
+    },
+    "crop": [
+     0.38,
+     0.25,
+     0.68,
+     0.75
+    ]
+   },
+   "image": "c6.png"
+  },
+  {
+   "name": "The Wind",
+   "role": "Obstacle",
+   "description": "The tall purple patch with drifting specks. It slows you down unless you are soaked in yellow.",
+   "shot": {
+    "frame": {
+     "scenario": "wind_drags",
+     "t": 8
+    },
+    "crop": [
+     0.42,
+     0.0,
+     0.92,
+     1.0
+    ]
+   },
+   "image": "c7.png"
+  }
+ ],
+ "tips": [
+  "Keep moving whenever the light is on you; it only burns you when you stand still.",
+  "Freeze a path through the first water column with blue before the light comes back to dry your paint.",
+  "Drop a red puddle before you wait anywhere, for example at the gate.",
+  "The gate opens only when the light is far to the left, so time your run at the end."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: the baker (left), the pendulum of light and the first water column.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "Blue paint freezes part of the water into ice you can walk through.",
+   "shot": {
+    "frame": {
+     "scenario": "blue_freezes_water",
+     "t": 8
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "Yellow paint at the edge of the purple wind.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 8
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "Waiting safely on red paint near the gate.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 20
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "Stand still in the light too long and the burn bar (top left) fills: the run is over.",
+   "shot": {
+    "frame": {
+     "scenario": "idle_scorched",
+     "t": 8
+    }
+   },
+   "image": "g5.png"
+  },
+  {
+   "caption": "The end: the baker reaches the stranger.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 41.5
+    }
+   },
+   "image": "g6.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you pour paint, and each colour changes the physics of whatever it soaks; but the left half of the world runs at half speed; a pendulum of light scorches anything standing still; reach a stranger on the far side who has the very same problem; and, as optional story, a baker whose bread remembers whoever eats it.\n\nThe AI kept every part of the card. It turned \"each colour changes the physics\" into three colours with one clear effect each (blue freezes water, yellow speeds you up, red shades you) so that every pour is a decision, and it used the pendulum to force you to keep moving or pay for shade. It said the engine had no way to slow down half of the world, so it faked that with six versions of the baker that swap as you cross the middle; that is also why the baker changes colour.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own notes and summary from the run on 2026-10-17."
+}

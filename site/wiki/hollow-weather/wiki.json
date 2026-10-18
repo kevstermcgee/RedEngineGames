@@ -1,0 +1,209 @@
+{
+ "tagline": "Time moves only when you change direction: keep three treasures lit while ghosts creep toward them, then step onto the door.",
+ "overview": "Hollow Weather is a one-screen puzzle about time. Nothing in the room moves while you walk in a straight line: the clock only ticks when you change direction. Every turn is one beat (TURNS at the top), and on every beat three slow ghosts take a step toward the three treasures of the room (a yellow lamp, a brown crate and a blue bell). A ghost that reaches its treasure puts it out.\n\nThree timers make the room's weather. Every 4th turn the wind shoves you to the right, every 6th turn the tide puts out the bell, and every 7th turn one ghost hurries an extra step. Your job is to spend at least 8 turns, keep all three treasures lit (walk over a dark one to relight it), and finish on the purple door under your starting spot.",
+ "story": "A sailor works a ship that sails across the sky at low tide. Becalmed in a hollow of still weather, the ship only moves when its sailor changes course, and ghosts of rival sailors drift in to claim its lamp, its cargo and its bell. Leave everything as you found it, and the voyage ends well.",
+ "goal": "Stand on the purple door after at least 8 turns with all three treasures lit (HOME 3/3) to win. You lose if all three go dark at once, or if you reach 30 turns.",
+ "rules": [
+  "Pressing a direction different from your last one is a turn. Each turn is one beat of time. Walking straight costs no time at all.",
+  "On every beat each ghost moves a little closer to its own treasure. When it touches it, the treasure goes dark and the ghost goes back to where it started.",
+  "Walk over a dark treasure to light it again.",
+  "WIND: every 4th turn the wind pushes you to the right.",
+  "TIDE: every 6th turn the tide puts out the blue bell.",
+  "HURRY: every 7th turn the ghost going for the lamp takes an extra step.",
+  "The counters at the top (WIND IN, TIDE IN, HURRY IN) show how many turns are left until each happens.",
+  "Win on the purple door once TURNS is at least 8 and HOME is 3/3. Lose at 30 turns, or if all three treasures are dark together."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys / WASD (or a gamepad stick)",
+   "action": "Walk; changing direction is a turn"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Sailor",
+   "role": "You",
+   "description": "The white square. You start just above the purple door.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.38,
+     0.65,
+     0.62,
+     0.98
+    ]
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "The Lamp",
+   "role": "Treasure",
+   "description": "The yellow square at the top left. The first ghost wants it.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.08,
+     0.13,
+     0.24,
+     0.33
+    ]
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "The Crate",
+   "role": "Treasure",
+   "description": "The brown square at the top right. The second ghost wants it.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.74,
+     0.12,
+     0.94,
+     0.42
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "The Bell",
+   "role": "Treasure",
+   "description": "The light-blue square in the middle. The third ghost and the tide both put it out.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.4,
+     0.38,
+     0.6,
+     0.68
+    ]
+   },
+   "image": "c4.png"
+  },
+  {
+   "name": "The Ghosts",
+   "role": "Rivals",
+   "description": "Three pale grey circles that start at the bottom and step toward the treasures, one step per turn you make.",
+   "shot": {
+    "frame": {
+     "scenario": "each turn advances the laws",
+     "t": 2
+    },
+    "crop": [
+     0.15,
+     0.4,
+     0.85,
+     0.8
+    ]
+   },
+   "image": "c5.png"
+  },
+  {
+   "name": "A dark treasure",
+   "role": "Claimed",
+   "description": "A treasure a ghost (or the tide) has put out turns dark grey. Walk over it to light it again.",
+   "shot": {
+    "frame": {
+     "scenario": "zigzagging forever loses the room",
+     "t": 8
+    },
+    "crop": [
+     0.08,
+     0.13,
+     0.24,
+     0.33
+    ]
+   },
+   "image": "c6.png"
+  },
+  {
+   "name": "The Door",
+   "role": "Exit",
+   "description": "The purple bar at the bottom. Stand on it once you have made 8 turns and everything is lit.",
+   "shot": {
+    "frame": {
+     "scenario": "zigzagging forever loses the room",
+     "t": 8
+    },
+    "crop": [
+     0.38,
+     0.78,
+     0.62,
+     1.0
+    ]
+   },
+   "image": "c7.png"
+  }
+ ],
+ "tips": [
+  "Plan straight lines: going around a corner costs a turn, so cross the room in as few direction changes as you can.",
+  "Turning back and forth on the door (left, right, left...) spends turns without going anywhere. Use it to reach 8 turns, but only while all three treasures are lit.",
+  "Relight the bell last: the tide puts it out on every 6th turn anyway.",
+  "\"THE VOYAGE ENDS - YOU SAILED\" appears whenever the game ends, win or lose. HOME 3/3 and the BEST score tell you whether you won."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: the sailor above the door, the three treasures and the three ghosts below.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "Walking in a straight line: you crossed the room and TURNS is still 1.",
+   "shot": {
+    "frame": {
+     "scenario": "a straight run costs nothing",
+     "t": 8
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "Six turns in: the ghosts are closing in and the bell has gone dark (HOME 2/3).",
+   "shot": {
+    "frame": {
+     "scenario": "each turn advances the laws",
+     "t": 8
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "A win: back on the door with everything lit after 10 turns.",
+   "shot": {
+    "frame": {
+     "scenario": "jittering at the door until the voyage ends wins",
+     "t": 8
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "A loss: all three treasures dark (HOME 0/3).",
+   "shot": {
+    "frame": {
+     "scenario": "zigzagging forever loses the room",
+     "t": 8
+    }
+   },
+   "image": "g5.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you juggle three timers, each one running a different law of the room; but time passes only when you change direction; a tide of rival ghosts races you to claim the same objects; leave the level exactly as you found it; and, as optional story, a sailor on a ship that sails across the sky at low tide.\n\nThe AI took \"time passes only when you change direction\" as the heart of the game, so walking straight is free and every corner costs a beat. It made the three timers into wind, tide and hurry, and turned \"leave the level as you found it\" into keeping all three treasures lit. It said the engine had no simple way to make things step on a custom clock, so each ghost is moved by its own rules.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-13."
+}

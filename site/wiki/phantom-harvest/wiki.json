@@ -1,0 +1,168 @@
+{
+ "tagline": "A one-button slingshot game: grab the rope, let go, and whichever wall you land on becomes the floor. Put two lost tools back before a storm blows them away.",
+ "overview": "Phantom Harvest is a one-screen game played with a single button. A rope (the dotted line) hangs between two anchors that drift up and down. Press Space and you jump onto the middle of the rope and start pulling it back; the longer you hold on, the stronger the shot (the small bar at the bottom fills). Press Space again to let go and you are flung across the rope like a stone from a slingshot.\n\nGravity in this game has no fixed direction: \"down\" is whichever wall you last landed on. Land on the ceiling and you now stand on the ceiling, and your next fall goes up. Your job is to fly into the two floating tools and carry each one into an empty dotted slot. A pale storm front sweeps across the room every so often and knocks tools out of place.",
+ "story": "A tour guide leads visitors through a city that only exists while someone is describing it. The guide's two tools have floated loose, and if the tour stalls the city starts to fade. Fling yourself around on the city's rope, put the tools back where they belong, and the tour goes on.",
+ "goal": "Put both tools into the dotted slots (TOOLS 2/2) to win; your best time is kept. You lose when FADE reaches 5 or after 150 seconds.",
+ "rules": [
+  "Space while standing: grab the middle of the rope. Hold on to build up power (the bar at the bottom). Space again: let go and fly.",
+  "While you hold the rope, a line of faint dots shows where you will fly.",
+  "You fly across the rope, and fall toward your current \"down\". The wall you land on becomes the new \"down\".",
+  "Fly into a tool to pick it up (a small copy appears over your head). Fly into an empty dotted slot while carrying it to put it back.",
+  "The storm (a pale vertical band) drifts across the room from left to right, again and again. It blows loose tools to random places.",
+  "If the storm hits a tool you already placed, or hits you while you carry one, the tool is scattered and FADE goes up by one.",
+  "FADE 5/5, or 150 seconds without finishing, loses the game."
+ ],
+ "controls": [
+  {
+   "input": "Space / Z / J (gamepad A)",
+   "action": "Grab the rope; press again to let go"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Tour Guide",
+   "role": "You",
+   "description": "The little figure you fling around the room. There are no walking keys: you only ever move by slingshot.",
+   "shot": {
+    "sprite": "guide"
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "The Anchors",
+   "role": "The slingshot",
+   "description": "Two blue rings that drift up and down at different speeds, so the rope between them keeps tilting. Its angle decides where you fly.",
+   "shot": {
+    "sprite": "anchor"
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "The Rope",
+   "role": "The slingshot",
+   "description": "The dotted line between the anchors. Grab it, pull, let go.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.25,
+     0.4,
+     0.78,
+     0.72
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "The Tools",
+   "role": "What you rescue",
+   "description": "Two small tools that float in the room. Fly into one to carry it.",
+   "shot": {
+    "sprite": "tool"
+   },
+   "image": "c4.png"
+  },
+  {
+   "name": "The Slots",
+   "role": "Where tools go",
+   "description": "Dotted green squares. Bring a tool to one and it clicks into place.",
+   "shot": {
+    "sprite": "slot"
+   },
+   "image": "c5.png"
+  },
+  {
+   "name": "The Storm Front",
+   "role": "Hazard",
+   "description": "A pale band that sweeps across the room from left to right and scatters tools, placed or carried.",
+   "shot": {
+    "frame": {
+     "scenario": "storm-scatters-placed-tool",
+     "t": 34
+    },
+    "crop": [
+     0.3,
+     0.0,
+     0.72,
+     1.0
+    ]
+   },
+   "image": "c6.png"
+  }
+ ],
+ "tips": [
+  "Watch the dotted aim line while you hold the rope, and let go when it points at a tool or slot.",
+  "A short hold makes a gentle hop; a full bar sends you right across the room.",
+  "Remember that \"down\" changes: after landing on the left wall, your next fall goes left.",
+  "Place your tools between storm passes; the band comes back every 40 seconds or so.",
+  "The big message at the end says \"YOU WON IN ...\" even when you lose. Check TOOLS: 2/2 is a win."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: the guide on the floor, the rope between two anchors, two tools and two empty slots.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "Mid-flight with a tool in hand.",
+   "shot": {
+    "frame": {
+     "scenario": "tour-win",
+     "t": 5
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "One tool placed (TOOLS 1/2).",
+   "shot": {
+    "frame": {
+     "scenario": "tour-win",
+     "t": 11
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "The storm front sweeping through the room.",
+   "shot": {
+    "frame": {
+     "scenario": "storm-scatters-placed-tool",
+     "t": 34
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "Both tools home: a win in 11.6 seconds.",
+   "shot": {
+    "frame": {
+     "scenario": "tour-win",
+     "t": 20
+    }
+   },
+   "image": "g5.png"
+  },
+  {
+   "caption": "Out of time: the game is lost, although the message still says \"YOU WON\".",
+   "shot": {
+    "frame": {
+     "scenario": "idle-city-fades",
+     "t": 152
+    }
+   },
+   "image": "g6.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you stretch a rope between two drifting anchors and play it like a slingshot; but up is whichever way you last fell; a storm front sweeps across the map and scatters your tools if it catches them; leave the level exactly as you found it; and, as optional story, a tour guide leading visitors through a city that exists only while it is being described.\n\nThe AI built the slingshot and the shifting gravity as the whole game: every shot changes which way you will fall next. It turned \"leave the level as you found it\" into putting two tools back in their slots. It said the engine had no rope, no gravity direction and no key-release input, so roughly 45 of its rules rebuild that physics by hand, and that it cut the game from three tools to two because it could not find a winning route with three.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-10."
+}

@@ -1,0 +1,168 @@
+{
+ "tagline": "A night nurse pours paint to shove broken machines across the ward and teach them a dance step, while her ghost copies every pour half a second late.",
+ "overview": "Tangled Bridge is a one-screen action puzzle. Four broken machines stand in a row in the middle of the ward, and they need to learn a two-part dance step: first touch the yellow pad on the left, then the blue pad on the right. You cannot push them yourself. Instead you pour puddles of paint, and each colour shoves any machine standing in it in one direction: red east, blue west, green south, yellow north.\n\nThe twist is your ghost. Half a second after every pour, your ghost pours the same colour in the same place again, so every shove happens twice and machines tend to overshoot. Two thieves wander in from the top corners to steal your puddles, and you have 80 seconds to teach all four machines.",
+ "story": "A night nurse works at a hospital that treats broken machines. Tonight's patients have forgotten how to dance, and the only medicine on the trolley is paint. A ghost of the nurse follows her through the ward, repeating everything a beat too late, and a pair of thieves keep sneaking off with the paint. Teach all four machines and the ward can turn off its lights.",
+ "goal": "Teach all four machines (TAUGHT 4/4) within 80 seconds: \"ALL FOUR TAUGHT! LIGHTS OUT.\" When TIME reaches 80/80 the game is lost.",
+ "rules": [
+  "Keys 1 to 4 (or the buttons at the bottom) pour a puddle where you stand: 1 red, 2 blue, 3 green, 4 yellow.",
+  "A machine standing in paint is shoved: red pushes it east (right) hard, blue west (left), green south (down), yellow north (up). It slides and slowly stops.",
+  "Half a second after each pour, your ghost pours the same colour at the same spot, so the machine gets shoved a second time.",
+  "Step one of the dance: push a machine onto the yellow pad on the left. It changes look, half taught.",
+  "Step two: push that half-taught machine onto the blue pad on the right. It starts dancing and TAUGHT goes up by one.",
+  "Puddles dry up after 7 seconds. Thieves walk toward puddles and steal them (STOLEN counts them).",
+  "You have 80 seconds. Your best winning time is kept as BEST."
+ ],
+ "controls": [
+  {
+   "input": "WASD / arrow keys (or a gamepad stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "1 (or click 1 EAST)",
+   "action": "Pour red: shoves east"
+  },
+  {
+   "input": "2 (or click 2 WEST)",
+   "action": "Pour blue: shoves west"
+  },
+  {
+   "input": "3 (or click 3 SOUTH)",
+   "action": "Pour green: shoves south"
+  },
+  {
+   "input": "4 (or click 4 NORTH)",
+   "action": "Pour yellow: shoves north"
+  },
+  {
+   "input": "Esc / P",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Night Nurse",
+   "role": "You",
+   "description": "Walks the ward and pours paint. Machines never move just because she bumps them; only paint moves them.",
+   "shot": {
+    "sprite": "nurse"
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "The Ghost",
+   "role": "Your echo",
+   "description": "A pale copy of the nurse that follows her and repeats every pour, in the same colour and place, half a second later.",
+   "shot": {
+    "sprite": "ghost"
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "Broken machines",
+   "role": "Your patients",
+   "description": "Four little machines that must learn the dance. Left to right: untaught, half taught (has touched the yellow pad), and dancing (taught).",
+   "shot": {
+    "sprite": [
+     "bot",
+     "bot1",
+     "dance"
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "The Thieves",
+   "role": "Enemies",
+   "description": "Two scruffy figures that start in the top corners and creep toward your puddles to steal them.",
+   "shot": {
+    "sprite": "thief"
+   },
+   "image": "c4.png"
+  },
+  {
+   "name": "The dance pads",
+   "role": "Goals",
+   "description": "The yellow pad on the left is step one; the blue pad on the right is step two.",
+   "shot": {
+    "sprite": [
+     "padA",
+     "padB"
+    ]
+   },
+   "image": "c5.png"
+  },
+  {
+   "name": "The paints",
+   "role": "Your tools",
+   "description": "Red (east), blue (west), green (south) and yellow (north) puddles. Each lasts 7 seconds.",
+   "shot": {
+    "sprite": [
+     "p_red",
+     "p_blue",
+     "p_green",
+     "p_yel"
+    ]
+   },
+   "image": "c6.png"
+  }
+ ],
+ "tips": [
+  "Pour, then step away: the ghost's second pour lands on the same spot half a second later, doubling the shove.",
+  "Red is the strongest shove. To bring a machine back left from the right side, use blue.",
+  "Pour close to a machine's path and quickly: thieves are slow but they never stop walking toward puddles.",
+  "A machine must touch the yellow pad before the blue one counts."
+ ],
+ "gallery": [
+  {
+   "caption": "The ward at the start: yellow pad on the left, four machines and the nurse in the middle, blue pad on the right.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "A blue puddle shoving a machine to the west.",
+   "shot": {
+    "frame": {
+     "scenario": "soak",
+     "t": 2
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "Machines on their way to the yellow pad, with fresh puddles behind them.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 2
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "Half-taught machines heading back east to the blue pad.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 8
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "All four taught: LIGHTS OUT.",
+   "shot": {
+    "frame": {
+     "scenario": "win",
+     "t": 20
+    }
+   },
+   "image": "g5.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you pour paint, and each colour changes the physics of whatever it soaks; but a ghost repeats everything you do exactly one beat late; a flock of thieves steals whatever you set down; teach a stubborn crowd one dance step; and, as optional story, a night nurse at a hospital that treats broken machines.\n\nThe AI made the paint shove things in four directions, so pouring is how you move the crowd, and used the late ghost to double every shove, which makes each pour a small aiming puzzle. The crowd became four machines and the dance step became two pads touched in order. It said the engine could not delay an action, so the ghost only echoes your pours (not your walking), built from a rule that runs every half second.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-11."
+}
