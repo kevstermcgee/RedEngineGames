@@ -1,0 +1,266 @@
+{
+ "tagline": "Carry three coloured prisms onto matching floor plates to bend a beam of light around the room and power the dark mainframe.",
+ "overview": "Prism Matrix is a small first-person light puzzle, one of a set of quick minigames built to test RedEngine. A red emitter in one corner shoots a pink beam across the floor to a red plate. Two more plates, green and blue, mark the next bends of the beam's path, and a dark box at the far end is the mainframe the beam should reach.\n\nNear the start stand three loose prisms: red, green and blue. Pick one up (E), carry it onto the plate of its own colour and drop it. Each prism in place carries the beam one leg further: red first, then green, then blue. With all three seated the mainframe lights up white; keep the beam whole for two seconds to win.",
+ "story": "A powered-down mainframe can only be woken by light. Three prisms lie on the floor of its chamber, and somewhere in the right arrangement is a path for the beam.",
+ "goal": "Seat each prism on the plate of its colour so the beam reaches the mainframe, and keep it lit for 2 seconds: VICTORY. If three minutes pass first, the game ends in TIMEOUT.",
+ "rules": [
+  "Pick up a prism by looking at it and pressing E; press E again to put it down.",
+  "The red prism belongs on the red plate, the green on the green plate, the blue on the blue plate. A prism on the wrong plate does nothing.",
+  "The beam goes on one leg at a time: red needs to be in place for the beam to reach green, red and green for it to reach blue, all three for it to reach the mainframe.",
+  "With all three seated the mainframe glows white. After 2 seconds lit, you win.",
+  "You have 3 minutes."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up or put down a prism"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Prisms",
+   "role": "What you carry",
+   "description": "Three cylinders, red, green and blue, standing together near the start.",
+   "shot": {
+    "frame": {
+     "eye": "-5.5,1.5,1.6",
+     "at": "-5.5,0.3,4",
+     "fov": 60
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Emitter",
+   "role": "Light source",
+   "description": "The red block in the corner. Its beam always reaches the red plate.",
+   "shot": {
+    "frame": {
+     "eye": "-5,1.6,-7.5",
+     "at": "-7.4,0.5,-5",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The Plates",
+   "role": "Where prisms go",
+   "description": "Red, green and blue squares on the floor: the three corners of the beam's path.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "The Mainframe",
+   "role": "Goal",
+   "description": "The dark box at the far end of the room. It glows white when the beam reaches it.",
+   "shot": {
+    "frame": {
+     "eye": "3,1.6,4",
+     "at": "3,0.7,6.5",
+     "fov": 55
+    }
+   },
+   "image": "c4.jpg"
+  }
+ ],
+ "tips": [
+  "Do it in colour order (red, green, blue): you can see each new leg of the beam appear.",
+  "Drop the prism while standing right on its plate; the prism has to end up inside the plate.",
+  "The panel at the top left shows OK1, OK2 and OK3 (each plate correct) and LIT (how long the mainframe has been lit)."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       15,
+       -13
+      ],
+      "at": [
+       -1,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "interact": "prism_r"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_r",
+     "camera": "first"
+    },
+    {
+     "approach": "ped_1_plate",
+     "within": 0.3
+    },
+    {
+     "look_at": "ped_1_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.8
+    },
+    {
+     "shot": "placed_r",
+     "camera": "third"
+    },
+    {
+     "interact": "prism_g"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_g",
+     "camera": "first"
+    },
+    {
+     "approach": "ped_2_plate",
+     "within": 0.3
+    },
+    {
+     "look_at": "ped_2_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.8
+    },
+    {
+     "shot": "placed_g",
+     "camera": "third"
+    },
+    {
+     "interact": "prism_b"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_b",
+     "camera": "first"
+    },
+    {
+     "approach": "ped_3_plate",
+     "within": 0.3
+    },
+    {
+     "look_at": "ped_3_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.8
+    },
+    {
+     "shot": "placed_b",
+     "camera": "third"
+    },
+    {
+     "wait": 2.5
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    },
+    {
+     "shot": "over2",
+     "camera": {
+      "eye": [
+       0,
+       15,
+       -13
+      ],
+      "at": [
+       -1,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: the red emitter and its beam (bottom right), the green and blue plates, the prisms and the dark mainframe at the top.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Carrying the red prism toward the red plate.",
+   "shot": {
+    "playtest": "carry_r"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Red in place: the beam now turns toward the green plate.",
+   "shot": {
+    "playtest": "placed_r"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Green in place: the beam reaches across to the blue plate.",
+   "shot": {
+    "playtest": "placed_g"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Blue in place: the beam reaches the mainframe.",
+   "shot": {
+    "playtest": "placed_b"
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "Two seconds lit: VICTORY.",
+   "shot": {
+    "playtest": "over2"
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Prism Matrix is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}
