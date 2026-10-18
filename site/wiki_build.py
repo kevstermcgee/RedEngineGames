@@ -205,13 +205,19 @@ def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
     scene = scene_of(slug)
     default_ext = ".png" if is_2d(scene) else ".jpg"
     drawn, problems = [], []
+    taken = {e.get("image") for k in ("characters", "gallery") for e in data.get(k, [])}
     for key, prefix in (("characters", "c"), ("gallery", "g")):
         for i, entry in enumerate(data.get(key, [])):
             shot = entry.get("shot")
             if not shot:
                 continue
-            ext = ".png" if ("sprite" in shot and not entry.get("image")) else default_ext
-            entry.setdefault("image", f"{prefix}{i + 1}{ext}")
+            if not entry.get("image"):   # a new entry: the first free name, so inserting one never takes another's picture
+                ext = ".png" if "sprite" in shot else default_ext
+                n = i + 1
+                while f"{prefix}{n}{ext}" in taken:
+                    n += 1
+                entry["image"] = f"{prefix}{n}{ext}"
+                taken.add(entry["image"])
             out = folder / entry["image"]
             try:
                 draw(engine, scene, shot, out)

@@ -1,0 +1,125 @@
+{
+ "tagline": "A stray cat conducts its worshippers into a chain across the alley. Each beat of the baton costs a coin, coins come only from waiting, and hoarding coins brings a swarm.",
+ "overview": "Midnight Engine is a one-button game about patience and greed. A stray cat sits at the left end of an alley; a flag waits at the right end. Every time you press Space the cat beats its baton and one more tiny follower joins a chain stretching toward the flag. Twenty-nine followers reach it and you win.\n\nEach beat costs money. Coins only come in while you do nothing: the bar at the top fills as you wait, and after a second of stillness you earn a coin every second. Wait longer and your hoard starts to multiply by half every two seconds. But at 6 coins or more, a swarm of red pests starts crawling out to bite the cat. The whole game is the rhythm of earning just enough and spending it before the swarm comes.",
+ "story": "The whole neighbourhood believes a certain stray cat is a small god. At midnight its followers gather, and the cat conducts them with a little baton into one unbroken line across the alley. Greed has a price even for gods: hoard too many offerings and a swarm of pests comes to collect.",
+ "goal": "Grow the chain to 29 followers (CHAIN 29/29) so it reaches the flag. You lose if the swarm bites the cat three times (LIVES 0). \"THE END\" appears either way.",
+ "rules": [
+  "Space beats the baton: one follower joins the chain.",
+  "A beat costs 1 coin if you waited at least half a second since your last beat, and 2 coins if you rushed it. With no coins, nothing happens.",
+  "The bar at the top shows how long you have waited. After 1 second of waiting you earn 1 coin each second.",
+  "After 2 seconds of waiting, coins also multiply: every 2 seconds your coins grow by half (from at least 2 coins).",
+  "While you hold 6 or more coins, a red pest appears every second and crawls toward the cat. Each bite costs a life.",
+  "You start with 2 coins and 3 lives. Your best winning time is kept as BEST."
+ ],
+ "controls": [
+  {
+   "input": "Space / Z / J (gamepad A)",
+   "action": "Beat the baton: add a follower"
+  },
+  {
+   "input": "(do nothing)",
+   "action": "Earn coins"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Stray Cat",
+   "role": "You",
+   "description": "The small god of the alley. It never moves; it only conducts.",
+   "shot": {
+    "sprite": "cat"
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "The Followers",
+   "role": "Your chain",
+   "description": "Little blue worshippers. Each beat adds one to the end of the chain.",
+   "shot": {
+    "sprite": "link"
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "The Swarm",
+   "role": "Enemy",
+   "description": "Red pests that appear while you hoard 6 or more coins. They crawl to the cat and bite.",
+   "shot": {
+    "sprite": "pest"
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "The Flag",
+   "role": "Goal",
+   "description": "The far end of the alley. The chain wins when it gets there.",
+   "shot": {
+    "sprite": "flag"
+   },
+   "image": "c4.png"
+  }
+ ],
+ "tips": [
+  "Find a rhythm: wait until you have 2 to 4 coins, then spend them one beat at a time, half a second apart.",
+  "Never sit on 6 coins: spend before the hoard multiplies, or pests start coming every second.",
+  "Mashing Space costs double. One calm beat every half second is the cheapest way to build.",
+  "A good run takes under a minute; the example run in the game's own checks wins in 47 seconds."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: the cat on the left, the flag on the right, 2 coins in hand.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "Too many coins: the first pests are on their way.",
+   "shot": {
+    "frame": {
+     "scenario": "waiting_pays_moving_costs",
+     "t": 8
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "Hoarding 34 coins: the swarm has the cat down to its last life.",
+   "shot": {
+    "frame": {
+     "scenario": "hoarding_summons_swarm",
+     "t": 8
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "A patient chain halfway there (CHAIN 12/29).",
+   "shot": {
+    "frame": {
+     "scenario": "win_by_patient_conducting",
+     "t": 20
+    }
+   },
+   "image": "g4.png"
+  },
+  {
+   "caption": "29 followers: the chain reaches the flag.",
+   "shot": {
+    "frame": {
+     "scenario": "win_by_patient_conducting",
+     "t": 55
+    }
+   },
+   "image": "g5.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you conduct a crowd of tiny followers with the tempo of a baton; but every move costs a coin and you earn coins only by standing still; your tools multiply when unused and swarm you if you hoard them; build one unbroken chain from one end of the world to the other; and, as optional story, a stray cat that the whole neighbourhood believes is a small god.\n\nThe AI kept the economy at the heart of the card (waiting earns, acting spends, hoarding multiplies and then bites) and made the chain of followers the thing you build. It said it could not make the engine charge coins for walking, so it kept the cat still and made every beat of the baton the move that costs a coin.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-09."
+}

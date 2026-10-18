@@ -1,0 +1,131 @@
+{
+ "tagline": "A diver in a drowned room marks crates with chalk so the tide breaks them, but every break closes the walls in and drains her air faster. Surface when both sides match.",
+ "overview": "Electric Tide is a short mouse-driven balance puzzle. A flooded room is full of crates: seven on the left half, four on the right. Click a crate to mark it with chalk, and on the next pulse of the tide (every two seconds) every chalked crate breaks.\n\nEach break costs you twice over. The two glowing walls slide 8 pixels inward per broken crate, and any crate a wall touches is crushed, wanted or not. Your air (AIR at the top) also drains faster the more you have broken. When the counts on the two sides match (LEFT and RIGHT at the top), press SURFACE to win. Surface while they differ, or run out of air, and you lose.",
+ "story": "A deep-sea diver keeps finding rooms underwater that seem to have been built for her. In this one, the only way out is to bring the room into balance, chalking away just enough of what is there before the walls and the dark water close in.",
+ "goal": "Press SURFACE when LEFT and RIGHT show the same number (and not zero). Your remaining air is saved as BEST. You lose by surfacing unbalanced or by running out of air. There is no win or lose message: the game simply stops.",
+ "rules": [
+  "Click a crate to chalk it (it shows a white mark).",
+  "Every 2 seconds the tide breaks every chalked crate at once.",
+  "Each broken crate moves both walls 8 pixels inward. A wall that touches a crate crushes it.",
+  "AIR drains all the time, and faster for every crate you have broken. At 0 you lose.",
+  "LEFT and RIGHT count the unchalked crates on each half of the room.",
+  "SURFACE (or Enter) ends the game: equal counts above zero win, anything else loses."
+ ],
+ "controls": [
+  {
+   "input": "Left mouse button",
+   "action": "Chalk a crate"
+  },
+  {
+   "input": "Enter, or click SURFACE",
+   "action": "Surface (end the dive)"
+  },
+  {
+   "input": "Esc / P",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Crates",
+   "role": "What you balance",
+   "description": "Brown crates scattered across the room: 7 on the left half and 4 on the right.",
+   "shot": {
+    "sprite": "crate"
+   },
+   "image": "c1.png"
+  },
+  {
+   "name": "Chalked crates",
+   "role": "About to break",
+   "description": "A crate you clicked. It breaks on the next tide, together with every other chalked crate.",
+   "shot": {
+    "sprite": "chalked"
+   },
+   "image": "c2.png"
+  },
+  {
+   "name": "The Walls",
+   "role": "Hazard",
+   "description": "The glowing cyan walls at both edges. They creep inward with every break and crush crates they reach.",
+   "shot": {
+    "frame": {
+     "scenario": "break-closes-walls",
+     "t": 8
+    },
+    "crop": [
+     0.0,
+     0.0,
+     0.3,
+     1.0
+    ]
+   },
+   "image": "c3.png"
+  },
+  {
+   "name": "SURFACE",
+   "role": "Your exit",
+   "description": "The button at the bottom right. Press it when the two sides match.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.72,
+     0.78,
+     1.0,
+     1.0
+    ]
+   },
+   "image": "c4.png"
+  }
+ ],
+ "tips": [
+  "The left half starts with three crates more than the right. Breaking three on the left balances the room.",
+  "Break the crates far from the walls; chalk and wait for the tide rather than clicking many at once, so the walls do not crush crates you need.",
+  "Surface as soon as LEFT equals RIGHT: every second costs air, and BEST is the air you have left."
+ ],
+ "gallery": [
+  {
+   "caption": "The drowned room: chalked crates (marked) will break on the next tide.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png"
+  },
+  {
+   "caption": "After a break the walls have moved inward.",
+   "shot": {
+    "frame": {
+     "scenario": "break-closes-walls",
+     "t": 8
+    }
+   },
+   "image": "g2.png"
+  },
+  {
+   "caption": "Several breaks later: the walls are close, and AIR is draining fast.",
+   "shot": {
+    "frame": {
+     "scenario": "drain-speeds-up",
+     "t": 20
+    }
+   },
+   "image": "g3.png"
+  },
+  {
+   "caption": "Balanced at 4 and 4: surfacing wins, and BEST records the air left (93).",
+   "shot": {
+    "frame": {
+     "scenario": "balance-win",
+     "t": 8
+    }
+   },
+   "image": "g4.png"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card, the very first one it ever built: you mark things with chalk, and whatever is chalked breaks next; but the level shrinks every time you succeed; your energy drains faster the more you succeed; balance everything, finishing with exactly the same amount on both sides; and, as optional story, a deep-sea diver who keeps finding rooms that were built for her.\n\nThe AI kept all four parts of the card: chalk marks crates, breaks shrink the room by moving the walls, each break drains your air faster, and you win by balancing the two sides. It said the engine had no timer per object, so all chalked crates break together on a shared two-second tide.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-08."
+}
