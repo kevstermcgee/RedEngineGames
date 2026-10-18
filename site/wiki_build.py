@@ -11,7 +11,7 @@ The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Need
 Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
 saved as JPEG); an entry without `image` gets one (`c1.jpg`, `g1.png`, ...). Kinds of shot:
 
-  {"frame": {t, scenario, eye, at, fov, hide, hour, cut_above, seed, play, song_journey}}  the game itself (song_journey: a scene whose music journey to play to it)
+  {"frame": {t, scenario, eye, at, fov, hide, hour, cut_above, seed, play, song_journey, scene}}  the game itself (scene: another map of the project) (song_journey: a scene whose music journey to play to it)
                                                                         , as `red_engine2 frame` draws it (a 2D game is drawn at 3x its screen);
                                                                          "crop": [l, t, r, b] (fractions) keeps and enlarges part of it
   {"sprite": NAME | [NAMES], "index": 0, "scale": 0}                     a 2D game's own pixel art, from its `sprites`, enlarged without blur
@@ -97,6 +97,8 @@ def journey_song(engine, scene_rel, sections):
 
 def draw_frame(engine, scene, shot, out):
     opts = shot["frame"]
+    if opts.get("scene"):   # another map of the same project
+        scene = REPO / opts["scene"]
     if is_2d(scene):
         view = json.loads(scene.read_text()).get("view", {})
         size = (int(view.get("width", 320)) * 3, int(view.get("height", 240)) * 3)

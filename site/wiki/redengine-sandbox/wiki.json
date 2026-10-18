@@ -1,0 +1,215 @@
+{
+ "tagline": "RedEngine's playground: six playable characters, a target range, a frontier town, a moon garden and galleries showing every one of the engine's 200-odd props.",
+ "overview": "RedEngine Sandbox is a playable showroom and test bed for the engine. It starts in the Arrival Hub, where all six playable characters stand on their stands (the human, Cheddar the rat, a wizard, a cowboy, an alien and a robot), with loose props to push and carry and a row of targets to shoot at. Pick a character and press M to travel to any of its 35 maps without leaving the game.\n\nThe maps include Frontier Crossroads (a main street of six enterable buildings and back alleys), a Workshop Motion Lab, the Moon Garden (crystals, giant mushrooms, research beacons and launch pads), and a long run of asset galleries that lay out every one of the engine's catalogue props at its real size, labelled. Aim at any exhibit to see its name. There are also reference copies of the engine's example scenes. There is no score or goal: it is a place to look, test and play around.",
+ "story": "No story: this is the engine's own playground, a hub from which every map, prop and character RedEngine offers can be visited, picked up, shot at or walked around.",
+ "goal": "There is no goal: explore the maps, try the characters and weapons, and inspect the props.",
+ "rules": [
+  "Choose a character at the start; maps can force one (Cheddar's maps, for instance).",
+  "M (D-pad up on a gamepad) opens the map browser: travel to any of the 35 maps.",
+  "Aim at an exhibit to see its asset name and ID.",
+  "Travelling to a map resets its props and rules.",
+  "The mouse wheel cycles the whole weapon arsenal; the targets in the hub react to hits."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Interact: pick up or drop props"
+  },
+  {
+   "input": "Left / right mouse (gamepad RT / LT)",
+   "action": "Fire / aim"
+  },
+  {
+   "input": "R (gamepad Y)",
+   "action": "Reload"
+  },
+  {
+   "input": "Mouse wheel (gamepad bumpers)",
+   "action": "Switch weapon"
+  },
+  {
+   "input": "M (gamepad D-pad up)",
+   "action": "Map browser"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Human",
+   "role": "Playable character",
+   "description": "The engine's default person, and the default character.",
+   "shot": {
+    "frame": {
+     "eye": "-15.0,1.5,-9.4",
+     "at": "-17,0.9,-12",
+     "fov": 45
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "bb77856cd073"
+  },
+  {
+   "name": "Cheddar the rat",
+   "role": "Playable character",
+   "description": "Small and fast: fits through 25 cm gaps and runs under tables. Named after the owner's first RedEngine game idea, Cheddar.",
+   "shot": {
+    "frame": {
+     "eye": "-9.5,0.7,-11.1",
+     "at": "-10.2,0.3,-12",
+     "fov": 40
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "8abf8c301c7d"
+  },
+  {
+   "name": "Wizard",
+   "role": "Playable character",
+   "description": "A robed costume with the human's body and movement.",
+   "shot": {
+    "frame": {
+     "eye": "-1.4,1.5,-9.4",
+     "at": "-3.4,0.9,-12",
+     "fov": 45
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "7b9f36e2a784"
+  },
+  {
+   "name": "Cowboy",
+   "role": "Playable character",
+   "description": "A cowboy costume with the human's body and movement.",
+   "shot": {
+    "frame": {
+     "eye": "5.4,1.5,-9.4",
+     "at": "3.4,0.9,-12",
+     "fov": 45
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "7bb94812a1c9"
+  },
+  {
+   "name": "Alien",
+   "role": "Playable character",
+   "description": "An alien costume with the human's body and movement.",
+   "shot": {
+    "frame": {
+     "eye": "12.2,1.5,-9.4",
+     "at": "10.2,0.9,-12",
+     "fov": 45
+    }
+   },
+   "image": "c5.jpg",
+   "drawn_from": "ade1a4fbb016"
+  },
+  {
+   "name": "Robot",
+   "role": "Playable character",
+   "description": "A robot costume with the human's body and movement.",
+   "shot": {
+    "frame": {
+     "eye": "19.0,1.5,-9.4",
+     "at": "17,0.9,-12",
+     "fov": 45
+    }
+   },
+   "image": "c6.jpg",
+   "drawn_from": "52973e549535"
+  }
+ ],
+ "tips": [
+  "Start in third person (Q) to see your chosen character.",
+  "The gallery maps are the fastest way to see everything the engine can place in a scene."
+ ],
+ "gallery": [
+  {
+   "caption": "The Arrival Hub: character stands, props and the target range.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g1.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "caption": "The hub from above.",
+   "shot": {
+    "frame": {
+     "eye": "-21.6,8.6,21.6",
+     "at": "0.0,1,0.0"
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "d53653e2e6ab"
+  },
+  {
+   "caption": "Frontier Crossroads: a main street of enterable buildings.",
+   "shot": {
+    "frame": {
+     "scene": "projects/redengine-sandbox/maps/frontier-crossroads.json"
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "25f7a0e3ec47"
+  },
+  {
+   "caption": "The Moon Garden: beacons, crystals and giant mushrooms.",
+   "shot": {
+    "frame": {
+     "scene": "projects/redengine-sandbox/maps/moon-garden.json"
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "ff8296802dcd"
+  },
+  {
+   "caption": "An art gallery: every painting prop in the catalogue, at its real size.",
+   "shot": {
+    "frame": {
+     "scene": "projects/redengine-sandbox/maps/gallery-art-01.json"
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "d69ab2b9fc50"
+  },
+  {
+   "caption": "The kitchen gallery.",
+   "shot": {
+    "frame": {
+     "scene": "projects/redengine-sandbox/maps/gallery-kitchen-01.json"
+    }
+   },
+   "image": "g6.jpg",
+   "drawn_from": "eef35b81af06"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. RedEngine Sandbox was added to RedEngineGames on 2026-09-26 from the owner's account (generated by its own scripts/generate.py), before the Claude Code sessions on this machine began recording RedEngine work; its project folder does not include the prompt that started it."
+}
