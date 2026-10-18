@@ -1,6 +1,6 @@
 //! Starting an installed game exactly as its own `Play-<slug>.exe` does (`distribution/play_launcher.rs`): the engine named in `engine.name`,
-//! the arguments in `launch.args` (one per line), from the game's folder, with `RE2_SAVE_DIR` set to `Saved Games\<name>`. The game's own update
-//! check is skipped: the launcher keeps games up to date.
+//! the arguments in `launch.args` (one per line), from the game's folder, with `RE2_SAVE_DIR` set to `Saved Games\<name>` and `RE2_PLAYER=1`
+//! (fullscreen and the title card). The game's own update check is skipped: the launcher keeps games up to date.
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -41,7 +41,9 @@ pub fn plan(dir: &Path, name: &str, profile: &Path) -> Result<Plan> {
 pub fn start(plan: &Plan) -> Result<()> {
     std::fs::create_dir_all(&plan.save_dir)?;
     let mut command = Command::new(&plan.program);
-    command.args(&plan.args).current_dir(&plan.cwd).env("RE2_SAVE_DIR", &plan.save_dir);
+    // `RE2_PLAYER`: a player started it, so the engine opens in fullscreen and plays the "RedEngine Games" title card first (an older engine
+    // ignores it).
+    command.args(&plan.args).current_dir(&plan.cwd).env("RE2_SAVE_DIR", &plan.save_dir).env("RE2_PLAYER", "1");
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;

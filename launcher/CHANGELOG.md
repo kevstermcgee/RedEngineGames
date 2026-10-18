@@ -7,6 +7,7 @@ here to publish a new version (`.github/workflows/launcher.yml`).
 
 - Player reviews: rate any game out of 10 and say what you enjoyed and what you didn't, right on its page. No account needed; reviews help make the next games better.
 - Pressing Escape while typing no longer leaves the page.
+- Games open in fullscreen with a short "RedEngine Games" title card (with games built on the newest engine).
 
 ## 0.1.0
 
