@@ -1,0 +1,203 @@
+{
+ "tagline": "Throw five machine parts over a wall in the right order while keeping three draining dials topped up, or a warden wakes and catches you.",
+ "overview": "Patient Loom is a one-screen juggling puzzle. On your side of a wall lie five coloured parts; on the far side stands a machine with five empty slots. Walk up to a part and press Z to throw it over the wall into the machine, which only accepts them in one order, printed at the bottom of the screen: GREEN, RED, VIOLET, GOLD, BLUE.\n\nThree dials at the top drain all the time, and each one runs a law of the room. GLIDE makes your throws strong, GATE makes the machine accept parts, and LULL keeps the wardens asleep. Stand on the matching coloured pad on the left to refill a dial. Throws remember where they came from: press Z with no part in reach and your last thrown part flies back to its starting spot. Every part you build makes LULL drain faster, and the wardens that wake get bigger and quicker.",
+ "story": "A student's homework has turned into the room they must walk through: a machine to assemble, three dials to keep turning, and a sleeping warden under the desk. The card for this game suggested that story; the game itself tells it only through its pieces.",
+ "goal": "Build all five parts into the machine in order (BUILT 5/5): \"THE MACHINE IS BUILT\". If a warden touches you, you lose. After the game ends, press X (or Shift) to play again.",
+ "rules": [
+  "Stand touching a part and press Z to throw it over the wall toward the machine.",
+  "GLIDE: while it has charge, throws are fast. When it is empty, throws only crawl.",
+  "GATE: while it has charge, the machine takes a part that arrives. When it is empty, the part just bumps into the machine and stays there.",
+  "The machine wants GREEN, then RED, then VIOLET, then GOLD, then BLUE. A part in the wrong order jams: it goes back home and LULL loses a big chunk.",
+  "Press Z when you are not touching any part to call your last thrown part back to where it started.",
+  "Each dial drains on its own. Stand on its pad on the left (GLIDE top, GATE middle, LULL bottom) to fill it up.",
+  "LULL drains faster with every part you build. When it runs out, a warden wakes at the bottom and chases you; it is bigger and faster after 2 and after 4 parts. Fill LULL above a quarter and the warden falls asleep again.",
+  "A warden touching you ends the game."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys / WASD (or a gamepad stick)",
+   "action": "Walk (you cannot cross the wall)"
+  },
+  {
+   "input": "Z / Space / J (gamepad A)",
+   "action": "Throw the part you touch, or recall your last throw"
+  },
+  {
+   "input": "X / Shift / K (gamepad B)",
+   "action": "Play again after the game ends"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Student",
+   "role": "You",
+   "description": "The small white square on the left of the wall.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.0,
+     0.55,
+     0.22,
+     0.85
+    ]
+   },
+   "image": "c1.png",
+   "drawn_from": "9f22fd2eba6f"
+  },
+  {
+   "name": "The five parts",
+   "role": "What you throw",
+   "description": "Red, gold, green, blue and violet squares, lined up near the wall. Each remembers its home spot.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.2,
+     0.05,
+     0.4,
+     0.97
+    ]
+   },
+   "image": "c2.png",
+   "drawn_from": "69c643fe8a18"
+  },
+  {
+   "name": "The Machine",
+   "role": "Goal",
+   "description": "The tall panel on the right with five slots. It fills from the slot each part belongs in.",
+   "shot": {
+    "frame": {
+     "scenario": "a bot juggles the timers and builds the machine in order",
+     "t": 60
+    },
+    "crop": [
+     0.66,
+     0.05,
+     1.0,
+     0.97
+    ]
+   },
+   "image": "c3.png",
+   "drawn_from": "dbf5499fedb5"
+  },
+  {
+   "name": "The dials and their pads",
+   "role": "Your three laws",
+   "description": "GLIDE (blue), GATE (yellow) and LULL (purple). Their bars are at the top of the screen; their pads, where you refill them, are on the left.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.0,
+     0.0,
+     0.18,
+     0.97
+    ]
+   },
+   "image": "c4.png",
+   "drawn_from": "73e91bd881c9"
+  },
+  {
+   "name": "The Wardens",
+   "role": "Enemy",
+   "description": "Red squares that wake when LULL runs out and chase you. The first is small and slow; later ones are bigger and faster.",
+   "shot": {
+    "frame": {
+     "scenario": "letting the lull lapse wakes a warden that catches you",
+     "t": 28
+    },
+    "crop": [
+     0.12,
+     0.4,
+     0.36,
+     0.8
+    ]
+   },
+   "image": "c5.png",
+   "drawn_from": "f82d49e89712"
+  }
+ ],
+ "tips": [
+  "Fill GATE before you throw: a part that arrives while the gate is shut just sits against the machine. Press Z away from parts to call it back and try again.",
+  "Refill GLIDE right before a throw so the part flies fast.",
+  "Visit the LULL pad more often later on: it drains faster with every part you build.",
+  "\"THE MACHINE IS BUILT\" also shows when you are caught; BUILT 5/5 means you really won."
+ ],
+ "gallery": [
+  {
+   "caption": "The room: the dial pads on the left, five parts, the wall, and the empty machine.",
+   "shot": {
+    "frame": {
+     "t": 2
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "c707c32a6227"
+  },
+  {
+   "caption": "A part thrown while the gate is shut stops against the machine.",
+   "shot": {
+    "frame": {
+     "scenario": "gate shut: the part arrives but is not accepted",
+     "t": 20
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "bc40e1846b3f"
+  },
+  {
+   "caption": "Three parts built (GREEN, RED, VIOLET).",
+   "shot": {
+    "frame": {
+     "scenario": "a bot juggles the timers and builds the machine in order",
+     "t": 40
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "e9f14a32fbdb"
+  },
+  {
+   "caption": "The machine is built: BUILT 5/5.",
+   "shot": {
+    "frame": {
+     "scenario": "a bot juggles the timers and builds the machine in order",
+     "t": 80
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "ddb4bccd11eb"
+  },
+  {
+   "caption": "LULL is empty: a warden (red) has woken and is chasing the student.",
+   "shot": {
+    "frame": {
+     "scenario": "letting the lull lapse wakes a warden that catches you",
+     "t": 28
+    }
+   },
+   "image": "g6.png",
+   "drawn_from": "4ab2ddc88ba0"
+  },
+  {
+   "caption": "Caught: the game is over, even though the banner says \"THE MACHINE IS BUILT\" (BUILT 0/5).",
+   "shot": {
+    "frame": {
+     "scenario": "letting the lull lapse wakes a warden that catches you",
+     "t": 40
+    }
+   },
+   "image": "g5.png",
+   "drawn_from": "f8f70c7ad9a3"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you juggle three timers, each one running a different law of the room; but thrown objects remember where they came from and return when thrown again; every success wakes something bigger; gather five parts of a machine and assemble them in the right order; and, as optional story, a student whose homework turns into the place they must walk through.\n\nThe AI made the three timers into GLIDE, GATE and LULL, each with its own pad to refill, used \"objects remember where they came from\" as the recall button, and made every built part feed a bigger warden. It said the engine had no way for an object to remember its own starting place, so each part's home is written into the game by hand, and it generated about 55 rules with a script.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-08."
+}

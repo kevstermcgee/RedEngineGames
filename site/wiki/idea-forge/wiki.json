@@ -1,0 +1,166 @@
+{
+ "tagline": "Strike the anvil to forge a video game idea built around one strange mechanic. Lock the parts you like, re-forge the rest; no idea ever repeats.",
+ "overview": "Idea Forge is a toy for game designers: an idea generator dressed as a blacksmith's forge. Press Space and the anvil rings: five reels spin and settle into a new game idea with a two-word title, made of five parts. YOU says what the player does (\"you rotate the entire level a quarter turn while gravity stays exactly where it is\"). BUT gives the twist (\"but light bends around the biggest thing on screen\"). PUSHBACK names what fights back, GOAL says how you win, and an optional STORY sets the scene.\n\nLock any part you like (keys 1 to 5) and strike again: only the unlocked parts change. Switch the story off for just the mechanic, save your favourite ideas (up to eight), browse them, or step back to the previous idea. The forge walks through every one of its more than eight billion combinations exactly once, so no idea ever repeats. This same forge is what the Idea Forge schedule uses to pick the AI-designed games on this site.",
+ "story": "No story of its own: Idea Forge is a forge for other people's games. Every strike of the hammer hands you a seed for one: a mechanic, a twist, a threat, a goal and, if you like, a story to dress it in.",
+ "goal": "There is no goal: forge ideas until one makes you want to build it.",
+ "rules": [
+  "Each strike forges a new idea: a title and five parts (YOU, BUT, PUSHBACK, GOAL, STORY).",
+  "A locked part (LOCK 1 to 5) stays put when you strike again; everything else changes.",
+  "STORY switches the story part off and on.",
+  "SAVE keeps the current idea (up to eight); SAVED browses them; BACK returns to the previous idea.",
+  "No idea is ever repeated: the forge walks every combination exactly once. Each idea has a CODE at the top right."
+ ],
+ "controls": [
+  {
+   "input": "Space or Enter (or click FORGE)",
+   "action": "Strike: forge a new idea"
+  },
+  {
+   "input": "1 to 5",
+   "action": "Lock or unlock a part"
+  },
+  {
+   "input": "S",
+   "action": "Story on or off"
+  },
+  {
+   "input": "F",
+   "action": "Save this idea"
+  },
+  {
+   "input": "V",
+   "action": "Browse saved ideas"
+  },
+  {
+   "input": "B",
+   "action": "Back to the previous idea"
+  },
+  {
+   "input": "M",
+   "action": "Music on or off"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The title",
+   "role": "Every idea's name",
+   "description": "An adjective and a noun, like WANDERING TELESCOPE or PAPER ARCHIVE.",
+   "shot": {
+    "frame": {
+     "scenario": "the first strike forges an idea",
+     "t": 3
+    },
+    "crop": [
+     0.0,
+     0.0,
+     1.0,
+     0.17
+    ]
+   },
+   "image": "c1.png",
+   "drawn_from": "36cecda414e2"
+  },
+  {
+   "name": "The five parts",
+   "role": "The idea itself",
+   "description": "YOU (what you do), BUT (the twist), PUSHBACK (what fights back), GOAL and STORY, each with its own LOCK button.",
+   "shot": {
+    "frame": {
+     "scenario": "the first strike forges an idea",
+     "t": 3
+    },
+    "crop": [
+     0.0,
+     0.17,
+     1.0,
+     0.6
+    ]
+   },
+   "image": "c2.png",
+   "drawn_from": "c4f91fbc2158"
+  },
+  {
+   "name": "The workbench",
+   "role": "The controls",
+   "description": "Buttons for FORGE, STORY, SAVE, SAVED, BACK and MUSIC, with the keys printed above them.",
+   "shot": {
+    "frame": {
+     "scenario": "the first strike forges an idea",
+     "t": 3
+    },
+    "crop": [
+     0.0,
+     0.82,
+     0.7,
+     1.0
+    ]
+   },
+   "image": "c3.png",
+   "drawn_from": "83f2d3bd2898"
+  }
+ ],
+ "tips": [
+  "Found a mechanic you love but not the twist? Lock YOU (key 1) and strike until the BUT clicks.",
+  "Write down the CODE of an idea you want to keep for good, or save it with F.",
+  "The game ideas behind this site's AI-designed games came from this same forge."
+ ],
+ "gallery": [
+  {
+   "caption": "The first strike: WANDERING TELESCOPE.",
+   "shot": {
+    "frame": {
+     "scenario": "the first strike forges an idea",
+     "t": 3
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "64bbc1a02694"
+  },
+  {
+   "caption": "Five strikes in: BORROWED ORCHARD.",
+   "shot": {
+    "frame": {
+     "scenario": "twelve strikes never repeat an idea",
+     "t": 6
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "4f2b63ca6295"
+  },
+  {
+   "caption": "YOU locked (LOCKED under LOCK 1): the rest changes around it.",
+   "shot": {
+    "frame": {
+     "scenario": "a locked part holds while the rest changes",
+     "t": 5
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "115f736e6e7c"
+  },
+  {
+   "caption": "Story switched off: just the mechanic.",
+   "shot": {
+    "frame": {
+     "scenario": "story can be switched off and back",
+     "t": 4
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "cff386106e53"
+  },
+  {
+   "caption": "An idea saved (SAVED IDEA 1/2).",
+   "shot": {
+    "frame": {
+     "scenario": "an idea can be saved once and browsed",
+     "t": 6
+    }
+   },
+   "image": "g5.png",
+   "drawn_from": "0387b6e19d20"
+  }
+ ],
+ "prompt": "Create a utility that can create ideas for video games. Each idea must be centered on a totally unique, engaging, fun, and creative gameplay mechanic. There can be a story or not. It must be built in RedEngine and published to RedEngineGames once complete. Keep track of the issues with development to construct a robust feedback file for this game idea. Add this file to the RedEngine repository so the game engine can improve on future runs",
+ "prompt_source": "Given to Claude Code on 2026-10-08. A few hours later the owner added: \"I wanted IdeaForge to exist as a cli utility that automatically generates ideas for games and then, uses RedEngine to make the game. Once done I want the AI working with the engine to provide feedback to the engine repo.\" This game is the playable face of that forge; the same vocabulary drives the daily AI-designed games."
+}

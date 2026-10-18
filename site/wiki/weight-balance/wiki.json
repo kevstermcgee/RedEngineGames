@@ -1,0 +1,267 @@
+{
+ "tagline": "Four crates of different sizes, two scale pans: split them into two loads that weigh the same and hold the balance for two seconds.",
+ "overview": "Weight Balance is a small first-person physics puzzle, one of a set of quick minigames built to test RedEngine. Four crates stand in a row in a grey room: orange (the smallest), blue, purple and green (the biggest). On the far side of the room are two square grey pans, left and right.\n\nPick up a crate (E), carry it onto a pan and put it down. The game weighs each pan continuously: a crate's weight grows with its size, so the big green crate is more than four times as heavy as the little orange one. When both pans hold something and their weights are within 5% of each other for two seconds, the scale settles and you win.",
+ "story": "A jammed balance scale in a warehouse will only release when its two pans carry exactly the same load. All the warehouse worker has to work with are four crates of very different sizes, and two and a half minutes.",
+ "goal": "Get both pans within 5% of each other's weight and keep them there for 2 seconds: VICTORY. After two and a half minutes the scale jams for good (TIMEOUT).",
+ "rules": [
+  "Pick up a crate by looking at it and pressing E; press E again to put it down.",
+  "A crate counts for a pan while it rests inside the pan's square.",
+  "Weight goes with size: orange is lightest, then blue, then purple, then green (the heaviest by far).",
+  "LEFT_W and RIGHT_W at the top left show each pan's weight. Within 5% of each other (and neither empty), HOLD counts up; 4 counts (2 seconds) wins.",
+  "You have 150 seconds."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up or put down a crate"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Crates",
+   "role": "The weights",
+   "description": "Orange (smallest), blue, purple and green (biggest).",
+   "shot": {
+    "frame": {
+     "eye": "0,2.2,6.5",
+     "at": "0,0.3,3",
+     "fov": 60
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "837206279800"
+  },
+  {
+   "name": "The Scale Pans",
+   "role": "Where loads go",
+   "description": "Two square grey plates on the floor, left and right.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "c2.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  }
+ ],
+ "tips": [
+  "Smallest with largest, middle two together: orange + green on one pan, blue + purple on the other.",
+  "Put each crate down well inside the pan's square; a crate half off the pan does not count.",
+  "Watch LEFT_W and RIGHT_W while you load."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       10
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "interact": "crate_a"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_a",
+     "camera": "first"
+    },
+    {
+     "approach": "pan_left_plate",
+     "within": 0.4
+    },
+    {
+     "look_at": "pan_left_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "put_a",
+     "camera": "third"
+    },
+    {
+     "interact": "crate_d"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_d",
+     "camera": "first"
+    },
+    {
+     "approach": "pan_left_plate",
+     "within": 0.4
+    },
+    {
+     "look_at": "pan_left_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "put_d",
+     "camera": "third"
+    },
+    {
+     "interact": "crate_b"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_b",
+     "camera": "first"
+    },
+    {
+     "approach": "pan_right_plate",
+     "within": 0.4
+    },
+    {
+     "look_at": "pan_right_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "put_b",
+     "camera": "third"
+    },
+    {
+     "interact": "crate_c"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "carry_c",
+     "camera": "first"
+    },
+    {
+     "approach": "pan_right_plate",
+     "within": 0.4
+    },
+    {
+     "look_at": "pan_right_plate"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "put_c",
+     "camera": "third"
+    },
+    {
+     "wait": 2.5
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    },
+    {
+     "shot": "over2",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       10
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: the two pans at the top, the four crates in the middle.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "Picking up the little orange crate.",
+   "shot": {
+    "playtest": "carry_a"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "706511a12ddf"
+  },
+  {
+   "caption": "Orange and green on the left pan (LEFT_W 45.78).",
+   "shot": {
+    "playtest": "put_d"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "4690338891fe"
+  },
+  {
+   "caption": "Blue on the right pan; purple to follow.",
+   "shot": {
+    "playtest": "put_b"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "9330317d372f"
+  },
+  {
+   "caption": "45.78 against 42.6: within 5%, and the scale settles: VICTORY.",
+   "shot": {
+    "playtest": "end"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "91589a81524f"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Weight Balance is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}

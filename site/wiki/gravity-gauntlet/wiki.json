@@ -1,0 +1,356 @@
+{
+ "tagline": "A fast first-person physics run through three rooms: launch off jump pads, set off a domino cascade, dodge bouncing hazard blocks and collect four plasma cores to open the portal.",
+ "overview": "Gravity Gauntlet is a short, fast first-person platformer built to show off RedEngine's physics. You move quickly (sprinting at over 10 m/s, with plenty of air control) through three connected rooms: a launch bay with two cyan jump pads, a demolition sector with a row of five rainbow domino slabs and two hazard blocks that are knocked around by recurring gusts, and a nexus arena with a third, more powerful jump pad, a pedestal and a green victory portal.\n\nFour plasma cores are hidden around the course: Alpha floats high above a launch pad, Beta sits in the domino bunker, Gamma drifts among the hazard blocks and Delta waits on the pedestal in the nexus. The portal stays locked until you have all four. Step on the red detonator pad to send the dominoes crashing down. You also carry a bat (the original design included a revolver that knocked props around, which the engine has since removed).",
+ "story": "A physics proving ground: a runner with springs in their shoes, a stack of dominoes waiting to fall, and four plasma cores that power the Victory Nexus. Collect them all and the portal opens.",
+ "goal": "Collect all four plasma cores (CORES 4), then step into the green portal at the far end of the nexus: VICTORY. There is no way to lose; the portal just reports LOCKED until you have them all.",
+ "rules": [
+  "Cyan pads launch you high into the air: two in the launch bay, a stronger one in the nexus.",
+  "Walk or fly into a core to collect it.",
+  "The red detonator pad in the demolition sector knocks over the first domino, and the rest follow (DOMINO_TRIPPED).",
+  "Two hazard blocks are shoved by gusts every 1 to 1.3 seconds; they can knock you around.",
+  "The portal only opens with all four cores."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the bat (knocks loose objects)"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Core Alpha",
+   "role": "Plasma core",
+   "description": "A yellow orb floating high above a launch pad in the launch bay: ride the pad up to it.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "name": "The Dominoes",
+   "role": "Chain reaction",
+   "description": "Five rainbow slabs in the demolition sector, set off by the red detonator pad.",
+   "shot": {
+    "playtest": "dominoes"
+   },
+   "image": "c2.jpg",
+   "drawn_from": "3eb4059d2ce8"
+  },
+  {
+   "name": "Hazard blocks",
+   "role": "Obstacles",
+   "description": "Blocks in the demolition sector that are shoved around by recurring gusts.",
+   "shot": {
+    "playtest": "t5"
+   },
+   "image": "c3.jpg",
+   "drawn_from": "eb2f636423a3"
+  },
+  {
+   "name": "The Victory Nexus",
+   "role": "Goal",
+   "description": "The green portal frame at the far end of the nexus arena, next to Core Delta's pedestal.",
+   "shot": {
+    "playtest": "w6"
+   },
+   "image": "c4.jpg",
+   "drawn_from": "3b516f4a97f7"
+  }
+ ],
+ "tips": [
+  "Stand on a launch pad and let it throw you up to Core Alpha; steer in the air.",
+  "Set off the dominoes first, then fetch Core Beta from the bunker behind them.",
+  "Core Delta is up on its pedestal: use the nexus's big jump pad.",
+  "Known problem: the version on this site was built with an engine that no longer accepts this game's revolver, so it very likely refuses to start. The pictures here were drawn without that one setting."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       4,
+       22,
+       18
+      ],
+      "at": [
+       4,
+       0,
+       0
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "look": {
+      "yaw": 18.4,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.54
+    },
+    {
+     "shot": "w1",
+     "camera": "first"
+    },
+    {
+     "shot": "t1",
+     "camera": "third"
+    },
+    {
+     "wait": 0.5
+    },
+    {
+     "look": {
+      "yaw": 121.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.95
+    },
+    {
+     "shot": "w2",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 38.7,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.04
+    },
+    {
+     "shot": "w3",
+     "camera": "first"
+    },
+    {
+     "shot": "t3",
+     "camera": "third"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "look": {
+      "yaw": 90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.36
+    },
+    {
+     "shot": "w4",
+     "camera": "first"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "look": {
+      "yaw": -153.4,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.6
+    },
+    {
+     "shot": "w5",
+     "camera": "first"
+    },
+    {
+     "shot": "t5",
+     "camera": "third"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "look": {
+      "yaw": 63.4,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.43
+    },
+    {
+     "shot": "w6",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 116.6,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.08
+    },
+    {
+     "shot": "w7",
+     "camera": "first"
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "look": {
+      "yaw": 56.3,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.88
+    },
+    {
+     "shot": "w8",
+     "camera": "first"
+    },
+    {
+     "shot": "dominoes",
+     "camera": {
+      "eye": [
+       4,
+       4,
+       1
+      ],
+      "at": [
+       5,
+       0.5,
+       -5
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "scene_patch": {
+  "drop": [
+   "weapons.revolver"
+  ]
+ },
+ "gallery": [
+  {
+   "caption": "The three rooms from above: launch bay (left), demolition sector (middle), nexus arena with the green portal (right).",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "The start: a launch pad and Core Alpha floating above it.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "caption": "Launched off the pad toward Core Alpha.",
+   "shot": {
+    "playtest": "t1"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "8e9aaffda6a3"
+  },
+  {
+   "caption": "The detonator fired: the dominoes start to fall (DOMINO_TRIPPED 1).",
+   "shot": {
+    "playtest": "t3"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
+  },
+  {
+   "caption": "The hazard blocks and Core Gamma in the demolition sector.",
+   "shot": {
+    "playtest": "t5"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "eb2f636423a3"
+  },
+  {
+   "caption": "The nexus: Core Delta on its pedestal and the portal behind it.",
+   "shot": {
+    "playtest": "w6"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "3b516f4a97f7"
+  },
+  {
+   "caption": "The domino row after the cascade.",
+   "shot": {
+    "playtest": "dominoes"
+   },
+   "image": "g7.jpg",
+   "drawn_from": "3eb4059d2ce8"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Gravity Gauntlet was added to RedEngineGames on 2026-09-28 from the owner's account, before the Claude Code sessions on this machine began recording RedEngine work, and its project files do not include the prompt that started it."
+}

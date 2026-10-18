@@ -1,0 +1,157 @@
+{
+ "tagline": "A walk-around demo: a petrol station and corner shop with a red canopy, pumps, shelves of goods and a car park.",
+ "overview": "The Store Demo is one of RedEngine's example scenes: a roadside petrol station and convenience store to wander around rather than a game to win. A red-trimmed canopy covers the pumps, and the shop inside has shelves, a counter and a drinks wall. Cars are parked outside, and the lot is fenced.\n\nYou walk around in first person (Q switches to third person) carrying the default baseball bat. There are no goals or scores; it exists to show off the engine's shop, vehicle and prop models.",
+ "story": "No story: a quiet corner shop and petrol station on a sunny day, with nobody at the pumps. It was built as a showcase of RedEngine's shop fittings, cars, traffic cones and other everyday props.",
+ "goal": "There is no goal and no way to win or lose: explore.",
+ "rules": [
+  "Walk anywhere in the shop, under the canopy and around the lot.",
+  "Your bat can knock loose objects around.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Visitor",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "f761500bade0"
+  },
+  {
+   "name": "The Store",
+   "role": "The setting",
+   "description": "A petrol station canopy and the shop behind it.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "c2.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "name": "The Forecourt",
+   "role": "The setting",
+   "description": "The pumps, cones and parked cars.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,22.6",
+     "at": "0.0,0.6,20.0",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "c482e8d98366"
+  }
+ ],
+ "tips": [
+  "Press Q to see yourself in third person."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The store and its lot from above, roof removed.",
+   "shot": {
+    "frame": {
+     "eye": "0.1,64.5,58.4",
+     "at": "0.1,0,19.0",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "94b1411f7e1a"
+  },
+  {
+   "caption": "Pulling in: the canopy and the shop.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g2.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "caption": "The lot from a corner.",
+   "shot": {
+    "frame": {
+     "eye": "-32.1,12.9,51.2",
+     "at": "0.1,1,19.0"
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "e1bd5dec5351"
+  },
+  {
+   "caption": "On the forecourt by the shop window.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,22.6",
+     "at": "0.0,0.6,20.0",
+     "fov": 50
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "c482e8d98366"
+  },
+  {
+   "caption": "Walking around the store.",
+   "shot": {
+    "playtest": "fp"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "e7ff85ace356"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. The Store Demo is one of the example scenes that ship with RedEngine itself, made while the engine was being built. It came to RedEngineGames with the engine's content on 2026-09-26; the early engine work happened on the owner's Windows PC before the sessions on this machine were recorded, so the prompt behind it is not available."
+}

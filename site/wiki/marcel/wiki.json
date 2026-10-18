@@ -1,0 +1,198 @@
+{
+ "tagline": "A boy in an endless world of fields and forests, where each day fades into a starry night and the sun rises again.",
+ "overview": "Marcel is a gentle, endless walk. You are Marcel, a young boy in a red jumper and scarf, standing in a meadow that goes on for ever in every direction: fields full of poppies, cornflowers, lavender and foxgloves, and forests of oak, birch, spruce, willow and cherry, all modelled on real plants and generated anew as you walk.\n\nThere is nothing to win. A full day lasts twenty minutes: the sky warms through sunrise, the sun crosses, sunset turns everything pink, and night brings a sky thick with stars and the Milky Way, fireflies out of the grass and an owl in the dark. The countryside sounds change with the hour (wind, leaves, crickets), four pieces of ambient music follow the sun, and the menu tells you how many days you have lived in this world.",
+ "story": "Marcel is a happy little boy with a whole world to himself. Every sunrise he sees is another day lived there, and the world keeps count, so the next time you come back it remembers how long he has been wandering.",
+ "goal": "There is no goal: wander, watch the sky, and count the days you have lived (shown on the menu, and saved between sessions).",
+ "rules": [
+  "The world is generated as you walk and never ends.",
+  "A day lasts twenty minutes, starting just before sunrise.",
+  "Every sunrise you see adds a day to the count on the menu; the count is saved.",
+  "The music and the nature sounds follow the time of day; both can be turned off in the pause menu."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Run"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "View from behind"
+  },
+  {
+   "input": "N",
+   "action": "Music on or off"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  },
+  {
+   "input": "F or F11",
+   "action": "Fullscreen"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Marcel",
+   "role": "You",
+   "description": "A young boy with a soft smile, a red jumper and a yellow scarf.",
+   "shot": {
+    "playtest": "face"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "eb0c68838965"
+  },
+  {
+   "name": "The trees",
+   "role": "The world",
+   "description": "English oak, silver birch, Norway spruce, Scots pine and weeping willow, each modelled on the real tree.",
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The flowers and shrubs",
+   "role": "The world",
+   "description": "Wild cherry, hawthorn, bracken, oxeye daisy, common poppy, cornflower, lavender, bluebell, dandelion and meadow buttercup, with red clover, foxglove, harebell and two kinds of grass besides.",
+   "image": "c3.jpg"
+  }
+ ],
+ "tips": [
+  "Stay through a whole day at least once: the night sky is the highlight.",
+  "Press Q to see Marcel from behind as he walks.",
+  "Make it fullscreen (F) and keep the music on."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "wait": 5
+    },
+    {
+     "view": "third"
+    },
+    {
+     "look": {
+      "yaw": 40,
+      "pitch": -5
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 3
+    },
+    {
+     "shot": "face",
+     "camera": {
+      "eye": [
+       7.13,
+       0.95,
+       -8.5
+      ],
+      "at": [
+       5.59,
+       0.45000000000000007,
+       -6.66
+      ],
+      "fov": 40
+     }
+    },
+    {
+     "shot": "side",
+     "camera": {
+      "eye": [
+       3.6,
+       0.85,
+       -8.33
+      ],
+      "at": [
+       5.59,
+       0.45000000000000007,
+       -6.66
+      ],
+      "fov": 40
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "Before sunrise.",
+   "shot": {
+    "frame": {
+     "hour": 5.6
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "4a0c134f2751"
+  },
+  {
+   "caption": "Sunrise.",
+   "shot": {
+    "frame": {
+     "hour": 6.2
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "80b5ed93b3ca"
+  },
+  {
+   "caption": "Midday in the meadow.",
+   "shot": {
+    "frame": {
+     "hour": 13
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "bde4694d8905"
+  },
+  {
+   "caption": "Sunset.",
+   "shot": {
+    "frame": {
+     "hour": 18.4
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "ab7ffa4e756c"
+  },
+  {
+   "caption": "Night: stars, the Milky Way and fireflies.",
+   "shot": {
+    "frame": {
+     "hour": 21
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "6fb1aa74c636"
+  },
+  {
+   "caption": "All twenty plants of Marcel's world, drawn by the engine.",
+   "image": "g6.jpg"
+  },
+  {
+   "caption": "Marcel walking at dawn.",
+   "shot": {
+    "playtest": "side"
+   },
+   "image": "g7.jpg",
+   "drawn_from": "e447572fdd2e"
+  }
+ ],
+ "prompt": "Game Title: Marcel. Let's add procedural generation support to this game engine. Below is a good test for this kind of game. Create a day and night game environment. The idea is you are in an infinite procedurally generated world of fields and forests. You can run around literally forever in this world. Each day fades to night. A gradual sunrise to sunset to sunrise over and over again. I want the stars in the sky to feel breathtaking. I want the sunrise and sunsets to be soothing. I want our character to be a young boy. Give the entire experience a heartwarming almost euphoric feeling. The main menu tells you how many days you have in the game. Include a variety of flowers and trees based on real plants in nature. I want the audio to be nature sounds that make sense for these various times of day (birdsong, wind blowing, tree leaves, etc). Have unique emotional ambient music developed with the new audio additions in the game engine (should be able to toggle on and off in settings, on by default).",
+ "prompt_source": "Given to Claude Code on 2026-10-04. The original message is no longer in the saved session; this is the full text as that session's own summary recorded it (\"The user's full message was: ...\"). Later the same day the owner asked for changes: no birdsong, a first-person start fading in from black, Marcel walking on the ground, and a friendlier body with a soft smile."
+}

@@ -1,0 +1,124 @@
+{
+ "tagline": "An endless sky-high bounce: Pip the cloud rabbit bounces on her own; steer her into letters, slam for a super spring, and blow away the rain.",
+ "overview": "Pip Cloud Post is an endless 2D survival game in a bright paper-and-cloud sky, one of the three Date Night Arcade games. Pip, a scarf-wearing cloud rabbit who delivers the sky's post, bounces up and down by herself; you steer her left and right to collect floating envelopes.\n\nPress A to slam down for a super spring that sends her higher, and B to blow a gust that clears nearby rain. Storms grow faster and denser every 20 seconds. You have four hearts; survive as long as you can and beat your own best.",
+ "story": "Pip is the sky's postal rabbit, bouncing between clouds to collect the letters blowing about up there. The weather is not on her side: the longer she works, the harder it storms.",
+ "goal": "Survive as long as you can and collect as many letters as possible: there is no end, only your best score and longest run.",
+ "rules": [
+  "Pip bounces on her own; you steer her left and right.",
+  "Envelopes are points.",
+  "A slams down: the next bounce is a super spring.",
+  "B blows a gust that clears the rain near Pip.",
+  "You have four hearts; each hit costs one. When they are gone the run is over.",
+  "Every 20 seconds a new wave starts, faster and busier than the last.",
+  "Your score, survival time, best scores and a rank (Rookie, Quick Feet, Chain Ace, Superstar, Arcade Legend) are saved."
+ ],
+ "controls": [
+  {
+   "input": "Left / right (stick or arrows)",
+   "action": "Steer Pip"
+  },
+  {
+   "input": "A (or Space / Z)",
+   "action": "Slam: super spring"
+  },
+  {
+   "input": "B (or Shift / X)",
+   "action": "Gust: blow away the rain"
+  },
+  {
+   "input": "F",
+   "action": "Fullscreen"
+  },
+  {
+   "input": "Start or M",
+   "action": "Music on or off"
+  },
+  {
+   "input": "A / Space after a run",
+   "action": "Play again"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Pip",
+   "role": "You",
+   "description": "A cloud rabbit in a scarf, the sky's postal carrier.",
+   "shot": {
+    "sprite": "pip"
+   },
+   "image": "c1.png",
+   "drawn_from": "b629a6eaacab"
+  },
+  {
+   "name": "Letters",
+   "role": "Collect",
+   "description": "Envelopes drifting in the sky.",
+   "shot": {
+    "sprite": "pickup"
+   },
+   "image": "c2.png",
+   "drawn_from": "a7732ad7ec9f"
+  },
+  {
+   "name": "Rain",
+   "role": "Hazard",
+   "description": "Storm drops that cost a heart.",
+   "shot": {
+    "sprite": "hazard"
+   },
+   "image": "c3.png",
+   "drawn_from": "8e82f57f35c8"
+  }
+ ],
+ "tips": [
+  "Slam over a cluster of letters to bounce up through them.",
+  "Save the gust for when the rain is close."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: Pip, the clouds and the first letters.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 2
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "253089a61903"
+  },
+  {
+   "caption": "Busier skies after 30 seconds.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 30
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "827ccc0af94e"
+  },
+  {
+   "caption": "Later in the run: letters, rain and Pip mid-bounce.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 50
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "3708bf917a5f"
+  },
+  {
+   "caption": "Run over: the result card with score, time and rank.",
+   "shot": {
+    "frame": {
+     "scenario": "standing still eventually loses and saves personal progress",
+     "t": 40
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "99b165305de2"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Pip Cloud Post, Moxie Magnet Moon and Riff Rooftop Rush were made together as the \"Date Night Arcade\": three small single-player 2D games built with RedEngine on 2026-10-06/07 at the owner's request (first as browser games, later as Windows installers). The session that started them is not saved on this machine, so the prompt that asked for them is not available; the project's README and ENGINE_FEEDBACK.md describe what was built."
+}

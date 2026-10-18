@@ -1,0 +1,461 @@
+{
+ "tagline": "Throw crates and barrels over a fence to knock down a pyramid of fifteen crates with a red flag on top: score 9 points in 90 seconds.",
+ "overview": "Castle Crash is a first-person throwing game. Behind a low fence, on a sandy pad, lie six pieces of ammo: two crates, two barrels and two heavy crates (the heaviest a person can lift). Out across the field stands a castle: a pyramid of fifteen pastel crates with a red flag on top.\n\nPick up a piece of ammo (E), look up and press E again to throw it. Every castle crate that is knocked more than 0.8 metres or ends up on its side scores 1 point, and bringing down the flag scores 3 more. Reach 9 points within 90 seconds to win. Ammo you carry back onto the pad is given back to you. The angle matters a great deal: a lob of 16 to 19 degrees above level lands on the castle, while flatter throws fall short.",
+ "story": "A siege in miniature: one thrower, six pieces of junk and a castle of crates with a red pennant on top. Knock enough of it down before the clock runs out.",
+ "goal": "Score 9 points (SCORE 9) within 90 seconds: each castle crate knocked over or moved is 1 point, the flag 3 more.",
+ "rules": [
+  "Pick up ammo from the pad behind the fence (E), aim up, and press E again to throw it.",
+  "Every loose object flies at most about 14 m/s, and air slows it, so only a lob reaches the castle; flat throws fall short.",
+  "A castle crate scores 1 when it has moved more than 0.8 m or lies on its side (KNOCKED).",
+  "The red flag scores 3 when it falls (FLAG_DOWN).",
+  "Carry thrown ammo back onto the pad to get it back (AMMO).",
+  "90 seconds on the clock (TIME_LEFT)."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up ammo; press again to throw"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Castle",
+   "role": "Target",
+   "description": "A pyramid of fifteen pastel crates, five wide at the bottom.",
+   "shot": {
+    "frame": {
+     "eye": "3,2.5,-3",
+     "at": "0,1.2,-8",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "27640e1e0904"
+  },
+  {
+   "name": "The Flag",
+   "role": "Bonus",
+   "description": "The red cone on top of the castle: worth 3 points when it comes down.",
+   "shot": {
+    "frame": {
+     "eye": "1,3.2,-6",
+     "at": "0,2.8,-8",
+     "fov": 45
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "7dd8f49c280f"
+  },
+  {
+   "name": "The Ammo",
+   "role": "What you throw",
+   "description": "Two crates, two barrels and two heavy crates on the sandy pad behind the fence.",
+   "shot": {
+    "frame": {
+     "eye": "0,2.6,5.6",
+     "at": "0,0.3,8.4",
+     "fov": 70
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "aab098f4f1d3"
+  },
+  {
+   "name": "The Fence",
+   "role": "Throwing line",
+   "description": "A low wooden fence you throw over.",
+   "shot": {
+    "frame": {
+     "eye": "-3,1.6,6",
+     "at": "0,0.5,3",
+     "fov": 65
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "691c0eef9d9f"
+  }
+ ],
+ "tips": [
+  "Look up a fair way before you throw: about 16 to 19 degrees above level, the castle's flag sitting just under the crosshair.",
+  "Small changes in angle make a big difference; if one throw falls short, aim a little higher next time rather than a lot.",
+  "Barrels roll after they land, which can sweep the bottom row."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       9,
+       9,
+       10
+      ],
+      "at": [
+       0,
+       1,
+       -5
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "interact": "ammo_crate_1"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": 6.1,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "aim",
+     "camera": "first"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "shot": "flight",
+     "camera": {
+      "eye": [
+       7,
+       5,
+       2
+      ],
+      "at": [
+       0,
+       2,
+       -5
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after0",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "ammo_crate_2"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": 3.7,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after1",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "ammo_barrel_1"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": 1.2,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after2",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "ammo_barrel_2"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": -1.2,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after3",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "ammo_heavy_1"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": -3.7,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after4",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "ammo_heavy_2"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "approach": "fence_post_6",
+     "within": 1.8
+    },
+    {
+     "look": {
+      "yaw": -6.1,
+      "pitch": 17.5
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 0.9
+    },
+    {
+     "wait": 1.6
+    },
+    {
+     "shot": "after5",
+     "camera": {
+      "eye": [
+       5,
+       3.5,
+       -1
+      ],
+      "at": [
+       0,
+       1,
+       -8
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "wait": 1
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The field from above: the ammo pad and fence in front, the castle across the field.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "The start, on the ammo pad.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "caption": "Holding a crate, aimed up for a lob.",
+   "shot": {
+    "playtest": "aim"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "17bc5f84b103"
+  },
+  {
+   "caption": "A crate in flight toward the castle.",
+   "shot": {
+    "playtest": "flight"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "3a8d1941e0be"
+  },
+  {
+   "caption": "Six throws later the castle is down: KNOCKED 6 and the flag fell, SCORE 9: VICTORY.",
+   "shot": {
+    "playtest": "after5"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "615ad9d61782"
+  }
+ ],
+ "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",
+ "prompt_source": "Given to Claude Code on 2026-09-30, in a session working on RedEngine. That one prompt produced three games: Skyline Stacker, Castle Crash and Plate Chamber."
+}

@@ -1,0 +1,150 @@
+{
+ "tagline": "A dim warehouse full of crates, barrels, cones and office furniture: the stage built for the engine's first hide-and-seek idea.",
+ "overview": "Prop Hunt Yard is one of RedEngine's early example scenes: a big, dimly lit warehouse with partition walls, crates, barrels, traffic cones, stacks of boxes, benches, filing cabinets, a bookshelf and a vending machine, with a figure (the \"greeter\") standing in the middle.\n\nIt was built as the stage for a prop-hunt style hide-and-seek game, the idea the owner first wanted RedEngine to make, but that game was never built into this scene: as published there are no rules, teams or scores. You can walk around, push and knock the props about with the default baseball bat, and use it with friends for an informal game of hide and seek.",
+ "story": "No story yet: a warehouse after hours, dimly lit and full of things to hide behind, waiting for the hide-and-seek game it was built for. The greeter in the middle is the only one there to meet you.",
+ "goal": "There is no goal and no way to win or lose in this version.",
+ "rules": [
+  "Walk around the warehouse.",
+  "The props are loose: push them or knock them about with the bat.",
+  "Nothing is scored and there is no time limit."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the baseball bat"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "You",
+   "role": "Visitor",
+   "description": "The engine's default person, with a baseball bat.",
+   "shot": {
+    "playtest": "you"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "f761500bade0"
+  },
+  {
+   "name": "The Greeter",
+   "role": "Scenery",
+   "description": "A figure standing in the middle of the warehouse. It does not move or talk.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,4.8",
+     "at": "0.0,0.6,2.2",
+     "fov": 50
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "e13b5c153518"
+  },
+  {
+   "name": "The props",
+   "role": "Hiding places",
+   "description": "Crates, barrels, cones, box stacks, benches, cabinets, a bookshelf and a vending machine.",
+   "shot": {
+    "frame": {
+     "eye": "-4,2.4,4",
+     "at": "-9,0.4,-3",
+     "fov": 65
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "9b0e5f83c322"
+  }
+ ],
+ "tips": [
+  "Host a session and play hide and seek: hide behind the crates and partitions."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "fp",
+     "camera": "first"
+    },
+    {
+     "turn": 120,
+     "over": 1.5
+    },
+    {
+     "shot": "you",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The warehouse from above, ceiling removed.",
+   "shot": {
+    "frame": {
+     "eye": "0.0,21.6,13.2",
+     "at": "0.0,0,0.0",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "c5f0fdc4d9a2"
+  },
+  {
+   "caption": "The start, facing the greeter.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g2.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "caption": "The west wall: shelves, cabinets and barrels.",
+   "shot": {
+    "frame": {
+     "eye": "-9.4,4.1,2.6",
+     "at": "-12.0,2.8,0.0",
+     "fov": 50
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "f4ce0cdf5827"
+  },
+  {
+   "caption": "In the warehouse.",
+   "shot": {
+    "playtest": "fp"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "e7ff85ace356"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Prop Hunt Yard is one of RedEngine's early example scenes, made while the engine was being built and published with its content on 2026-09-26. The owner has said (2026-10-01) that when the engine started they \"had a specific prop hunt style hide and seek game I wanted to make\", and this yard was its stage, but the original prompt was written on the owner's Windows PC before the sessions on this machine were recorded."
+}

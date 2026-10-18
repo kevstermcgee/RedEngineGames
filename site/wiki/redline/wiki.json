@@ -1,0 +1,274 @@
+{
+ "tagline": "A first-person momentum roguelite: a repair robot dives through randomly chosen chambers over a sea of lava, racing a clock that only grows when it vents a chamber.",
+ "overview": "REDLINE is a fast first-person platformer with a roguelite loop. The reactor is redlining and you are its last repair robot. From the Foundry, walk into the red gate to dive into a chain of short chambers floating over lava. Each one is a course of gaps, steps, jump pads and hazards that ends at a green VENT. You start with 25 seconds on the clock, and venting a chamber adds its par time back. Every chamber after it is drawn at random from the tier for your depth: the Intake (gaps, stairs, jump pads), the Furnace (crumbling floors, phase platforms that take turns to exist, heat curtains, narrow beams) and the Core, until depth 15, the Redline itself. Vent that and you escape.\n\nMovement is Quake-style: you always run, hold Space to bunny hop, and strafe while turning the mouse in the air to steer and build speed past the normal 9.5 m/s. Beat a chamber's par for a streak that multiplies the sparks you collect. Sparks are banked for ever and buy upgrades back in the Foundry. Escaping opens six Heat levels, and 18 golden relics hide off the route for speed-runners.",
+ "story": "The reactor is redlining. You are its last repair robot, diving from the Foundry through a chain of failing chambers over a sea of lava, venting each one to buy a few more seconds. How deep can you get before it burns down?",
+ "goal": "Vent 15 chambers and escape the Redline before the clock hits zero. Every run banks its sparks, so even a failed dive makes the next one easier.",
+ "rules": [
+  "Walk into the red gate in the Foundry to dive. The clock starts at 25 seconds.",
+  "Each chamber ends at a green VENT: venting adds the chamber's par time and drops you into the next one.",
+  "Chambers are drawn at random from your depth's tier (1-5 Intake, 6-10 Furnace, 11-14 Core, 15 the Redline), never repeating in a run.",
+  "Lava and glowing heat curtains burn: you go back to the last checkpoint and lose seconds.",
+  "Clearing a chamber under par builds a streak that multiplies sparks (up to 5x).",
+  "When the clock hits zero the run is over; sparks are kept and spent on upgrades in the Foundry (Coolant, Vents, Lava Boots, Magnet, Second Wind, Prism, Overdrive Keys).",
+  "Escaping once unlocks Heat 1 of 6: less time per vent, bigger burns, more sparks. Best depth and fastest escape are kept per Heat."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A), hold to bunny hop",
+   "action": "Jump"
+  },
+  {
+   "input": "Strafe + turn in the air",
+   "action": "Steer and gain speed"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Repair Robot",
+   "role": "You",
+   "description": "The reactor's last repair robot.",
+   "shot": {
+    "playtest": "face"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "eb0c68838965"
+  },
+  {
+   "name": "The Foundry",
+   "role": "The hub",
+   "description": "Upgrade stations on orange plates, the Heat pads, the relic shrine and the red dive gate.",
+   "shot": {
+    "frame": {
+     "eye": "0,30,40",
+     "at": "0,0,0",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "7b6d468c8fa7"
+  },
+  {
+   "name": "Phase platforms",
+   "role": "Hazard",
+   "description": "Magenta and cyan platforms that take turns to exist (Phase Shift).",
+   "shot": {
+    "frame": {
+     "eye": "1560,9,-509.20000000000005",
+     "at": "1560,4,-531.2",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "801a05578b5b"
+  },
+  {
+   "name": "Heat curtains",
+   "role": "Hazard",
+   "description": "Glowing red curtains that burn you on touch.",
+   "shot": {
+    "frame": {
+     "eye": "2080,9,-509.20000000000005",
+     "at": "2080,4,-531.2",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "197207edc461"
+  }
+ ],
+ "tips": [
+  "Hold Space as you land to keep bunny hopping without losing speed.",
+  "Line up before a sideways jump: momentum does not turn in the air on its own.",
+  "Spend your first sparks on Coolant (more starting time) and Vents (more time per vent).",
+  "Relics are off the route on lone pillars or above a pad's arc; they need speed."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "wait": 1.5
+    },
+    {
+     "shot": "face",
+     "camera": {
+      "eye": [
+       0.6,
+       3.5,
+       14.6
+      ],
+      "at": [
+       0,
+       2.95,
+       12
+      ],
+      "fov": 40
+     }
+    },
+    {
+     "shot": "hub",
+     "camera": "first"
+    },
+    {
+     "view": "third"
+    },
+    {
+     "look": {
+      "yaw": 180,
+      "pitch": -8
+     }
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "robot",
+     "camera": "third"
+    },
+    {
+     "view": "first"
+    },
+    {
+     "look": {
+      "yaw": 0,
+      "pitch": -5
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.4
+    },
+    {
+     "wait": 1.2
+    },
+    {
+     "shot": "dive",
+     "camera": "first"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.2
+    },
+    {
+     "shot": "run1",
+     "camera": "first"
+    },
+    {
+     "view": "third"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.8
+    },
+    {
+     "shot": "run3",
+     "camera": "third"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The Foundry: upgrade stations and the dive gate ahead.",
+   "shot": {
+    "playtest": "hub"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "74a805b6a4b3"
+  },
+  {
+   "caption": "Walking into the red dive gate.",
+   "shot": {
+    "playtest": "dive"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4353d6fd75a3"
+  },
+  {
+   "caption": "The first chamber: Split Decision.",
+   "shot": {
+    "playtest": "run3"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "8d625e3d0ac2"
+  },
+  {
+   "caption": "Launch Bay (the Intake).",
+   "shot": {
+    "frame": {
+     "eye": "1560,9,-1029.2",
+     "at": "1560,4,-1051.2",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "329d1de1e978"
+  },
+  {
+   "caption": "Crumble Run (the Furnace).",
+   "shot": {
+    "frame": {
+     "eye": "1040,9,-509.20000000000005",
+     "at": "1040,4,-531.2",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "dc6dd912f81f"
+  },
+  {
+   "caption": "Meltdown (the Core).",
+   "shot": {
+    "frame": {
+     "eye": "1560,9,10.8",
+     "at": "1560,4,-11.2",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "g6.jpg",
+   "drawn_from": "a2964f03b819"
+  },
+  {
+   "caption": "The Redline: the final chamber.",
+   "shot": {
+    "frame": {
+     "eye": "2080,9,532.8",
+     "at": "2080,4,510.79999999999995",
+     "fov": 75,
+     "t": 3
+    }
+   },
+   "image": "g7.jpg",
+   "drawn_from": "6532fb59ca12"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. REDLINE was added to RedEngineGames on 2026-10-10 in commits authored by Claude, most likely from a Claude Code session in the cloud; that session is not saved on this machine, so the prompt that started the game is not available."
+}

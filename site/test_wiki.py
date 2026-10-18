@@ -62,6 +62,17 @@ class Wiki(unittest.TestCase):
         self.assertNotIn("<script>", h)
         self.assertIn("The prompt", wiki.render(page("human"), "human"))
 
+    def test_an_unrecorded_prompt_is_allowed_when_said_honestly_and_jpeg_pictures_count(self):
+        f = self.folder(); d = page("human"); del d["prompt"]
+        self.assertTrue(any("prompt_unavailable" in p for p in wiki.problems(d, "human", f)))
+        d["prompt_unavailable"] = "The prompt for this game was not recorded: it was made before session logs were kept."
+        self.assertEqual(wiki.problems(d, "human", f), [])
+        self.assertIn("was not recorded", wiki.render(d, "human"))
+        (f / "g2.png").write_bytes(b"\xff\xd8\xff\xe0" + b"0" * 64)
+        self.assertEqual(wiki.problems(d, "human", f), [])
+        d["prompt_unavailable"] = "unknown"
+        self.assertTrue(wiki.problems(d, "human", f))
+
 
 if __name__ == "__main__":
     unittest.main()

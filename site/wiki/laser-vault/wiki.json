@@ -1,0 +1,407 @@
+{
+ "tagline": "A short heist: sneak around invisible laser tripwires, hack two consoles in order, and step into the opened vault.",
+ "overview": "Laser Vault is a tiny first-person stealth puzzle, one of a set of quick minigames built to test RedEngine. You start at the south end of a grey vault room. Ahead, behind a teal vault door, sits a golden safe. Two green consoles stand at the left and right.\n\nHack the left console (A) by stepping up to it, then the right console (B): the vault door opens. Walk into the vault to win. The catch is the lasers: two tripwires cross the middle of the room, and every time you walk through one an alarm goes off. Three alarms and the vault locks down. Be warned that the lasers are not drawn in the game: they are invisible, so you have to know where they are (see Rules).",
+ "story": "A cyber-heist on a guarded vault: slip past the laser grid, hack the security consoles in the right order, and get to the safe before the alarms lock everything down.",
+ "goal": "Hack console A, then console B, then walk into the open vault with fewer than 3 alarms: VICTORY. Three alarms: LOCKDOWN FAILED.",
+ "rules": [
+  "Two invisible laser strips cross the middle of the room, each 6 metres wide (from 3 m left to 3 m right of centre): one about 3.5 m in front of the start, one about halfway up the room. The 5-metre lanes along the left and right walls are clear.",
+  "Walking through a laser sets off an alarm (ALARMS +1). Three alarms end the heist.",
+  "Step up to the left green console to hack it (HACKED_A).",
+  "Then step up to the right green console (HACKED_B). This only works after A, and it opens the vault door.",
+  "Walk into the vault behind the door to win."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Console A",
+   "role": "Hack first",
+   "description": "The green console on the left side of the room.",
+   "shot": {
+    "frame": {
+     "eye": "-3,1.6,-4.5",
+     "at": "-5,0.6,-2",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "dba269f74cef"
+  },
+  {
+   "name": "Console B",
+   "role": "Hack second",
+   "description": "The green console on the right side. It opens the vault door, but only after A.",
+   "shot": {
+    "frame": {
+     "eye": "3,1.6,-4.5",
+     "at": "5,0.6,-2",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "fa290bb0e244"
+  },
+  {
+   "name": "The Vault Door",
+   "role": "Barrier",
+   "description": "The teal slab in front of the vault. It disappears once both consoles are hacked.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.7,-1.5",
+     "at": "0,1.2,3.5",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "c346ca212f6c"
+  },
+  {
+   "name": "The Safe",
+   "role": "Goal",
+   "description": "The golden box inside the vault.",
+   "shot": {
+    "playtest": "win/w7"
+   },
+   "image": "c4.jpg",
+   "drawn_from": "465f4c7a78d5"
+  }
+ ],
+ "tips": [
+  "Walk up the left wall to console A, cross to console B along the back of the start area (south of the first laser), then go up the right wall.",
+  "Once B is hacked, cut across to the vault only after you are past the second laser line, about halfway up the room.",
+  "The panel at the top left shows ALARMS and which consoles are hacked. ROUND, the bat and the health bar belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        0,
+        13,
+        -12
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 65
+      }
+     },
+     {
+      "look": {
+       "yaw": -90.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.93
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 0.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 90.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 3.17
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w5",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.46
+     },
+     {
+      "shot": "w6",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": -90.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w7",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.83
+     },
+     {
+      "shot": "w8",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "lose": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.14
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 0.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.14
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.14
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 0.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.14
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.14
+     },
+     {
+      "shot": "w5",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: the start (bottom), the two green consoles, the teal vault door and the safe.",
+   "shot": {
+    "playtest": "win/over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
+  },
+  {
+   "caption": "Console A hacked (HACKED_A 1).",
+   "shot": {
+    "playtest": "win/w2"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "58d938b11db1"
+  },
+  {
+   "caption": "Sneaking along the side, clear of the lasers.",
+   "shot": {
+    "playtest": "win/t2"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
+  },
+  {
+   "caption": "Both consoles hacked: the vault door is gone and the safe is in view.",
+   "shot": {
+    "playtest": "win/w5"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "2357b2edf7d7"
+  },
+  {
+   "caption": "Into the vault: VICTORY.",
+   "shot": {
+    "playtest": "win/end"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
+  },
+  {
+   "caption": "Walking straight up the middle three times: three alarms, LOCKDOWN FAILED.",
+   "shot": {
+    "playtest": "lose/end"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "8de8da9f4760"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Laser Vault is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}
