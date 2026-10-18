@@ -4,7 +4,8 @@
   python3 site/wiki_build.py SLUG [SLUG...] [--engine PATH] [--sheet OUT.jpg]
   python3 site/wiki_build.py --all [--engine PATH] [--redraw]
 
-Only missing pictures are drawn unless --redraw (a playtest does not replay exactly, so a captioned picture is kept until asked).
+A page's `scene_patch` {"drop": ["weapons.revolver", ...]} draws from a temporary copy of the scene without those keys, for a game whose data the
+current engine refuses (the page itself should say so). Only missing pictures are drawn unless --redraw (a playtest does not replay exactly, so a captioned picture is kept until asked).
 
 The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Needs Pillow (JPEG and 2D sprite portraits).
 Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
@@ -242,6 +243,18 @@ def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list
     path = folder / "wiki.json"
     data = json.loads(path.read_text())
     scene = scene_of(slug)
+    patched = None
+    if data.get("scene_patch"):   # pictures only: a temporary copy of the scene with keys the current engine refuses removed (the page should say why)
+        src = json.loads(scene.read_text())
+        for dotted in data["scene_patch"].get("drop", []):
+            parent = src
+            keys = dotted.split(".")
+            for k in keys[:-1]:
+                parent = parent.get(k, {})
+            parent.pop(keys[-1], None)
+        patched = scene.parent / f".wiki-{scene.name}"
+        patched.write_text(json.dumps(src))
+        scene = patched
     playtest = Playtest(engine, scene, data["playtest"]) if data.get("playtest") else None
     default_ext = ".png" if is_2d(scene) else ".jpg"
     drawn, problems = [], []
@@ -269,6 +282,8 @@ def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list
                 problems.append(f"{entry['image']}: {e}")
     if playtest:
         playtest.close()
+    if patched:
+        patched.unlink(missing_ok=True)
     digests = [hashlib.sha256((folder / g["image"]).read_bytes()).hexdigest() for g in data.get("gallery", []) if (folder / g.get("image", "-")).is_file()]
     if len(set(digests)) != len(digests):
         problems.append("two gallery pictures are identical: change a shot")
