@@ -189,7 +189,7 @@ def draw_studio(engine, scene, shot, out):
         "camera": {"fov": shot.get("fov", 40), "position": [float(v) for v in shot.get("eye", "0,1.6,3.2").split(",")], "target": [float(v) for v in shot.get("at", "0,1,0").split(",")]},
         "lights": [{"id": "key", "type": "directional", "direction": [-0.4, -1, -0.5], "intensity": 1.1, "cast_shadows": True}],
         "spawns": [{"id": "start", "position": [0, 0, 8], "yaw_deg": 0}],
-        "objects": [{"id": "floor", "type": "box", "position": [0, -0.05, 0], "scale": [12, 0.1, 12], "material": {"color": shot.get("floor", [0.32, 0.34, 0.38])}}] + shot["studio"],
+        "objects": [{"id": "floor", "type": "box", "position": [0, -0.05, 0], "scale": [12, 0.1, 12], "material": {"color": shot.get("floor", "#52575f")}}] + shot["studio"],
     })
     if isinstance(src.get("sky"), (dict, str)):
         room["sky"] = src["sky"]
@@ -245,7 +245,13 @@ def draw(engine, scene, shot, out, playtest=None):
         draw_studio(engine, scene, shot, out)
     elif "file" in shot:
         src = REPO / shot["file"]
-        if src.suffix.lower() == out.suffix.lower():
+        if shot.get("crop"):   # [l, t, r, b] as fractions of the picture
+            need_pil()
+            img = Image.open(src)
+            w, h = img.size
+            c = shot["crop"]
+            save(img.crop((int(c[0] * w), int(c[1] * h), int(c[2] * w), int(c[3] * h))), out)
+        elif src.suffix.lower() == out.suffix.lower():
             shutil.copy(src, out)
         else:
             need_pil()
