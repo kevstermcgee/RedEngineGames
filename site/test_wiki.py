@@ -74,5 +74,18 @@ class Wiki(unittest.TestCase):
         self.assertTrue(wiki.problems(d, "human", f))
 
 
+
+class Reviews(unittest.TestCase):
+    def test_a_page_with_review_settings_gets_the_section_and_its_contents_link(self):
+        settings = {"game": "lantern", "name": "Lantern <Town>", "version": 3, "send": "https://relay.example/topic", "read": "https://data.example/public.json"}
+        out = wiki.render(page("ai"), "ai", settings)
+        self.assertIn('<a href="#reviews">Player reviews</a>', out)
+        self.assertIn('data-game="lantern" data-name="Lantern &lt;Town&gt;" data-version="3" data-send="https://relay.example/topic"', out)
+        self.assertEqual(out.count('type="radio" name="score"'), 10)
+        self.assertIn("No account needed", out)
+
+    def test_without_settings_there_is_no_review_section(self):
+        self.assertNotIn('id="reviews"', wiki.render(page("ai"), "ai"))
+
 if __name__ == "__main__":
     unittest.main()

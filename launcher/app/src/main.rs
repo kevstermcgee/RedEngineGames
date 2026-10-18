@@ -8,7 +8,7 @@ use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use redengine_games_core::{self as core, launch, library::Library, update, Catalog, SITE};
+use redengine_games_core::{self as core, launch, library::Library, reviews, update, Catalog, SITE};
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager, State, WindowEvent};
 
@@ -196,6 +196,24 @@ fn open_with_shell(target: &str) -> Result<(), String> {
     c.spawn().map(|_| ()).map_err(err)
 }
 
+fn review_settings(state: &App) -> reviews::Settings {
+    state.catalog.lock().unwrap().as_ref().and_then(|c| c.reviews.clone()).unwrap_or_default()
+}
+
+/// Every game's published player reviews (RedEngine's `docs/player-reviews/public.json`).
+#[tauri::command]
+async fn reviews_published(state: State<'_, App>) -> Result<serde_json::Value, String> {
+    let settings = review_settings(&state);
+    tauri::async_runtime::spawn_blocking(move || reviews::published(&settings)).await.map_err(err)?.map_err(err)
+}
+
+/// Send the player's review, anonymously. An error is a sentence the page shows as it is.
+#[tauri::command]
+async fn review_send(state: State<'_, App>, review: reviews::Review) -> Result<(), String> {
+    let settings = review_settings(&state);
+    tauri::async_runtime::spawn_blocking(move || reviews::send(&settings, &review, VERSION)).await.map_err(err)?.map_err(err)
+}
+
 /// The newer launcher on the site, if any.
 #[tauri::command]
 async fn launcher_update() -> Result<Option<update::Latest>, String> {
@@ -278,7 +296,7 @@ fn main() {
                 }
             }
         })
-        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, open, launcher_update, launcher_update_apply, quit])
+        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send])
         .run(tauri::generate_context!())
         .expect("the window opens");
 }

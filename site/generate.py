@@ -444,6 +444,14 @@ def version_rows(g: dict) -> str:
     return "\n".join(rows)
 
 
+def review_settings(g: dict) -> dict | None:
+    """What a game's review form needs (`wiki.reviews_section`): where to send a review and where to read them (`distribution/config.json`)."""
+    r = CONFIG.get("reviews")
+    if not r or not g["versions"]:
+        return None
+    return {"game": g["slug"], "name": g["name"], "version": g["versions"][0]["version"], "send": r["send"], "read": r["read"]}
+
+
 def game_page(g: dict, app: dict | None = None) -> str:
     v = g["versions"][0] if g["versions"] else None
     thumb = f'<img class="thumb" src="../../{e(g["thumb"])}" alt="{e(g["name"])} screenshot" width="640" height="360">' if g["thumb"] else ""
@@ -483,7 +491,7 @@ def game_page(g: dict, app: dict | None = None) -> str:
       {signed_note([g])}
       {'<p class="fine">Or get it in the <a href="../../#app">RedEngine Games app</a>, which installs and updates every game for you.</p>' if app and v else ""}
     </div>
-  </section>{wiki.render(g["wiki"], g["author"]) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
+  </section>{wiki.render(g["wiki"], g["author"], review_settings(g)) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
     return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
 
 
@@ -531,7 +539,7 @@ def main() -> int:
                     shutil.copy(f, folder / f.name)
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
-    (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
+    (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "reviews": CONFIG.get("reviews"), "games": [
         {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")

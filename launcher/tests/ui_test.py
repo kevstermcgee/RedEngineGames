@@ -186,6 +186,48 @@ with sync_playwright() as p:
     check(not errors, f"no script errors {errors[:3]}")
     page.close()
 
+    # Player reviews on a game's page: the published ones, a review sent, the checks that spare a review the collector would drop.
+    reviews = {"schema": 1, "games": {ai_game["slug"]: {"name": ai_game["name"], "author": "ai", "count": 2, "average": 7.5, "reviews": [
+        {"id": "a", "version": 1, "score": 9, "liked": "Clever <b>idea</b>.\nShort rounds.", "disliked": "", "name": "Sam", "source": "app", "date": "2026-10-18"},
+        {"id": "b", "version": 1, "score": 6, "liked": "", "disliked": "Too dark.", "name": "", "source": "site", "date": "2026-10-17"}]}}}
+    page, errors = boot(reviews=reviews, installed={ai_game["slug"]: ai_game["versions"][0]["version"]})
+    card(page, ai_game).click()
+    expect(page.locator("#reviews .rv-avg")).to_have_text("7.5")
+    expect(page.locator("#reviews .rv-count")).to_have_text("out of 10, from 2 reviews")
+    check(page.locator(".rv").count() == 2 and "&lt;b&gt;" in page.locator(".rv").first.inner_html(), "published reviews are shown, their text escaped")
+    check(page.locator('.toc [data-scroll="reviews"]').count() == 1, "the contents list links to the reviews")
+    page.click('.toc [data-scroll="reviews"]')
+    page.click(".rv-form button[type=submit]")
+    expect(page.locator(".rv-status")).to_have_text("Pick a score from 1 to 10.")
+    page.locator(".rv-score span").nth(7).click()
+    page.fill(".rv-form textarea[name=liked]", "more at www.spam.com")
+    page.click(".rv-form button[type=submit]")
+    expect(page.locator(".rv-status")).to_contain_text("leave out links")
+    page.fill(".rv-form textarea[name=liked]", "Swapping disguises is clever.")
+    page.fill(".rv-form textarea[name=disliked]", "Hard to see the crates.")
+    page.fill(".rv-form input[name=name]", "Jo")
+    page.keyboard.press("Escape")
+    check(page.locator("#reviews").count() == 1, "Escape while typing a review does not leave the page")
+    page.click(".rv-form button[type=submit]")
+    expect(page.locator(".rv-status")).to_contain_text("Thank you")
+    sent = [c[1]["review"] for c in page.evaluate("window.__CALLS__") if c[0] == "review_send"]
+    check(sent == [{"game": ai_game["slug"], "name_of_game": ai_game["name"], "version": ai_game["versions"][0]["version"], "score": 8,
+                    "liked": "Swapping disguises is clever.", "disliked": "Hard to see the crates.", "name": "Jo"}], f"the review sent is the one written {sent}")
+    expect(page.locator(".rv.pending")).to_contain_text("Swapping disguises is clever.")
+    snap(page, "reviews")
+    no_overflow(page, "reviews")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+    page, errors = boot(reviewFail="Could not send it (are you online?); try again.")
+    card(page, ai_game).click()
+    expect(page.locator("#reviews .rv-count")).to_have_text("No reviews yet: be the first.")
+    page.locator(".rv-score span").nth(2).click()
+    page.fill(".rv-form textarea[name=disliked]", "Confusing start.")
+    page.click(".rv-form button[type=submit]")
+    expect(page.locator(".rv-status")).to_have_text("Could not send it (are you online?); try again.")
+    check(page.locator(".rv.pending").count() == 0, "a review that failed to send is not shown as sent")
+    page.close()
+
     # Downloads in progress, and closing the window while they run.
     page, errors = boot(ms=400)
     act(page, small).locator('[data-act="install"]').click()

@@ -356,7 +356,9 @@ function wikiHtml(g) {
   const w = g.wiki;
   const secs = [["overview", "Overview"], ["story", "Story"], ["play", "How to play"], ["characters", "Characters"]];
   if (w.tips && w.tips.length) secs.push(["tips", "Tips"]);
-  secs.push(["gallery", "Gallery"], ["origin", g.author === "ai" ? "Why this game exists" : "The prompt"], ["versions", "Versions"]);
+  secs.push(["gallery", "Gallery"], ["origin", g.author === "ai" ? "Why this game exists" : "The prompt"]);
+  if (latest(g)) secs.push(["reviews", "Player reviews"]);
+  secs.push(["versions", "Versions"]);
   const note = (k) => (w[k] && String(w[k]).trim() ? `<p class="fine">${h(w[k])}</p>` : "");
   let origin;
   if (g.author === "ai") {
@@ -382,9 +384,106 @@ function wikiHtml(g) {
   ${w.tips && w.tips.length ? `<section id="tips"><h2>Tips</h2><ul>${w.tips.map((t) => `<li>${h(t)}</li>`).join("")}</ul></section>` : ""}
   <section id="gallery"><h2>Gallery</h2><div class="gallery">${gallery}</div></section>
   <section id="origin"><h2>${g.author === "ai" ? "Why this game exists" : "The prompt"}</h2>${origin}</section>
+  ${reviewsHtml(g)}
   ${versionsHtml(g)}
   </div>`;
 }
+
+// ---------- player reviews: a score out of 10 and what the player enjoyed and did not, anonymous (launcher/core/src/reviews.rs)
+
+const RV = { data: null, at: 0 };
+const RV_LINK = /https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|ru|xyz|top|info|biz)\b/i;
+const rvKey = (slug) => `rv-sent-${slug}`;
+
+function reviewsHtml(g) {
+  if (g.retired || !latest(g)) return "";
+  const scores = Array.from({ length: 10 }, (_, i) => `<label><input type="radio" name="score" value="${i + 1}"><span>${i + 1}</span></label>`).join("");
+  return `<section id="reviews" data-game="${h(g.slug)}"><h2>Player reviews</h2>
+    <div class="rv-summary"><span class="rv-avg">–</span><span class="rv-count">Loading the reviews…</span></div>
+    <form class="rv-form" data-slug="${h(g.slug)}"><h3>Review ${h(g.name)}</h3>
+      <fieldset class="rv-score"><legend>Your score out of 10</legend><div>${scores}</div></fieldset>
+      <label>What did you enjoy?<textarea name="liked" maxlength="2000" rows="3"></textarea></label>
+      <label>What didn't you enjoy?<textarea name="disliked" maxlength="2000" rows="3"></textarea></label>
+      <label><span>Your name <span class="fine">(optional)</span></span><input name="name" maxlength="40"></label>
+      <p class="fine">No account needed. Your review is public and goes to the engine's developers too, so the next games get better. Please leave out links. It shows here within about half an hour.</p>
+      <p><button class="btn primary" type="submit">Send review</button> <span class="rv-status" role="status"></span></p>
+    </form>
+    <div class="rv-list"></div></section>`;
+}
+
+function ownReview(slug) {
+  try { return JSON.parse(localStorage.getItem(rvKey(slug)) || "null"); } catch (_) { return null; }
+}
+
+function reviewCard(r, pending) {
+  const text = (s) => h(s).replace(/\n/g, "<br>");
+  const meta = pending ? "your review: it shows for everyone within about half an hour"
+    : `${h(r.date)}${r.version ? ` · version ${r.version}` : ""}${r.source === "app" ? " · in the app" : ""}`;
+  return `<article class="rv${pending ? " pending" : ""}"><header><span class="rv-n">${r.score}<small>/10</small></span><span><strong>${h(r.name || "Anonymous player")}</strong> <span class="fine">${meta}</span></span></header>
+    ${r.liked ? `<p><span class="rv-k">Enjoyed</span>${text(r.liked)}</p>` : ""}${r.disliked ? `<p><span class="rv-k">Didn't enjoy</span>${text(r.disliked)}</p>` : ""}</article>`;
+}
+
+function paintReviews(slug) {
+  const sec = $("#reviews");
+  if (!sec || sec.dataset.game !== slug) return;
+  const g = RV.data && RV.data.games ? RV.data.games[slug] : null;
+  const list = (g && g.reviews) || [];
+  let own = ownReview(slug);
+  if (own && list.some((r) => r.liked === own.liked && r.disliked === own.disliked)) {
+    try { localStorage.removeItem(rvKey(slug)); } catch (_) { /* fine */ }
+    own = null;
+  }
+  $(".rv-avg", sec).textContent = g && g.count ? g.average.toFixed(1) : "–";
+  if (RV.data) $(".rv-count", sec).textContent = g && g.count ? `out of 10, from ${plural(g.count, "review")}` : "No reviews yet: be the first.";
+  $(".rv-list", sec).innerHTML = (own ? reviewCard(own, true) : "") + list.map((r) => reviewCard(r, false)).join("");
+}
+
+async function loadReviews(slug) {
+  try {
+    if (!RV.data || Date.now() - RV.at > 120000) {
+      RV.data = await invoke("reviews_published");
+      RV.at = Date.now();
+    }
+  } catch (_) {
+    const sec = $("#reviews");
+    if (sec && sec.dataset.game === slug) $(".rv-count", sec).textContent = "The reviews could not be loaded right now.";
+  }
+  paintReviews(slug);
+}
+
+async function sendReview(form) {
+  const g = S.bySlug.get(form.dataset.slug);
+  const f = new FormData(form);
+  const status = $(".rv-status", form);
+  const review = {
+    game: g.slug, name_of_game: g.name, version: g.installed ? g.installed.version : latest(g).version,
+    score: parseInt(f.get("score"), 10) || 0, liked: String(f.get("liked") || "").trim(), disliked: String(f.get("disliked") || "").trim(), name: String(f.get("name") || "").trim(),
+  };
+  if (!(review.score >= 1 && review.score <= 10)) { status.textContent = "Pick a score from 1 to 10."; return; }
+  if (review.liked.length < 3 && review.disliked.length < 3) { status.textContent = "Say a little about what you enjoyed or didn't."; return; }
+  if (RV_LINK.test(`${review.liked} ${review.disliked} ${review.name}`)) { status.textContent = "Please leave out links (they are not accepted)."; return; }
+  const btn = $("button", form);
+  btn.disabled = true;
+  status.textContent = "Sending…";
+  try {
+    await invoke("review_send", { review });
+    try { localStorage.setItem(rvKey(g.slug), JSON.stringify({ score: review.score, liked: review.liked, disliked: review.disliked, name: review.name })); } catch (_) { /* fine */ }
+    form.reset();
+    status.textContent = "Thank you! Your review is on its way.";
+    paintReviews(g.slug);
+  } catch (e) {
+    status.textContent = String(e);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.addEventListener("submit", (e) => {
+  const form = e.target.closest(".rv-form");
+  if (!form) return;
+  e.preventDefault();
+  sendReview(form);
+});
 
 function versionsHtml(g) {
   const mine = g.installed && g.installed.version;
@@ -489,6 +588,7 @@ function paintView() {
     const g = S.bySlug.get(S.slug);
     if (!g) { S.slug = null; return paintView(); }
     main.innerHTML = gameView(g);
+    loadReviews(g.slug);
   } else if (S.view === "library") {
     main.innerHTML = libraryView();
   } else if (S.view === "downloads") {
@@ -676,8 +776,8 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if ($("#dialog").open) return;
-  const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
-  if (e.key === "Escape" && S.slug) back();
+  const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && document.activeElement.type !== "radio";
+  if (e.key === "Escape" && S.slug && !typing) back();
   else if (e.key === "/" && !typing && S.view === "games" && !S.slug) { e.preventDefault(); $("#q").focus(); }
   else if (e.key === "F5") { e.preventDefault(); refresh(); }
 });
@@ -689,7 +789,7 @@ document.addEventListener("mouseup", (e) => { if (e.button === 3 && S.slug) back
 document.addEventListener("error", (e) => { if (e.target.tagName === "IMG") e.target.classList.add("broken"); }, true);
 
 // No browser context menu or text-selection look on the chrome, like any desktop app.
-document.addEventListener("contextmenu", (e) => { if (!e.target.closest("input, blockquote, .wiki p, .wiki li")) e.preventDefault(); });
+document.addEventListener("contextmenu", (e) => { if (!e.target.closest("input, textarea, blockquote, .wiki p, .wiki li")) e.preventDefault(); });
 
 async function refresh() {
   await load(true);

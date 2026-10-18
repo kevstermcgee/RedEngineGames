@@ -1,6 +1,6 @@
 //! The RedEngine Games launcher's library. Everything the window does that is not drawing: read the site's catalog, download a game's portable
 //! build and check it against its published SHA-256, unpack it into the player's library, remember what is installed, start a game, update or
-//! remove it, and update the launcher itself. It has no window and no Tauri, so it builds and is tested on any platform.
+//! remove it, send and show player reviews, and update the launcher itself. It has no window and no Tauri, so it builds and is tested on any platform.
 //!
 //! Where things live (Windows): `%LOCALAPPDATA%\RedEngineGames\` holds `library.json`, `games\<slug>\v<N>\` (one folder per installed game)
 //! and `downloads\` (partial downloads, removed when done). Saves are never here: a game keeps them in `Saved Games\<name>`, the same folder its
@@ -11,6 +11,7 @@ pub mod catalog;
 pub mod download;
 pub mod launch;
 pub mod library;
+pub mod reviews;
 pub mod update;
 
 pub use catalog::{Asset, Catalog, Game, Version};
@@ -35,6 +36,8 @@ pub enum Error {
     Cancelled,
     #[error("the catalog could not be read: {0}")]
     Catalog(String),
+    #[error("{0}")]
+    Review(String),
     #[error("{0}")]
     Io(#[from] std::io::Error),
 }

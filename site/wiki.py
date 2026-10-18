@@ -85,9 +85,12 @@ def paras(text: str) -> str:
     return "".join(f"<p>{e(p.strip())}</p>" for p in text.split("\n") if p.strip())
 
 
-def render(data: dict, author: str) -> str:
-    """The wiki sections of a game's page, with a contents list that links to each."""
+def render(data: dict, author: str, reviews: dict | None = None) -> str:
+    """The wiki sections of a game's page, with a contents list that links to each. `reviews` ({game, name, version, send, read}) adds the
+    player reviews: the score and every review, and a form to leave one (`reviews_section`)."""
     secs = [("overview", "Overview"), ("story", "Story"), ("play", "How to play"), ("characters", "Characters"), ("gallery", "Gallery"), ("origin", "Why this game exists" if author == "ai" else "The prompt")]
+    if reviews:
+        secs.append(("reviews", "Player reviews"))
     if data.get("tips"):
         secs.insert(4, ("tips", "Tips"))
     toc = "".join(f'<a href="#{i}">{t}</a>' for i, t in secs)
@@ -111,7 +114,74 @@ def render(data: dict, author: str) -> str:
     <h3>Controls</h3><table class="controls"><tr><th>Input</th><th>Does</th></tr>{controls}</table></section>
   <section id="characters"><h2>Characters</h2><div class="chars">{chars}</div></section>{tips}
   <section id="gallery"><h2>Gallery</h2><div class="gallery">{gallery}</div></section>
-  {origin}'''
+  {origin}{reviews_section(**reviews) if reviews else ""}'''
+
+
+def reviews_section(game: str, name: str, version: int, send: str, read: str) -> str:
+    """Player reviews: the average score, every review, and a form to leave one, anonymously. The page reads the reviews from the engine repo's
+    `docs/player-reviews/public.json` and posts a new one to the relay (`send`), where RedEngine's `scripts/player_reviews.py` collects it."""
+    scores = "".join(f'<label><input type="radio" name="score" value="{n}" required><span>{n}</span></label>' for n in range(1, 11))
+    return f'''
+  <section id="reviews" class="reviews" data-game="{e(game)}" data-name="{e(name)}" data-version="{version}" data-send="{e(send)}" data-read="{e(read)}">
+    <h2>Player reviews</h2>
+    <div class="rv-summary"><span class="rv-avg" aria-hidden="true">&ndash;</span><span class="rv-count">Loading the reviews&hellip;</span></div>
+    <form class="rv-form">
+      <h3>Review {e(name)}</h3>
+      <fieldset class="rv-score"><legend>Your score out of 10</legend><div>{scores}</div></fieldset>
+      <label>What did you enjoy?<textarea name="liked" maxlength="2000" rows="3"></textarea></label>
+      <label>What didn't you enjoy?<textarea name="disliked" maxlength="2000" rows="3"></textarea></label>
+      <label><span>Your name <span class="fine">(optional)</span></span><input name="name" maxlength="40" autocomplete="nickname"></label>
+      <p class="fine">No account needed. Your review is public and goes to the engine's developers too, so the next games get better. Please leave out links. It shows here within about half an hour.</p>
+      <p><button type="submit">Send review</button> <span class="rv-status" role="status"></span></p>
+    </form>
+    <div class="rv-list"></div>
+  </section>
+  <script>{REVIEWS_JS}</script>'''
+
+
+# The page's side of player reviews. The same rules as `scripts/player_reviews.py` in RedEngine (the judge): a score, a write-up, no links.
+REVIEWS_JS = r'''
+(function () {
+  var sec = document.getElementById("reviews");
+  if (!sec || !window.fetch) return;
+  var d = sec.dataset, form = sec.querySelector(".rv-form"), status = sec.querySelector(".rv-status");
+  var LINK = /https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|ru|xyz|top|info|biz)\b/i;
+  var KEY = "rv-sent-" + d.game;
+  function h(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]; }); }
+  function text(s) { return h(s).replace(/\n/g, "<br>"); }
+  function mine() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
+  function card(r, pending) {
+    return '<article class="rv' + (pending ? " pending" : "") + '"><header><span class="rv-n">' + r.score + '<small>/10</small></span><span><strong>' + h(r.name || "Anonymous player") + "</strong> " +
+      '<span class="fine">' + (pending ? "your review: it shows for everyone within about half an hour" : h(r.date) + (r.version ? " · version " + r.version : "") + (r.source === "app" ? " · in the app" : "")) + "</span></span></header>" +
+      (r.liked ? '<p><span class="rv-k">Enjoyed</span>' + text(r.liked) + "</p>" : "") + (r.disliked ? '<p><span class="rv-k">Didn\u2019t enjoy</span>' + text(r.disliked) + "</p>" : "") + "</article>";
+  }
+  function paint(g) {
+    var list = (g && g.reviews) || [], own = mine();
+    if (own && list.some(function (r) { return r.liked === own.liked && r.disliked === own.disliked; })) { try { localStorage.removeItem(KEY); } catch (e) {} own = null; }
+    sec.querySelector(".rv-avg").textContent = g && g.count ? g.average.toFixed(1) : "\u2013";
+    sec.querySelector(".rv-count").textContent = g && g.count ? "out of 10, from " + g.count + " review" + (g.count === 1 ? "" : "s") : "No reviews yet: be the first.";
+    sec.querySelector(".rv-list").innerHTML = (own ? card(own, true) : "") + list.map(function (r) { return card(r, false); }).join("");
+  }
+  var shown = null;
+  fetch(d.read, {cache: "no-cache"}).then(function (r) { return r.ok ? r.json() : null; }).then(function (all) { shown = all && all.games ? all.games[d.game] : null; paint(shown); })
+    .catch(function () { sec.querySelector(".rv-count").textContent = "The reviews could not be loaded right now."; paint(null); });
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = new FormData(form), score = parseInt(f.get("score"), 10), liked = (f.get("liked") || "").trim(), disliked = (f.get("disliked") || "").trim(), name = (f.get("name") || "").trim();
+    if (!(score >= 1 && score <= 10)) { status.textContent = "Pick a score from 1 to 10."; return; }
+    if (liked.length < 3 && disliked.length < 3) { status.textContent = "Say a little about what you enjoyed or didn't."; return; }
+    if (LINK.test(liked + " " + disliked + " " + name)) { status.textContent = "Please leave out links (they are not accepted)."; return; }
+    var review = {v: 1, game: d.game, version: parseInt(d.version, 10) || null, score: score, liked: liked, disliked: disliked, name: name, source: "site"};
+    var btn = form.querySelector("button"); btn.disabled = true; status.textContent = "Sending\u2026";
+    fetch(d.send + "?title=" + encodeURIComponent(d.name + ": " + score + "/10"), {method: "POST", body: JSON.stringify(review)}).then(function (r) {
+      if (!r.ok) throw new Error(r.status === 429 ? "Too many reviews from your connection just now; try again in a minute." : "The review service answered " + r.status + "; try again later.");
+      try { localStorage.setItem(KEY, JSON.stringify({score: score, liked: liked, disliked: disliked, name: name})); } catch (e) {}
+      form.reset(); status.textContent = "Thank you! Your review is on its way."; paint(shown);
+    }).catch(function (e) { status.textContent = e.message && e.message.indexOf("review") !== -1 ? e.message : "Could not send it (are you online?); try again."; })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+'''
 
 
 WIKI_CSS = '''
@@ -134,5 +204,33 @@ table.controls { width: 100%; table-layout: fixed; border-collapse: collapse; ma
 table.controls th, table.controls td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--card); vertical-align: top; overflow-wrap: anywhere; }
 table.controls th { color: var(--muted); font-weight: 500; font-size: .8rem; }
 kbd { white-space: normal; }
-@media (max-width: 640px) { table.versions { display: block; overflow-x: auto; } .toc { position: static; } }
+.reviews .rv-summary { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 14px; }
+.rv-avg { font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.rv-count { color: var(--muted); }
+.rv-form { background: var(--surface); border: 1px solid var(--card); border-radius: 8px; padding: 14px 16px; margin: 0 0 18px; display: grid; gap: 10px; }
+.rv-form h3 { margin: 0; }
+.rv-form label { display: grid; gap: 4px; font-size: .92rem; }
+.rv-form textarea, .rv-form input[name=name] { background: var(--bg); color: inherit; border: 1px solid var(--card); border-radius: 6px; padding: 8px 10px; font: inherit; width: 100%; }
+.rv-form p { margin: 0; }
+.rv-score { border: 0; padding: 0; margin: 0; }
+.rv-score legend { font-size: .92rem; margin-bottom: 6px; }
+.rv-score div { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; max-width: 470px; }
+.rv-score label { display: block; }
+.rv-score input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.rv-score span { display: flex; align-items: center; justify-content: center; height: 40px; border-radius: 6px; background: var(--card); cursor: pointer; font-weight: 700; }
+.rv-score input:checked + span { background: var(--accent); color: #1C0810; }
+.rv-score input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rv-form button { background: var(--accent); color: #1C0810; border: 0; border-radius: 6px; padding: 10px 18px; font: inherit; font-weight: 700; cursor: pointer; }
+.rv-form button:disabled { opacity: .6; }
+.rv-status { color: var(--muted); font-size: .9rem; }
+.rv-form .fine, .rv .fine { color: var(--muted); font-size: .85rem; }
+.rv-list { display: grid; gap: 10px; }
+.rv { background: var(--card); border-radius: 8px; padding: 10px 14px; }
+.rv.pending { outline: 1px dashed var(--accent); }
+.rv header { display: flex; gap: 12px; align-items: center; }
+.rv-n { font-size: 1.4rem; font-weight: 800; color: var(--accent); white-space: nowrap; }
+.rv-n small { font-size: .7rem; color: var(--muted); font-weight: 500; }
+.rv p { margin: 8px 0 0; overflow-wrap: anywhere; }
+.rv-k { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+@media (max-width: 640px) { table.versions { display: block; overflow-x: auto; } .toc { position: static; } .rv-score div { gap: 4px; } .rv-score span { height: 36px; } }
 '''

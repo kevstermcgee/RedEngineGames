@@ -118,6 +118,8 @@ fn launch(directory: &Path, save: &Path, extra: &[String]) -> Result<(), String>
     Command::new(engine)
         .current_dir(directory)
         .env("RE2_SAVE_DIR", save)
+        // A player started it: the engine opens in fullscreen and plays the "RedEngine Games" title card first (an older engine ignores this).
+        .env("RE2_PLAYER", "1")
         .args(arguments.lines().filter(|line| !line.is_empty()))
         .args(extra)
         .spawn()
