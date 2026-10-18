@@ -1,0 +1,262 @@
+{
+ "tagline": "A 30-second dash down a long loft: shrink the room to hop a hedge, make noise to open the glass, grow the room back, and tend your kite-tree to full size before the rival sprouts.",
+ "overview": "Drowsy Marathon is a short first-person race in one long room. At the far end stand two little plants on a green bed: your kite-tree and a rival's sprouts. The rivals grow by one every second from the moment you start; your kite-tree only grows while you stand on the green bed. Reach 10 before they reach 30.\n\nThe way there is blocked twice. Walls of pale glass are solid while it is quiet: swing your bat and the noise opens them for about five seconds. A hedge cuts across the middle of the room: step on the blue pad to \"shrink the room\" and the hedge becomes low enough to hop. Then step on the orange pad to make the room big again, because your kite-tree only grows in a big room. (The room does not visibly change size: the tall hedge simply swaps for a low one and back.)",
+ "story": "A kite maker's kites carry messages between rival mountains. Tonight both mountains are growing a kite-tree, and the first to reach full size gets to fly. The kite maker is drowsy, the house is full of glass that only noise can open, and the rival's sprouts are already growing.",
+ "goal": "Grow your kite-tree to 10 (Kite-tree 10/10) before the Rival sprouts reach 30: \"Your kite-tree flies!\" If the rivals reach 30 first, \"Rival mountain wins\". You have 30 seconds in all.",
+ "rules": [
+  "Rival sprouts grow by 1 every second, from the start (lose at 30).",
+  "Your kite-tree grows by 1 every second while you stand on the green bed and the room is big (win at 10).",
+  "The blue pad makes the room small: the tall hedge in the middle becomes a low one you can jump over.",
+  "The orange pad makes the room big again (and the hedge tall again).",
+  "The pale glass walls are solid in silence. Swinging the bat makes noise and opens them for about 5 seconds.",
+  "Order of the run: blue pad, swing, through the glass, hop the hedge, orange pad, swing, through the second glass, green bed."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the bat: noise opens the glass"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Kite Maker",
+   "role": "You",
+   "description": "Drowsy, carrying a baseball bat, racing to the green bed.",
+   "shot": {
+    "playtest": "hedge"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Kite-tree",
+   "role": "Your plant",
+   "description": "The yellow plant on the green bed. It grows taller as you tend it, and a kite flag rises when it is full size.",
+   "shot": {
+    "playtest": "won"
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "Rival sprouts",
+   "role": "The rival",
+   "description": "The red plant beside yours, growing every second whatever you do.",
+   "shot": {
+    "playtest": "tree"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "Glass walls",
+   "role": "Obstacle",
+   "description": "Pale, see-through walls across the room. Solid while it is quiet; a swing of the bat opens them for a few seconds.",
+   "shot": {
+    "playtest": "shrunk"
+   },
+   "image": "c4.jpg"
+  },
+  {
+   "name": "The Hedge",
+   "role": "Obstacle",
+   "description": "A green wall across the middle of the room. Tall in a big room, low enough to hop in a small one.",
+   "shot": {
+    "playtest": "grown"
+   },
+   "image": "c5.jpg"
+  }
+ ],
+ "tips": [
+  "Do not stop to look around: 30 seconds is tight, and the whole route takes about 9 seconds before you start tending.",
+  "Swing just before you reach each glass wall; it stays open for about 5 seconds.",
+  "Jump the low hedge while walking forward.",
+  "Remember the orange pad: your kite-tree does not grow in a small room.",
+  "The panel at the top left also shows internal counters (ROOM BIG, NOISE, IN_BED); IN_BED 1 and ROOM BIG 1 mean your tree is growing."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -5
+     }
+    },
+    {
+     "shot": "start",
+     "camera": "first"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.7
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "shrunk",
+     "camera": "first"
+    },
+    {
+     "fire": {
+      "clicks": 2,
+      "every": 0.35
+     }
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "open",
+     "camera": "first"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.2
+    },
+    {
+     "jump": true
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.5
+    },
+    {
+     "shot": "hedge",
+     "camera": "third"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.5
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "grown",
+     "camera": {
+      "eye": [
+       -2,
+       2.4,
+       3.5
+      ],
+      "at": [
+       4,
+       0.5,
+       0
+      ],
+      "fov": 75
+     }
+    },
+    {
+     "fire": {
+      "clicks": 2,
+      "every": 0.35
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.6
+    },
+    {
+     "wait": 3
+    },
+    {
+     "shot": "tend",
+     "camera": "first"
+    },
+    {
+     "shot": "tree",
+     "camera": {
+      "eye": [
+       6.5,
+       1.8,
+       2.8
+      ],
+      "at": [
+       9,
+       0.8,
+       -0.5
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "wait": 8
+    },
+    {
+     "shot": "won",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The start: the blue pad at your feet, glass walls and the hedge ahead.",
+   "shot": {
+    "playtest": "start"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Bat swung: the glass is open (NOISE 5) and the hedge ahead is low.",
+   "shot": {
+    "playtest": "open"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Over the low hedge, heading for the orange pad.",
+   "shot": {
+    "playtest": "hedge"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Tending the kite-tree on the green bed while the red rival sprouts grow beside it.",
+   "shot": {
+    "playtest": "tree"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Kite-tree 10/10 at 19 seconds: VICTORY.",
+   "shot": {
+    "playtest": "won"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you pinch the camera to shrink or enlarge the room while you stay the same size; but silence is solid and noise is a doorway; gravity grows stronger with every item you collect; grow one thing to full size before anything else around it can; and, as optional story, a kite maker whose kites carry messages between rival mountains.\n\nThe AI kept the race to grow a plant first and made \"silence is solid, noise is a doorway\" literal: glass walls that open when you swing. It said the engine could not scale a room or read a pinch gesture, so shrinking became a floor pad that swaps a tall hedge for a low one, and it cut the stronger-gravity part entirely because rules cannot change how the player moves.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-08."
+}
