@@ -59,6 +59,12 @@ def no_overflow(page, what):
     check(w[0] <= w[1] and w[2] <= w[3], f"no sideways scrolling: {what} {w}")
 
 
+def window_still(page, what):
+    """Only <main> scrolls. The window stays exactly its own height and never moves, so the top bar is never cut off."""
+    w = page.evaluate("() => [scrollY, document.scrollingElement.scrollHeight, innerHeight, document.querySelector('.top').getBoundingClientRect().top]")
+    check(w[0] == 0 and w[1] <= w[2] and w[3] == 0, f"the window does not scroll, only the page in it: {what} {w}")
+
+
 def snap(page, name, full=False):
     if shots:
         page.screenshot(path=str(shots / f"{name}.png"), full_page=full)
@@ -139,9 +145,20 @@ with sync_playwright() as p:
     snap(page, "lightbox")
     page.keyboard.press("Escape")
     expect(page.locator("#lightbox")).to_be_hidden()
-    page.click('[data-scroll="characters"]')
-    page.wait_for_timeout(600)
-    snap(page, "game-characters")
+    for sec in page.locator(".toc button").evaluate_all("bs => bs.map(b => b.dataset.scroll)"):
+        page.click(f'.toc [data-scroll="{sec}"]')
+        page.wait_for_timeout(700)
+        window_still(page, f"after the contents link to {sec}")
+        gap, at_end = page.evaluate(f"""() => {{ const m = document.querySelector('main');
+            return [document.getElementById('{sec}').getBoundingClientRect().top - document.querySelector('.toc').getBoundingClientRect().bottom,
+                    m.scrollTop + m.clientHeight >= m.scrollHeight - 1]; }}""")
+        check(0 <= gap <= 30 or at_end, f"the contents link to {sec} puts it just under the contents list ({gap:.0f}px)")
+        if sec == "characters":
+            snap(page, "game-characters")
+    page.evaluate("() => { document.body.insertAdjacentHTML('beforeend', '<div id=\"tall\" style=\"position:absolute;top:4000px;width:4px;height:4px\"></div>'); window.scrollTo(0, 900); }")
+    page.wait_for_timeout(150)
+    check(page.evaluate("() => scrollY") == 0, "the window snaps back if anything ever scrolls it")
+    page.evaluate("() => document.getElementById('tall').remove()")
     page.keyboard.press("Escape")
     expect(page.locator(".toolbar")).to_be_visible()
 
@@ -200,6 +217,8 @@ with sync_playwright() as p:
     page.click(".rv-form button[type=submit]")
     expect(page.locator(".rv-status")).to_have_text("Pick a score from 1 to 10.")
     page.locator(".rv-score span").nth(7).click()
+    page.wait_for_timeout(300)
+    window_still(page, "after picking a score")
     page.fill(".rv-form textarea[name=liked]", "more at www.spam.com")
     page.click(".rv-form button[type=submit]")
     expect(page.locator(".rv-status")).to_contain_text("leave out links")

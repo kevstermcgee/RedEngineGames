@@ -3,6 +3,11 @@
 Each version's "- " lines become its release notes and the text of the update banner in the app. Bump `version` in `Cargo.toml` and add a section
 here to publish a new version (`.github/workflows/launcher.yml`).
 
+## 0.2.1
+
+- Fixed: jumping around a game's page, or picking a review score, could push the whole window up and leave much of it blank.
+- The app now opens maximized.
+
 ## 0.2.0
 
 - Player reviews: rate any game out of 10 and say what you enjoyed and what you didn't, right on its page. No account needed; reviews help make the next games better.

@@ -60,8 +60,10 @@ img { color: transparent; }
 @keyframes slide { from { left: -35%; } to { left: 100%; } }
 .job .what { font-size: .8rem; color: var(--muted); white-space: nowrap; }
 
-/* Views */
-main { overflow-y: auto; overflow-x: hidden; padding: 0 22px 40px; outline: none; }
+/* Views. <main> is the only thing that scrolls, and `position: relative` keeps anything positioned inside it in it: an absolute element
+   that escaped to the window made the window taller than itself, and a jump or a focused field then scrolled the whole window,
+   top bar and all, out of sight (app.js keeps it at 0 too). */
+main { position: relative; overflow-y: auto; overflow-x: hidden; padding: 0 22px 40px; outline: none; }
 .loading, .empty { color: var(--muted); text-align: center; margin: 70px auto; max-width: 520px; }
 .empty h2 { color: var(--text); }
 .intro { color: var(--muted); font-size: .88rem; margin: 16px 0 0; max-width: 900px; }
@@ -173,7 +175,7 @@ blockquote.prompt { font: .86rem/1.55 ui-monospace, Consolas, monospace; white-s
 .rv-score { border: 0; padding: 0; margin: 0; }
 .rv-score legend { font-size: .92rem; margin-bottom: 6px; padding: 0; }
 .rv-score div { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; max-width: 470px; }
-.rv-score label { display: block; }
+.rv-score label { display: block; position: relative; }
 .rv-score input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .rv-score span { display: flex; align-items: center; justify-content: center; height: 40px; border-radius: 6px; background: var(--card); cursor: pointer; font-weight: 700; }
 .rv-score span:hover { filter: brightness(1.2); }
