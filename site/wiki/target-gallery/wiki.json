@@ -1,0 +1,201 @@
+{
+ "tagline": "Knock down three red targets by running into them, then step into the yellow booth to claim your win.",
+ "overview": "Target Gallery is a tiny first-person minigame, one of a set of quick tests of RedEngine. Three red cylinders, the targets, stand in an arc in a green room, and a yellow booth waits behind you.\n\nDespite the name, there is no shooting: you knock a target down by walking into it, and it disappears. Knock down all three, then walk into the yellow booth to win. It takes about seven seconds.",
+ "story": "A fairground shooting gallery, except the only way to hit the targets is to run straight at them. Clear all three red targets from the stand and the yellow prize booth at the back is yours.",
+ "goal": "Knock down all three targets (TARGETS_HIT 3), then walk into the yellow booth: VICTORY. There is no way to lose.",
+ "rules": [
+  "Walking into a red target knocks it down (it disappears and TARGETS_HIT goes up).",
+  "The yellow booth only counts once all three targets are down.",
+  "Your baseball bat does nothing to the targets: only touching them counts."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Targets",
+   "role": "What you knock down",
+   "description": "Three red cylinders: left, middle and right of the room.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.8,-1",
+     "at": "0,0.6,3",
+     "fov": 75
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Booth",
+   "role": "Goal",
+   "description": "The yellow box behind you at the start.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,1.6,-1.6",
+     "at": "0,0.6,-4",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg"
+  }
+ ],
+ "tips": [
+  "Left target, middle target, right target, then turn round for the booth: one smooth loop.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       13,
+       -11
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "look": {
+      "yaw": -116.6,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.45
+    },
+    {
+     "shot": "w1",
+     "camera": "first"
+    },
+    {
+     "shot": "t1",
+     "camera": "third"
+    },
+    {
+     "look": {
+      "yaw": 116.6,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.45
+    },
+    {
+     "shot": "w2",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 63.4,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.45
+    },
+    {
+     "shot": "w3",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -33.7,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.3
+    },
+    {
+     "shot": "w4",
+     "camera": "first"
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The gallery from above: three red targets in an arc and the yellow booth.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "The start, facing the targets.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "The first target knocked down.",
+   "shot": {
+    "playtest": "t1"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "All three down (TARGETS_HIT 3); the booth ahead.",
+   "shot": {
+    "playtest": "w3"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Into the booth: VICTORY.",
+   "shot": {
+    "playtest": "end"
+   },
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Target Gallery is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}
