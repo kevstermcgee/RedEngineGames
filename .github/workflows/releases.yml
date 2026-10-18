@@ -25,6 +25,10 @@ on:
         description: Build everything but publish nothing (the files are attached to the run)
         type: boolean
         default: false
+      note:
+        description: A line for the "What changed" notes of every game released (say what an engine refresh brings)
+        type: string
+        default: ''
 
 concurrency:
   group: redenginegames-windows-release
@@ -58,11 +62,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           FORCE: ${{ inputs.force }}
           ONLY: ${{ inputs.only }}
+          NOTE: ${{ inputs.note }}
         run: |
           gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
           args=()
           [ "$FORCE" = "true" ] && args+=(--force)
           [ -n "$ONLY" ] && args+=(--only $ONLY)
+          [ -n "$NOTE" ] && args+=(--note "$NOTE")
           python3 distribution/release_tool.py plan --releases releases.json --out plan.json "${args[@]}"
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json
