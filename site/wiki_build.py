@@ -2,7 +2,9 @@
 """Draw the pictures of wiki pages from the `shot` each entry carries, so a page can be redrawn whenever a game or the engine changes.
 
   python3 site/wiki_build.py SLUG [SLUG...] [--engine PATH] [--sheet OUT.jpg]
-  python3 site/wiki_build.py --all [--engine PATH]
+  python3 site/wiki_build.py --all [--engine PATH] [--redraw]
+
+Only missing pictures are drawn unless --redraw (a playtest does not replay exactly, so a captioned picture is kept until asked).
 
 The engine is `--engine`, else $RED_ENGINE_EXE, else `red_engine2` on PATH. Needs Pillow (JPEG and 2D sprite portraits).
 Every character and gallery entry of `site/wiki/<slug>/wiki.json` that has a `shot` gets its picture drawn to the file its `image` names (a `.jpg` name is
@@ -233,8 +235,9 @@ def draw(engine, scene, shot, out, playtest=None):
         raise RuntimeError(f"unknown shot {sorted(shot)}")
 
 
-def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
-    """Draw one page's pictures. Returns (problems, [(caption, picture)])."""
+def build(slug: str, engine: str, redraw: bool = False) -> tuple[list[str], list[tuple[str, Path]]]:
+    """Draw one page's pictures that are missing (all of them with `redraw`). Returns (problems, [(caption, picture)]).
+    A playtest is not exactly repeatable (physics, timing), so a picture once drawn and captioned is kept unless asked: after `--redraw`, look again."""
     folder = REPO / "site" / "wiki" / slug
     path = folder / "wiki.json"
     data = json.loads(path.read_text())
@@ -256,6 +259,9 @@ def build(slug: str, engine: str) -> tuple[list[str], list[tuple[str, Path]]]:
                 entry["image"] = f"{prefix}{n}{ext}"
                 taken.add(entry["image"])
             out = folder / entry["image"]
+            if out.is_file() and not redraw:
+                drawn.append((entry.get("name") or entry.get("caption", ""), out))
+                continue
             try:
                 draw(engine, scene, shot, out, playtest)
                 drawn.append((entry.get("name") or entry.get("caption", ""), out))
@@ -297,11 +303,12 @@ def main() -> int:
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--engine", default=os.environ.get("RED_ENGINE_EXE") or shutil.which("red_engine2") or "red_engine2")
     ap.add_argument("--sheet")
+    ap.add_argument("--redraw", action="store_true", help="draw every picture again, not only the missing ones (then look at them: a playtest may play out differently)")
     a = ap.parse_args()
     slugs = sorted(p.name for p in (REPO / "site" / "wiki").iterdir() if (p / "wiki.json").is_file()) if a.all else a.slugs
     bad, drawn = 0, []
     for slug in slugs:
-        problems, pics = build(slug, a.engine)
+        problems, pics = build(slug, a.engine, a.redraw)
         drawn += [(f"{slug}: {c}", p) for c, p in pics]
         print(f"{slug}: {len(pics)} picture(s)" + ("" if not problems else "\n  " + "\n  ".join(problems)))
         bad += bool(problems)

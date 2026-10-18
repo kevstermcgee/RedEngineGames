@@ -1,0 +1,318 @@
+{
+ "tagline": "Three rooms, three pressure plates, three ways to press them: carry a crate, shove a heavy block, then lob a crate through a window.",
+ "overview": "Plate Chamber is a three-room first-person physics puzzle. Each room has a red pressure plate on the floor and a coloured door at the far end. Put something heavy enough on the plate, the plate turns green and the door opens.\n\nEach room asks for a different trick. In the first, simply carry the crate onto the plate. In the second, the plate is a scale that only opens for something heavy, and the heavy purple block is too big to lift: push it down the lane by walking into it. In the third, the plate is behind a wall you cannot climb: throw a crate through the window in the wall so it lands on the plate. Then walk through the last door to the yellow exit. Grey pads in the rooms put that room's crates back where they started, so you can never get stuck.",
+ "story": "A small test facility of pressure plates and heavy doors, built to see what a person can work out with a little physics. Getting out takes a different trick in each room: carrying, then pushing, and finally throwing.",
+ "goal": "Open all three doors and reach the yellow exit at the end of the third room: VICTORY.",
+ "rules": [
+  "Each room's plate opens that room's door when something heavy enough rests on it (OPENED counts the open doors).",
+  "Room 1 (blue door): carry the crate onto the plate.",
+  "Room 2 (orange door): the plate only opens for something much heavier than a crate. Push the purple block onto it by walking into it.",
+  "Room 3 (green door): the plate is behind a wall. Throw a crate through the window, looking up about 24 degrees.",
+  "Stepping on a grey reset pad puts that room's crates back at their starting spots.",
+  "Walk through the third door into the yellow exit to win."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up a crate; press again to put it down or throw it"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Crates",
+   "role": "Plate weights",
+   "description": "Small yellow crates you can carry and throw.",
+   "shot": {
+    "frame": {
+     "eye": "-11.5,1.6,0",
+     "at": "-10.2,0.3,-1.6",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Heavy Block",
+   "role": "Plate weight",
+   "description": "A purple block too big to lift. Walk into it to push it.",
+   "shot": {
+    "playtest": "push"
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "Pressure plates",
+   "role": "Switches",
+   "description": "Red squares on the floor; they turn green when pressed.",
+   "shot": {
+    "playtest": "plate1"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "The Doors",
+   "role": "Barriers",
+   "description": "Blue, orange and green walls at the end of each room. Each disappears when its plate is pressed.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "c4.jpg"
+  }
+ ],
+ "tips": [
+  "Room 2: line up behind the purple block and walk straight into it; it slides ahead of you down the lane.",
+  "Room 3: stand by the window, look up about a quarter of the way to straight up, and let go. Too flat and the crate hits the wall.",
+  "A missed throw is not a problem: step on the grey pad in room 3 and the crate comes back."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       18,
+       14
+      ],
+      "at": [
+       2,
+       0,
+       0
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "interact": "crate_a"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "carry",
+     "camera": "first"
+    },
+    {
+     "approach": "plate1_off",
+     "within": 0.2
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -55
+     }
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 1.5
+    },
+    {
+     "shot": "plate1",
+     "camera": {
+      "eye": [
+       -9.5,
+       2.6,
+       2.5
+      ],
+      "at": [
+       -5,
+       0.5,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -5
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 7.5
+    },
+    {
+     "wait": 1.2
+    },
+    {
+     "shot": "push",
+     "camera": {
+      "eye": [
+       -1,
+       2.6,
+       2.6
+      ],
+      "at": [
+       3,
+       0.5,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "interact": "crate_c"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "look": {
+      "yaw": 180,
+      "pitch": 0
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.8
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": 24
+     }
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "shot": "aim",
+     "camera": "first"
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 3.5
+    },
+    {
+     "shot": "lob",
+     "camera": {
+      "eye": [
+       6,
+       4.5,
+       4.5
+      ],
+      "at": [
+       10.4,
+       0.5,
+       1.8
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "look_at": "goal_mark"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 4.0
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    },
+    {
+     "shot": "over2",
+     "camera": {
+      "eye": [
+       0,
+       18,
+       14
+      ],
+      "at": [
+       2,
+       0,
+       0
+      ],
+      "fov": 70
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The three rooms from above, start on the left, exit on the right.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Room 1: the crate goes on the plate, the plate turns green and the blue door opens.",
+   "shot": {
+    "playtest": "plate1"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Room 2: the purple block pushed onto the scale; the orange door is open.",
+   "shot": {
+    "playtest": "push"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "Room 3: aiming up at the window with a crate.",
+   "shot": {
+    "playtest": "aim"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "The crate lobbed through the window onto the plate: all three doors open.",
+   "shot": {
+    "playtest": "lob"
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "Into the yellow exit: VICTORY.",
+   "shot": {
+    "playtest": "end"
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",
+ "prompt_source": "Given to Claude Code on 2026-09-30, in a session working on RedEngine. That one prompt produced three games: Skyline Stacker, Castle Crash and Plate Chamber."
+}
