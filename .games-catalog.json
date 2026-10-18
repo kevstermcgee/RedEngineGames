@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 111,
+    "demos": 113,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -133,6 +133,14 @@
     {
       "path": "demos/examples/3d/borrowed-foundry/borrowed-foundry.json",
       "sha256": "a013ac70ec45d838cae7657ed9dd2aad1507f1cdb0583a3c4b459ee2c3df328a"
+    },
+    {
+      "path": "demos/examples/3d/crooked-ferry/audio/ferry_night.json",
+      "sha256": "a4f6b65aec0abc33ee34e1f787940adc91684acf4783347a89a6ed1567b3a823"
+    },
+    {
+      "path": "demos/examples/3d/crooked-ferry/crooked-ferry.json",
+      "sha256": "a31690135f9abd271f396a9529ca71032a3ddbd69da7485a7912a53c07b2311f"
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/drowsy-marathon.json",
@@ -904,6 +912,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "63b2bc6f2a00785fac9093665a5d53f7fe8ef9ad",
+  "source_revision": "65cd2a7c12ace26a83de16e90c827ab4ee1f0897",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
