@@ -1,0 +1,16 @@
+[package]
+name = "redengine-games"
+description = "RedEngine Games: install, play and update every game on the site from one app."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+redengine-games-core = { path = "../core" }
+tauri = { version = "2.12", features = [] }
+tauri-plugin-single-instance = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
