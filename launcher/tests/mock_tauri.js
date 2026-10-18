@@ -1,5 +1,5 @@
 // A stand-in for the window (app/src/main.rs) so the page can be tested in a plain browser: the same commands and events, backed by
-// `window.__MOCK__` = {catalog, installed: {slug: version}, update: Latest | null, offline, fail: [slug], ms}. Every call is recorded in
+// `window.__MOCK__` = {catalog, installed: {slug: version}, update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail}. Every call is recorded in
 // `window.__CALLS__`.
 (function () {
   const M = window.__MOCK__;
@@ -62,6 +62,8 @@
       return new Promise(() => {}); // The real launcher quits here.
     },
     quit() {},
+    reviews_published() { if (M.offline) throw "offline"; return M.reviews || { schema: 1, games: {} }; },
+    review_send({ review }) { if (M.reviewFail) throw M.reviewFail; },
   };
   window.__TAURI__ = {
     core: {

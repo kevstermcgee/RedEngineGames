@@ -19,6 +19,7 @@ so games and the app's own updates never trigger it.
 - An update unpacks the new version beside the old one and switches over only when it is complete, so a failed update leaves the game playable.
 - Saves are in `%USERPROFILE%\Saved Games\<game>`, the same folder the stand-alone installers use. Uninstalling a game never touches them.
 - A game starts the way its own `Play-<slug>.exe` starts it: the engine named in `engine.name` with the arguments in `launch.args`, and `RE2_SAVE_DIR` set.
+- **Player reviews:** each game's page shows its score out of 10 and every review, and has a form to leave one, anonymously. The app posts the review to the relay that the catalog names (`reviews.send`). RedEngine's `scripts/player_reviews.py` collects it into that repo's `docs/player-reviews/`, and the published ones are read back from `reviews.read` (`core/src/reviews.rs`).
 - **Updating the app:** at start and every four hours the app reads the site's `launcher/latest.json`, which `site/generate.py` writes from the newest `launcher-v*` release. When it names a newer version, a banner offers **Update now**. The app then:
   1. downloads the installer and checks its SHA-256;
   2. starts a copy of itself as a helper (`--apply-update`) and quits;

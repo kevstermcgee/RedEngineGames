@@ -3,5 +3,9 @@
   "site_url": "https://kevstermcgee.github.io/RedEngineGames/",
   "publisher": "RedEngineGames",
   "engine_exe": "RedEngine.exe",
-  "engine_exe_2d": "RedEngine2D.exe"
+  "engine_exe_2d": "RedEngine2D.exe",
+  "reviews": {
+    "send": "https://ntfy.sh/redenginegames-reviews-8xoazi8l7d",
+    "read": "https://raw.githubusercontent.com/kevstermcgee/RedEngine/main/docs/player-reviews/public.json"
+  }
 }

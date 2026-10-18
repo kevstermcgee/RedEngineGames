@@ -9,6 +9,9 @@ pub struct Catalog {
     pub schema: u32,
     #[serde(default)]
     pub generated: String,
+    /// Where player reviews are sent and read (`distribution/config.json`); older catalogs have none and the defaults apply.
+    #[serde(default)]
+    pub reviews: Option<crate::reviews::Settings>,
     pub games: Vec<Game>,
 }
 

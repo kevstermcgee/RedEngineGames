@@ -26,6 +26,16 @@ pub fn text(url: &str) -> Result<String> {
 }
 
 /// What a download reports as it goes: bytes so far and the expected total.
+/// POST `body` as plain text; any answer but 2xx is an error.
+pub fn post_text(url: &str, body: &str) -> Result<()> {
+    agent()
+        .post(url)
+        .header("Content-Type", "text/plain; charset=utf-8")
+        .send(body)
+        .map(|_| ())
+        .map_err(|e| Error::Network { url: url.into(), reason: e.to_string() })
+}
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Progress {
     pub done: u64,
