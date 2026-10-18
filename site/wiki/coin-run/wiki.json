@@ -1,0 +1,270 @@
+{
+ "tagline": "The engine's starter game: collect three gold coins in a room, avoid the red trap pad, and run to the green exit.",
+ "overview": "Coin Run is RedEngine's smallest complete game, the example every new game on the engine is meant to start from. You stand at one end of a plain room. Three gold coins are scattered around it, a red trap pad sits near one wall, and a green exit pad waits at the far end.\n\nWalk into a coin to collect it (the panel at the top counts them). The exit stays locked until you have all three; stepping on the red pad sends you straight back to the start. Collect the coins, reach the exit and the game is won. It takes about ten seconds, and it is the clearest example of how a RedEngine game's rules are written as data.",
+ "story": "No real story: a room, three coins and a door. Coin Run exists to show, in the fewest possible pieces, what a complete game on RedEngine looks like: something to collect, something to avoid and a way out.",
+ "goal": "Collect all three coins, then step onto the green exit: \"You win!\". There is no way to lose; the red pad only sends you back.",
+ "rules": [
+  "Walk into a gold coin to collect it (Coins at the top counts them).",
+  "The green exit pad is locked until you have all three coins.",
+  "The red trap pad sends you back to the start.",
+  "Reaching the exit with three coins wins."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Gold coins",
+   "role": "What you collect",
+   "description": "Three spinning gold discs around the room.",
+   "shot": {
+    "frame": {
+     "eye": "-3.6,1.3,-1.6",
+     "at": "-5,0.45,-3",
+     "fov": 50
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "52e431d7c604"
+  },
+  {
+   "name": "The Trap Pad",
+   "role": "Hazard",
+   "description": "A red square on the floor by the far wall. It sends you back to the start.",
+   "shot": {
+    "frame": {
+     "eye": "0,2.2,-1",
+     "at": "0,0,-4.5",
+     "fov": 60
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "386dc291a237"
+  },
+  {
+   "name": "The Exit",
+   "role": "Goal",
+   "description": "The green pad at the end of the room.",
+   "shot": {
+    "frame": {
+     "eye": "5.5,1.8,0",
+     "at": "8.9,0,0",
+     "fov": 60
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "89208a9b8e2e"
+  }
+ ],
+ "tips": [
+  "Go left, right, left: the three coins zigzag down the room toward the exit.",
+  "Steer clear of the red pad; it costs you the walk back."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        0,
+        14,
+        12
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 65
+      }
+     },
+     {
+      "look": {
+       "yaw": 45.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.38
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 140.2,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.49
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 45.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.26
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 117.8,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.39
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "trap": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 60.6,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.92
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "wait": 0.5
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: three gold coins, the red trap pad and the green exit (right).",
+   "shot": {
+    "frame": {
+     "eye": "0,14,11",
+     "at": "0,0,0",
+     "cut_above": 2.5
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "8662496296d1"
+  },
+  {
+   "caption": "The start, with the objective at the top.",
+   "shot": {
+    "playtest": "win/w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "9fc724b444f3"
+  },
+  {
+   "caption": "Two coins collected.",
+   "shot": {
+    "playtest": "win/t2"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
+  },
+  {
+   "caption": "Three coins, then the exit: VICTORY.",
+   "shot": {
+    "playtest": "win/end"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "3a95a992b699"
+  },
+  {
+   "caption": "Stepping on the red pad: back to the start.",
+   "shot": {
+    "playtest": "trap/end"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "22089026fb16"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Coin Run is RedEngine's built-in starter game (`red_engine2 recipe coin_run`), written as part of the engine itself while it was being built, and published with the engine's content on 2026-09-26. There is no single prompt for it that is recorded on this machine."
+}
