@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RedEngine Games</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">Red<span>Engine</span> Games</div>
+  <nav class="tabs" aria-label="Views">
+    <button data-view="games">Games</button>
+    <button data-view="library">Library <span class="count" id="n-library"></span></button>
+    <button data-view="downloads">Downloads <span class="count" id="n-downloads"></span></button>
+  </nav>
+  <div class="top-right">
+    <button class="version" id="version" data-act="show-update" title="The launcher's version"></button>
+    <button class="icon" id="refresh" title="Check for new games and updates" aria-label="Check for new games and updates">&#x21bb;</button>
+  </div>
+</header>
+<div id="banners"></div>
+<main id="view" tabindex="-1"><p class="loading">Loading the games&hellip;</p></main>
+<div id="toasts" aria-live="polite"></div>
+<dialog id="dialog"><form method="dialog"><h2></h2><div class="body"></div><menu><button value="cancel" class="btn"></button><button value="ok" class="btn primary"></button></menu></form></dialog>
+<div id="lightbox" hidden><button class="icon close" aria-label="Close">&times;</button><button class="icon prev" aria-label="Previous">&#x2039;</button><figure><img alt=""><figcaption></figcaption></figure><button class="icon next" aria-label="Next">&#x203a;</button></div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -7,7 +7,8 @@ The site is built from the repository's own list of games and from the GitHub Re
   index.html                   every game: install the latest version, link to all versions
   games/<slug>/index.html      one game: the latest version and the whole history, each with installer, portable ZIP, checksum and what changed
   games/<slug>/latest.json     what an installed game asks to learn whether an update exists
-  catalog.json                 everything above as data
+  catalog.json                 everything above as data (what the RedEngine Games app reads)
+  launcher/latest.json         the newest RedEngine Games app (`launcher/`), which it checks to update itself
 
 Builds from before installers existed (one release per engine commit, a ZIP per game) are listed under "Earlier builds" on each game's page, one per day.
 Usage:  gh api --paginate repos/OWNER/REPO/releases > releases.json && python3 site/generate.py --releases releases.json
@@ -32,6 +33,7 @@ import wiki  # noqa: E402
 PALETTE = json.loads((REPO / "site" / "palette.json").read_text())
 CONFIG = rt.CONFIG
 LEGACY_TAG = re.compile(r"^redengine-([0-9a-f]{7,40})$")
+LAUNCHER_TAG = re.compile(r"^launcher-v(\d+(?:\.\d+)*)$")
 e = html.escape
 AUTHORS = {"ai": "AI-designed", "human": "Human-designed"}
 
@@ -70,6 +72,43 @@ def legacy_builds(releases: list[dict]) -> dict[str, list[dict]]:
                     "date": day, "engine_revision": m.group(1), "url": asset_url(r["tag_name"], name), "size": a.get("size", 0), "tag": r["tag_name"],
                 })
     return {slug: sorted(days.values(), key=lambda b: b["date"], reverse=True) for slug, days in per_slug.items()}
+
+
+def launcher_release(releases: list[dict]) -> dict | None:
+    """The newest RedEngine Games app (`.github/workflows/launcher.yml` releases it as `launcher-v<version>` with one `-setup.exe`), as
+    `launcher/latest.json` gives it to the app's self-update: the version, the installer (with the SHA-256 GitHub computed for it) and the
+    release notes' bullet points."""
+    best = None
+    for r in releases:
+        m = LAUNCHER_TAG.match(r.get("tag_name", ""))
+        if not m or r.get("draft") or r.get("prerelease"):
+            continue
+        setup = [a for a in r.get("assets", []) if a["name"].endswith("-setup.exe") and (a.get("digest") or "").startswith("sha256:")]
+        key = tuple(int(x) for x in m.group(1).split("."))
+        if setup and (best is None or key > best[0]):
+            a = setup[0]
+            best = (key, {
+                "version": m.group(1),
+                "released": (r.get("published_at") or "")[:10],
+                "installer": {"name": a["name"], "size": a["size"], "sha256": a["digest"][len("sha256:"):], "url": asset_url(r["tag_name"], a["name"])},
+                "notes": [line[2:].strip() for line in (r.get("body") or "").splitlines() if line.startswith("- ")],
+            })
+    return best[1] if best else None
+
+
+def app_box(app: dict | None) -> str:
+    if not app:
+        return ""
+    i = app["installer"]
+    return f'''
+  <section class="app" id="app">
+    <div>
+      <h2>Get the RedEngine Games app <span class="tag">New</span></h2>
+      <p>One app for every game on this site: browse them, read each game's wiki, and install, play and update any of them with one click. No more installer per game.</p>
+      <p class="fine">Windows may warn you once, when you install the app, because it is not code-signed: choose <strong>More info</strong>, then <strong>Run anyway</strong>. Games you install inside the app never show that warning. It installs for you only (no administrator rights) and keeps itself up to date.</p>
+    </div>
+    <a class="dl" href="{e(i["url"])}">Download the app for Windows<span>version {e(app["version"])} · {human_size(i["size"]) or "under 1 MB"}</span></a>
+  </section>'''
 
 
 def load_games(releases: list[dict]) -> list[dict]:
@@ -165,6 +204,13 @@ header.site p {{ margin: 4px 0 0; color: var(--muted); }}
 .desc {{ margin: 0; font-size: .9rem; color: #E8D3DC; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }}
 .dl {{ display: block; text-align: center; background: var(--accent); color: #1C0810; font-weight: 600; text-decoration: none; border-radius: 6px; padding: 10px; }}
 .dl:hover {{ filter: brightness(1.1); }}
+.app {{ display: flex; gap: 22px; align-items: center; flex-wrap: wrap; background: linear-gradient(100deg, #4A1428, var(--surface)); border: 1px solid var(--accent); border-radius: 8px; padding: 16px 20px; margin: 20px 0; }}
+.app > div {{ flex: 1; min-width: 260px; }}
+.app h2 {{ margin: 0 0 6px; font-size: 1.2rem; }}
+.app p {{ margin: 0 0 6px; }}
+.app .fine {{ color: var(--muted); font-size: .85rem; }}
+.app .dl {{ padding: 12px 22px; font-size: 1.05rem; }}
+.app .dl span {{ display: block; font-weight: 500; font-size: .8rem; }}
 .card-links {{ margin-top: auto; padding-top: 6px; display: flex; gap: 14px; font-size: .85rem; justify-content: center; }}
 .hidden {{ display: none; }}
 .hero {{ display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: 22px; margin: 22px 0; align-items: start; }}
@@ -339,9 +385,9 @@ FILTER_JS = '''<script>
 </script>'''
 
 
-def index_page(games: list[dict]) -> str:
+def index_page(games: list[dict], app: dict | None = None) -> str:
     cards = "\n".join(card(g, i) for i, g in enumerate(games))
-    body = f'''
+    body = f'''{app_box(app)}
   <section class="start">
     <h2>Getting started</h2>
     <ol>
@@ -398,7 +444,7 @@ def version_rows(g: dict) -> str:
     return "\n".join(rows)
 
 
-def game_page(g: dict) -> str:
+def game_page(g: dict, app: dict | None = None) -> str:
     v = g["versions"][0] if g["versions"] else None
     thumb = f'<img class="thumb" src="../../{e(g["thumb"])}" alt="{e(g["name"])} screenshot" width="640" height="360">' if g["thumb"] else ""
     online = f'<p class="online">&#x1F310; online multiplayer</p>' if g["online"] else ""
@@ -435,6 +481,7 @@ def game_page(g: dict) -> str:
       {hero_button}
       <p class="fine">An installed game checks for updates when it starts and installs them in place; your saved games stay in <code>Saved Games\\{e(rt.clean_name(g["name"]))}</code>.</p>
       {signed_note([g])}
+      {'<p class="fine">Or get it in the <a href="../../#app">RedEngine Games app</a>, which installs and updates every game for you.</p>' if app and v else ""}
     </div>
   </section>{wiki.render(g["wiki"], g["author"]) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
     return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
@@ -463,16 +510,21 @@ def main() -> int:
     ap.add_argument("--out", default=str(REPO / "site" / "dist"))
     args = ap.parse_args()
 
-    games = load_games(rt.load_releases(args.releases))
+    releases = rt.load_releases(args.releases)
+    games = load_games(releases)
+    app = launcher_release(releases)
     out = Path(args.out)
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
     shutil.copytree(REPO / "site" / "thumbs", out / "thumbs")
-    (out / "index.html").write_text(index_page(games), encoding="utf-8")
+    (out / "index.html").write_text(index_page(games, app), encoding="utf-8")
+    if app:
+        (out / "launcher").mkdir()
+        (out / "launcher" / "latest.json").write_text(json.dumps(app, indent=1) + "\n", encoding="utf-8")
     for g in games:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)
-        (folder / "index.html").write_text(game_page(g), encoding="utf-8")
+        (folder / "index.html").write_text(game_page(g, app), encoding="utf-8")
         if g["wiki"]:
             for f in (REPO / "site" / "wiki" / g["slug"]).iterdir():
                 if f.name != "wiki.json":
@@ -480,7 +532,7 @@ def main() -> int:
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "games": [
-        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "wiki", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0
