@@ -640,6 +640,17 @@ function paintJob(slug) {
   document.querySelectorAll(`[data-bytes-for="${CSS.escape(slug)}"]`).forEach((el) => { el.textContent = bytesText(slug); });
 }
 
+/** A wiki section, just under the sticky contents list (however many lines it wraps to). Only <main> scrolls: `scrollIntoView` would
+ *  scroll every scrollable box around the section, the window too. */
+function scrollToSection(id) {
+  const main = $("#view");
+  const el = document.getElementById(id);
+  if (!el) return;
+  const toc = $(".toc", main);
+  const top = el.getBoundingClientRect().top - main.getBoundingClientRect().top + main.scrollTop - (toc ? toc.offsetHeight + 12 : 0);
+  main.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+}
+
 function keepScroll(f) {
   const main = $("#view");
   const top = main.scrollTop;
@@ -724,7 +735,7 @@ document.addEventListener("click", async (e) => {
   const goBtn = t.closest("[data-view-go]");
   if (goBtn) return go(goBtn.dataset.viewGo);
   const scroll = t.closest("[data-scroll]");
-  if (scroll) return document.getElementById(scroll.dataset.scroll).scrollIntoView({ behavior: "smooth" });
+  if (scroll) return scrollToSection(scroll.dataset.scroll);
   const act = t.closest("[data-act]");
   if (act) {
     e.stopPropagation();
@@ -784,6 +795,9 @@ document.addEventListener("keydown", (e) => {
 
 // The mouse's back button.
 document.addEventListener("mouseup", (e) => { if (e.button === 3 && S.slug) back(); });
+
+// The window itself never scrolls (only <main> does): if anything ever scrolls it, the top bar would be cut off with no way back.
+window.addEventListener("scroll", () => { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); });
 
 // A picture that cannot load (offline) leaves a plain panel instead of a broken-image icon.
 document.addEventListener("error", (e) => { if (e.target.tagName === "IMG") e.target.classList.add("broken"); }, true);
