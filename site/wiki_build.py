@@ -154,7 +154,8 @@ def draw_sprite(scene, shot, out):
 def draw_prefab(engine, scene, shot, out):
     with tempfile.TemporaryDirectory() as tmp:
         png = Path(tmp) / "p.png"
-        run(engine, ["catalog", shot["prefab"], "--scene", str(scene), "--sheet", str(png), "--cols", "1"])
+        own = shot["prefab"] in json.loads(scene.read_text()).get("prefabs", {})   # the game's own prefab: never the engine asset of a similar name
+        run(engine, ["catalog", shot["prefab"], "--scene", str(scene), "--sheet", str(png), "--cols", "1"] + (["--local"] if own else []))
         need_pil()
         w, h = Image.open(png).size
         finish(png, out, crop=(0, 30, w, h - 30))   # the sheet's name and size bands
