@@ -1,0 +1,124 @@
+{
+ "tagline": "An endless rooftop skate at sunset: Riff the fox switches lanes, hops over speakers and catches music notes while drones swoop overhead.",
+ "overview": "Riff Rooftop Rush is an endless 2D lane runner on the rooftops of a warm sunset city, one of the three Date Night Arcade games. Riff, a roller-skating fox, rolls along three rail lanes. Press up and down to change lanes and A to hop.\n\nCatch music notes for trick points (a perfectly timed hop shows PERFECT!), hop over low speakers, and stay on the ground under high-flying drones. Jumping on the spot earns nothing, so there is no farming points. Hazards speed up every 20 seconds, and you have four hearts.",
+ "story": "Riff skates the city's rooftops at sunset, catching the music drifting up from the streets. Grumpy speakers and buzzing drones are in the way, and the city keeps getting faster.",
+ "goal": "Survive as long as you can and catch as many notes as possible: there is no end, only your best score and longest run.",
+ "rules": [
+  "Up and down change lanes; A hops.",
+  "Notes are points; a well-timed hop shows PERFECT!",
+  "Hop over low speakers; stay grounded under high drones.",
+  "Hopping on its own scores nothing.",
+  "You have four hearts; each hit costs one. When they are gone the run is over.",
+  "Every 20 seconds a new wave starts, faster and busier than the last.",
+  "Your score, survival time, best scores and a rank (Rookie, Quick Feet, Chain Ace, Superstar, Arcade Legend) are saved."
+ ],
+ "controls": [
+  {
+   "input": "Up / down (stick or arrows)",
+   "action": "Change lanes"
+  },
+  {
+   "input": "A (or Space / Z)",
+   "action": "Hop"
+  },
+  {
+   "input": "B (or Shift / X)",
+   "action": "Back to the centre lane"
+  },
+  {
+   "input": "F",
+   "action": "Fullscreen"
+  },
+  {
+   "input": "Start or M",
+   "action": "Music on or off"
+  },
+  {
+   "input": "A / Space after a run",
+   "action": "Play again"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Riff",
+   "role": "You",
+   "description": "A roller-skating fox.",
+   "shot": {
+    "sprite": "riff"
+   },
+   "image": "c1.png",
+   "drawn_from": "d0ede0eb1a7e"
+  },
+  {
+   "name": "Notes",
+   "role": "Collect",
+   "description": "Music notes floating over the lanes.",
+   "shot": {
+    "sprite": "pickup"
+   },
+   "image": "c2.png",
+   "drawn_from": "a7732ad7ec9f"
+  },
+  {
+   "name": "Speakers and drones",
+   "role": "Hazard",
+   "description": "Low speakers to hop over and high drones to stay under.",
+   "shot": {
+    "sprite": "hazard"
+   },
+   "image": "c3.png",
+   "drawn_from": "8e82f57f35c8"
+  }
+ ],
+ "tips": [
+  "Hop only when something is coming: it earns nothing on its own.",
+  "Change lanes early; hazards speed up every wave."
+ ],
+ "gallery": [
+  {
+   "caption": "Rooftops at sunset: three lanes and the first notes.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 2
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "253089a61903"
+  },
+  {
+   "caption": "30 seconds in, speakers on the rails.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 30
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "827ccc0af94e"
+  },
+  {
+   "caption": "Wave two: faster hazards.",
+   "shot": {
+    "frame": {
+     "scenario": "an active player survives into faster waves",
+     "t": 50
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "3708bf917a5f"
+  },
+  {
+   "caption": "Run over: the result card.",
+   "shot": {
+    "frame": {
+     "scenario": "standing still eventually loses and saves personal progress",
+     "t": 40
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "99b165305de2"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Pip Cloud Post, Moxie Magnet Moon and Riff Rooftop Rush were made together as the \"Date Night Arcade\": three small single-player 2D games built with RedEngine on 2026-10-06/07 at the owner's request (first as browser games, later as Windows installers). The session that started them is not saved on this machine, so the prompt that asked for them is not available; the project's README and ENGINE_FEEDBACK.md describe what was built."
+}
