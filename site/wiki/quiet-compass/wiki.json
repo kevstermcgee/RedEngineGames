@@ -1,0 +1,248 @@
+{
+ "tagline": "A ghost carries a sleeping friend out of a crumbling house. Gather memories, trade them for three skills at most, and find the exit: it is always the doorway you have ignored the longest.",
+ "overview": "Quiet Compass is a first-person carrying game with a small economy. You haunt a house floating in the dark: a central hall with a row of five rune plinths, and four doorways (north, east, south and west) that lead out to four far rooms, each holding four golden memories. Your sleeping friend lies in the middle of the hall.\n\nWith your hands free you can walk into memories to collect them, then step onto a rune plinth to spend them on a skill. You can hold three skills at once, and stepping on a lit rune sells it back. When you are ready, pick your friend up (E) and carry them out through the exit. Which doorway is the exit keeps changing: it is always the far room you have gone the longest without visiting, so every trip for memories moves it. Meanwhile your friend slowly stirs, and the house crumbles from its edges on a visible clock. Three deliveries win.",
+ "story": "A ghost cannot leave until one last chore is done: carrying a sleeping friend out of the old house before it is sold. Memories are the only currency a ghost has, and it can only hold on to a few skills at a time. The house knows it is being left and falls apart from the edges in.",
+ "goal": "Carry your friend out through the exit three times (Rooms done 3/3): \"Home, quietly\". You lose if your friend wakes (Friend stirring reaches 100: \"They woke\") or the floor crumbles away beneath you (\"The floor is gone\").",
+ "rules": [
+  "Walk into a golden memory in one of the four far rooms to collect it. Only with empty hands: you cannot gather while carrying your friend.",
+  "Step onto a rune plinth to buy its skill. You can hold at most 3. Step onto a lit rune again to sell it back for its price.",
+  "Skills, left to right: SOFT (1 memory) putting your friend down does not jolt them; FORGET (1) the far rooms you ignore age half as fast; HUSH (2) your friend stirs half as fast; ANCHOR (2) the house crumbles 40% slower; COMPASS (2) a pillar of light marks the exit.",
+  "The exit is the doorway of the far room you have gone the longest without visiting. Visiting a room resets its count, so the exit moves.",
+  "Friend stirring rises every second: slowly while you carry them, three times as fast while they lie down. Putting them down adds a jolt of 10 (unless you have SOFT).",
+  "House crumbles counts down. The outer floor falls first, then the middle, then the centre. Fall off and the game is over.",
+  "Carrying your friend into the exit finishes a room. The house is rebuilt, your friend calms a little, the memories return, and the next round's clock is 12 seconds shorter."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Pick up or put down your friend"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Ghost",
+   "role": "You",
+   "description": "The one doing the chore. You see the house in first person; here, carrying your friend.",
+   "shot": {
+    "playtest": "carry3"
+   },
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The Sleeping Friend",
+   "role": "Who you carry",
+   "description": "Wrapped in a blanket in the middle of the hall. Keep them asleep.",
+   "shot": {
+    "prefab": "sleeper"
+   },
+   "image": "c2.jpg"
+  },
+  {
+   "name": "Memories",
+   "role": "Currency",
+   "description": "Golden beads with a halo, floating in the four far rooms, four in each.",
+   "shot": {
+    "prefab": "memory"
+   },
+   "image": "c3.jpg"
+  },
+  {
+   "name": "Rune plinths",
+   "role": "The skill shop",
+   "description": "Five stone plinths in a row in the hall. A rune glows above each skill you hold.",
+   "shot": {
+    "prefab": "rune_plinth"
+   },
+   "image": "c4.jpg"
+  },
+  {
+   "name": "Doorways",
+   "role": "Possible exits",
+   "description": "Four door arches lead to the far rooms. Any of them can be the exit; with COMPASS, a pillar of light marks the right one.",
+   "shot": {
+    "prefab": "door_arch"
+   },
+   "image": "c5.jpg"
+  }
+ ],
+ "tips": [
+  "Buy COMPASS early: without it you have to remember which far room you have neglected longest.",
+  "HUSH (friend stirs half as fast) and ANCHOR (slower crumbling) buy time; SOFT matters if you plan to put your friend down along the way.",
+  "Gather memories before you lift your friend: you cannot collect them while carrying.",
+  "Do not leave your friend lying for long: they stir three times faster on the floor than in your arms.",
+  "Each round is shorter than the last, so spend less time shopping in round three."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "start",
+     "camera": "first"
+    },
+    {
+     "approach": "mem_n1"
+    },
+    {
+     "approach": "mem_n2"
+    },
+    {
+     "shot": "field",
+     "camera": "first"
+    },
+    {
+     "approach": "mem_n3"
+    },
+    {
+     "approach": "mem_n4"
+    },
+    {
+     "approach": "altar_compass"
+    },
+    {
+     "look_at": "altar_compass"
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.5
+    },
+    {
+     "wait": 1.2
+    },
+    {
+     "shot": "runes",
+     "camera": {
+      "eye": [
+       0,
+       5.2,
+       1.5
+      ],
+      "at": [
+       0,
+       3.6,
+       -3.2
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       24,
+       16
+      ],
+      "at": [
+       0,
+       3,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "interact": "friend"
+    },
+    {
+     "wait": 0.5
+    },
+    {
+     "shot": "carry",
+     "camera": "first"
+    },
+    {
+     "shot": "carry3",
+     "camera": "third"
+    },
+    {
+     "wait": 30
+    },
+    {
+     "shot": "crumble",
+     "camera": {
+      "eye": [
+       0,
+       24,
+       16
+      ],
+      "at": [
+       0,
+       3,
+       0
+      ],
+      "fov": 60
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The start: your sleeping friend in the hall, a doorway ahead, memories glinting beyond it.",
+   "shot": {
+    "playtest": "start"
+   },
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Collecting golden memories in the north room.",
+   "shot": {
+    "playtest": "field"
+   },
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "COMPASS bought: its rune glows above the plinth (Skills held 1/3).",
+   "shot": {
+    "playtest": "runes"
+   },
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "The house from above: the five plinths, the four doorways, and the pillar of light at the exit.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "Carrying your friend: Friend stirring creeps up more slowly while they are in your arms.",
+   "shot": {
+    "playtest": "carry"
+   },
+   "image": "g5.jpg"
+  },
+  {
+   "caption": "Forty seconds left on the clock: the edges of the house have started to fall.",
+   "shot": {
+    "playtest": "crumble"
+   },
+   "image": "g6.jpg"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you spend memories to buy skills and can hold only three at once; but the exit drifts toward whatever you ignore the longest; the level crumbles from the edges toward the centre on a visible countdown; carry a sleeping friend through ten rooms without waking them; and, as optional story, a ghost who must finish one chore before the house can be sold.\n\nThe AI kept every part of the card. The three-skill limit and the neglected-room exit are the decisions you make every trip, and the crumbling house is the clock. It cut ten rooms down to three rounds in one house, and said the engine could not move an exit, so the \"drifting\" exit is one of four fixed doorways chosen by how long you have ignored each far room. It also said its own scripted test never used the skills, so a person should judge the balance.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-15."
+}
