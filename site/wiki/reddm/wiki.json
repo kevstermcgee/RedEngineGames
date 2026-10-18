@@ -1,0 +1,177 @@
+{
+ "tagline": "An online free-for-all deathmatch in Foundry Nine, a freight yard and assembly hall linked by doors, a service lane and a covered maintenance route.",
+ "overview": "RedDM is a compact online first-person deathmatch, one of the first standalone games built on RedEngine. Its map, Foundry Nine, joins an open freight yard and a covered assembly hall through offset doors, an outdoor service lane and a covered maintenance route, with loading bays at each end and freight containers, pallets and screens for cover.\n\nOne player hosts and the others join. Once at least two players are ready, an eight-minute round begins: everyone for themselves, first to 30 kills wins, then results and a rematch. You start with a rifle and can cycle through the bat and the engine's eleven firearms. Movement is deliberately tactical: no extra sprint speed, quick acceleration and strong friction. The map is still a greybox: plain shapes, no textures.",
+ "story": "No story: RedDM is a straight arena deathmatch, built to put the engine's online play, hit detection and movement through their paces. Foundry Nine is an industrial yard with nobody working in it but the players.",
+ "goal": "Be the first to 30 kills in an eight-minute round (free for all).",
+ "rules": [
+  "A round needs at least two ready players (the lobby shows who is ready).",
+  "Every kill scores one; first to 30, or the most kills when eight minutes are up, wins.",
+  "You respawn after a death at one of six spawn points behind the loading and dispatch screens.",
+  "Everyone starts with a rifle; the mouse wheel cycles the bat and the other firearms.",
+  "Players can join a round already in progress.",
+  "Known problem: the version on this site was built with an engine that no longer accepts this game's revolver setting (the engine removed the revolver on 2026-09-28), so it very likely refuses to start. The in-game pictures here were drawn without that one setting."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Fire (hold for automatic weapons)"
+  },
+  {
+   "input": "Right mouse button (gamepad left trigger)",
+   "action": "Aim"
+  },
+  {
+   "input": "R (gamepad Y)",
+   "action": "Reload"
+  },
+  {
+   "input": "Mouse wheel (gamepad bumpers)",
+   "action": "Switch weapon"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Pick up or drop loose props"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The freight yard",
+   "role": "Map area",
+   "description": "The open yard at the centre, with containers and pallets for cover.",
+   "shot": {
+    "frame": {
+     "eye": "-1.4,1.9,-0.4",
+     "at": "-4.0,0.6,-3.0",
+     "fov": 60
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "4b6cc16956b6"
+  },
+  {
+   "name": "The assembly hall",
+   "role": "Map area",
+   "description": "The covered hall beside the yard.",
+   "shot": {
+    "frame": {
+     "eye": "12.6,1.9,-0.4",
+     "at": "10.0,0.6,-3.0",
+     "fov": 60
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "0b2e4eae20c6"
+  },
+  {
+   "name": "Cover",
+   "role": "Props",
+   "description": "Containers, low pallets and loading screens break the sight lines.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,2.4,-5.4",
+     "at": "0.0,1.1,-8.0",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "b982531562d1"
+  }
+ ],
+ "tips": [
+  "The maintenance route and service lane are the quiet ways round the yard.",
+  "Movement stops quickly: strafe in short bursts rather than running in long lines.",
+  "Known problem: the version on this site was built with an engine that no longer accepts this game's revolver setting (the engine removed the revolver on 2026-09-28), so it very likely refuses to start. The in-game pictures here were drawn without that one setting."
+ ],
+ "scene_patch": {
+  "drop": [
+   "weapons.revolver"
+  ]
+ },
+ "gallery": [
+  {
+   "caption": "Key art (an illustration made for the game, not an in-game picture).",
+   "shot": {
+    "file": "projects/reddm/assets/reddm-key-art.png"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "18f3eed4e82e"
+  },
+  {
+   "caption": "Foundry Nine from above, roofs removed: loading bays left and right, the yard and hall in the middle.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,35.1,18.6",
+     "at": "1.5,0,-2.9",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "2681b7685b05"
+  },
+  {
+   "caption": "A spawn, looking out toward the yard.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g3.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "caption": "Freight containers in the yard, the hall door beyond.",
+   "shot": {
+    "frame": {
+     "eye": "-2.4,3.2,2.1",
+     "at": "-5.0,1.9,-0.5",
+     "fov": 60
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "4040b460a3e8"
+  },
+  {
+   "caption": "The covered maintenance route.",
+   "shot": {
+    "frame": {
+     "eye": "4.6,1.9,14.1",
+     "at": "2.0,0.6,11.5",
+     "fov": 60
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "877f4e07e0c4"
+  },
+  {
+   "caption": "The map's own plan, drawn by the engine when it was built.",
+   "shot": {
+    "file": "projects/reddm/outputs/foundry-nine-plan_y0.0.png"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "dc251719434f"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. RedDM was added to RedEngineGames on 2026-09-26 from the owner's account, before the Claude Code sessions on this machine began recording RedEngine work; its project folder does not include the prompt that started it."
+}
