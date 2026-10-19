@@ -1,7 +1,7 @@
 {
   "collections": {
     "demos": 121,
-    "games": 33,
+    "games": 41,
     "prototypes": 14,
     "tests": 29
   },
@@ -591,6 +591,38 @@
       "sha256": "ad5aa91a8b0961584a6a599f9e43780b9d6edec13511cae5d05ecd3efa07efcb"
     },
     {
+      "path": "games/redcraft/README.md",
+      "sha256": "05063bcc805648d02b3473c5701c6b7727faae0085c52ec58d5a961f2d262d08"
+    },
+    {
+      "path": "games/redcraft/audio/deep_stone.json",
+      "sha256": "9ab2aa978a6e479f083be9e0db7bb6d1e38bbb6af36dd5f40845d7eff72b0755"
+    },
+    {
+      "path": "games/redcraft/audio/far_lands.json",
+      "sha256": "94f620fca1f116409d09fc4734d2ca27449017b7b4a1d8177a3692cf193bb520"
+    },
+    {
+      "path": "games/redcraft/audio/first_light.json",
+      "sha256": "25a10748128b7df08f3937bc023af3fa525e9383f654035aecaa70a3beee0e77"
+    },
+    {
+      "path": "games/redcraft/audio/hearth.json",
+      "sha256": "b6eb8dd371dd6d249a1920642d47174444300585bea711b5ff8e771f890e4b85"
+    },
+    {
+      "path": "games/redcraft/audio/meadow.json",
+      "sha256": "4419e4784fdf3478ace3bba83adcdc9f88af96d61196a6a9f036f1aa7e465871"
+    },
+    {
+      "path": "games/redcraft/redcraft.json",
+      "sha256": "af68bbc29b304d1f41a8a33bfc1a224000b3a87b55366a92826ee1b40377ef5c"
+    },
+    {
+      "path": "games/redcraft/shaders/blocks.wgsl",
+      "sha256": "007f629c7b3a2c649a52067bebca6fda68c10773ad3d845578f243017e311b98"
+    },
+    {
       "path": "games/wormhole/README.md",
       "sha256": "c17e609e5e4932f24d275ae7b7c8dfaa2b4007577808de35bbf2816ab8da841b"
     },
@@ -877,6 +909,18 @@
     },
     {
       "arguments": [
+        "content/games/redcraft/redcraft.json"
+      ],
+      "binary": "redcraft",
+      "entry": "games/redcraft/redcraft.json",
+      "files": [
+        "games/redcraft"
+      ],
+      "name": "RedCraft",
+      "slug": "redcraft"
+    },
+    {
+      "arguments": [
         "content/tests/test-lab/test_lab.json"
       ],
       "entry": "tests/test-lab/test_lab.json",
@@ -944,6 +988,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c78f6b77a68a9b2e02025747491343c61453eea0",
+  "source_revision": "be8eb0335722fa351136a05e031a57adbda5f9bb",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
