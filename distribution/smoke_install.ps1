@@ -15,7 +15,14 @@ function Check($ok, $what) { if (-not $ok) { throw "SMOKE FAILED: $what" } else 
 function Run-ToEnd { param([string]$Exe, [string[]]$Arguments) $p = Start-Process $Exe -ArgumentList $Arguments -PassThru; if (-not $p.WaitForExit(240000)) { $p.Kill(); throw "SMOKE FAILED: $Exe did not finish in four minutes" }; return $p.ExitCode }
 function Install { param([string]$Exe) $code = Run-ToEnd $Exe @("/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/DIR=`"$app`"", "/TASKS=desktopicon"); Check ($code -eq 0) "installer exit code $code" }
 # The installer's last act is to start the game, a moment after it exits: stop it until it stays stopped, so a running game cannot hold files in the next step.
-function StopGame { for ($i = 0; $i -lt 4; $i++) { Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'RedEngine' -or $_.Name -like 'Play-*' } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 } }
+# The game is the executable `engine.name` names: RedEngine.exe or RedEngine2D.exe, or a game's own client (`frameless.exe`, `killchain.exe`).
+function StopGame {
+    $engine = [IO.Path]::GetFileNameWithoutExtension((Get-Content (Join-Path $app 'engine.name') -Raw -ErrorAction SilentlyContinue).Trim())
+    for ($i = 0; $i -lt 4; $i++) {
+        Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'RedEngine*' -or $_.Name -eq $engine -or $_.Name -like 'Play-*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Seconds 1
+    }
+}
 
 Remove-Item $app, $saves -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -66,7 +73,7 @@ try {
         Write-Output "setup.log (tail): $(Get-Content (Join-Path $env:TEMP 'RedEngineGames\setup.log') -Tail 25 -ErrorAction SilentlyContinue | Out-String)"
         Write-Output "play.cfg: $(Get-Content (Join-Path $app 'play.cfg') -Raw)"
         & "$env:SystemRoot\System32\curl.exe" -sv --max-time 5 http://127.0.0.1:8099/latest.json 2>&1 | Write-Output
-        Get-Process | Where-Object { $_.Name -match 'Play|setup|RedEngine|curl|python' } | Format-Table Name, Id, StartTime | Out-String | Write-Output
+        Get-Process | Where-Object { $_.Name -match 'Play|setup|RedEngine|curl|python' -or $_.Name -eq [IO.Path]::GetFileNameWithoutExtension($engineExe) } | Format-Table Name, Id, StartTime | Out-String | Write-Output
         Get-ChildItem (Join-Path $env:TEMP 'RedEngineGames') -ErrorAction SilentlyContinue | Out-String | Write-Output
     }
     Check (-not (Test-Path (Join-Path $app 'content\stale.txt'))) 'the game downloaded, verified and installed the newer version by itself'
