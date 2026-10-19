@@ -1,5 +1,5 @@
 {
-  "_comment": "Hand-maintained extras per catalog slug. `online` is a short note shown with an 'online multiplayer' badge. Never put server addresses or join keys here.",
+  "_comment": "Hand-maintained extras per catalog slug. `online` is a short note shown with an 'online multiplayer' badge. Never put server addresses or join keys here. `author` is \"ai\" for a game an AI designed on its own (the Idea Forge schedule sets it when it publishes one); a slug with no author is shown as human-designed.",
   "great-outdoors": {
     "online": "Hosted kart racing for up to 8 players. Joining a shared server needs the host's address and join key — ask the host."
   },
@@ -11,5 +11,59 @@
   },
   "killchain": {
     "online": "Online FPS: team deathmatch, free for all, capture the flag, search and destroy and 1v1 duels on three maps. One player hosts and shares a six-character code; the others paste it."
+  },
+  "electric-tide": {
+    "author": "ai"
+  },
+  "drowsy-marathon": {
+    "author": "ai"
+  },
+  "gentle-carousel": {
+    "author": "ai"
+  },
+  "patient-loom": {
+    "author": "ai"
+  },
+  "midnight-engine": {
+    "author": "ai"
+  },
+  "phantom-harvest": {
+    "author": "ai"
+  },
+  "borrowed-foundry": {
+    "author": "ai"
+  },
+  "tangled-bridge": {
+    "author": "ai"
+  },
+  "velvet-orchestra": {
+    "author": "ai"
+  },
+  "hollow-weather": {
+    "author": "ai"
+  },
+  "quiet-compass": {
+    "author": "ai"
+  },
+  "final-staircase": {
+    "author": "ai"
+  },
+  "sunken-marathon": {
+    "author": "ai"
+  },
+  "electric-carousel": {
+    "author": "ai"
+  },
+  "restless-tide": {
+    "author": "ai"
+  },
+  "wandering-engine": {
+    "author": "ai"
+  },
+  "copper-choir": {
+    "author": "ai"
+  },
+  "crooked-ferry": {
+    "author": "ai"
   }
 }

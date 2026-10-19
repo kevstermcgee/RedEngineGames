@@ -1,0 +1,248 @@
+{
+ "tagline": "A dark little maze: step on a sonar pad to sound it out, then find your way around the green walls to the glowing exit.",
+ "overview": "Phantom Maze is a very small first-person maze, one of a set of quick minigames built to test RedEngine. You start at the north end of a dark room. Two tall green walls stand in the way, and an orange beacon in the far corner marks the exit.\n\nThe idea is sonar: two sonar pads on the floor send out a ping when you step on them, and the exit only lets you out after at least one ping. In this version the green \"phantom\" walls are visible from the start, so the maze is short: step onto the floor just in front of the start (the first sonar pad), walk around the walls and reach the beacon.",
+ "story": "An explorer wakes in a maze of phantom walls that only show themselves to sound. A ping of sonar reveals the way, and an orange beacon glows at the exit.",
+ "goal": "Trigger at least one sonar pad, then reach the orange exit beacon: VICTORY. There is no way to lose.",
+ "rules": [
+  "The first sonar pad is the floor right in front of where you start; the second is on the west side of the room. Stepping on one adds a ping (PINGS_USED).",
+  "The exit (the area around the orange beacon) only counts once you have at least one ping.",
+  "The green walls block your way; walk around them."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Phantom Walls",
+   "role": "The maze",
+   "description": "Two tall green walls in the middle of the room.",
+   "shot": {
+    "frame": {
+     "eye": "0,2,4",
+     "at": "0,1.2,-1",
+     "fov": 65
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "a83438c52462"
+  },
+  {
+   "name": "The Exit Beacon",
+   "role": "Goal",
+   "description": "The orange cylinder in the far corner.",
+   "shot": {
+    "frame": {
+     "eye": "2,1.6,-3",
+     "at": "4,0.6,-5",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "3abcdebb07e7"
+  }
+ ],
+ "tips": [
+  "Walk forward a couple of steps first: that is the sonar pad. Then go left around the first wall, down the side and across to the beacon.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       14,
+       12
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "look": {
+      "yaw": 0.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.68
+    },
+    {
+     "shot": "w1",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.3
+    },
+    {
+     "shot": "w2",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 0.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.61
+    },
+    {
+     "shot": "w3",
+     "camera": "first"
+    },
+    {
+     "shot": "t3",
+     "camera": "third"
+    },
+    {
+     "look": {
+      "yaw": 0.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 1.3
+    },
+    {
+     "shot": "w4",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.55
+    },
+    {
+     "shot": "w5",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 180.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 0.36
+    },
+    {
+     "shot": "w6",
+     "camera": "first"
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: two green walls and the orange beacon in the far corner.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "The start, facing the walls.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "caption": "First ping (PINGS_USED 1).",
+   "shot": {
+    "playtest": "w1"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a8f19de151fa"
+  },
+  {
+   "caption": "Down the west side, past the second sonar pad.",
+   "shot": {
+    "playtest": "t3"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
+  },
+  {
+   "caption": "The beacon ahead.",
+   "shot": {
+    "playtest": "w4"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "9790d31794af"
+  },
+  {
+   "caption": "Out of the maze: VICTORY.",
+   "shot": {
+    "playtest": "w5"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "8e9d087f274d"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Phantom Maze is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}

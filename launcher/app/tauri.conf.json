@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "RedEngine Games",
+  "identifier": "io.github.kevstermcgee.redenginegames",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "RedEngine Games",
+        "width": 1240,
+        "height": 800,
+        "minWidth": 820,
+        "minHeight": 560,
+        "center": true,
+        "maximized": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: https://kevstermcgee.github.io; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "RedEngineGames",
+    "copyright": "RedEngineGames",
+    "category": "Game",
+    "shortDescription": "Install, play and update every RedEngine game from one app",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.png", "icons/icon.ico"],
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "installerIcon": "icons/icon.ico"
+      }
+    }
+  }
+}

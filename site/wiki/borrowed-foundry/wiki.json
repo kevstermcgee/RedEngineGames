@@ -1,0 +1,260 @@
+{
+ "tagline": "In a pitch-dark space-station hive, you can only see while you make noise. Borrow a body next to each guard wasp and hum all three to sleep at the same moment.",
+ "overview": "Borrowed Foundry is a first-person stealth puzzle played mostly in the dark. The hall is invisible until you make a sound: swing your bat and, for a few seconds, the walls and the wasps light up around you, then fade back to black.\n\nThree glowing objects stand along the near wall (the game calls them jars). Pick one up (E) and you swap into a body sitting beside one of the three guard wasps, for as long as you hold your breath. While you are there, swing three times to hum that wasp to sleep. Each wasp sleeps for 24 seconds, so the trick is to get all three asleep at once. Your energy drains all the time, and faster the more wasps are sleeping: success makes you tired.",
+ "story": "There are no flowers on this space station, so its bees have turned into wasps. A beekeeper who can only see by sound has to put the hive's three guards to sleep together, borrowing a body next to each one in turn and humming it a lullaby.",
+ "goal": "Get all three wasps asleep at the same moment (Wasps asleep 3/3): \"Hush\". If your energy runs out, you lose (\"Out of breath\").",
+ "rules": [
+  "The hall is dark. Swinging the bat (left click) lights up the walls and the wasps for about 4 seconds.",
+  "Pick up one of the three glowing objects by the near wall (E) to swap into the body beside its wasp: left object, left wasp; middle, middle; right, right.",
+  "You keep the borrowed body for 8 seconds of breath (BREATH), or until you step out of the den.",
+  "In a borrowed body, swing 3 times to hum its wasp to sleep. A sleeping wasp lies on the floor for 24 seconds, then wakes.",
+  "Energy (out of 60) drains steadily, faster for each sleeping wasp and while you are in a borrowed body.",
+  "All three asleep at once wins; energy at 0 loses."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Swing the bat: make sound to see, or hum a wasp to sleep"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Pick up a glowing object to borrow a body; again to let go"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Beekeeper",
+   "role": "You",
+   "description": "Sees only by sound. Here, in a borrowed body on the cradle next to a sleeping wasp.",
+   "shot": {
+    "playtest": "den"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "80f90d234997"
+  },
+  {
+   "name": "Guard wasps",
+   "role": "The ones to put to sleep",
+   "description": "Three wasps hovering at the far end of the hall. Asleep, they lie on the floor.",
+   "shot": {
+    "studio": [
+     {
+      "id": "w",
+      "type": "prefab",
+      "prefab": "wasp",
+      "position": [
+       0,
+       0.6,
+       0
+      ]
+     }
+    ],
+    "eye": "1.5,1.45,-3.4",
+    "at": "0,0.6,0",
+    "fov": 38,
+    "floor": "#2b2a2f"
+   },
+   "image": "c2.jpg",
+   "drawn_from": "f97a14444fbf"
+  },
+  {
+   "name": "The glowing jars",
+   "role": "Body swap",
+   "description": "Three glowing objects by the near wall (a bin, a canister and a cone). Picking one up puts you in the body beside its wasp.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.5,-3.2",
+     "at": "0,0.4,-5.8",
+     "fov": 70
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "e460496381ae"
+  },
+  {
+   "name": "Cradles",
+   "role": "Borrowed bodies",
+   "description": "The glowing rings beside each wasp, where your borrowed body sits.",
+   "shot": {
+    "prefab": "cradle"
+   },
+   "image": "c4.jpg",
+   "drawn_from": "3443f7812f86"
+  },
+  {
+   "name": "The hive walls",
+   "role": "Scenery",
+   "description": "Honeycomb panels that only show while your sound echoes.",
+   "shot": {
+    "prefab": "comb_panel"
+   },
+   "image": "c5.jpg",
+   "drawn_from": "9648a1c008e1"
+  }
+ ],
+ "tips": [
+  "Work fast: a wasp sleeps for 24 seconds, so you have about that long to put the other two to sleep.",
+  "Swing once before you move to see where you are going, then swing again whenever it goes dark.",
+  "Three swings per wasp is all it takes; don't waste breath.",
+  "The panel at the top left also shows the game's internal counters (ECHO, HOST, NAP_1 and so on). The ones that matter are WASPS ASLEEP, ENERGY and BREATH."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "dark",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": 0,
+      "pitch": -5
+     }
+    },
+    {
+     "fire": 1
+    },
+    {
+     "wait": 0.4
+    },
+    {
+     "shot": "echo",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       5.5,
+       -9
+      ],
+      "at": [
+       0,
+       0.5,
+       4
+      ],
+      "fov": 75
+     }
+    },
+    {
+     "interact": "host_1"
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "body",
+     "camera": "first"
+    },
+    {
+     "look_at": "wasp_1"
+    },
+    {
+     "fire": {
+      "clicks": 3,
+      "every": 0.7
+     }
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "hum",
+     "camera": "first"
+    },
+    {
+     "shot": "den",
+     "camera": {
+      "eye": [
+       -2,
+       3.2,
+       3
+      ],
+      "at": [
+       -5,
+       1,
+       7.5
+      ],
+      "fov": 70
+     }
+    },
+    {
+     "interact": "host_1"
+    },
+    {
+     "wait": 1
+    },
+    {
+     "shot": "after",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The start: total darkness until you make a sound.",
+   "shot": {
+    "playtest": "dark"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "f687b3c3684c"
+  },
+  {
+   "caption": "One swing of the bat: the hive lights up for a few seconds, with the glowing jars ahead.",
+   "shot": {
+    "playtest": "echo"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "b1b2ab8af096"
+  },
+  {
+   "caption": "In a borrowed body beside the first wasp (HOST 1, BREATH counting down).",
+   "shot": {
+    "playtest": "body"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a5594cc6b77a"
+  },
+  {
+   "caption": "Three hums later the first wasp is asleep: WASPS ASLEEP 1/3.",
+   "shot": {
+    "playtest": "hum"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "290731bf2b8a"
+  },
+  {
+   "caption": "The first wasp asleep on the floor of its den, beside the cradle where your borrowed body stands.",
+   "shot": {
+    "playtest": "den"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "80f90d234997"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you swap bodies with whatever you point at for as long as you hold your breath; but the world is drawn only by the sounds you make; your energy drains faster the more you succeed; put every enemy to sleep at the same moment; and, as optional story, a beekeeper on a space station with no flowers.\n\nThe AI kept all of it: sound (your bat) is the only light, picking up a glowing object is the body swap with a breath timer, sleeping wasps make your energy drain faster, and you win only when all three sleep together. It said the engine had no real way to possess a body or read a held breath, so the swap is a pickup that moves you to a spot beside the wasp, and the sleeping wasps took 24 of its 38 rules.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-11."
+}

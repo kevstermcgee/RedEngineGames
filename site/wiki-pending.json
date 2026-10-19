@@ -1,0 +1,4 @@
+{
+ "_comment": "Games that predate the wiki (site/wiki.py). Every other game needs site/wiki/<slug>/wiki.json or the site build fails. Remove a slug from this list when its page is added.",
+ "pending": []
+}

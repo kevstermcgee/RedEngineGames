@@ -1,0 +1,247 @@
+{
+ "tagline": "Eight seconds on the clock: run to three stations in the right order to defuse the bomb in the middle of the room.",
+ "overview": "Bomb Defusal is a tiny first-person reflex game, one of a set of quick minigames built to try out what RedEngine can do. You stand in a small red room with a bomb core in the middle and three coloured stations around it. The countdown starts at 8 the moment the game begins.\n\nTo defuse it you cut three wires by stepping onto the pad in front of each station, in order: the red station on the left, then the dark blue station at the back, then the orange station on the right. Get all three before the countdown reaches zero and the bomb is defused; otherwise it detonates. A full run takes about seven seconds, so there is no time to hesitate.",
+ "story": "A facility's ordnance core has started an emergency countdown. A sapper has eight seconds to run between three substations (Alpha, Beta and Gamma) and cut their wires in the correct order.",
+ "goal": "Step on all three station pads in order (red, blue, orange) before COUNTDOWN reaches 0: VICTORY. If it reaches 0 first, the bomb detonates (EXPLOSION DEFEAT).",
+ "rules": [
+  "COUNTDOWN starts at 8 and drops by 1 every second.",
+  "Step onto the pad in front of the red station (left) to cut wire Alpha.",
+  "Then the dark blue station (back) for wire Beta. It only counts after Alpha.",
+  "Then the orange station (right) for wire Gamma. It only counts after Alpha and Beta, and finishes the defusal.",
+  "Stepping on a pad out of order does nothing."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Bomb Core",
+   "role": "The threat",
+   "description": "The cylinder in the middle of the room, counting down from 8.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.8,2.4",
+     "at": "0,0.5,0",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "e44ffe3401f5"
+  },
+  {
+   "name": "Station Alpha",
+   "role": "Wire 1",
+   "description": "The red station on the left. Cut its wire first.",
+   "shot": {
+    "frame": {
+     "eye": "-3,1.8,5",
+     "at": "-5,0.7,3",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "1df1765e6356"
+  },
+  {
+   "name": "Station Beta",
+   "role": "Wire 2",
+   "description": "The dark blue station at the back.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.8,-1.4",
+     "at": "0,0.7,-4",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "70af8c02ab01"
+  },
+  {
+   "name": "Station Gamma",
+   "role": "Wire 3",
+   "description": "The orange station on the right. The last wire.",
+   "shot": {
+    "frame": {
+     "eye": "3,1.8,5",
+     "at": "5,0.7,3",
+     "fov": 55
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "dfe1f0bd4e18"
+  }
+ ],
+ "tips": [
+  "Sprint: the route is about 20 metres and you have 8 seconds.",
+  "Head left first. Turning around at the start to look for the stations costs a second you do not have.",
+  "The panel at the top left shows the countdown and each wire (DEFUSED_ALPHA, _BETA, _GAMMA) as it is cut. ROUND, the bat and the health bar belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        0,
+        10,
+        9
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 65
+      }
+     },
+     {
+      "look": {
+       "yaw": -68.2,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.73
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "shot": "t1",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 35.5,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.74
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 144.5,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.74
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "lose": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "wait": 9.5
+     },
+     {
+      "shot": "boom",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: the bomb core in the middle, Alpha (left), Beta (back) and Gamma (right).",
+   "shot": {
+    "playtest": "win/over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
+  },
+  {
+   "caption": "The start: eight seconds on the clock.",
+   "shot": {
+    "playtest": "win/w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "9fc724b444f3"
+  },
+  {
+   "caption": "Wire Alpha cut, heading for Beta.",
+   "shot": {
+    "playtest": "win/t1"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "f88e53ab4015"
+  },
+  {
+   "caption": "Alpha and Beta done, three seconds left.",
+   "shot": {
+    "playtest": "win/w2"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "58d938b11db1"
+  },
+  {
+   "caption": "All three wires cut in order: VICTORY.",
+   "shot": {
+    "playtest": "win/end"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
+  },
+  {
+   "caption": "Standing still: the countdown ran out.",
+   "shot": {
+    "playtest": "lose/boom"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "0132930f9a2b"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Bomb Defusal is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}

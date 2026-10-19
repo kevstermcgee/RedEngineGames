@@ -1,0 +1,100 @@
+name: Launcher
+
+# The RedEngine Games app (launcher/): test it, build its Windows installer, and when launcher/Cargo.toml names a version that has no release
+# yet, publish it as `launcher-v<version>`. The site (pages.yml, chained below) then offers it on the front page and in launcher/latest.json,
+# which installed launchers check to update themselves.
+on:
+  push:
+    branches: [main]
+    paths:
+      - launcher/**
+      - .github/workflows/launcher.yml
+  pull_request:
+    paths:
+      - launcher/**
+      - .github/workflows/launcher.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: launcher-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: launcher
+
+      - name: Test the launcher's library (catalog, downloads, installs, updates, starting games)
+        run: cargo test --manifest-path launcher/Cargo.toml -p redengine-games-core
+
+      - name: Test the launcher's page in Chromium against the live catalog
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --quiet playwright
+          "$RUNNER_TEMP/venv/bin/python" -m playwright install --with-deps chromium
+          "$RUNNER_TEMP/venv/bin/python" launcher/tests/ui_test.py --shots "$RUNNER_TEMP/shots"
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: launcher-screenshots
+          path: ${{ runner.temp }}/shots
+          if-no-files-found: ignore
+
+  windows:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: launcher
+
+      - name: Test the launcher's library on Windows
+        run: cargo test --manifest-path launcher/Cargo.toml -p redengine-games-core
+
+      - name: Build the installer
+        working-directory: launcher/app
+        run: npx --yes @tauri-apps/cli@2 build --bundles nsis
+
+      - name: Name the installer
+        id: built
+        shell: bash
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' launcher/Cargo.toml | head -1)
+          built=$(ls launcher/target/release/bundle/nsis/*-setup.exe | head -1)
+          mkdir -p out
+          cp "$built" "out/RedEngineGames-$version-setup.exe"
+          ls -l out
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: RedEngineGames-${{ steps.built.outputs.version }}-setup
+          path: out/*.exe
+
+      - name: Publish a new version
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.built.outputs.version }}
+        run: |
+          tag="launcher-v$VERSION"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag is already released; bump the version in launcher/Cargo.toml to publish a new one."
+            exit 0
+          fi
+          # The release notes are this version's section of launcher/CHANGELOG.md; its "- " lines are what the update banner shows.
+          awk -v v="## $VERSION" '$0 == v {on = 1; next} /^## / {on = 0} on' launcher/CHANGELOG.md > notes.md
+          test -s notes.md || { echo "launcher/CHANGELOG.md has no '## $VERSION' section"; exit 1; }
+          gh release create "$tag" "out/RedEngineGames-$VERSION-setup.exe" --target "$GITHUB_SHA" --title "RedEngine Games app $VERSION" --notes-file notes.md --latest=false

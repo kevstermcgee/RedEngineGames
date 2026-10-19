@@ -1,0 +1,246 @@
+{
+ "tagline": "Step on three coloured pads to knock over three rows of dominoes, then reach the green exit.",
+ "overview": "Domino Dynamo is a tiny first-person chain-reaction game, built as a quick physics experiment. A dark square room holds three rows of tall domino slabs (red on the left, yellow in the middle, blue on the right) and three matching pressure pads along the near wall. A green exit door waits on the far wall.\n\nStep on a pad and the first domino of its row gets a shove: the row clatters down with real physics. Fire all three banks and the exit opens; walk into it to win. The exit stays locked until every bank has fallen.",
+ "story": "A small reactor room full of domino banks, wired to three pressure pads by the door. Each bank has to be tipped before the exit lets anyone out, and the real reward is watching the slabs topple into each other.",
+ "goal": "Trigger all three domino banks (BANKS 3), then walk into the green exit: VICTORY. There is no way to lose.",
+ "rules": [
+  "Each coloured pad by the wall fires its row of dominoes once: red (left), yellow (middle), blue (right).",
+  "BANKS counts the rows you have fired.",
+  "The green exit on the far wall only opens once BANKS is 3."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Domino Banks",
+   "role": "The show",
+   "description": "Three rows of three tall slabs: red, yellow and blue.",
+   "shot": {
+    "frame": {
+     "eye": "0,3.2,6.5",
+     "at": "0,0.8,1",
+     "fov": 70
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "ba53c0e8e3e5"
+  },
+  {
+   "name": "The Pressure Pads",
+   "role": "Triggers",
+   "description": "Red, yellow and blue squares on the floor by the near wall.",
+   "shot": {
+    "frame": {
+     "eye": "0,3,8.7",
+     "at": "0,0,5.5",
+     "fov": 75
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "7256be55ad05"
+  },
+  {
+   "name": "The Exit",
+   "role": "Goal",
+   "description": "The green door on the far wall.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.8,-4.5",
+     "at": "0,1.2,-8.5",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "dc067074af6f"
+  }
+ ],
+ "tips": [
+  "Any order of pads works.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       14,
+       13
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "shot": "w1",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -130.6,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.93
+    },
+    {
+     "shot": "w2",
+     "camera": "first"
+    },
+    {
+     "shot": "t2",
+     "camera": "third"
+    },
+    {
+     "look": {
+      "yaw": 90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.24
+    },
+    {
+     "shot": "w3",
+     "camera": "first"
+    },
+    {
+     "shot": "t3",
+     "camera": "third"
+    },
+    {
+     "look": {
+      "yaw": 90.0,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 2.24
+    },
+    {
+     "shot": "w4",
+     "camera": "first"
+    },
+    {
+     "look": {
+      "yaw": -26.6,
+      "pitch": -6
+     }
+    },
+    {
+     "hold": [
+      "forward"
+     ],
+     "secs": 4.94
+    },
+    {
+     "shot": "w5",
+     "camera": "first"
+    },
+    {
+     "shot": "banks",
+     "camera": {
+      "eye": [
+       0,
+       6,
+       7
+      ],
+      "at": [
+       0,
+       0.5,
+       0
+      ],
+      "fov": 75
+     }
+    },
+    {
+     "wait": 0.6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room from above: three domino rows, three pads by the near wall, the green exit at the top.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "The start, facing the red row.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "caption": "The red pad fired: its dominoes are down (BANKS 1).",
+   "shot": {
+    "playtest": "t2"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "126740249220"
+  },
+  {
+   "caption": "Two banks down, heading for the blue pad.",
+   "shot": {
+    "playtest": "t3"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "42a64bbcff50"
+  },
+  {
+   "caption": "All three rows toppled and the exit open: VICTORY.",
+   "shot": {
+    "playtest": "banks"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "b9ef61f967ac"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Domino Dynamo is one of three small physics experiments (Domino Dynamo, Skyhook Sprint, Storm Cell) added to RedEngineGames on 2026-09-29 in a commit authored by Codex, OpenAI's coding agent, at the owner's request: each was the RedEngine half of a matched test against a sister engine. Codex sessions are not saved on this machine, so the prompt it was given is not available."
+}

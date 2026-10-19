@@ -1,0 +1,346 @@
+{
+ "tagline": "Stack crates into a tower of three on an orange pallet and keep it standing for five seconds, while a big red barrel is shoved down a lane to knock it over.",
+ "overview": "Skyline Stacker is a short first-person physics game on a rooftop. Ten crates in pastel colours stand in two rows; at the far end lies an orange pallet. Pick a crate up (E), carry it to the pallet and put it down, then bring another and set it on top. A tower of three crates that stays upright for five seconds wins.\n\nThe tower is judged by the engine's real physics: only crates still upright on the pallet count, so a stack that leans or topples scores nothing. You have 120 seconds. From the 50-second mark, every 25 seconds a big red barrel is shoved down the pink lane straight at the pallet at 10 m/s. Finish before it arrives, rebuild after it, or carry the barrel somewhere harmless first.",
+ "story": "Up on a rooftop above a pastel city, a worker has two minutes to stack a little skyline of crates, and someone keeps rolling a heavy red barrel down the lane to knock it over.",
+ "goal": "Build a tower of 3 upright crates on the orange pallet and keep it standing for 5 seconds before the 120-second clock runs out.",
+ "rules": [
+  "Look at a crate and press E to pick it up; E again puts it down where you are looking (the crosshair turns green when something is in reach).",
+  "Only crates standing upright on the pallet count (STACKED). A crate on its side or off the pallet does not.",
+  "With 3 stacked, HOLD counts up; 5 seconds standing wins.",
+  "From 50 seconds in, and every 25 seconds after that, the red barrel is pushed down the pink lane at your tower.",
+  "You can pick the barrel up too, and park it out of the lane.",
+  "TIME_LEFT starts at 120 seconds."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up / put down a crate (or the barrel)"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Crates",
+   "role": "Building blocks",
+   "description": "Ten pastel crates in two rows near the start.",
+   "shot": {
+    "frame": {
+     "eye": "-2,2,5.5",
+     "at": "-2.8,0.3,0",
+     "fov": 65
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "1a6ddf29fdc2"
+  },
+  {
+   "name": "The Pallet",
+   "role": "Where the tower goes",
+   "description": "The orange square at the far end of the rooftop.",
+   "shot": {
+    "frame": {
+     "eye": "3,2.4,3.5",
+     "at": "6,0,0",
+     "fov": 60
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "341358454c0f"
+  },
+  {
+   "name": "The Wrecking Barrel",
+   "role": "Hazard",
+   "description": "A big red barrel at the end of the pink lane. Every 25 seconds from the 50-second mark it is shoved at your tower.",
+   "shot": {
+    "frame": {
+     "eye": "4,1.6,-1.6",
+     "at": "6,0.6,-4.4",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "3d527782615d"
+  }
+ ],
+ "tips": [
+  "Drop each crate gently onto the middle of the one below: aim the crosshair at the top of the stack.",
+  "Three crates is the target for a reason: a fourth dropped from head height usually topples the tower.",
+  "Try to finish in the first 50 seconds, before the first barrel run.",
+  "The panel at the top left shows STACKED, HOLD and TIME_LEFT; WRECKER_IN counts the barrel runs."
+ ],
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "w0",
+     "camera": "first"
+    },
+    {
+     "shot": "over",
+     "camera": {
+      "eye": [
+       0,
+       12,
+       12
+      ],
+      "at": [
+       0,
+       0,
+       0
+      ],
+      "fov": 65
+     }
+    },
+    {
+     "interact": "crate_3"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "carry0",
+     "camera": "first"
+    },
+    {
+     "look_at": "pallet"
+    },
+    {
+     "approach": "pallet",
+     "within": 0.1
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -62
+     }
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 1.0
+    },
+    {
+     "shot": "drop0",
+     "camera": {
+      "eye": [
+       2,
+       2.5,
+       4
+      ],
+      "at": [
+       6,
+       0.8,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "hold": [
+      "back"
+     ],
+     "secs": 0.6
+    },
+    {
+     "interact": "crate_2"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "carry1",
+     "camera": "first"
+    },
+    {
+     "look_at": "pallet"
+    },
+    {
+     "approach": "pallet",
+     "within": 0.1
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -38
+     }
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 1.0
+    },
+    {
+     "shot": "drop1",
+     "camera": {
+      "eye": [
+       2,
+       2.5,
+       4
+      ],
+      "at": [
+       6,
+       0.8,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "hold": [
+      "back"
+     ],
+     "secs": 0.6
+    },
+    {
+     "interact": "crate_1"
+    },
+    {
+     "wait": 0.2
+    },
+    {
+     "shot": "carry2",
+     "camera": "first"
+    },
+    {
+     "look_at": "pallet"
+    },
+    {
+     "approach": "pallet",
+     "within": 0.1
+    },
+    {
+     "look": {
+      "yaw": 90,
+      "pitch": -12
+     }
+    },
+    {
+     "wait": 0.3
+    },
+    {
+     "interact": 1
+    },
+    {
+     "wait": 1.0
+    },
+    {
+     "shot": "drop2",
+     "camera": {
+      "eye": [
+       2,
+       2.5,
+       4
+      ],
+      "at": [
+       6,
+       0.8,
+       0
+      ],
+      "fov": 60
+     }
+    },
+    {
+     "hold": [
+      "back"
+     ],
+     "secs": 0.6
+    },
+    {
+     "wait": 6
+    },
+    {
+     "shot": "end",
+     "camera": "first"
+    },
+    {
+     "shot": "tower",
+     "camera": {
+      "eye": [
+       2,
+       2.5,
+       4
+      ],
+      "at": [
+       6,
+       0.8,
+       0
+      ],
+      "fov": 60
+     }
+    }
+   ]
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The rooftop from above: two rows of crates, the orange pallet, and the red barrel at the end of its lane.",
+   "shot": {
+    "playtest": "over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "5c3be0dbc1b8"
+  },
+  {
+   "caption": "The start, looking down the rooftop toward the pallet.",
+   "shot": {
+    "playtest": "w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "4d01b4071c20"
+  },
+  {
+   "caption": "Two crates stacked on the pallet (STACKED 2).",
+   "shot": {
+    "playtest": "drop1"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "dbb4d8ef597e"
+  },
+  {
+   "caption": "The third crate lands crooked and knocks the stack over: BEST says 3 were up for a moment, STACKED is back to 1.",
+   "shot": {
+    "playtest": "drop2"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "dff91bb2df04"
+  },
+  {
+   "caption": "The crates lie scattered on the pallet. Stacking them straight is the whole game.",
+   "shot": {
+    "playtest": "tower"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "b34fae790e1c"
+  }
+ ],
+ "prompt": "Please pull the most recent version of RedEngine. Create 3 mini games with this. The games must be unique and they must utilize physics in some way. Provide feedback per game about your experience developing with this engine.",
+ "prompt_source": "Given to Claude Code on 2026-09-30, in a session working on RedEngine. That one prompt produced three games: Skyline Stacker, Castle Crash and Plate Chamber."
+}

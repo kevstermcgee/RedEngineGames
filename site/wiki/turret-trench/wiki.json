@@ -1,0 +1,326 @@
+{
+ "tagline": "A turret sweeps a narrow trench on a two-second rhythm: dash through while it cools down, round the bunker wall and hack the override terminal without taking a single hit.",
+ "overview": "Turret Trench is a tiny first-person timing game, one of a set of quick minigames built to test RedEngine. You start at the south end of a long, narrow trench. At the far end, a red turret looks down over a green override terminal, and a dark bunker wall stands in the middle of the trench.\n\nThe turret alternates every two seconds between firing and cooling down. Entering the middle of the trench while it is firing gets you hit and sent back to the start. Time your run so you step into the trench during a cool-down, go around the bunker wall and reach the terminal. One warning: the terminal only accepts the override if you have never been hit, so a single hit means you have to restart the game to win.",
+ "story": "An infiltrator has to cross a long trench covered by an automated turret. The turret sweeps on a steady two-second rhythm, and at the far end is the override terminal that shuts the whole turret grid down, if nobody has been spotted.",
+ "goal": "Reach the green override terminal at the far end with HITS 0: VICTORY. There is no lose screen, but once you have been hit the terminal will not work any more.",
+ "rules": [
+  "The turret switches every 2 seconds: cooling down, then firing, then cooling down again (TURRET_CYCLE counts the switches; an odd number means firing).",
+  "Stepping into the middle stretch of the trench while it is firing is a hit: HITS goes up and you are sent back to the start.",
+  "Once you are inside the trench you are safe while you stay in it; only stepping in while it fires counts.",
+  "The terminal (the area in front of the green box at the far end) overrides the turret grid, but only if HITS is still 0."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Turret",
+   "role": "Hazard",
+   "description": "The red block high up at the far end of the trench.",
+   "shot": {
+    "frame": {
+     "eye": "1.5,2.6,3.5",
+     "at": "0,2.5,7.5",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "5263e3a689bd"
+  },
+  {
+   "name": "The Override Terminal",
+   "role": "Goal",
+   "description": "The green box at the very end of the trench, below the turret.",
+   "shot": {
+    "frame": {
+     "eye": "1.4,1.5,7",
+     "at": "0,0.6,9.5",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "4954493d1831"
+  },
+  {
+   "name": "The Bunker Wall",
+   "role": "Obstacle",
+   "description": "A dark slab in the middle of the trench. Go around it on the right.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.7,-4",
+     "at": "0,1.2,0",
+     "fov": 60
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "1db68f21ab3a"
+  }
+ ],
+ "tips": [
+  "Watch TURRET_CYCLE: start running just as it changes to an odd number, and you will reach the trench as it switches to an even one (cooling down).",
+  "If you are hit even once, restart the game: the terminal will not accept the override any more.",
+  "ROUND, the bat and the health bar on screen belong to the engine's default player and do nothing here."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        6,
+        12,
+        -14
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 70
+      }
+     },
+     {
+      "wait": 2.4
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 153.4,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.45
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.68
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": -166.8,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.78
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  },
+  "hit": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.61
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 153.4,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.45
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.68
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": -166.8,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 2.78
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The trench from above: the start at the bottom, the bunker wall in the middle, the turret and terminal at the far end.",
+   "shot": {
+    "playtest": "win/over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
+  },
+  {
+   "caption": "The start, looking up the trench toward the bunker wall.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.7,-10.5",
+     "at": "0,1.4,2"
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "676badc258d2"
+  },
+  {
+   "caption": "Into the trench during a cool-down, around the bunker wall.",
+   "shot": {
+    "playtest": "win/t2"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
+  },
+  {
+   "caption": "The red turret and the green terminal ahead.",
+   "shot": {
+    "playtest": "win/w3"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "d565927b75d2"
+  },
+  {
+   "caption": "Override hacked with no hits: VICTORY.",
+   "shot": {
+    "playtest": "win/end"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "3a95a992b699"
+  },
+  {
+   "caption": "Running in while the turret fires: hit twice (HITS 2). The terminal no longer works.",
+   "shot": {
+    "playtest": "hit/end"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "83b720a2c8a4"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Turret Trench is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}

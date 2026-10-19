@@ -1,0 +1,460 @@
+{
+ "tagline": "A pastel kart racer for up to eight: fairytale animals, each with their own kart and perk, race three laps around Whispering Woods.",
+ "overview": "Great Outdoors is a cheerful online kart racer. Eight fairytale animals (Duck, Bunny, Deer, Coyote, Hawk, Bear, Wolf and Beaver) each drive their own kart with their own perk, in a soft pastel world. The track, Whispering Woods, is a forest loop of three laps with a dirt shortcut across the south-east bend, a patch of mud in the east and a ford through a stream in the north.\n\nItem boxes along the track give one of three pickups: a Mushroom boost, an Acorn to throw, or a Bubble shield. Hop and hold to drift round corners and charge a boost. Bots fill the grid up to eight, so you can race alone on your own PC, or one player hosts and friends join. The camera follows from behind, and a gamepad works throughout.",
+ "story": "The animals of the Great Outdoors hold a race through Whispering Woods: three laps round the forest, past the mud and through the ford. Pick your favourite and see whose kart is quickest.",
+ "goal": "Finish three laps first. Every racer has 30 seconds to finish after the winner crosses the line.",
+ "rules": [
+  "Pick your animal in the lobby and press Ready; bots fill the empty places on the grid.",
+  "Three laps of Whispering Woods, through every checkpoint gate in order.",
+  "Mud and water slow most karts; the dirt shortcut saves distance but slows karts that do not like dirt.",
+  "Drive through an item box for a pickup: Mushroom (boost), Acorn (throw it at someone) or Bubble (shield). Boxes come back after 6 seconds.",
+  "Hold hop through a corner to drift; a long drift releases a boost.",
+  "Each animal's perk changes how its kart drives (see Characters)."
+ ],
+ "controls": [
+  {
+   "input": "W / S or up / down (right / left trigger)",
+   "action": "Throttle and brake / reverse"
+  },
+  {
+   "input": "A / D or left / right (left stick)",
+   "action": "Steer"
+  },
+  {
+   "input": "Space, hold (a shoulder button)",
+   "action": "Hop and drift"
+  },
+  {
+   "input": "F or left click (gamepad X)",
+   "action": "Use your item"
+  },
+  {
+   "input": "E (gamepad Y)",
+   "action": "Your animal's ability (the Beaver lays planks)"
+  },
+  {
+   "input": "Left / right in the lobby (d-pad, bumpers)",
+   "action": "Choose your animal"
+  },
+  {
+   "input": "R, Enter or A",
+   "action": "Ready"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Duck",
+   "role": "Racer",
+   "description": "A round yellow duck with an orange bill in a rubber-duck kart. Perk: Water does not slow you down (the ford).",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_duck",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c1.jpg",
+   "drawn_from": "da019bce592f"
+  },
+  {
+   "name": "Bunny",
+   "role": "Racer",
+   "description": "A pink-and-white bunny with tall ears and a carrot on the nose of a mint kart. Perk: Light and nimble: a higher hop and faster hop-drifts.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_bunny",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c2.jpg",
+   "drawn_from": "56f9a1eef5ec"
+  },
+  {
+   "name": "Deer",
+   "role": "Racer",
+   "description": "A fawn deer with antlers in a leaf-green kart. Perk: Highest top speed, slow to accelerate; drifts charge much faster.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_deer",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c3.jpg",
+   "drawn_from": "abf25031a0fa"
+  },
+  {
+   "name": "Coyote",
+   "role": "Racer",
+   "description": "A sandy coyote with a bushy tail in a terracotta kart on big dirt tyres. Perk: No penalty on the dirt shortcuts.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_coyote",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c4.jpg",
+   "drawn_from": "8b16691a8c3e"
+  },
+  {
+   "name": "Hawk",
+   "role": "Racer",
+   "description": "A brown hawk with spread wings in a sky-blue kart with fins. Perk: Hold jump in the air to glide.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_hawk",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c5.jpg",
+   "drawn_from": "74483ef0a16a"
+  },
+  {
+   "name": "Bear",
+   "role": "Racer",
+   "description": "A big brown bear in a wide honey-coloured kart with a bumper. Perk: Heavy: bumps spin others, and you never spin.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_bear",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c6.jpg",
+   "drawn_from": "d828f7e7b093"
+  },
+  {
+   "name": "Wolf",
+   "role": "Racer",
+   "description": "A grey-blue wolf with pointed ears in a lavender kart. Perk: Driving in another kart's slipstream charges a boost.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_wolf",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c7.jpg",
+   "drawn_from": "eb431382eb1c"
+  },
+  {
+   "name": "Beaver",
+   "role": "Racer",
+   "description": "A beaver in a kart made of logs and planks, with a flat tail. Perk: Unbothered by dirt, mud and water; E lays planks behind the kart.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k",
+      "type": "prefab",
+      "prefab": "kart_beaver",
+      "position": [
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    "eye": "1.9,1.75,-4.6",
+    "at": "0,0.75,0",
+    "fov": 38,
+    "floor": "#c9d6b8"
+   },
+   "image": "c8.jpg",
+   "drawn_from": "bb4c907602e5"
+  }
+ ],
+ "tips": [
+  "The Coyote and the Beaver love the dirt shortcut; the Duck and the Beaver laugh at the ford.",
+  "Bunny and Deer are drifters: hop into every corner.",
+  "With the Bear, bump people: they spin, you do not.",
+  "Hold an Acorn for the final straight."
+ ],
+ "gallery": [
+  {
+   "caption": "Whispering Woods from above: the forest loop, the dirt shortcut across the bend, and the woods all round.",
+   "shot": {
+    "frame": {
+     "eye": "0,140,150",
+     "at": "0,0,0",
+     "fov": 60
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "4229991a375f"
+  },
+  {
+   "caption": "The start and finish line.",
+   "shot": {
+    "frame": {
+     "eye": "-14,3,74",
+     "at": "10,0,70",
+     "fov": 70
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "18f1760f5605"
+  },
+  {
+   "caption": "All eight karts on the grid.",
+   "shot": {
+    "studio": [
+     {
+      "id": "k0",
+      "type": "prefab",
+      "prefab": "kart_duck",
+      "position": [
+       -7.3500000000000005,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k1",
+      "type": "prefab",
+      "prefab": "kart_bunny",
+      "position": [
+       -5.25,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k2",
+      "type": "prefab",
+      "prefab": "kart_deer",
+      "position": [
+       -3.1500000000000004,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k3",
+      "type": "prefab",
+      "prefab": "kart_coyote",
+      "position": [
+       -1.05,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k4",
+      "type": "prefab",
+      "prefab": "kart_hawk",
+      "position": [
+       1.05,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k5",
+      "type": "prefab",
+      "prefab": "kart_bear",
+      "position": [
+       3.1500000000000004,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k6",
+      "type": "prefab",
+      "prefab": "kart_wolf",
+      "position": [
+       5.25,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "id": "k7",
+      "type": "prefab",
+      "prefab": "kart_beaver",
+      "position": [
+       7.3500000000000005,
+       0,
+       0
+      ],
+      "rotation": [
+       0,
+       180,
+       0
+      ]
+     }
+    ],
+    "eye": "0,3.3,9.8",
+    "at": "0,0.5,0",
+    "fov": 56
+   },
+   "image": "g3.jpg",
+   "drawn_from": "da4888ff85cb"
+  },
+  {
+   "caption": "Item boxes on the track.",
+   "shot": {
+    "frame": {
+     "eye": "30,3,76",
+     "at": "45,0.5,66",
+     "fov": 60
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "8c81866a0fb5"
+  },
+  {
+   "caption": "The mud in the east.",
+   "shot": {
+    "frame": {
+     "eye": "104,4,-8",
+     "at": "110,0,-40",
+     "fov": 70
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "182b9741c80b"
+  },
+  {
+   "caption": "The dirt shortcut across the south-east bend.",
+   "shot": {
+    "frame": {
+     "eye": "60,5,40",
+     "at": "80,0,10",
+     "fov": 70
+    }
+   },
+   "image": "g6.jpg",
+   "drawn_from": "64467925a413"
+  },
+  {
+   "caption": "The track from the forest's edge.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g7.jpg",
+   "drawn_from": "c3effa27e24c"
+  }
+ ],
+ "prompt": "Only tier A. I also want to include a hosted kart racing game. Let’s have it themed around fairytale animals with a pastel color palette. Do only one map for the time being. The characters are:\n\nDuck\nBunny\nDeer\nCoyote \nHawk\nBear\nWolf\nBeaver\n\nEach character has their own unique kart with its own perks. \n\nI recognize this is a big ask, but I think the data gathered from it can really help us improve the engine (networking, game mechanics, character design, etc)",
+ "prompt_source": "Given to Claude Code on 2026-09-29, as part of a larger request (\"Only tier A\" refers to an earlier list in the same conversation). Later feedback from the owner, 2026-10-01, asked for the clanging motor noise to go, smoother online play, and \"its own unique music. Something light and fun! They're cute animals having a little race for pete sake\"."
+}

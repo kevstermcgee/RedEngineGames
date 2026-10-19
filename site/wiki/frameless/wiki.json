@@ -1,0 +1,97 @@
+{
+ "tagline": "An endless art museum to get lost in: every room hides a key inside one of its living artworks, and to find it you step into the paintings themselves.",
+ "overview": "Frameless is a first-person exploration game in a museum that never ends. Rooms open onto rooms in wings that each hold one feeling: joy, grief, longing, wonder, rage, dread, serenity, nostalgia, tenderness, loneliness, hope, awe, restlessness, mischief, love and regret. Every painting, tapestry, sculpture and installation is one of a kind and alive in its own way (rain that falls, an eye that follows you, a flower that breathes), and each has a plaque with its title, its made-up artist (some of whom you meet again down the corridor), its medium and its story.\n\nEvery room keeps a key hidden in one of its pieces, and the room's doors only open once it is found. Sometimes a sculpture gives it up when touched. More often it is inside a painting: walk up to a painting and press E, and you fly into it and stand inside its world, with more paintings standing in it. The key can be a painting or two deeper still. A painting on the way to a key keeps a faint golden shimmer, and a curator's note by each room's door gives a hint. The music changes with each wing, and your visit is saved, with a map in the pause menu of everything you have explored.",
+ "story": "A museum with no walls at the end of it, where the art is alive and every room is a feeling. Somewhere in each room a key is hidden, and the only way through is to step into the pictures and look.",
+ "goal": "There is no final goal: find each room's key to open its doors and keep exploring for as long as you like. Your rooms, keys and paintings stepped into are saved.",
+ "rules": [
+  "Each room has one key, hidden in one of its pieces. The room's doors open once you have it.",
+  "Walk up to a painting and press E to step into it; you stand inside its world, which can hold more paintings. Press E at a sculpture to touch it.",
+  "A painting on the path to the key shimmers faintly gold; the curator's note by the door hints where to look.",
+  "Plaques beside each piece give its title, artist, year, medium and story.",
+  "M (or the pause menu) shows the map of the museum: rooms discovered, keys found, doors still shut.",
+  "Each wing has its own feeling, colours and music; the visit is saved between sessions."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Step into a painting, or touch a sculpture"
+  },
+  {
+   "input": "M",
+   "action": "Map of the museum"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause: music, sounds, footsteps, map"
+  },
+  {
+   "input": "F or F11",
+   "action": "Fullscreen"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The plaques",
+   "role": "The stories",
+   "description": "Every piece has one: a title, a made-up artist and year, the medium, and a short story. This one: \"Untitled (the inside of a seashell)\" by Isaura Kalnins-Fenwick, 1764.",
+   "image": "c1.jpg"
+  },
+  {
+   "name": "The paintings",
+   "role": "Living art",
+   "description": "26 painting styles, all moving: a swirling galaxy, stained glass, a breathing flower, an eye that follows you, a candle in the dark and many more.",
+   "image": "c2.jpg"
+  },
+  {
+   "name": "The sculptures",
+   "role": "Art you can touch",
+   "description": "Sculptures in ten materials; touching one can give up a room's key.",
+   "image": "c3.jpg"
+  },
+  {
+   "name": "Inside a painting",
+   "role": "Worlds within worlds",
+   "description": "Step into a painting and you stand in its world, often with more paintings standing in it.",
+   "image": "c4.jpg"
+  }
+ ],
+ "tips": [
+  "Look for the faint golden shimmer: it marks the paintings on the way to the key.",
+  "Read the curator's note by the door of each room before you start searching.",
+  "If a room's key seems missing, step into a painting and look for paintings inside it.",
+  "Footsteps can be turned off in the pause menu if you want the music alone.",
+  "A new museum: start the game with RE2_MUSEUM_FRESH=1 to begin a fresh visit instead of the saved one."
+ ],
+ "gallery": [
+  {
+   "caption": "The start card, in the first gallery.",
+   "image": "g1.jpg"
+  },
+  {
+   "caption": "Gallery 1 of the Observatory Wing, and a plaque: \"E, step into the painting\".",
+   "image": "g2.jpg"
+  },
+  {
+   "caption": "Inside a painting: a world of falling light on still water, with more paintings standing in it.",
+   "image": "g3.jpg"
+  },
+  {
+   "caption": "The pause menu's plan of the museum: 1 key found, 2 rooms discovered.",
+   "image": "g4.jpg"
+  },
+  {
+   "caption": "All 26 painting styles on one wall.",
+   "image": "g5.jpg"
+  }
+ ],
+ "prompt": "Using the latest RedEngine:\n\nCreate an endless 3d art museum game. Utilize sculptures, paintings, etc. any kind of art you can imagine. Have doors between rooms within the art exhibit. \n\nEach art piece should have a name, an origin story, and have an artists name (made up, can be anonymous).\n\nArt pieces should run the gamut of human emotions\n\nOur first person view should be able to walk up to art pieces and interact with them. Faint sounds of steps (can be turned off in settings)\n\nPaintings are virtual allowing the player to step into them. Each room has a key hidden within one of the art pieces within that room that must be discovered to get into the next room. \n\nStepping into the art should feel special and interesting \n\nPaintings, sculptures, and other art are all unique. Include a variety of frames for the art.\n\nFeel free to include other kinds of art in this game as well.\n\nThe art pieces themselves should be unique and evoke a vibe/emotion. These aren’t your normal art pieces. They feel alive\n\nIt could be cool if rooms themselves had themes. Like the art in certain rooms has a general overlap in emotional themes \n\nCall the game something catchy, fitting, short, and memorable.\n\nKeep track of the number of keys collected/rooms discovered. In the pause menu include a map option to view the layout of the art exhibit and the paths you’ve explored. \n\nMy hope is there will also be paintings within paintings in a recursive kind of way. Like maybe the key isn’t one painting deep but maybe there is another painting within that painting and the key is two paintings deep\n\nThis is a game to get lost in\n\nEnsure there is phenomenal touching music across the rooms",
+ "prompt_source": "Given to Claude Code on 2026-10-11. The name Frameless was the AI's choice, as the prompt asked. The pictures on this page are screenshots taken on the release day; since 2026-10-14 Frameless is its own program built on the engine."
+}

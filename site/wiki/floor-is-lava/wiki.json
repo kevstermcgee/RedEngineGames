@@ -1,0 +1,296 @@
+{
+ "tagline": "Two seconds after the start, the floor turns to lava: climb the staircase to the rooftop sanctuary before it does.",
+ "overview": "Floor Is Lava is the smallest of the quick minigames built to test RedEngine: a single room with a short staircase of dark blocks leading up to a green rooftop. For the first two seconds the floor is safe. After that, most of the floor is lava, and stepping onto it sends you back to the start.\n\nRun straight up the steps to the green roof at the top and you are rescued. There is nothing else to it: a good run takes about three seconds. Note that the floor looks exactly the same before and after the lava switches on; only the counter at the top left (LAVA_ACTIVE) tells you.",
+ "story": "The classic childhood game, made real: when the floor turns to lava, get up high and stay there. The rooftop sanctuary is the only safe place in the room.",
+ "goal": "Reach the green rooftop at the top of the steps: VICTORY. There is no way to lose: lava only sends you back to the start (BURNED counts how often).",
+ "rules": [
+  "The lava switches on 2 seconds after the start (LAVA_ACTIVE becomes 1).",
+  "From then on the floor in the middle of the room (all but a 2-metre strip along the walls) burns you: you are sent back to the start and BURNED goes up by one.",
+  "The steps and the rooftop are safe.",
+  "Reaching the green rooftop ends the game in victory."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Staircase",
+   "role": "Your path",
+   "description": "Five dark blocks, each a little higher than the last, leading up from the start.",
+   "shot": {
+    "frame": {
+     "eye": "3,2.2,-5",
+     "at": "0,0.4,-0.5",
+     "fov": 60
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "85d70104fc96"
+  },
+  {
+   "name": "The Rooftop Sanctuary",
+   "role": "Goal",
+   "description": "The green platform at the top of the steps.",
+   "shot": {
+    "frame": {
+     "eye": "2.4,2.2,1.2",
+     "at": "0,0.8,3.8",
+     "fov": 55
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "76bd17caadea"
+  },
+  {
+   "name": "The Lava",
+   "role": "Hazard",
+   "description": "Invisible: the floor looks the same, but after two seconds touching it sends you back to the start.",
+   "shot": {
+    "playtest": "burn/step"
+   },
+   "image": "c3.jpg",
+   "drawn_from": "5cf57ab6fd1f"
+  }
+ ],
+ "tips": [
+  "Walk straight forward from the start: the steps begin right in front of you.",
+  "Jumping is not needed; each step is low enough to walk up."
+ ],
+ "playtest": {
+  "win": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "shot": "w0",
+      "camera": "first"
+     },
+     {
+      "shot": "over",
+      "camera": {
+       "eye": [
+        7,
+        8,
+        -8
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 65
+      }
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.52
+     },
+     {
+      "shot": "w1",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.52
+     },
+     {
+      "shot": "w2",
+      "camera": "first"
+     },
+     {
+      "shot": "t2",
+      "camera": "third"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.58
+     },
+     {
+      "shot": "w3",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.55
+     },
+     {
+      "shot": "w4",
+      "camera": "first"
+     },
+     {
+      "look": {
+       "yaw": 180.0,
+       "pitch": -6
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.67
+     },
+     {
+      "shot": "w5",
+      "camera": "first"
+     },
+     {
+      "wait": 0.6
+     },
+     {
+      "shot": "end",
+      "camera": "first"
+     },
+     {
+      "shot": "over2",
+      "camera": {
+       "eye": [
+        7,
+        8,
+        -8
+       ],
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "fov": 65
+      }
+     }
+    ]
+   }
+  },
+  "burn": {
+   "script": {
+    "policy": "idle",
+    "steps": [
+     {
+      "wait": 2.3
+     },
+     {
+      "look": {
+       "yaw": 146.3,
+       "pitch": -10
+      }
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 1.2
+     },
+     {
+      "shot": "step",
+      "camera": "third"
+     },
+     {
+      "hold": [
+       "forward"
+      ],
+      "secs": 0.6
+     },
+     {
+      "wait": 0.3
+     },
+     {
+      "shot": "burn",
+      "camera": "first"
+     }
+    ]
+   }
+  }
+ },
+ "gallery": [
+  {
+   "caption": "The room: the staircase leads up to the green rooftop.",
+   "shot": {
+    "playtest": "win/over"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "03b2a632774d"
+  },
+  {
+   "caption": "The start, facing the steps.",
+   "shot": {
+    "playtest": "win/w0"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "9fc724b444f3"
+  },
+  {
+   "caption": "Halfway up the steps, a second before the lava switches on.",
+   "shot": {
+    "playtest": "win/t2"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "a5e6b784056f"
+  },
+  {
+   "caption": "On the rooftop: VICTORY.",
+   "shot": {
+    "playtest": "win/over2"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "435d1fbb606b"
+  },
+  {
+   "caption": "Touching the floor after two seconds: burned, and back to the start (BURNED 1).",
+   "shot": {
+    "playtest": "burn/burn"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "ffa32d85bf5b"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. Floor Is Lava is one of ten small minigames added to RedEngineGames in a single commit on 2026-09-30 (\"Add 10 unique data-driven minigames with feedback and launcher support\"). They were built by an AI at the owner's request, as experiments that tested RedEngine side by side with a sister engine (each game's FEEDBACK.md compares the two), but the prompt that asked for them was given in a session that is not saved on this machine."
+}

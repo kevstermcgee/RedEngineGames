@@ -1,0 +1,196 @@
+{
+ "tagline": "A fast online team shooter for friends: Ridgeback against Nightfall on three maps, in four modes, from a 1v1 duel up to six a side, with 39 weapons.",
+ "overview": "Killchain is a first-person team shooter in the spirit of Counter-Strike, built on RedEngine so the owner could play with his cousins. Two teams, Ridgeback (army green and tan) and Nightfall (navy and black), fight on three maps: Ironworks, a steel works with a dead foundry in the middle and freight yards, warehouses and office roofs; Quarry, a big open desert quarry with plateaus, a central mesa with an excavator and the longest sightlines; and Terminus, a railway terminus at night with ticket halls, a tall concourse and parked trains, made for close quarters.\n\nPick a mode, team size and map on the setup screen: team deathmatch, free for all, capture the flag, or search and destroy (one life a round; attackers plant the bomb, defenders stop or defuse it), from 1v1 up to 6v6. Bots are optional and fill empty slots. 39 weapons are tuned after real counterparts (magazines, rate of fire, recoil, spread, headshots), you carry two guns, a melee weapon and two grenades, and dying shows a killcam through your killer's eyes. Hosting gives a six-character code friends can paste to join, through a relay, with no port forwarding. There is no music and no radio chatter: only gunfire, wind and distant machines. A stats screen keeps your kills, deaths, accuracy, favourite weapon and more.",
+ "story": "No story: two squads, Ridgeback and Nightfall, settle it on an industrial works, a desert quarry and a night-time railway terminus. Killchain is about the match, the map and the people you play with.",
+ "goal": "Win the match in the chosen mode: most kills (TDM, FFA), first to the capture limit (CTF) or first to the round limit (search and destroy), before the time limit if one is set.",
+ "rules": [
+  "Modes: TDM (team with most kills), FFA (player with most kills), CTF (take the enemy flag home while yours is at home), and BOMB / search and destroy (one life a round; plant with E for about 3 s, defuse for about 5 s; sides swap partway).",
+  "Team sizes 1v1, 2v2, 3v3 or 6v6 (free for all: 2, 4, 6 or 12 players). Bots are off by default and fill empty slots when switched on.",
+  "You carry two guns, one melee weapon and up to two grenades. Each gun keeps its own magazine and reserve; ammunition crates top them up.",
+  "Walk over a weapon to pick it up into a free slot; E swaps it for the gun in hand.",
+  "Health slowly returns if you stay out of trouble for a few seconds.",
+  "The host sets how a match ends: a kill, capture or round limit, a 5 to 20 minute clock, or both. Afterwards: PLAY AGAIN or HOME SCREEN."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Left mouse (right trigger)",
+   "action": "Fire"
+  },
+  {
+   "input": "Right mouse (left trigger)",
+   "action": "Aim down sights / scope (click cycles zoom)"
+  },
+  {
+   "input": "Space (A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift, hold (left stick click)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Ctrl or C, hold (B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "R (X)",
+   "action": "Reload"
+  },
+  {
+   "input": "E (Y)",
+   "action": "Use / pick up / plant / defuse"
+  },
+  {
+   "input": "G",
+   "action": "Drop weapon"
+  },
+  {
+   "input": "1 2 3 4 (D-pad)",
+   "action": "Primary, secondary, knife, grenades"
+  },
+  {
+   "input": "Mouse wheel (LB / RB)",
+   "action": "Previous / next weapon"
+  },
+  {
+   "input": "Q",
+   "action": "Last weapon"
+  },
+  {
+   "input": "Tab, hold (Back)",
+   "action": "Scoreboard"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  },
+  {
+   "input": "F or F11",
+   "action": "Fullscreen"
+  }
+ ],
+ "characters": [
+  {
+   "name": "Ridgeback",
+   "role": "Team",
+   "description": "Army green and tan uniforms with helmets. Left to right, the four looks: Trooper, Scout, Heavy and Ghost (drawn by the engine).",
+   "image": "c1.jpg"
+  },
+  {
+   "name": "Nightfall",
+   "role": "Team",
+   "description": "Navy and black uniforms with helmets. Left to right: Trooper, Scout, Heavy and Ghost (drawn by the engine).",
+   "image": "c2.jpg"
+  },
+  {
+   "name": "Ironworks (WORKS)",
+   "role": "Map",
+   "description": "A steel works: dead foundry, freight yards, warehouses and office roofs; late-afternoon light.",
+   "shot": {
+    "file": "projects/killchain/out/plan.png"
+   },
+   "image": "c3.jpg",
+   "drawn_from": "36d4c3a6c55e"
+  },
+  {
+   "name": "Quarry",
+   "role": "Map",
+   "description": "An open desert quarry with plateaus, a central mesa and two overlooks.",
+   "shot": {
+    "file": "projects/killchain/out/quarry-plan.png"
+   },
+   "image": "c4.jpg",
+   "drawn_from": "d740621f2ef7"
+  },
+  {
+   "name": "Terminus (DEPOT)",
+   "role": "Map",
+   "description": "A railway terminus at night: ticket halls, a concourse and two platforms with parked trains.",
+   "shot": {
+    "file": "projects/killchain/out/terminus-plan.png"
+   },
+   "image": "c5.jpg",
+   "drawn_from": "917b2f0d5166"
+  }
+ ],
+ "tips": [
+  "Crouch or aim to tighten your spread; moving and jumping make it worse.",
+  "In search and destroy you only get one life a round: play it slow.",
+  "If the short join code fails, the host's long code always works.",
+  "Your stats are kept on your PC: check STATS on the home screen."
+ ],
+ "gallery": [
+  {
+   "caption": "Capture the flag on Ironworks, just after the start: FIRST TO 3 CAPTURES.",
+   "shot": {
+    "file": "projects/killchain/out/kc/ctf/02-start.png"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "9f7624a09f82"
+  },
+  {
+   "caption": "Search and destroy on Terminus: you have the bomb, hold E on a site.",
+   "shot": {
+    "file": "projects/killchain/out/kc/snd/02-live.png"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "819f007ee632"
+  },
+  {
+   "caption": "Capture the flag on Ironworks: ENEMY HAS YOUR FLAG.",
+   "shot": {
+    "file": "projects/killchain/out/kc/ctf/03-moving.png"
+   },
+   "image": "g3.jpg",
+   "drawn_from": "3e79208f2c5f"
+  },
+  {
+   "caption": "Search and destroy on Terminus: attacking with the bomb.",
+   "shot": {
+    "file": "projects/killchain/out/kc/snd/03-running.png"
+   },
+   "image": "g4.jpg",
+   "drawn_from": "19637aa9e11e"
+  },
+  {
+   "caption": "Quarry: long sightlines across the desert.",
+   "shot": {
+    "file": "projects/killchain/out/kc/quarry/02-forward.png"
+   },
+   "image": "g5.jpg",
+   "drawn_from": "e375d8d0eb9c"
+  },
+  {
+   "caption": "Terminus at night.",
+   "shot": {
+    "file": "projects/killchain/out/kc/terminus/01-spawn.png"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "b52b0e601774"
+  },
+  {
+   "caption": "Ironworks from above.",
+   "shot": {
+    "file": "projects/killchain/out/tour-main.png",
+    "crop": [
+     0.5,
+     0,
+     1,
+     1
+    ]
+   },
+   "image": "g7.jpg",
+   "drawn_from": "017f940ef810"
+  }
+ ],
+ "prompt": "Game title: Killchain\nEngine: https://github.com/kevstermcgee/RedEngine\n\nDesign a CS Go clone called Killchain. Build it on the game engine above.\n\nFirst person by default, 90 degree field of view, must support iron sights/scopes.\n\nSupport crouching \n\nHigh quality, efficient, reliable online multiplayer so I can play with my cousins. \n\nNative controller support (copy CS Go's main controls)\n\nAt least 25 different unique weapons (guns, grenade, sniper, rocket launcher, etc.)\n\nTwo teams (you create the names of them) 6 players per team. \n\nThe character models for each team must look like they are in military uniforms (army green, tan, navy, black etc) with a helmet. \n\nInclude a Bots mode where the other players can be bots, however by default have each game have only the actual human players unless they set it up for bots in the menu. \n\nEnsure player hand models that are holding weapons match the rest of their aesthetic. All hands and arms must match each respective character design. \n\nHud should be extremely minimal. \n\nNo background music at all. \n\nA unique, industrial style map with different buildings. Choose a map design and scale inspired by any of the following:\n\nCS go maps:\nMirage\nNuke\nInfernao\nDust 2\nAnubis\n\nCall of Duty:\nNuketown\nTerminal\n\nEnsure the starting menu is minimal. Solo, join, etc. \n\nAllow players to choose their team when they join the server. Allow players to choose how long to play for or how many times a person needs to get killed in order for the game to end. \n\nAfter death, show an 8 second killcam while the player prepares to return to the game so they can see how they were killed. \n\nWhen a game ends, have the end game menu  ask you if you want to return to the home screen (ending the game) or play again.\n\nNo radio chatter. Only natural sounds of the map along with sounds of weapons, grenade explosions, etc. \n\nNo blood is necessary. \n\nExclusively team deathmatch for right now. \n\nFeel free to add plants, assets, etc that aren't currently in the game engine but make a lot of sense in the map design you have chosen. \n\nAllow for picking up new weapons. Only 2 firearms can be held at a time, one melee weapon, and up to 2 grenades. \n\nAmmo is a thing in this game. Make sure that each weapon has it's own ammo. Try to design each weapon and give it specs (like ammo, fire speed, etc) comparable to the real life firearm counterpart if possible. \n\nStarting weapons are the same on each team. The other weapons are scattered across the map. \n\nEach instance of the game should remember the number of kills a person has gotten. For example, after playing the game for a couple weeks I should be able to launch the game, see the number of kills I have, the number of times I've died, the total amount of time I've spent playing the game, number of rounds I've played, and other useful stats. You can hide this on the menu under a button called stats or Stats or something like that.\n\nOnce the game is complete, be sure to publish the .exe at https://github.com/kevstermcgee/RedEngineGames so me and my cousin can install it and play together later.\n\nKeep high quality metrics of what caused you the most time, tokens, etc during development.\n\nOnce you have completed development of this game, compile a list with your feedback about developing with this game engine so we can improve it for future game development runs. \n\nThank you\n\n——— A later prompt, 2026-10-07: Killchain v2 ———\n\nUpdate Killchain to use the latest engine, adopting the latest networking stack, etc. Joining servers should be as easy, convenient, and stable as possible. I will be playing with my cousin who is in another state. Patch any problems you uncover in the game or in the engine itself. Add any other features to this games that you feel improves it in ways that improve the gameplay experience. For each game, develop robust feedback for the engine so it can improve. Once complete, push changes to main and ensure the latest updated game is pushed to RedEngineGames\n\nUpdate and improve the main map and add two unique new maps. Add a few more interesting weapons. Allow 1v1 in the team deathmatch so we can play against just eachother on a map. Also add a capture the flag game mode, search and destroy, and free for all (also with 1v1 option) Invest in making gameplay feel as smooth and refined as you can. I want this game to feel fluid, fast paced, engaging and fun as hell.\n\nPlease add more character model options as well (similar style to what is there, just a bit more options)",
+ "prompt_source": "The first prompt was given to Claude Code on 2026-09-30 (the session crashed partway and the game was finished in another one the next day). The second asked for version 2 on 2026-10-07: two new maps, more weapons and the extra modes. The pictures are screenshots from those development sessions."
+}

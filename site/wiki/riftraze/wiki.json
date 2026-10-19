@@ -1,0 +1,175 @@
+{
+ "tagline": "A fast online arena shooter: air-strafe and launch-pad around Shattercore, a rift arena with a glowing monolith at its heart.",
+ "overview": "RiftRaze is a hyperkinetic online arena first-person shooter built on RedEngine. Its arena, Shattercore, is one connected volume: a central rift monolith, three upper galleries reached by two stair approaches, lower routes, and two cyan launch pads that fling you up and across.\n\nMovement is the point: a wide 95-degree view, 9 m/s base speed, air strafing and momentum you keep (up to 20 m/s). One player hosts and others join; once two players are ready a seven-minute free-for-all begins, first to 40 kills wins. Everyone spawns with a shotgun and can cycle through the engine's full arsenal. Like RedDM, the arena is still a greybox.",
+ "story": "No story: RiftRaze is a pure arena shooter. Shattercore is a broken place built around a rift that hums in the middle of the floor, and the only thing to do there is move fast and shoot first.",
+ "goal": "Be the first to 40 kills in a seven-minute round (free for all).",
+ "rules": [
+  "A round needs at least two ready players.",
+  "Every kill scores one; first to 40, or the most kills at seven minutes, wins.",
+  "Cyan launch pads throw you high across the arena; the galleries are reached by stairs or pads.",
+  "You keep your speed in the air: strafe to steer and build momentum.",
+  "Everyone starts with a shotgun; the mouse wheel cycles the other weapons.",
+  "Known problem: the version on this site was built with an engine that no longer accepts this game's revolver setting (the engine removed the revolver on 2026-09-28), so it very likely refuses to start. The in-game pictures here were drawn without that one setting."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Ctrl (gamepad B)",
+   "action": "Crouch"
+  },
+  {
+   "input": "Left mouse button (gamepad right trigger)",
+   "action": "Fire (hold for automatic weapons)"
+  },
+  {
+   "input": "Right mouse button (gamepad left trigger)",
+   "action": "Aim"
+  },
+  {
+   "input": "R (gamepad Y)",
+   "action": "Reload"
+  },
+  {
+   "input": "Mouse wheel (gamepad bumpers)",
+   "action": "Switch weapon"
+  },
+  {
+   "input": "E (gamepad X)",
+   "action": "Pick up or drop loose props"
+  },
+  {
+   "input": "Q (gamepad Back/View)",
+   "action": "First or third person"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Rift Core",
+   "role": "Centre of the arena",
+   "description": "A glowing magenta monolith on a dais in the middle of Shattercore.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,1.9,0.6",
+     "at": "0.0,0.6,-2.0",
+     "fov": 55
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "e62e4fcca922"
+  },
+  {
+   "name": "The galleries",
+   "role": "High ground",
+   "description": "Three upper galleries around the arena.",
+   "shot": {
+    "frame": {
+     "eye": "17.6,4.9,2.6",
+     "at": "15.0,3.6,0.0",
+     "fov": 60
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "c225d136f758"
+  },
+  {
+   "name": "The stairs",
+   "role": "Routes",
+   "description": "Two wide stair approaches to the galleries.",
+   "shot": {
+    "frame": {
+     "eye": "-12.4,1.9,14.6",
+     "at": "-15.0,0.6,12.0",
+     "fov": 55
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "4b3d795641a6"
+  }
+ ],
+ "tips": [
+  "Never stop moving: air strafing keeps your speed up.",
+  "Use the launch pads to reach the galleries fast.",
+  "Known problem: the version on this site was built with an engine that no longer accepts this game's revolver setting (the engine removed the revolver on 2026-09-28), so it very likely refuses to start. The in-game pictures here were drawn without that one setting."
+ ],
+ "scene_patch": {
+  "drop": [
+   "weapons.revolver"
+  ]
+ },
+ "gallery": [
+  {
+   "caption": "Key art (an illustration made for the game, not an in-game picture).",
+   "shot": {
+    "file": "projects/riftraze/assets/riftraze-key-art.png"
+   },
+   "image": "g1.jpg",
+   "drawn_from": "26a86b77c061"
+  },
+  {
+   "caption": "Shattercore from above.",
+   "shot": {
+    "frame": {
+     "eye": "0.0,32.6,18.4",
+     "at": "0.0,0,-1.5"
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "f8762712d463"
+  },
+  {
+   "caption": "The arena floor and the rift monolith.",
+   "shot": {
+    "frame": {}
+   },
+   "image": "g3.jpg",
+   "drawn_from": "c3effa27e24c"
+  },
+  {
+   "caption": "From the stairs: galleries, cover and the glow of the core.",
+   "shot": {
+    "frame": {
+     "eye": "-16.3,6.5,14.7",
+     "at": "0.0,1,-1.5"
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "d262d1e87bbc"
+  },
+  {
+   "caption": "The south dais.",
+   "shot": {
+    "frame": {
+     "eye": "2.6,2.0,14.6",
+     "at": "0.0,0.8,12.0",
+     "fov": 55
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "6e356a56cac8"
+  },
+  {
+   "caption": "The arena's plan, drawn by the engine when it was built.",
+   "shot": {
+    "file": "projects/riftraze/outputs/shattercore-plan_y0.0.png"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "bdb67b8069ea"
+  }
+ ],
+ "prompt_unavailable": "Not recorded. RiftRaze was added to RedEngineGames on 2026-09-26 from the owner's account, before the Claude Code sessions on this machine began recording RedEngine work; its project folder does not include the prompt that started it."
+}

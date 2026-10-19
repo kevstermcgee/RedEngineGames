@@ -4,7 +4,7 @@ name: Deploy download site
 # trigger `release:` workflows — so chain on the workflow run itself.
 on:
   workflow_run:
-    workflows: ["Build Windows releases"]
+    workflows: ["Build Windows releases", "Launcher"]
     types: [completed]
   push:
     branches: [main]
@@ -26,7 +26,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event != 'pull_request')
     steps:
       - uses: actions/checkout@v7
         with:
@@ -36,6 +36,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > releases.json
+
+      - name: Test the site generator
+        run: python3 -m unittest discover -s site
 
       - name: Generate the site
         run: python3 site/generate.py --releases releases.json

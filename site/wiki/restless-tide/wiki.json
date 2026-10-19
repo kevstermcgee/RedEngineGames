@@ -1,0 +1,268 @@
+{
+ "tagline": "Hide in plain sight by becoming a crate, a barrel or a potted fern, and never use the same disguise twice in a row: the listener learns your habits.",
+ "overview": "Restless Tide is a small first-person hide-and-seek game set in one dark, square hall. A patient \"listener\" (a glowing salmon-pink boulder) rolls in from one of the four corners and heads for the round ring on the floor of whichever quarter of the hall you are in.\n\nTo hide, walk up to a crate, a barrel or a potted fern and press E: you pick it up, hold your breath and become that thing. If the listener reaches your ring while you are a fresh disguise, it is fooled. But it imitates your habits: the same kind of disguise twice in a row, or a disguise it has already inspected, gives you away. Letting go of a disguise makes a noise, and the listener comes back from the next corner. Fool it three times and it stops chasing you.",
+ "story": "A very small dragon is applying for a very ordinary job, and the interviewer will not stop listening. To get through the interview the dragon must keep becoming something else: a crate, a barrel, a fern. Fool the listener three times and the dragon is hired (\"Start Monday.\").",
+ "goal": "Fool the listener three times (Listener fooled 3/3) to win: \"Hired.\" If it finds you three times (Chances reach 0), you are \"Found out\".",
+ "rules": [
+  "The hall is split into four quarters. Each has a round tide ring on the floor and a tall lamp.",
+  "The listener starts in a corner and rolls toward the ring of the quarter you are standing in.",
+  "Press E next to a crate, barrel or potted fern to pick it up: you are now disguised as that thing.",
+  "When the listener reaches your ring: if you hold a disguise it has not seen yet, it is fooled (+1). Otherwise you lose a chance.",
+  "It learns: being the same kind of thing as last time, or keeping the disguise it just inspected, counts as not disguised.",
+  "Dropping your disguise makes a noise: the listener jumps to the next corner and comes at you again.",
+  "Three fooled wins; three times found loses."
+ ],
+ "controls": [
+  {
+   "input": "WASD (or left stick)",
+   "action": "Walk"
+  },
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around"
+  },
+  {
+   "input": "E (gamepad X), or left click",
+   "action": "Pick up a disguise / drop it"
+  },
+  {
+   "input": "Space (gamepad A)",
+   "action": "Jump"
+  },
+  {
+   "input": "Shift (gamepad: click the left stick)",
+   "action": "Sprint"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Listener",
+   "role": "Pursuer",
+   "description": "A glowing salmon-pink boulder that always arrives from a new corner and rolls to the ring where you are. It is polite, patient and learns your habits.",
+   "shot": {
+    "frame": {
+     "eye": "8,1.5,4.6",
+     "at": "8,0.3,8",
+     "fov": 50
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "813091a811b9"
+  },
+  {
+   "name": "Crate",
+   "role": "Disguise",
+   "description": "A stack of yellow crates. There are two in the hall.",
+   "shot": {
+    "frame": {
+     "eye": "-3.8,1.4,-1.2",
+     "at": "-5.5,0.4,-2.5",
+     "fov": 50
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "0b2afbff83c8"
+  },
+  {
+   "name": "Barrel",
+   "role": "Disguise",
+   "description": "A blue barrel. There are two in the hall.",
+   "shot": {
+    "frame": {
+     "eye": "3.4,1.4,-4.4",
+     "at": "5,0.5,-6",
+     "fov": 50
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "9e7a283c66e9"
+  },
+  {
+   "name": "Potted fern",
+   "role": "Disguise",
+   "description": "A small green plant in a pot. There are two in the hall.",
+   "shot": {
+    "frame": {
+     "eye": "4.3,1.4,1.0",
+     "at": "6,0.5,2.5",
+     "fov": 50
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "f9d46d5b6627"
+  },
+  {
+   "name": "Tide rings and lamps",
+   "role": "Where you are found",
+   "description": "Each quarter of the hall has a pink ring under a brass lamp. The listener heads for the ring in your quarter.",
+   "shot": {
+    "frame": {
+     "eye": "-2,1.8,-2",
+     "at": "-5,0.3,-5",
+     "fov": 55
+    }
+   },
+   "image": "c5.jpg",
+   "drawn_from": "d03d3a6e8f2e"
+  },
+  {
+   "name": "The Interview Desk",
+   "role": "Scenery",
+   "description": "A very ordinary desk with a very small chair, at the far wall.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.7,-4.5",
+     "at": "0,0.8,-8.3",
+     "fov": 55
+    }
+   },
+   "image": "c6.jpg",
+   "drawn_from": "2f3cc589d7e1"
+  }
+ ],
+ "tips": [
+  "Rotate through the three kinds: crate, then barrel, then fern. Never repeat a kind back to back.",
+  "After you fool the listener once, drop your disguise (it already knows it) and pick up a different kind before it arrives again.",
+  "Each kind appears twice, in different quarters; stay near the next one you need.",
+  "The listener follows your quarter, not you: pick up your disguise and stay in that quarter while it comes."
+ ],
+ "gallery": [
+  {
+   "caption": "The hall from above (ceiling removed): four tide rings, four lamps, and the six disguises.",
+   "shot": {
+    "frame": {
+     "eye": "0,16,10",
+     "at": "0,0,0",
+     "cut_above": 2.6
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "049f90039444"
+  },
+  {
+   "caption": "The start: the objective at the top tells you what to do.",
+   "shot": {
+    "playtest": "start"
+   },
+   "image": "g2.jpg",
+   "drawn_from": "624386436662"
+  },
+  {
+   "caption": "Disguised: holding a crate, you hold your breath while the listener comes.",
+   "shot": {
+    "playtest": "holding"
+   },
+   "image": "g6.jpg",
+   "drawn_from": "6990ed25c69a"
+  },
+  {
+   "caption": "The listener (the glowing pink boulder) rolls toward the ring in your quarter.",
+   "shot": {
+    "playtest": "arrive"
+   },
+   "image": "g7.jpg",
+   "drawn_from": "f39cf45483b3"
+  },
+  {
+   "caption": "Fooled once (1/3), then caught: the listener came back while the same crate was still in hand, and it knew it (Chances 2). The objective says to drop it and become something else.",
+   "shot": {
+    "playtest": "fooled"
+   },
+   "image": "g8.jpg",
+   "drawn_from": "818e32405956"
+  },
+  {
+   "caption": "From a far corner: lamps, rings and disguises across the hall.",
+   "shot": {
+    "frame": {
+     "eye": "7.5,2.6,-7.5",
+     "at": "-2,0.8,2",
+     "fov": 70
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "2ae8dd7b5c1c"
+  },
+  {
+   "caption": "A quarter's tide ring and lamp, with a crate and a fern nearby.",
+   "shot": {
+    "frame": {
+     "eye": "-2,1.8,-2",
+     "at": "-5,0.3,-5",
+     "fov": 55
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "d03d3a6e8f2e"
+  },
+  {
+   "caption": "From the interview desk, looking back across the hall.",
+   "shot": {
+    "frame": {
+     "eye": "0,1.7,-7.6",
+     "at": "0,1,4",
+     "fov": 75
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "80864a830b00"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you swap bodies with whatever you point at for as long as you hold your breath; but enemies learn your habits and politely imitate them; noise draws a patient listener that always arrives from a new direction; teach your pursuer to stop chasing; and, as optional story, a tiny dragon applying for a very ordinary job.\n\nThe AI kept the whole card and turned it into hide and seek: picking up a thing is becoming it and holding your breath, dropping it is the noise, and the listener learning your habits is what makes you change disguise every time. It said the engine could not read where you aim or a held key, so \"point at\" became \"walk up and press E\", and the listener cannot chase you directly, so it is a boulder pushed toward the ring of your quarter.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-17.",
+ "playtest": {
+  "script": {
+   "policy": "idle",
+   "steps": [
+    {
+     "shot": "start",
+     "camera": "first"
+    },
+    {
+     "interact": "crate_1"
+    },
+    {
+     "wait": 0.5
+    },
+    {
+     "shot": "holding",
+     "camera": "first"
+    },
+    {
+     "shot": "held3",
+     "camera": "third"
+    },
+    {
+     "wait": 5
+    },
+    {
+     "shot": "arrive",
+     "camera": {
+      "eye": [
+       -1,
+       3,
+       -1
+      ],
+      "at": [
+       -5,
+       0.3,
+       -4
+      ],
+      "fov": 75
+     }
+    },
+    {
+     "wait": 4
+    },
+    {
+     "shot": "fooled",
+     "camera": "first"
+    }
+   ]
+  }
+ }
+}

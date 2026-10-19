@@ -303,6 +303,65 @@
       "name": "Velvet Orchestra",
       "files": ["projects/velvet-orchestra"],
       "arguments": ["content/projects/velvet-orchestra/velvet-orchestra.json"]
+    },
+    {
+      "slug": "hollow-weather",
+      "name": "Hollow Weather",
+      "kind": "2d",
+      "files": ["projects/hollow-weather"],
+      "arguments": ["content/projects/hollow-weather/hollow-weather.game2d.json"]
+    },
+    {
+      "slug": "quiet-compass",
+      "name": "Quiet Compass",
+      "files": ["projects/quiet-compass"],
+      "arguments": ["content/projects/quiet-compass/quiet-compass.json"]
+    },
+    {
+      "slug": "final-staircase",
+      "name": "Final Staircase",
+      "kind": "2d",
+      "files": ["projects/final-staircase"],
+      "arguments": ["content/projects/final-staircase/final-staircase.game2d.json"]
+    },
+    {
+      "slug": "sunken-marathon",
+      "name": "Sunken Marathon",
+      "files": ["projects/sunken-marathon"],
+      "arguments": ["content/projects/sunken-marathon/sunken-marathon.json"]
+    },
+    {
+      "slug": "electric-carousel",
+      "name": "Electric Carousel",
+      "kind": "2d",
+      "files": ["projects/electric-carousel"],
+      "arguments": ["content/projects/electric-carousel/electric-carousel.game2d.json"]
+    },
+    {
+      "slug": "restless-tide",
+      "name": "Restless Tide",
+      "files": ["projects/restless-tide"],
+      "arguments": ["content/projects/restless-tide/restless-tide.json"]
+    },
+    {
+      "slug": "wandering-engine",
+      "name": "Wandering Engine",
+      "kind": "2d",
+      "files": ["projects/wandering-engine"],
+      "arguments": ["content/projects/wandering-engine/wandering-engine.game2d.json"]
+    },
+    {
+      "slug": "copper-choir",
+      "name": "Copper Choir",
+      "kind": "2d",
+      "files": ["projects/copper-choir"],
+      "arguments": ["content/projects/copper-choir/copper-choir.game2d.json"]
+    },
+    {
+      "slug": "crooked-ferry",
+      "name": "Crooked Ferry",
+      "files": ["projects/crooked-ferry"],
+      "arguments": ["content/projects/crooked-ferry/crooked-ferry.json"]
     }
   ],
   "native_playables": []

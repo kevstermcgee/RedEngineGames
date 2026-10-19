@@ -1,0 +1,161 @@
+{
+ "tagline": "An endless fall through a tunnel of light and colour, in the spirit of the Star Gate in 2001: A Space Odyssey, with music that never repeats.",
+ "overview": "Wormhole is not a game but an experience: you fall forever through a tunnel of light. Colours, patterns and shapes rush toward you and past you; every 150 units of tunnel brings a new palette and pattern, the tunnel's own shape slowly morphs between round, many-sided, petal-like and a slit-scan lens, and pulses of light race in at random. Nothing is asked of you except to look around with the mouse.\n\nThe music is part of the journey. Five pieces (Event Horizon, Glass Rain, Choir of Stars, Tide and Aurora) are re-composed with fresh seeds and keys as you go and crossfaded into each other, so the soundtrack, like the tunnel, never comes round again. Every launch draws a new seed (printed when it starts): the same seed gives the same journey.",
+ "story": "No story, only the fall: you are drifting down an endless tunnel of light, as if falling through a wormhole or the Star Gate at the end of 2001: A Space Odyssey, with nowhere to arrive and nothing to do but look.",
+ "goal": "There is no goal and no end: fall, look around, and listen.",
+ "rules": [
+  "You never move on your own: the fall carries you. The mouse turns your view, so you can look ahead, to the side or behind.",
+  "The tunnel changes its colours and patterns every stretch, and its shape on its own slow clock.",
+  "The music is a journey of five pieces, re-composed and crossfaded as you go; it can be turned off in the pause menu or with N.",
+  "Each launch has its own seed; the same seed gives the same sky and music."
+ ],
+ "controls": [
+  {
+   "input": "Mouse (or right stick)",
+   "action": "Look around while you fall"
+  },
+  {
+   "input": "N",
+   "action": "Music on or off"
+  },
+  {
+   "input": "Esc (gamepad Start)",
+   "action": "Pause menu"
+  },
+  {
+   "input": "F or F11",
+   "action": "Fullscreen"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The round tunnel",
+   "role": "The tunnel",
+   "description": "The classic tube of light, with rings rushing past.",
+   "shot": {
+    "frame": {
+     "t": 5,
+     "seed": 7
+    }
+   },
+   "image": "c1.jpg",
+   "drawn_from": "5718a8b626ee"
+  },
+  {
+   "name": "The petal tunnel",
+   "role": "The tunnel",
+   "description": "The tunnel's walls fold into soft petals.",
+   "shot": {
+    "frame": {
+     "t": 90,
+     "seed": 7
+    }
+   },
+   "image": "c2.jpg",
+   "drawn_from": "f8161f756679"
+  },
+  {
+   "name": "The polygon tunnel",
+   "role": "The tunnel",
+   "description": "Hard-edged triangles and diamonds, spinning toward you.",
+   "shot": {
+    "frame": {
+     "t": 40,
+     "seed": 7
+    }
+   },
+   "image": "c3.jpg",
+   "drawn_from": "0cd22636531c"
+  },
+  {
+   "name": "The wall",
+   "role": "Looking aside",
+   "description": "Turn your head and the tunnel wall streams past in bands of colour.",
+   "shot": {
+    "frame": {
+     "t": 60,
+     "seed": 3,
+     "eye": "0,0,0",
+     "at": "10,0,-4"
+    }
+   },
+   "image": "c4.jpg",
+   "drawn_from": "64bf5784e023"
+  }
+ ],
+ "tips": [
+  "Make it fullscreen (F) and turn the lights down.",
+  "Look backwards now and then: the colours you just passed streaming away are part of the show.",
+  "Write down a seed you like: launch with it again to repeat that journey."
+ ],
+ "gallery": [
+  {
+   "caption": "Seed 1, 5 seconds in: gold flames around a white light.",
+   "shot": {
+    "frame": {
+     "t": 5,
+     "seed": 1
+    }
+   },
+   "image": "g1.jpg",
+   "drawn_from": "172f840c8518"
+  },
+  {
+   "caption": "Seed 1, 40 seconds: a green tunnel of diamonds.",
+   "shot": {
+    "frame": {
+     "t": 40,
+     "seed": 1
+    }
+   },
+   "image": "g2.jpg",
+   "drawn_from": "8276ee7df701"
+  },
+  {
+   "caption": "Seed 1, 90 seconds: amber and violet.",
+   "shot": {
+    "frame": {
+     "t": 90,
+     "seed": 1
+    }
+   },
+   "image": "g3.jpg",
+   "drawn_from": "6e2651f1d2aa"
+  },
+  {
+   "caption": "Seed 1, 140 seconds: a slit-scan lens of every colour.",
+   "shot": {
+    "frame": {
+     "t": 140,
+     "seed": 1
+    }
+   },
+   "image": "g4.jpg",
+   "drawn_from": "4776601bd2f1"
+  },
+  {
+   "caption": "Seed 7, 140 seconds: violet and silver.",
+   "shot": {
+    "frame": {
+     "t": 140,
+     "seed": 7
+    }
+   },
+   "image": "g5.jpg",
+   "drawn_from": "f42ee1a583aa"
+  },
+  {
+   "caption": "Seed 7, 5 seconds: rings of magenta.",
+   "shot": {
+    "frame": {
+     "t": 5,
+     "seed": 7
+    }
+   },
+   "image": "g6.jpg",
+   "drawn_from": "5718a8b626ee"
+  }
+ ],
+ "prompt": "https://github.com/kevstermcgee/RedEngine\n\nCreate a hypnotic endless 2001 a space odyssey-esque wormhole with this game engine. \n\nCall it Wormhole\n\nI want this to go on forever with unique patterns and color combinations. Different shapes and movements of waves of color splashing and roaring towards us as if we’re falling through a colorful vibrant wormhole forever. I don’t just want the same thing on loop, ensure there is endless variety.\n\nThere doesn’t have to be any actual gameplay, more of a simulation\n\nAllow interaction in the sense you can look around as to fall/float through this. I want this to feel beautiful and moving. Please include fitting touching unique music throughout the experience.\n\nOnce complete publish to the Games website and attach your feedback to this engine’s project",
+ "prompt_source": "Given to Claude Code on 2026-10-11 (the same request was sent in two sessions at once)."
+}

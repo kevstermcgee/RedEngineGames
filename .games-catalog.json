@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 113,
+    "demos": 121,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -11,8 +11,20 @@
       "sha256": "3a0bf6f378b4f91a32e94d5060ac86e10869e2fd9fd873455b404cd62b58f899"
     },
     {
+      "path": "demos/examples/2d/copper-choir.game2d.json",
+      "sha256": "b6856125b4af2344d875d3778b924932d91b390c08ad01b122f9ac9fb34399c9"
+    },
+    {
+      "path": "demos/examples/2d/electric-carousel.game2d.json",
+      "sha256": "3a9041869fa3841888c7406433808759cc32811bf38eecdb86c62529c40532f1"
+    },
+    {
       "path": "demos/examples/2d/electric-tide.game2d.json",
       "sha256": "7b95cbecb78cd48b13b1bc88535a322d2ca543e1a20ef0714a538b039d0387e8"
+    },
+    {
+      "path": "demos/examples/2d/final-staircase.game2d.json",
+      "sha256": "5196b6f468e242341be2436e54781769d5bb2a1225f74397495a999852f3ff25"
     },
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
@@ -24,51 +36,67 @@
     },
     {
       "path": "demos/examples/2d/honeybound.game2d.json",
-      "sha256": "0ea8edd7a0553d81f037afb23205ef7c705ec142f624a15fc257009a3c9e6fdd"
+      "sha256": "212b74f9a36ebf67cea55e9176d4b11514fcaf07d987b06ec4d2046486d7dad2"
     },
     {
       "path": "demos/examples/2d/honeybound/README.md",
-      "sha256": "09156a40b723764f86c70b20ae4e31db5cfc4cc002e92f9d178d91d569a30fb0"
+      "sha256": "e4ca83de333e721643ceb95a699c57394fc04deb501c2048b6437e53fc1c6e9e"
     },
     {
       "path": "demos/examples/2d/honeybound/art.py",
-      "sha256": "90dc3f69c328f8c669543fa00653ce00487273e6d6e31c8a0fb3fddd0799338c"
+      "sha256": "406ea5d7ae09fdebcf682d5ebce44e4529074bd802ea9a817bf3f76ec81760b1"
     },
     {
       "path": "demos/examples/2d/honeybound/audio.py",
-      "sha256": "26ef0db3fac4026122fc8e4f0f7567e07d4e05a4c530037d4ad5e6471fc10dd5"
+      "sha256": "463b984e7d40991e7f337f654b677fa301e355b176bf53fc376e6849d8172bcc"
+    },
+    {
+      "path": "demos/examples/2d/honeybound/bosses.py",
+      "sha256": "579280548dbec271942a6ab9c8c4d89cd8ac67f07c8a4c7004a3c41eead53d5a"
     },
     {
       "path": "demos/examples/2d/honeybound/build.py",
-      "sha256": "09ac45e77302c7ef19f78e970901afd937d5c2ec9ffb5b0eee25caa5d22b8372"
+      "sha256": "58cbd03c79a2275763ea6bf16ef32cefc6597762e669de8700ebe291429f0bb6"
+    },
+    {
+      "path": "demos/examples/2d/honeybound/canvas.py",
+      "sha256": "b917e96f008cc7a2e200f58936e5d76f322531d369549d8a5179da5023d69c6c"
+    },
+    {
+      "path": "demos/examples/2d/honeybound/cast.py",
+      "sha256": "05b24bc67b2e5b9df9dad3ff1a9705a2e2712ace27816210a8f4048f339b9997"
     },
     {
       "path": "demos/examples/2d/honeybound/dev.py",
-      "sha256": "32a8a8936049eb38bd04229859838044db04e1906bc638b661470cf3040591e3"
+      "sha256": "50004d8e52bb66bbc44b62270831756887cba46763326d5e211d774d3ef0da9a"
     },
     {
       "path": "demos/examples/2d/honeybound/gen.py",
-      "sha256": "c71b928bc5a74e7c54fef0b323e2bb2d745d53424d32ebeb2407ecde1018c1ce"
+      "sha256": "710706bb784dfe2a840583d6993560060d0baa0c91e4527dc40bf0ca17b5fc50"
     },
     {
       "path": "demos/examples/2d/honeybound/levels.py",
-      "sha256": "0fcc359f3e3e29708baf25a9b48a99da3bcf0c68f94801c9e2779dbe2a9fb2d4"
+      "sha256": "1ad8dbdf556653c3fc4bbdab1b506dd2e293a3787490ce84d2c7868f98855cf1"
     },
     {
       "path": "demos/examples/2d/honeybound/solutions.json",
-      "sha256": "d7e2147bebad91aa0226aafd84112fc5e9f47a74d47d0b899bffe62244d1541f"
+      "sha256": "b0b58ae780deb2dd0cd0fa4a57756a79196226d41d11cf6cf65f4d30c1cdcf61"
+    },
+    {
+      "path": "demos/examples/2d/honeybound/story.py",
+      "sha256": "d60a69ae3f50e121091d1187c9de4b4fa05bb46b6043210ff82f924971ddac6f"
     },
     {
       "path": "demos/examples/2d/idea-forge.game2d.json",
-      "sha256": "8f08430c5fa4745ebf53e699f594121f03333fe372dd071ecd10a5c741e5df63"
+      "sha256": "e8918e7e98329bcd24696b84381b1659d0e62cbdfc4a88e999d8b6d450dc2527"
     },
     {
       "path": "demos/examples/2d/idea-forge/README.md",
-      "sha256": "a2969e637769415e155a8d18f3e5415d230b40b21ba5f0aecdf012a7c3bb09c2"
+      "sha256": "08acaaf263a97b92ee3d63729359a8b4273ed62cdcc27c244ecf8f5aca01d619"
     },
     {
       "path": "demos/examples/2d/idea-forge/build.py",
-      "sha256": "450efd4cdc433e4d72b47cc3fbed7742f13bda558b4f6716ccace92d6cb77651"
+      "sha256": "60106614499960cc9694ce0521cce9713cfc924ae70726e567206ba20b78d21b"
     },
     {
       "path": "demos/examples/2d/idea-forge/vocabulary.json",
@@ -91,6 +119,10 @@
       "sha256": "6ca34a70d4268c9b080556e4fa0387b648354ac4798911edadc23cb449891d0b"
     },
     {
+      "path": "demos/examples/2d/moth-harvest.game2d.json",
+      "sha256": "8d36b9f1322b1f1ff8bf6c74030683ea3c59b10564cb9ce7d622d65b8d7c957e"
+    },
+    {
       "path": "demos/examples/2d/patient-loom.game2d.json",
       "sha256": "1e3c6ddda93609c551751d35cfd978c20752d980c783b9ad7eb42357e2882a2a"
     },
@@ -107,6 +139,10 @@
       "sha256": "3a4bcc18b86c7415a42324ce53345b62bf8787ac0238eb7779cc11ed2388ba5e"
     },
     {
+      "path": "demos/examples/2d/wandering-engine.game2d.json",
+      "sha256": "2024482ea41523d7bd5d7e97bb2a97c3b6067c93142d7038e4695537d9e194d0"
+    },
+    {
       "path": "demos/examples/2d/warden-arena.game2d.json",
       "sha256": "4453bbe3201eb77988cf0b4a44bcb25c56e8d16e48af77103e9080fc459bbd51"
     },
@@ -117,6 +153,14 @@
     {
       "path": "demos/examples/3d/borrowed-foundry/borrowed-foundry.json",
       "sha256": "a013ac70ec45d838cae7657ed9dd2aad1507f1cdb0583a3c4b459ee2c3df328a"
+    },
+    {
+      "path": "demos/examples/3d/crooked-ferry/audio/ferry_night.json",
+      "sha256": "a4f6b65aec0abc33ee34e1f787940adc91684acf4783347a89a6ed1567b3a823"
+    },
+    {
+      "path": "demos/examples/3d/crooked-ferry/crooked-ferry.json",
+      "sha256": "a31690135f9abd271f396a9529ca71032a3ddbd69da7485a7912a53c07b2311f"
     },
     {
       "path": "demos/examples/3d/drowsy-marathon/drowsy-marathon.json",
@@ -132,7 +176,47 @@
     },
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
-      "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
+      "sha256": "52959e802f5f70985c866f2c0bc528a48af228e6348d63b2a73cf2c421695c5d"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/audio/calm.json",
+      "sha256": "e270bf79e88d2bc325c02c404d2d6e366e6519704f9ecd73c60d73699e5d3d23"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/audio/dread.json",
+      "sha256": "cc82526d6b6bde8db78b0fff0bd4c220608b7e4f1f9c01e3f6b20966f77d20a4"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/paper-foundry.json",
+      "sha256": "fde1e4b359f08df3fdac1d814796450ef728bb7535fe2c44e0cb088c1e6e6686"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/audio/lullaby.json",
+      "sha256": "f8c6fce2960ab15c1e253b73af75311031a53c2141344fb564d2df941fb39914"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/gen_scene.py.txt",
+      "sha256": "8a8c9b0fd7e73947906e1cb2d42a147ae1c991f7ab2d9f53523429d66c4387ff"
+    },
+    {
+      "path": "demos/examples/3d/quiet-compass/quiet-compass.json",
+      "sha256": "c6f21b29983c92a7039ec067d994cb797c16b078f64e315ffae235a2e8eef31c"
+    },
+    {
+      "path": "demos/examples/3d/restless-tide/audio/low_tide.json",
+      "sha256": "b609ee627c8481a8a862622f6e05dc3412ef80825d2e1de13edad511bd419670"
+    },
+    {
+      "path": "demos/examples/3d/restless-tide/restless-tide.json",
+      "sha256": "690f4909a298b53729b0285b258b20e9cfcc677f43180588703ddf47dc2d05d6"
+    },
+    {
+      "path": "demos/examples/3d/sunken-marathon/audio/undertow.json",
+      "sha256": "ff048feb0b4ec947ee2933532a314fdfb46edcde46bf884c733a3bab1cc2db91"
+    },
+    {
+      "path": "demos/examples/3d/sunken-marathon/sunken-marathon.json",
+      "sha256": "d0835ab115d0ba7fb3aa5d1839449793af53138ae3ddc612f4b8f726976d3e79"
     },
     {
       "path": "demos/examples/3d/velvet-orchestra/audio/waltz.json",
@@ -201,58 +285,6 @@
     {
       "path": "demos/examples/external/topdown_switch/topdown_switch.json",
       "sha256": "25aafa5e3b8c1ac68f4c9fcda2e675f78dd6ba1beb2a6e98fd95d807763ba659"
-    },
-    {
-      "path": "demos/examples/frameless/README.md",
-      "sha256": "2fb5e9b8786c6715313b765dfe226181ff5b8668539e5cfd9def50b0cb9fbc58"
-    },
-    {
-      "path": "demos/examples/frameless/audio/cathedral.json",
-      "sha256": "3a3228fe420793e612633054ee599405d1989877c2feff143e85059988b11ee0"
-    },
-    {
-      "path": "demos/examples/frameless/audio/embrace.json",
-      "sha256": "e7233a8af687e07b51cf0b784f6c82e05998a90a8ca08b547a7d6ec36d19b7f2"
-    },
-    {
-      "path": "demos/examples/frameless/audio/lanterns.json",
-      "sha256": "0585912dd41a4c468593dc3cc425a264de3ff8c6d9d7a469c736f2b0c22a18cb"
-    },
-    {
-      "path": "demos/examples/frameless/audio/letters.json",
-      "sha256": "657413fa1e5be5be0a1a1908c7435ced95bb483bd4d6a25c73a97cc9af8b96ec"
-    },
-    {
-      "path": "demos/examples/frameless/audio/sunlit.json",
-      "sha256": "141aa0dd55eec6317612e99e80e613d2f17cca3cd45032cc33143d5824b675b1"
-    },
-    {
-      "path": "demos/examples/frameless/audio/the_long_gallery.json",
-      "sha256": "24ebce8708863f8323af5298e4198e6a23ea528e9a729f9ce792d54e1bcf5285"
-    },
-    {
-      "path": "demos/examples/frameless/audio/undertow.json",
-      "sha256": "cc23cfb7a2507381c8d4775a96c949a693477d0dce1f59cae88b540d9d28256c"
-    },
-    {
-      "path": "demos/examples/frameless/audio/vigil.json",
-      "sha256": "5e3aa6e9d562bd4007c0f9beb6672a8a6be7a96b8077a1a6407b00174a376459"
-    },
-    {
-      "path": "demos/examples/frameless/collection.json",
-      "sha256": "0bafbaabc18f61ff6a2a0a05297290080465e46cfb6e94500b678d4e81375ba4"
-    },
-    {
-      "path": "demos/examples/frameless/frameless.json",
-      "sha256": "0d1d55235bfece16b55371482881d143e51bf7f372fe939d7a660f2b4ae83861"
-    },
-    {
-      "path": "demos/examples/frameless/shaders/art.wgsl",
-      "sha256": "bd6fefb6a5229fbe92008ea598f1299c74dbf09d617ade1e06092b588f9ae43d"
-    },
-    {
-      "path": "demos/examples/frameless/shaders/sky.wgsl",
-      "sha256": "055785fe131ec17f4bc7b1a4bcbf76ede8ab04f629f54dcffca4370810fd6544"
     },
     {
       "path": "demos/examples/golden/office/board.png",
@@ -528,7 +560,7 @@
     },
     {
       "path": "games/honeybound/honeybound.game2d.json",
-      "sha256": "0ea8edd7a0553d81f037afb23205ef7c705ec142f624a15fc257009a3c9e6fdd"
+      "sha256": "212b74f9a36ebf67cea55e9176d4b11514fcaf07d987b06ec4d2046486d7dad2"
     },
     {
       "path": "games/marcel/README.md",
@@ -756,7 +788,7 @@
     },
     {
       "path": "tests/performance/sim.rs",
-      "sha256": "0e1da0763e076bceb62b764842b09f8f49d6f5dd0e6b05a014e2efc1555d150c"
+      "sha256": "499721785e392c5c72d8b0a0b1488e0357b339734d73173775c5b1d42e64babb"
     },
     {
       "path": "tests/test-lab/test_lab.json",
@@ -823,6 +855,7 @@
       "arguments": [
         "content/games/frameless/frameless.json"
       ],
+      "binary": "frameless",
       "entry": "games/frameless/frameless.json",
       "files": [
         "games/frameless"
@@ -911,6 +944,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "d34070c99901fc0a509b6b504df32d6e24648f62",
+  "source_revision": "c78f6b77a68a9b2e02025747491343c61453eea0",
   "target_repository": "kevstermcgee/RedEngineGames"
 }

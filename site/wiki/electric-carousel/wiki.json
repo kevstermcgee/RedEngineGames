@@ -1,0 +1,217 @@
+{
+ "tagline": "Lead a little pet storm through five dark rooms and zap the right lamps with its lightning, never the purple ones.",
+ "overview": "Electric Carousel is a short top-down puzzle game. You play a cartographer (the small cream square) with a pet storm (the light-blue ball) that follows you around. Press Space and the storm throws a flash of lightning wherever it is floating at that moment, so you aim by walking: lead the storm next to a lamp, then zap.\n\nThe world is a row of five rooms separated by thin lines. Three brown lamps need lighting; two purple decoy lamps must be left alone. Zapping a decoy is a mistake: you are thrown back to the start and the rooms are rebuilt with grey rubble walls in the rooms where you made your last three mistakes. Meanwhile little red thieves keep arriving from the right to steal the light from lamps you have lit.",
+ "story": "A cartographer is mapping a country that does not want to be mapped. The only way to fix its rooms on paper is to light their lamps with the lightning of a small storm the cartographer keeps on a leash. The country fights back: every wrong lamp reshapes the rooms around the cartographer's mistakes, and thieves creep in to put the lights out again. Light all three true lamps and the map is done: \"MAPPED! THE COUNTRY SIGHS.\"",
+ "goal": "Light all three brown lamps (LIT 3/3) to win. Four mistakes (zapping purple lamps) lose the game.",
+ "rules": [
+  "Your storm follows you. Space makes it flash lightning where it is right now, once every 0.4 seconds.",
+  "A brown lamp hit by the flash lights up yellow. Light all three to win.",
+  "A purple lamp hit by the flash is a mistake (MISTAKES at the top). You and the storm go back to the start, and every lamp you had lit is wiped out.",
+  "After a mistake the rooms are rebuilt with rubble walls in the rooms of your last three mistakes. Rubble blocks your way.",
+  "Every 8 seconds a red thief appears on the far right and walks to the nearest lit lamp; when it reaches it, the lamp goes dark. Zap a thief to get rid of it.",
+  "Four mistakes and the game is lost."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys / WASD (or a gamepad stick)",
+   "action": "Walk (the storm follows)"
+  },
+  {
+   "input": "Space / Z / J (gamepad A)",
+   "action": "Zap: the storm flashes lightning where it is"
+  },
+  {
+   "input": "Esc / P (gamepad Start)",
+   "action": "Pause"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The Cartographer",
+   "role": "You",
+   "description": "The small cream square. It walks, and the storm follows it.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.12,
+     0.3,
+     0.32,
+     0.65
+    ]
+   },
+   "image": "c1.png",
+   "drawn_from": "c0d3a29b69fe"
+  },
+  {
+   "name": "The Pet Storm",
+   "role": "Your tool",
+   "description": "The light-blue ball that trails behind you. Its lightning is the only thing that lights lamps and stops thieves.",
+   "shot": {
+    "frame": {
+     "scenario": "zap_lights_lamp",
+     "t": 2
+    },
+    "crop": [
+     0.25,
+     0.3,
+     0.5,
+     0.65
+    ]
+   },
+   "image": "c2.png",
+   "drawn_from": "ef1ade20b337"
+  },
+  {
+   "name": "Lamps",
+   "role": "Goal",
+   "description": "Brown lamps go yellow when the lightning hits them. There are three, in different rooms.",
+   "shot": {
+    "frame": {
+     "scenario": "win_run",
+     "t": 8
+    },
+    "crop": [
+     0.0,
+     0.3,
+     0.3,
+     0.65
+    ]
+   },
+   "image": "c3.png",
+   "drawn_from": "791d3d8169fd"
+  },
+  {
+   "name": "Decoy lamps",
+   "role": "Trap",
+   "description": "The purple lamps. Never zap them: each one you hit is a mistake.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    },
+    "crop": [
+     0.36,
+     0.3,
+     0.56,
+     0.65
+    ]
+   },
+   "image": "c4.png",
+   "drawn_from": "2772a7979923"
+  },
+  {
+   "name": "Thieves",
+   "role": "Enemy",
+   "description": "Small red squares that walk in from the right every 8 seconds and put out a lit lamp when they reach it.",
+   "shot": {
+    "frame": {
+     "scenario": "win_run",
+     "t": 20
+    },
+    "crop": [
+     0.6,
+     0.55,
+     0.84,
+     0.92
+    ]
+   },
+   "image": "c5.png",
+   "drawn_from": "ea919d058b71"
+  },
+  {
+   "name": "Rubble",
+   "role": "Obstacle",
+   "description": "Grey walls that appear in the rooms where you made your last three mistakes.",
+   "shot": {
+    "frame": {
+     "scenario": "lose_run",
+     "t": 8
+    },
+    "crop": [
+     0.6,
+     0.25,
+     0.95,
+     0.75
+    ]
+   },
+   "image": "c6.png",
+   "drawn_from": "41470238fae7"
+  }
+ ],
+ "tips": [
+  "Make sure the storm, not you, is next to the lamp before you press Space: it flashes where it floats.",
+  "Be careful from the start: a mistake wipes out the lamps you have already lit, and they do not come back. After that you can no longer light all three, so a mistake after your first lit lamp ends any chance of winning.",
+  "Light the far lamps quickly or zap thieves on the way: they only go for lit lamps.",
+  "The message \"MAPPED! THE COUNTRY SIGHS.\" appears when the game ends either way; check LIT and MISTAKES to see whether you won."
+ ],
+ "gallery": [
+  {
+   "caption": "The start: you, the storm, a lamp and a purple decoy in the first rooms.",
+   "shot": {
+    "frame": {
+     "t": 0.5
+    }
+   },
+   "image": "g1.png",
+   "drawn_from": "76ac2abb9739"
+  },
+  {
+   "caption": "A lit lamp (yellow) and the storm drifting next to a decoy.",
+   "shot": {
+    "frame": {
+     "scenario": "zap_lights_lamp",
+     "t": 8
+    }
+   },
+   "image": "g2.png",
+   "drawn_from": "1c80fdec9956"
+  },
+  {
+   "caption": "A zap: the storm's flash of lightning.",
+   "shot": {
+    "frame": {
+     "scenario": "win_run",
+     "t": 2
+    }
+   },
+   "image": "g3.png",
+   "drawn_from": "420d56b09702"
+  },
+  {
+   "caption": "After a mistake the rooms are rebuilt with rubble.",
+   "shot": {
+    "frame": {
+     "scenario": "decoy_rebuilds_rooms",
+     "t": 8
+    }
+   },
+   "image": "g4.png",
+   "drawn_from": "a4725a5e9c0a"
+  },
+  {
+   "caption": "LIT 3/3: the map is done. A red thief is still on its way to a lamp.",
+   "shot": {
+    "frame": {
+     "scenario": "win_run",
+     "t": 20
+    }
+   },
+   "image": "g5.png",
+   "drawn_from": "103cbed09d82"
+  },
+  {
+   "caption": "Four mistakes and the rooms are full of rubble: the game is lost.",
+   "shot": {
+    "frame": {
+     "scenario": "lose_run",
+     "t": 20
+    }
+   },
+   "image": "g6.png",
+   "drawn_from": "1582553c58fc"
+  }
+ ],
+ "why_made": "Idea Forge dealt this card: you keep a pet storm on a leash and aim its lightning with your footsteps; but each new room is built from your last three mistakes; a flock of thieves steals whatever you set down; light every lamp without ever lighting two in neighbouring rooms; and, as optional story, a cartographer mapping a country that dislikes being mapped.\n\nThe AI kept the storm and the mistake-built rooms as the heart of the game. It said the engine had no real leash, so the storm simply chases you, and no way to carry and set things down, so the thieves steal light from lamps instead. It changed the goal from \"never light neighbouring lamps\" to \"light the three true lamps and avoid the purple decoys\", which it found easier to show on screen.",
+ "why_made_note": "The AI did not write down its reason at the time. This is reconstructed from the idea card it was given and its own summary from the run on 2026-10-16."
+}
