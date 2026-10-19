@@ -1,0 +1,58 @@
+{
+ "tagline": "An endless world of blocks to mine, craft and build with: punch a tree, make your first tools, dig for diamonds and build a shelter before the zombies and creepers come out at night.",
+ "overview": "RedCraft is a block-building survival game in the spirit of Minecraft. Every world is new and goes on forever: plains, forests, birch woods, snowy taiga, deserts, mountains, oceans and rivers, with caves winding down to the bedrock and coal, iron, gold and diamonds waiting in the stone. Every block can be broken and placed. Wood becomes planks, sticks and a crafting table; the table makes pickaxes, axes, shovels and swords in wood, stone, iron and diamond; a furnace smelts ore into ingots and sand into glass. Torches push back the dark, water flows into the holes you dig, sand falls, TNT explodes. In Survival you have ten hearts, fall damage, air under water and the creatures of the night; in Creative you fly and build with every block. The sky turns from day to a starry night, clouds drift overhead, and calm piano music plays as you go.",
+ "story": "You wake in a world no one has seen before, with nothing but your hands. The sun is up, the grass is green, and somewhere over the hills the land goes on for ever. Gather wood before the day is over: when the sun sets, zombies shuffle out of the dark and creepers creep up silently behind you, and only a roof, a door of stone and a ring of torches will keep you safe until morning.",
+ "goal": "There is no final goal: survive, explore and build whatever you like. In Survival you lose everything you carry when you die and wake again at your spawn; your world, with everything you built, is saved.",
+ "rules": [
+  "Hold the mine button to break a block; how long it takes depends on the block and the tool. Stone needs a pickaxe, iron needs a stone pickaxe, gold and diamonds an iron one.",
+  "What you break drops as an item and flies to you when you come near; the place button puts the block in your hand against the face you aim at.",
+  "Craft in the inventory's 2 x 2 grid (logs to planks, planks to sticks and a crafting table) and at the crafting table's 3 x 3 grid (tools, furnaces, chests, torches, TNT).",
+  "A furnace needs fuel (coal, wood, sticks) to smelt: iron and gold ore into ingots, sand into glass, cobblestone into stone, porkchops into a meal.",
+  "Light keeps hostile mobs away: zombies and creepers appear in the dark, at night or in caves. Zombies burn in the morning sun; a creeper that gets close hisses and explodes.",
+  "In Survival you have ten hearts: falls of more than three blocks, drowning, lava, cactus, zombies and explosions hurt; health comes back slowly, and food (apples, porkchops) heals at once.",
+  "In Creative you fly (press jump twice), break blocks instantly and take any block from the creative list; nothing hurts you.",
+  "Water flows into openings and spreads up to seven blocks from its source; sand and gravel fall when nothing holds them up."
+ ],
+ "controls": [
+  {"input": "WASD (or left stick)", "action": "Walk"},
+  {"input": "Mouse (or right stick)", "action": "Look around"},
+  {"input": "Space (gamepad A)", "action": "Jump; twice quickly to fly in Creative"},
+  {"input": "Shift (gamepad B)", "action": "Sneak: you will not walk off an edge; fly down"},
+  {"input": "Ctrl (left stick click)", "action": "Sprint"},
+  {"input": "Left mouse button (right trigger)", "action": "Mine, or hit a mob"},
+  {"input": "Right mouse button (left trigger)", "action": "Place a block; use a crafting table, furnace or chest; light TNT with flint and steel; eat"},
+  {"input": "1-9, mouse wheel (bumpers)", "action": "Choose from the hotbar"},
+  {"input": "E (gamepad X)", "action": "Inventory and crafting (the block list in Creative)"},
+  {"input": "Q", "action": "Throw what is in your hand"},
+  {"input": "F3", "action": "Debug information: position, biome, light, time, seed"},
+  {"input": "Esc (gamepad Start)", "action": "Pause: music, sound, render distance, auto-jump, save and quit"},
+  {"input": "F or F11", "action": "Fullscreen"}
+ ],
+ "characters": [
+  {"name": "Zombie", "role": "Enemy of the night", "description": "Comes out in the dark, at night or deep in caves, and walks straight at you with its arms out. Burns in the morning sun. Sometimes drops rotten flesh.", "image": "c1.jpg"},
+  {"name": "Creeper", "role": "Silent enemy", "description": "Creeps up without a sound, hisses when it is close and explodes, blowing a crater in the ground. Hit it to stop its fuse, or run.", "image": "c2.jpg"},
+  {"name": "Pigs", "role": "Food", "description": "Wander the grass by day in small groups. A pig gives one to three porkchops; cook them in a furnace for a better meal.", "image": "c3.jpg"},
+  {"name": "You", "role": "The player", "description": "A miner and builder with ten hearts and a hotbar of nine: everything else you make yourself, from a wooden pickaxe to a diamond one.", "image": "c4.jpg"},
+  {"name": "The blocks", "role": "The world", "description": "About fifty kinds: stone, dirt, sand, gravel and clay, four ores, three kinds of wood with their leaves and planks, glass, bricks, bookshelves, metal blocks, TNT, flowers, torches, furnaces and chests, each painted pixel by pixel.", "image": "c5.jpg"}
+ ],
+ "tips": [
+  "Punch a tree first: four planks make a crafting table, and two planks make the sticks every tool needs.",
+  "Light your shelter and the ground around it with torches (coal over a stick): zombies and creepers only appear in the dark.",
+  "Diamonds lie deep, below height 16 (F3 shows your height); bring an iron pickaxe, or they drop nothing.",
+  "Sneak (Shift) at the edge of a cliff or while bridging: you cannot fall off.",
+  "Shift-click moves a stack across in any screen; Shift-click a crafting result to make as many as you can carry.",
+  "Turn the render distance down in the pause menu if the game runs slowly on your computer."
+ ],
+ "gallery": [
+  {"caption": "The title screen over a slowly turning world: start a new world, Survival or Creative, or load one you saved.", "image": "g1.jpg"},
+  {"caption": "A creeper and a pig on the beach, a diamond pickaxe in hand and the hotbar full.", "image": "g2.jpg"},
+  {"caption": "Crafting in the inventory: four oak planks from a log in the 2 x 2 grid.", "image": "g3.jpg"},
+  {"caption": "A furnace smelting iron ore with coal: the flame and the arrow show the fuel left and the progress.", "image": "g4.jpg"},
+  {"caption": "Mining: the aimed block is outlined and cracks as it breaks, and broken blocks burst into fragments.", "image": "g5.jpg"},
+  {"caption": "Midnight: torches light the grass around you under the stars and the Milky Way.", "image": "g6.jpg"},
+  {"caption": "A spruce forest from a hilltop: the world fades into the haze as far as the render distance reaches.", "image": "g7.jpg"},
+  {"caption": "Every block in the game, hung in rows in front of the camera.", "image": "g8.jpg"}
+ ],
+ "prompt": "Using the latest RedEngine, create a Minecraft clone called RedCraft",
+ "prompt_source": "Given to Claude Code on 2026-10-19 (and \"Please publish game if you haven't\" the same day). The pictures on this page are screenshots taken on the release day."
+}
