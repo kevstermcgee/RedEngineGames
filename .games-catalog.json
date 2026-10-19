@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 118,
+    "demos": 121,
     "games": 33,
     "prototypes": 14,
     "tests": 29
@@ -177,6 +177,18 @@
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
       "sha256": "52959e802f5f70985c866f2c0bc528a48af228e6348d63b2a73cf2c421695c5d"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/audio/calm.json",
+      "sha256": "e270bf79e88d2bc325c02c404d2d6e366e6519704f9ecd73c60d73699e5d3d23"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/audio/dread.json",
+      "sha256": "cc82526d6b6bde8db78b0fff0bd4c220608b7e4f1f9c01e3f6b20966f77d20a4"
+    },
+    {
+      "path": "demos/examples/3d/paper-foundry/paper-foundry.json",
+      "sha256": "fde1e4b359f08df3fdac1d814796450ef728bb7535fe2c44e0cb088c1e6e6686"
     },
     {
       "path": "demos/examples/3d/quiet-compass/audio/lullaby.json",
@@ -932,6 +944,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "19cca472e8bc2b569756a73124f56c9417697c5e",
+  "source_revision": "c78f6b77a68a9b2e02025747491343c61453eea0",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
