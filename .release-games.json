@@ -189,6 +189,7 @@
     {
       "slug": "killchain",
       "name": "Killchain",
+      "binary": "killchain",
       "files": ["projects/killchain"],
       "arguments": ["content/projects/killchain/maps/main.json"]
     },

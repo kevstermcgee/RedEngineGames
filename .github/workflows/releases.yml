@@ -115,6 +115,17 @@ jobs:
         working-directory: _engine
         run: cargo build --release --locked --bin re2 --bin re2d
 
+      # A game that plays with its own client (`"binary"` in its playable, a package of RedEngine's workspace) gets it built on its own: one cargo
+      # build with the engine's binaries would unify features across them.
+      - name: Build the games' own clients
+        shell: bash
+        run: |
+          python distribution/release_tool.py binaries --plan plan.json | tr -d '\r' > binaries.txt
+          while read -r b; do
+            [ -n "$b" ] && (cd _engine && cargo build --release --locked -p "$b" --bin "$b")
+          done < binaries.txt
+          cat binaries.txt
+
       - name: Build the in-game launcher
         shell: bash
         run: rustc --edition 2021 -O distribution/play_launcher.rs -o "$RUNNER_TEMP/Play.exe"
@@ -129,11 +140,13 @@ jobs:
 
       - name: Sign the engine and the launcher (when a certificate is configured)
         shell: pwsh
-        run: ./distribution/sign.ps1 _engine/target/release/re2.exe _engine/target/release/re2d.exe "$env:RUNNER_TEMP/Play.exe"
+        run: |
+          $own = @(Get-Content binaries.txt | Where-Object { $_ } | ForEach-Object { "_engine/target/release/$_.exe" })
+          ./distribution/sign.ps1 _engine/target/release/re2.exe _engine/target/release/re2d.exe @own "$env:RUNNER_TEMP/Play.exe"
 
       - name: Stage, zip and compile the installers
         shell: bash
-        run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --engine-2d _engine/target/release/re2d.exe --launcher "$RUNNER_TEMP/Play.exe" --out dist
+        run: python distribution/release_tool.py build --plan plan.json --engine _engine/target/release/re2.exe --engine-2d _engine/target/release/re2d.exe --bin-dir _engine/target/release --launcher "$RUNNER_TEMP/Play.exe" --out dist
 
       - name: Smoke-test the install, in-place update and uninstall on this runner
         shell: pwsh

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # scripts/red: run the Red Engine version this project pins (game.json "engine"), building it on first use.
 #   scripts/red doctor | check | build-all | info | play-local | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
+#   scripts/red start "<task>" | next | resume    the AI launchpad: which workflow, which executable and why, ONE next action (read-only: never builds or downloads)
 # Env: RED_ENGINE=/path/to/checkout (override), RED_UPDATE=1 (git fetch the pinned ref), RED_REBUILD=1 (force a build),
 # RED_HEADLESS=1 (no graphics crates: CLI + server only, ideal for CI and containers), RED_PROFILE=debug|release (default debug).
 set -eu
@@ -10,6 +11,21 @@ for f in "$HOME/.local/toolchain/env.sh" "$HOME/.cargo/env"; do [ -f "$f" ] && .
 export CARGO_TERM_COLOR=never
 
 json_get() { sed -n "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"\([^\"]*\)\".*/\1/p" game.json | head -1; }
+# The executable that plays the game: the engine's client, or the game's own (game.json "binary").
+GAME_BIN="$(json_get binary)"; GAME_BIN="${GAME_BIN:-re2}"
+
+# The launchpad is read-only: it must not clone, build or download, so it runs BEFORE the engine is resolved below (which clones a missing pinned engine).
+case "${1:-}" in start|next|resume)
+  E="${RED_ENGINE:-}"
+  if [ -z "$E" ]; then
+    P="$(json_get path)"
+    case "$P" in "") ;; /*|[A-Za-z]:*) E="$P" ;; *) E="$ROOT/$P" ;; esac
+  fi
+  [ -z "$E" ] && E="$ROOT/.red/engine"
+  if [ -f "$E/scripts/launchpad.py" ] && command -v python3 >/dev/null 2>&1; then exec python3 "$E/scripts/launchpad.py" "$@" --project "$ROOT"; fi
+  echo "red: no engine checkout to read yet at '$E' (game.json pins it). Run \`scripts/red describe --brief\` once: it clones the pinned engine (needs the network) and builds the CLI; then \`scripts/red $1\` works." >&2
+  exit 2 ;;
+esac
 
 ENGINE="${RED_ENGINE:-}"
 if [ -z "$ENGINE" ]; then
@@ -46,7 +62,9 @@ if [ "$cmd" = "help" ] || [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ]; then sed -
 if [ "$cmd" = "doctor" ]; then
   echo "project  $ROOT"; echo "engine   $ENGINE ($(git -C "$ENGINE" rev-parse --short HEAD 2>/dev/null || echo 'not a git checkout'))"
   command -v cargo >/dev/null 2>&1 && echo "cargo    $(cargo --version)" || echo "cargo    NOT FOUND (install Rust: https://rustup.rs)"
-  for b in red_engine2 red_server re2; do [ -f "$(exe $b)" ] && echo "built    $b" || echo "missing  $b (built on first use)"; done
+  for b in red_engine2 red_server "$GAME_BIN"; do [ -f "$(exe $b)" ] && echo "built    $b" || echo "missing  $b (built on first use)"; done
+  # Which executable would run, and is it fresh? (the same rules scripts/dev and the MCP adapter use)
+  [ -f "$ENGINE/scripts/red_resolve.py" ] && command -v python3 >/dev/null 2>&1 && python3 "$ENGINE/scripts/red_resolve.py" --project "$ROOT" 2>/dev/null | sed -n 's/^selected /exe      selected /p;s/^  - /         /p'
   exit 0
 fi
 command -v cargo >/dev/null 2>&1 || { echo "red: cargo not found (install Rust: https://rustup.rs)" >&2; exit 127; }
@@ -54,15 +72,18 @@ command -v cargo >/dev/null 2>&1 || { echo "red: cargo not found (install Rust: 
 if [ "${1:-}" = "--rebuild" ]; then REBUILD=1; shift; fi
 MODE=default; FEATURES=""; [ "${RED_HEADLESS:-0}" = "1" ] && { MODE=headless; FEATURES="--no-default-features"; }
 [ "$MODE" = "headless" ] && { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && { echo "red: $cmd needs graphics; unset RED_HEADLESS" >&2; exit 2; }
-REQUIRED="red_engine2"; [ "$cmd" = "serve" ] && REQUIRED="$REQUIRED red_server"; { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && REQUIRED="$REQUIRED re2"
+REQUIRED="red_engine2"; [ "$cmd" = "serve" ] && REQUIRED="$REQUIRED red_server"; GAME_PKG=""
+# A game with its own client (game.json "binary", a package of the engine's workspace) builds it on its own: in one cargo build with the engine's
+# binaries, its dependency on the engine's graphics would reach the headless ones through feature unification.
+if [ "$GAME_BIN" = "re2" ]; then { [ "$cmd" = "play" ] || [ "$cmd" = "play-local" ]; } && REQUIRED="$REQUIRED re2"; elif [ "$cmd" = "play-local" ]; then GAME_PKG="$GAME_BIN"; fi
 needs_build() {
   OUT="$(exe "$1")"; STAMP="$TARGET/$PROFILE/.red-wrapper-$1.mode"
   [ "$REBUILD" = "1" ] || [ ! -f "$OUT" ] && return 0
   [ -f "$STAMP" ] || return 0
   [ "$(cat "$STAMP")" != "$MODE" ] && return 0
   for f in "$ENGINE/Cargo.toml" "$ENGINE/Cargo.lock" "$ENGINE/build.rs"; do [ -f "$f" ] && [ "$f" -nt "$OUT" ] && return 0; done
-  for d in "$ENGINE/src" "$ENGINE/assets"; do
-    [ -d "$d" ] && [ -n "$(find "$d" -type f -newer "$OUT" -print -quit)" ] && return 0
+  for d in "$ENGINE/src" "$ENGINE/assets" "$ENGINE/crates" "$ENGINE/games"; do
+    [ -d "$d" ] && [ -n "$(find "$d" -type f ! -name '*.md' ! -name '*.py' ! -name '*.txt' -newer "$OUT" -print -quit)" ] && return 0
   done
   return 1
 }
@@ -72,6 +93,11 @@ if [ "$BUILD" = "1" ]; then
   echo "red: building required engine binaries ..." >&2
   cargo build --quiet $PFLAG $FEATURES --manifest-path "$ENGINE/Cargo.toml" $BINS
   for b in $REQUIRED; do printf '%s' "$MODE" > "$TARGET/$PROFILE/.red-wrapper-$b.mode"; done
+fi
+if [ -n "$GAME_PKG" ] && needs_build "$GAME_PKG"; then
+  echo "red: building the game's client ($GAME_PKG) ..." >&2
+  cargo build --quiet $PFLAG --manifest-path "$ENGINE/Cargo.toml" -p "$GAME_PKG" --bin "$GAME_PKG"
+  printf '%s' "$MODE" > "$TARGET/$PROFILE/.red-wrapper-$GAME_PKG.mode"
 fi
 
 CLI="$(exe red_engine2)"

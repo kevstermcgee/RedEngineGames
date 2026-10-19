@@ -1,6 +1,7 @@
 {
   "game": 1,
   "name": "killchain",
+  "binary": "killchain",
   "engine": {
     "path": "../../../RedEngine"
   },

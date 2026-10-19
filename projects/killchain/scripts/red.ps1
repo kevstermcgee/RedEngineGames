@@ -1,5 +1,6 @@
 # scripts/red.ps1: the Windows-native twin of scripts/red (same commands and env vars).
 #   powershell -File scripts\red.ps1 doctor | check | build-all | info | play-local | serve | play [HOST:PORT] | status ... | <any red_engine2 command>
+#   powershell -File scripts\red.ps1 start "<task>" | next | resume    the AI launchpad (read-only: never builds or downloads)
 param([Parameter(Position = 0)][string]$Cmd = 'help', [Parameter(ValueFromRemainingArguments = $true)][string[]]$Rest)
 $ErrorActionPreference = 'Stop'
 $Root = Split-Path -Parent $PSScriptRoot
@@ -8,6 +9,18 @@ $env:CARGO_TERM_COLOR = 'never'
 $cargoBin = Join-Path $HOME '.cargo\bin'
 if ((Test-Path $cargoBin) -and (($env:PATH -split ';') -notcontains $cargoBin)) { $env:PATH = "$cargoBin;$env:PATH" }
 $game = Get-Content game.json -Raw | ConvertFrom-Json
+# The executable that plays the game: the engine's client, or the game's own (game.json "binary").
+$gameBin = if ($game.binary) { $game.binary } else { 're2' }
+
+# The launchpad is read-only: it must not clone, build or download, so it runs BEFORE the engine is resolved below (which clones a missing pinned engine).
+if ($Cmd -in 'start', 'next', 'resume') {
+    $e = $env:RED_ENGINE
+    if (-not $e -and $game.engine.path) { $e = if ([IO.Path]::IsPathRooted($game.engine.path)) { $game.engine.path } else { Join-Path $Root $game.engine.path } }
+    if (-not $e) { $e = Join-Path $Root '.red\engine' }
+    $lp = Join-Path $e 'scripts\launchpad.py'
+    if ((Test-Path $lp) -and (Get-Command python -ErrorAction SilentlyContinue)) { & python $lp $Cmd @Rest --project $Root; exit $LASTEXITCODE }
+    Write-Error "red: no engine checkout to read yet at '$e' (game.json pins it). Run scripts\red.ps1 describe --brief once: it clones the pinned engine (needs the network) and builds the CLI; then $Cmd works."; exit 2
+}
 
 $Engine = $env:RED_ENGINE
 if (-not $Engine -and $game.engine.path) { $p = if ([IO.Path]::IsPathRooted($game.engine.path)) { $game.engine.path } else { Join-Path $Root $game.engine.path }; if (Test-Path $p) { $Engine = (Resolve-Path $p).Path } }
@@ -34,7 +47,7 @@ if ($Cmd -in 'help', '-h', '--help') { Get-Content $PSCommandPath -TotalCount 2 
 if ($Cmd -eq 'doctor') {
     "project  $Root"; "engine   $Engine"
     if (Get-Command cargo -ErrorAction SilentlyContinue) { "cargo    $(cargo --version)" } else { 'cargo    NOT FOUND (install Rust: https://rustup.rs)' }
-    foreach ($b in 'red_engine2', 'red_server', 're2') { if (Test-Path (Exe $b)) { "built    $b" } else { "missing  $b (built on first use)" } }
+    foreach ($b in 'red_engine2', 'red_server', $gameBin) { if (Test-Path (Exe $b)) { "built    $b" } else { "missing  $b (built on first use)" } }
     exit 0
 }
 if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) { Write-Error 'red: cargo not found (install Rust: https://rustup.rs)'; exit 127 }
@@ -42,13 +55,17 @@ if ($Rest.Count -gt 0 -and $Rest[0] -eq '--rebuild') { $rebuild = $true; $Rest =
 $mode = if ($env:RED_HEADLESS -eq '1') { 'headless' } else { 'default' }
 $features = if ($mode -eq 'headless') { @('--no-default-features') } else { @() }
 if ($mode -eq 'headless' -and $Cmd -in 'play', 'play-local') { Write-Error "red: $Cmd needs graphics; unset RED_HEADLESS"; exit 2 }
-$required = @('red_engine2'); if ($Cmd -eq 'serve') { $required += 'red_server' }; if ($Cmd -in 'play', 'play-local') { $required += 're2' }
+$required = @('red_engine2'); if ($Cmd -eq 'serve') { $required += 'red_server' }; $gamePkg = $null
+# A game with its own client (game.json "binary", a package of the engine's workspace) builds it on its own: in one cargo build with the engine's
+# binaries, its dependency on the engine's graphics would reach the headless ones through feature unification.
+if ($gameBin -eq 're2') { if ($Cmd -in 'play', 'play-local') { $required += 're2' } } elseif ($Cmd -eq 'play-local') { $gamePkg = $gameBin }
 function Needs-Build([string]$n) {
     $out = Exe $n; if ($rebuild -or -not (Test-Path $out)) { return $true }
     $stamp = Join-Path $Target "$Profile_\.red-wrapper-$n.mode"
     if (-not (Test-Path $stamp) -or (Get-Content $stamp -Raw) -ne $mode) { return $true }
     $inputs = @((Join-Path $Engine 'Cargo.toml'), (Join-Path $Engine 'Cargo.lock'), (Join-Path $Engine 'build.rs'))
-    $inputs += Get-ChildItem (Join-Path $Engine 'src'), (Join-Path $Engine 'assets') -Recurse -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+    # crates/ (red2d) is part of the build; docs and helper scripts are not.
+    $inputs += Get-ChildItem (Join-Path $Engine 'src'), (Join-Path $Engine 'assets'), (Join-Path $Engine 'crates'), (Join-Path $Engine 'games') -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -notin '.md', '.py', '.txt' } | Select-Object -ExpandProperty FullName
     $built = (Get-Item $out).LastWriteTimeUtc
     return $null -ne ($inputs | Where-Object { (Test-Path $_) -and (Get-Item $_).LastWriteTimeUtc -gt $built } | Select-Object -First 1)
 }
@@ -59,6 +76,12 @@ if ($build) {
     & cargo build --quiet @PFlag @features --manifest-path (Join-Path $Engine 'Cargo.toml') @bins
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     foreach ($b in $required) { Set-Content -NoNewline -Path (Join-Path $Target "$Profile_\.red-wrapper-$b.mode") -Value $mode }
+}
+if ($gamePkg -and (Needs-Build $gamePkg)) {
+    Write-Host "red: building the game's client ($gamePkg) ..."
+    & cargo build --quiet @PFlag --manifest-path (Join-Path $Engine 'Cargo.toml') -p $gamePkg --bin $gamePkg
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Set-Content -NoNewline -Path (Join-Path $Target "$Profile_\.red-wrapper-$gamePkg.mode") -Value $mode
 }
 
 $cli = Exe 'red_engine2'

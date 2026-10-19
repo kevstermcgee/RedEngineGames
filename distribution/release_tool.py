@@ -97,12 +97,14 @@ def game_directory(playable: dict, repo: Path = REPO) -> Path:
 
 
 def content_hash(repo: Path, playable: dict) -> str:
-    """A fingerprint of what the game consists of: the git object ids of its files (so line-ending settings on a runner cannot change it), its name and its command line."""
+    """A fingerprint of what the game consists of: the git object ids of its files (so line-ending settings on a runner cannot change it), its name, its command line
+    and the client that plays it when it names its own (a game that moves to its own client is a new version; the others keep their fingerprints)."""
     listing = subprocess.run(
         ["git", "-C", str(repo), "ls-tree", "-r", "HEAD", "--", *playable["files"]], capture_output=True, text=True, check=True
     ).stdout
     h = hashlib.sha256()
-    h.update(json.dumps([playable["name"], playable["arguments"]]).encode())
+    named = [playable["name"], playable["arguments"]] + ([playable["binary"]] if playable.get("binary") else [])
+    h.update(json.dumps(named).encode())
     h.update(listing.encode())
     return h.hexdigest()
 
@@ -232,12 +234,31 @@ def is_2d(playable: dict) -> bool:
     return playable.get("kind", "3d") == "2d"
 
 
+def game_binary(playable: dict) -> str | None:
+    """The game's own client, when it names one (`"binary": "killchain"`, a package of RedEngine's workspace built with `cargo build -p`); None when the
+    engine's client plays it (`re2`, or `re2d` for a 2D game)."""
+    b = playable.get("binary")
+    if b in (None, "re2", "re2d"):
+        return None
+    if not isinstance(b, str) or not re.fullmatch(r"[a-z][a-z0-9_-]{0,39}", b):
+        raise SystemExit(f"{playable['slug']}: binary must name a package binary of RedEngine's workspace, like \"killchain\"")
+    return b
+
+
+def exe_name(playable: dict) -> str:
+    """What the executable is called in the download: the engine's two clients keep their names; a game's own is `<binary>.exe`."""
+    own = game_binary(playable)
+    if own:
+        return f"{own}.exe"
+    return CONFIG["engine_exe_2d"] if is_2d(playable) or playable.get("binary") == "re2d" else CONFIG["engine_exe"]
+
+
 def stage_game(entry: dict, playable: dict, engine: Path, launcher: Path, stage: Path) -> None:
     """The folder a player ends up with: engine, launcher, the game's content and the files that tie them together."""
     if stage.exists():
         shutil.rmtree(stage)
     stage.mkdir(parents=True)
-    exe = CONFIG["engine_exe_2d"] if is_2d(playable) else CONFIG["engine_exe"]
+    exe = exe_name(playable)
     shutil.copy2(engine, stage / exe)
     shutil.copy2(launcher, stage / f"Play-{entry['slug']}.exe")
     (stage / "engine.name").write_text(exe + "\n", encoding="utf-8")
@@ -351,6 +372,29 @@ def cmd_plan(args) -> int:
     return 0
 
 
+def engine_for(playable: dict, args) -> Path:
+    """The built executable that plays `playable`: a game's own (from `--bin-dir`), the 2D player or the 3D client."""
+    own = game_binary(playable)
+    if own:
+        if not args.bin_dir:
+            raise SystemExit(f"{playable['slug']} plays with its own client: pass --bin-dir (the folder holding the built {own}.exe)")
+        return Path(args.bin_dir) / f"{own}.exe"
+    if is_2d(playable) or playable.get("binary") == "re2d":
+        if not args.engine_2d:
+            raise SystemExit(f"{playable['slug']} is a 2D game: pass --engine-2d (the built re2d.exe)")
+        return Path(args.engine_2d)
+    return Path(args.engine)
+
+
+def cmd_binaries(args) -> int:
+    """The games' own clients the planned releases need, one per line (the workflow builds each with `cargo build -p NAME --bin NAME`)."""
+    plan = json.loads(Path(args.plan).read_text())
+    by_slug = {p["slug"]: p for p in load_playables()}
+    for name in sorted({b for b in (game_binary(by_slug[g["slug"]]) for g in plan["games"]) if b}):
+        print(name)
+    return 0
+
+
 def cmd_build(args) -> int:
     plan = json.loads(Path(args.plan).read_text())
     by_slug = {p["slug"]: p for p in load_playables()}
@@ -361,9 +405,7 @@ def cmd_build(args) -> int:
     for entry in plan["games"]:
         stage = work / entry["slug"] / "stage"
         playable = by_slug[entry["slug"]]
-        if is_2d(playable) and not args.engine_2d:
-            raise SystemExit(f"{entry['slug']} is a 2D game: pass --engine-2d (the built re2d.exe)")
-        stage_game(entry, playable, Path(args.engine_2d if is_2d(playable) else args.engine), Path(args.launcher), stage)
+        stage_game(entry, playable, engine_for(playable, args), Path(args.launcher), stage)
         zip_folder(stage, assets / f"{entry['slug']}-{entry['version']}-windows-x64.zip")
         compile_installer(entry, stage, assets, work / entry["slug"] / "iss")
         shutil.rmtree(work / entry["slug"])
@@ -425,8 +467,11 @@ def main() -> int:
     p.add_argument("--plan", default="plan.json")
     p.add_argument("--engine", required=True)
     p.add_argument("--engine-2d", help="the built re2d.exe, for the games whose kind is 2d")
+    p.add_argument("--bin-dir", help="the folder holding the games' own clients (`binaries` lists them), for the games that name one")
     p.add_argument("--launcher", required=True)
     p.add_argument("--out", default="dist")
+    p = sub.add_parser("binaries")
+    p.add_argument("--plan", default="plan.json")
     p = sub.add_parser("finalize")
     p.add_argument("--plan", default="plan.json")
     p.add_argument("--out", default="dist")
@@ -436,7 +481,7 @@ def main() -> int:
     p.add_argument("--out", default="dist")
     p.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
-    return {"plan": cmd_plan, "build": cmd_build, "finalize": cmd_finalize, "publish": cmd_publish}[args.cmd](args)
+    return {"plan": cmd_plan, "build": cmd_build, "binaries": cmd_binaries, "finalize": cmd_finalize, "publish": cmd_publish}[args.cmd](args)
 
 
 if __name__ == "__main__":
