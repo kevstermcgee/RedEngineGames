@@ -120,7 +120,7 @@ jobs:
       - name: Build the games' own clients
         shell: bash
         run: |
-          python distribution/release_tool.py binaries --plan plan.json > binaries.txt
+          python distribution/release_tool.py binaries --plan plan.json | tr -d '\r' > binaries.txt
           while read -r b; do
             [ -n "$b" ] && (cd _engine && cargo build --release --locked -p "$b" --bin "$b")
           done < binaries.txt
