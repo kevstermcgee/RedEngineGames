@@ -156,7 +156,7 @@
     },
     {
       "path": "demos/examples/3d/gentle-carousel/gentle-carousel.json",
-      "sha256": "5754554796225ad0499236dfaa4c861abdb21c2e6e336ee589d686b3fa9f9d98"
+      "sha256": "52959e802f5f70985c866f2c0bc528a48af228e6348d63b2a73cf2c421695c5d"
     },
     {
       "path": "demos/examples/3d/quiet-compass/audio/lullaby.json",
@@ -912,6 +912,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "3f09837533853fea7145703810e3fc7aa80f8fe0",
+  "source_revision": "9757a5637f313ad5d581188b4e53d636324a5cd2",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
