@@ -1,5 +1,6 @@
 // A stand-in for the window (app/src/main.rs) so the page can be tested in a plain browser: the same commands and events, backed by
-// `window.__MOCK__` = {catalog, installed: {slug: version}, favorites: [slug], update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail}.
+// `window.__MOCK__` = {catalog, installed: {slug: version}, favorites: [slug], update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail,
+// canPublish, dropped (what `drop_inspect` finds), publishFail, badToken}.
 // Every call is recorded in `window.__CALLS__`.
 (function () {
   const M = window.__MOCK__;
@@ -24,7 +25,10 @@
   const commands = {
     overview() {
       const games = M.offline && M.noCache ? [] : M.catalog.games.map((g) => ({ ...g, status: status(g), installed: lib[g.slug] || null, favorite: favorites.has(g.slug) }));
-      return { games, offline: !!M.offline, error: M.offline ? "could not reach https://kevstermcgee.github.io/RedEngineGames/catalog.json: dns failed" : null, launcher_version: "0.1.0", site: "https://kevstermcgee.github.io/RedEngineGames/" };
+      for (const [slug, i] of Object.entries(lib)) {
+        if (!M.catalog.games.some((g) => g.slug === slug)) games.push({ slug, name: i.name, versions: [], status: { state: "installed", version: i.version }, installed: i, retired: !i.local, local: !!i.local, favorite: favorites.has(slug) });
+      }
+      return { games, offline: !!M.offline, error: M.offline ? "could not reach https://kevstermcgee.github.io/RedEngineGames/catalog.json: dns failed" : null, launcher_version: "0.1.0", site: "https://kevstermcgee.github.io/RedEngineGames/", can_publish: !!M.canPublish };
     },
     async install({ slug }) {
       const g = M.catalog.games.find((x) => x.slug === slug);
@@ -66,6 +70,27 @@
     quit() {},
     reviews_published() { if (M.offline) throw "offline"; return M.reviews || { schema: 1, games: {} }; },
     review_send({ review }) { if (M.reviewFail) throw M.reviewFail; },
+    note_send({ note }) { if (M.reviewFail) throw M.reviewFail; },
+    drop_inspect({ paths }) {
+      return { name: "Star Miner", candidates: ["StarMiner.exe"], entry: "StarMiner.exe", size: 52_000_000, thumb: true, can_publish: !!M.canPublish, ...(M.dropped || {}) };
+    },
+    drop_add({ details }) {
+      const slug = details.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      lib[slug] = { name: details.name, version: ((lib[slug] || {}).version || 0) + 1, dir: `games/${slug}/v1`, installed: "2026-10-19", played: "", local: true };
+      return slug;
+    },
+    async drop_publish({ details }) {
+      if (!M.canPublish) throw "Set up publishing first.";
+      emit("publish", { phase: "pack", done: 0, total: 0 });
+      await sleep(M.ms || 60);
+      for (let i = 0; i <= 4; i++) { emit("publish", { phase: "upload", done: i * 13_000_000, total: 52_000_000 }); await sleep(M.ms || 60); }
+      if (M.publishFail) throw M.publishFail;
+      const slug = commands.drop_add({ details });
+      emit("publish", { phase: "done", done: 0, total: 0 });
+      return { slug, version: lib[slug].version, url: "https://github.com/x" };
+    },
+    publish_setup({ token }) { if (M.badToken) throw "GitHub refused the token (it may have expired): set up publishing again."; M.canPublish = true; return "kevstermcgee"; },
+    publish_forget() { M.canPublish = false; },
   };
   window.__TAURI__ = {
     core: {

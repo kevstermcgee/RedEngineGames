@@ -1,6 +1,6 @@
 //! RedEngine Games: the window. All the work is in `redengine-games-core`; this file turns it into commands the page (`../ui`) calls and
-//! events it listens to (`job` for a game being installed, `launcher` for the launcher's own update, `close-requested` when the player closes
-//! the window while games are downloading).
+//! events it listens to (`job` for a game being installed, `launcher` for the launcher's own update, `publish` for a dropped game being
+//! published, `close-requested` when the player closes the window while games are downloading).
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::collections::HashMap;
@@ -8,7 +8,7 @@ use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use redengine_games_core::{self as core, launch, library::Library, reviews, update, Catalog, SITE};
+use redengine_games_core::{self as core, launch, library::Library, publish, reviews, update, upload, Catalog, SITE};
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager, State, WindowEvent};
 
@@ -18,6 +18,8 @@ struct App {
     library: Mutex<Library>,
     catalog: Mutex<Option<Catalog>>,
     jobs: Mutex<HashMap<String, Arc<AtomicBool>>>,
+    /// The game last dropped on the window, copied into `uploads/staging` and waiting for the player's details.
+    dropped: Mutex<Option<upload::Staged>>,
 }
 
 /// `%LOCALAPPDATA%\RedEngineGames` (elsewhere, for development, the user's data folder).
@@ -44,6 +46,8 @@ struct Overview {
     error: Option<String>,
     launcher_version: &'static str,
     site: &'static str,
+    /// This PC has a GitHub token that may publish dropped games.
+    can_publish: bool,
 }
 
 /// The catalog with each game's install state. `refresh` fetches the site again (otherwise the copy from this session is reused).
@@ -86,12 +90,14 @@ async fn overview(state: State<'_, App>, refresh: bool) -> Result<Overview, Stri
     }
     // A game removed from the site stays playable while it is installed (and with no catalog at all, offline on the first run, every
     // installed game is listed this way, without being called retired).
+    // A game the player dropped on the window is theirs until the site lists it (if they published it).
     for (slug, i) in library.all() {
         if !catalog.as_ref().is_some_and(|c| c.game(slug).is_some()) {
-            games.push(serde_json::json!({"slug": slug, "name": i.name, "versions": [], "status": {"state": "installed", "version": i.version}, "installed": i, "retired": catalog.is_some(), "favorite": library.is_favorite(slug)}));
+            games.push(serde_json::json!({"slug": slug, "name": i.name, "versions": [], "status": {"state": "installed", "version": i.version}, "installed": i,
+                "retired": catalog.is_some() && !i.local, "local": i.local, "favorite": library.is_favorite(slug)}));
         }
     }
-    Ok(Overview { games, offline, error, launcher_version: VERSION, site: SITE })
+    Ok(Overview { games, offline, error, launcher_version: VERSION, site: SITE, can_publish: publish::token(library.root()).is_some() })
 }
 
 #[derive(Clone, Serialize)]
@@ -221,6 +227,145 @@ async fn review_send(state: State<'_, App>, review: reviews::Review) -> Result<(
     tauri::async_runtime::spawn_blocking(move || reviews::send(&settings, &review, VERSION)).await.map_err(err)?.map_err(err)
 }
 
+/// Send a note about the engine itself, anonymously. An error is a sentence the page shows as it is.
+#[tauri::command]
+async fn note_send(state: State<'_, App>, note: reviews::EngineNote) -> Result<(), String> {
+    let settings = review_settings(&state);
+    tauri::async_runtime::spawn_blocking(move || reviews::send_note(&settings, &note, VERSION)).await.map_err(err)?.map_err(err)
+}
+
+/// What the page needs to ask about a dropped game.
+#[derive(Serialize)]
+struct Dropped {
+    name: String,
+    candidates: Vec<String>,
+    entry: Option<String>,
+    size: u64,
+    thumb: bool,
+    /// Whether this app may publish (it has a token).
+    can_publish: bool,
+}
+
+/// Copy what was dropped (`paths`) aside and look at it. Nothing the player dropped is changed.
+#[tauri::command]
+async fn drop_inspect(state: State<'_, App>, paths: Vec<String>) -> Result<Dropped, String> {
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    let paths: Vec<PathBuf> = paths.into_iter().map(PathBuf::from).collect();
+    let work = root.join("uploads").join("staging");
+    let staged = tauri::async_runtime::spawn_blocking(move || upload::stage(&paths, &work)).await.map_err(err)?.map_err(err)?;
+    let out = Dropped {
+        name: staged.name.clone(),
+        candidates: staged.candidates.clone(),
+        entry: staged.entry.clone(),
+        size: staged.size,
+        thumb: staged.thumb.is_some(),
+        can_publish: publish::token(&root).is_some(),
+    };
+    *state.dropped.lock().unwrap() = Some(staged);
+    Ok(out)
+}
+
+/// The slug a dropped game gets, and the version after the newest one on the site or in the library. A name the site already uses for a
+/// game built there is refused.
+fn local_version(state: &App, slug: &str) -> Result<u64, String> {
+    let catalog = state.catalog.lock().unwrap();
+    let on_site = catalog.as_ref().and_then(|c| c.game(slug));
+    if on_site.is_some_and(|g| !g.uploaded) {
+        return Err("A game on the site already has that name: give this one another.".into());
+    }
+    let site = on_site.and_then(|g| g.latest()).map(|v| v.version).unwrap_or(0);
+    let mine = state.library.lock().unwrap().installed(slug).map(|i| i.version).unwrap_or(0);
+    Ok(site.max(mine) + 1)
+}
+
+/// Add the dropped game to this PC's library only.
+#[tauri::command]
+async fn drop_add(state: State<'_, App>, details: upload::Details) -> Result<String, String> {
+    let d = details.checked().map_err(err)?;
+    let slug = upload::slugify(&d.name);
+    let version = local_version(&state, &slug)?;
+    let staged = state.dropped.lock().unwrap().take().ok_or("Drop the game again.")?;
+    upload::prepare(&staged.folder, &d.entry, &[]).map_err(err)?;
+    state.library.lock().unwrap().install_folder(&slug, &d.name, version, &staged.folder, &core::today(), true).map_err(err)?;
+    Ok(slug)
+}
+
+#[derive(Clone, Serialize)]
+struct Published {
+    slug: String,
+    version: u64,
+    url: String,
+}
+
+/// Publish the dropped game for everyone (a release on GitHub, which the site and every app then list), and add it to this PC's library.
+/// Progress arrives as `publish` events (`phase`: pack, upload, done).
+#[tauri::command]
+async fn drop_publish(app: AppHandle, state: State<'_, App>, details: upload::Details) -> Result<Published, String> {
+    let d = details.checked().map_err(err)?;
+    let slug = upload::slugify(&d.name);
+    local_version(&state, &slug)?;
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    let token = publish::token(&root).ok_or("Set up publishing first.")?;
+    let staged = state.dropped.lock().unwrap().clone().ok_or("Drop the game again.")?;
+    let handle = app.clone();
+    let result = tauri::async_runtime::spawn_blocking(move || -> core::Result<Published> {
+        let emit = |phase: &str, done: u64, total: u64| {
+            let _ = handle.emit("publish", serde_json::json!({"phase": phase, "done": done, "total": total}));
+        };
+        emit("pack", 0, 0);
+        let (version, previous) = publish::next_version(&publish::records(&publish::releases(&token)?), &slug)?;
+        upload::prepare(&staged.folder, &d.entry, &[])?;
+        let out = root.join("uploads").join("out");
+        let _ = std::fs::remove_dir_all(&out);
+        let zip_name = format!("{slug}-{version}-windows-x64.zip");
+        let (size, sha) = upload::zip_folder(&staged.folder, &out.join(&zip_name))?;
+        let tag = format!("{slug}-v{version}");
+        let mut files = vec![(out.join(&zip_name), "application/zip")];
+        let thumb_url = match &staged.thumb {
+            Some(t) => {
+                let ext = t.extension().and_then(|e| e.to_str()).unwrap_or("png").to_string();
+                let name = format!("{slug}-{version}-thumb.{ext}");
+                std::fs::copy(t, out.join(&name))?;
+                files.push((out.join(&name), if ext == "png" { "image/png" } else { "image/jpeg" }));
+                Some(publish::asset_url(&tag, &name))
+            }
+            None => previous.as_ref().and_then(|p| p["thumb_url"].as_str().map(String::from)),
+        };
+        let meta = upload::record(&d, &slug, version, &core::today(), (&zip_name, size, &sha), thumb_url);
+        let url = publish::publish(&token, &tag, &format!("{} {version}", d.name), &upload::release_body(&meta), &files, &mut |done, total| emit("upload", done, total))?;
+        let _ = std::fs::remove_dir_all(&out);
+        let state = handle.state::<App>();
+        state.library.lock().unwrap().install_folder(&slug, &d.name, version, &staged.folder, &core::today(), true)?;
+        *state.dropped.lock().unwrap() = None;
+        emit("done", 0, 0);
+        Ok(Published { slug, version, url })
+    })
+    .await
+    .map_err(err)?;
+    result.map_err(err)
+}
+
+/// Save a GitHub token that may publish, after checking it with GitHub; returns the account's name.
+#[tauri::command]
+async fn publish_setup(state: State<'_, App>, token: String) -> Result<String, String> {
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    let token = token.trim().to_string();
+    let t = token.clone();
+    let login = tauri::async_runtime::spawn_blocking(move || publish::check(&t)).await.map_err(err)?.map_err(err)?;
+    std::fs::write(publish::token_file(&root), token).map_err(err)?;
+    Ok(login)
+}
+
+/// Forget the saved token.
+#[tauri::command]
+fn publish_forget(state: State<'_, App>) -> Result<(), String> {
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    match std::fs::remove_file(publish::token_file(&root)) {
+        Err(e) if e.kind() != std::io::ErrorKind::NotFound => Err(err(e)),
+        _ => Ok(()),
+    }
+}
+
 /// The newer launcher on the site, if any.
 #[tauri::command]
 async fn launcher_update() -> Result<Option<update::Latest>, String> {
@@ -292,7 +437,8 @@ fn main() {
             // Downloads that were cut off when the launcher last closed start again from the beginning.
             let _ = std::fs::remove_dir_all(root.join("downloads"));
             let library = Library::open(&root)?;
-            app.manage(App { library: Mutex::new(library), catalog: Mutex::new(None), jobs: Mutex::new(HashMap::new()) });
+            let _ = std::fs::remove_dir_all(root.join("uploads"));
+            app.manage(App { library: Mutex::new(library), catalog: Mutex::new(None), jobs: Mutex::new(HashMap::new()), dropped: Mutex::new(None) });
             Ok(())
         })
         .on_window_event(|window, event| {
@@ -303,7 +449,8 @@ fn main() {
                 }
             }
         })
-        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, favorite, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send])
+        .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, favorite, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send, note_send,
+            drop_inspect, drop_add, drop_publish, publish_setup, publish_forget])
         .run(tauri::generate_context!())
         .expect("the window opens");
 }

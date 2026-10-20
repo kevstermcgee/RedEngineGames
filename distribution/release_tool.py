@@ -133,6 +133,8 @@ def release_history(releases: list[dict]) -> dict[str, list[dict]]:
     """Per slug, every versioned release (newest version first), read from the `redengine-release` line at the end of each release's notes."""
     out: dict[str, list[dict]] = {}
     for r in releases:
+        if r.get("draft"):  # a version still being uploaded (the app publishes through a draft) is not one yet
+            continue
         m = MARKER.search(r.get("body") or "")
         if not m:
             continue

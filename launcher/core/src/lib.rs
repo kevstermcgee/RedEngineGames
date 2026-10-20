@@ -11,8 +11,10 @@ pub mod catalog;
 pub mod download;
 pub mod launch;
 pub mod library;
+pub mod publish;
 pub mod reviews;
 pub mod update;
+pub mod upload;
 
 pub use catalog::{Asset, Catalog, Game, Version};
 pub use library::{Installed, Library, Status};
@@ -38,6 +40,9 @@ pub enum Error {
     Catalog(String),
     #[error("{0}")]
     Review(String),
+    /// A dropped game that cannot be added or published, as a sentence for the player.
+    #[error("{0}")]
+    Upload(String),
     #[error("{0}")]
     Io(#[from] std::io::Error),
 }
@@ -74,3 +79,6 @@ fn dates_are_calendar_dates() {
 
 /// The site the catalog and the launcher's own updates come from.
 pub const SITE: &str = "https://kevstermcgee.github.io/RedEngineGames/";
+
+/// The repository whose releases are the site's record of every version (`distribution/config.json`); a published game becomes a release here.
+pub const REPOSITORY: &str = "kevstermcgee/RedEngineGames";

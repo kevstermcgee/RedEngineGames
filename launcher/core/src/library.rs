@@ -21,6 +21,9 @@ pub struct Installed {
     pub installed: String,
     #[serde(default)]
     pub played: String,
+    /// Added by dropping it on the window (`upload`): it was on this PC before it was on the site, if it ever is.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub local: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -113,19 +116,35 @@ impl Library {
 
     /// Install from an already downloaded and checked ZIP.
     pub fn install_zip(&mut self, game: &Game, v: &Version, zip: &Path, today: &str) -> Result<()> {
-        let rel = format!("games/{}/v{}", game.slug, v.version);
-        let target = self.root.join(&rel);
         let staging = self.root.join(format!("games/{}/.v{}-unpacking", game.slug, v.version));
         let _ = std::fs::remove_dir_all(&staging);
         if let Err(e) = crate::archive::extract(zip, &staging) {
             let _ = std::fs::remove_dir_all(&staging);
             return Err(e);
         }
+        self.place(&game.slug, &game.name, v.version, &staging, today, false)
+    }
+
+    /// Install a game the player dropped on the window from its prepared folder (`upload::Staged`), which is moved, not copied. `local`
+    /// marks it as added on this PC.
+    pub fn install_folder(&mut self, slug: &str, name: &str, version: u64, folder: &Path, today: &str, local: bool) -> Result<()> {
+        crate::archive::check_game(folder)?;
+        let staging = self.root.join(format!("games/{slug}/.v{version}-unpacking"));
+        let _ = std::fs::remove_dir_all(&staging);
+        std::fs::create_dir_all(staging.parent().expect("games/<slug>"))?;
+        std::fs::rename(folder, &staging)?;
+        self.place(slug, name, version, &staging, today, local)
+    }
+
+    /// Switch the record to the finished folder `staging`, then remove the version it replaces.
+    fn place(&mut self, slug: &str, name: &str, version: u64, staging: &Path, today: &str, local: bool) -> Result<()> {
+        let rel = format!("games/{slug}/v{version}");
+        let target = self.root.join(&rel);
         let _ = std::fs::remove_dir_all(&target);
-        std::fs::rename(&staging, &target)?;
+        std::fs::rename(staging, &target)?;
         let old = self.state.games.insert(
-            game.slug.clone(),
-            Installed { name: game.name.clone(), version: v.version, dir: rel.clone(), installed: today.into(), played: String::new() },
+            slug.to_string(),
+            Installed { name: name.to_string(), version, dir: rel.clone(), installed: today.into(), played: String::new(), local },
         );
         self.save()?;
         if let Some(old) = old.filter(|o| o.dir != rel) {
@@ -197,6 +216,7 @@ mod tests {
                     zip: Asset { name: format!("coin-run-{n}.zip"), size: 0, sha256: String::new(), url: String::new() },
                 })
                 .collect(),
+            uploaded: false,
             wiki: None,
         }
     }
@@ -264,6 +284,25 @@ mod tests {
         let reopened = Library::open(&root).unwrap();
         assert!(reopened.is_favorite("coin-run"), "a favorite survives a restart and an uninstall");
         assert!(!reopened.is_favorite("restless-tide"));
+    }
+
+    #[test]
+    fn a_dropped_game_is_moved_into_the_library_and_marked_local() {
+        let dir = tempfile::tempdir().unwrap();
+        let folder = dir.path().join("lib/uploads/staging/game");
+        std::fs::create_dir_all(&folder).unwrap();
+        std::fs::write(folder.join("quest.bat"), "@echo off").unwrap();
+        std::fs::write(folder.join("engine.name"), "quest.bat\n").unwrap();
+        std::fs::write(folder.join("launch.args"), "").unwrap();
+        let mut lib = Library::open(&dir.path().join("lib")).unwrap();
+        lib.install_folder("text-quest", "Text Quest", 1, &folder, "d", true).unwrap();
+        let i = lib.installed("text-quest").unwrap();
+        assert!(i.local && i.version == 1);
+        assert!(lib.dir("text-quest").unwrap().join("quest.bat").is_file());
+        assert!(!folder.exists(), "moved, not copied");
+        let not_a_game = dir.path().join("lib/uploads/staging/empty");
+        std::fs::create_dir_all(&not_a_game).unwrap();
+        assert!(lib.install_folder("x", "X", 1, &not_a_game, "d", true).is_err());
     }
 
     #[test]

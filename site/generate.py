@@ -10,6 +10,9 @@ The site is built from the repository's own list of games and from the GitHub Re
   catalog.json                 everything above as data (what the RedEngine Games app reads)
   launcher/latest.json         the newest RedEngine Games app (`launcher/`), which it checks to update itself
 
+Games uploaded ready-made (`distribution/upload_game.py`: a ZIP, a folder, a .exe or a .bat) are read from their releases alone: they have a
+portable ZIP and no installer, and the app installs them like the others.
+
 Builds from before installers existed (one release per engine commit, a ZIP per game) are listed under "Earlier builds" on each game's page, one per day.
 Usage:  gh api --paginate repos/OWNER/REPO/releases > releases.json && python3 site/generate.py --releases releases.json
 """
@@ -155,9 +158,63 @@ def load_games(releases: list[dict]) -> list[dict]:
         })
     if wiki_errors:
         raise SystemExit("wiki pages are incomplete:\n  " + "\n  ".join(wiki_errors))
+    games += upload_games(history, {g["slug"] for g in games} | {p["slug"] for p in rt.load_playables()})
     games.sort(key=lambda g: g["name"].lower())
     games.sort(key=lambda g: g["added"], reverse=True)
     return games
+
+
+def upload_games(history: dict[str, list[dict]], taken: set[str]) -> list[dict]:
+    """The games uploaded ready-made: everything the site shows comes from the newest release's `redengine-release` line. A wiki page in
+    `site/wiki/<slug>/` is used when there is one, and is not required (the game was not written here)."""
+    games = []
+    for slug, versions in history.items():
+        latest = versions[0]
+        if latest.get("kind") != "upload" or slug in taken:
+            continue
+        for v in versions:
+            v["installer"] = None
+            v["zip"]["url"] = asset_url(v["tag"], v["zip"]["name"])
+        page_dir = REPO / "site" / "wiki" / slug
+        local_thumb = REPO / "site" / "thumbs" / f"{slug}.png"
+        games.append({
+            "wiki": json.loads((page_dir / "wiki.json").read_text()) if (page_dir / "wiki.json").is_file() else None,
+            "slug": slug,
+            "name": latest["name"],
+            "presentation": latest.get("presentation", "3d"),
+            "description": latest.get("description", ""),
+            "added": versions[-1]["released"],
+            "online": latest.get("online", ""),
+            "author": latest.get("author", "human") if latest.get("author") in AUTHORS else "human",
+            "thumb": f"thumbs/{slug}.png" if local_thumb.exists() else "",
+            "thumb_url": "" if local_thumb.exists() else latest.get("thumb_url", ""),
+            "uploaded": True,
+            "versions": versions,
+            "earlier": [],
+        })
+    return games
+
+
+def fetch_upload_thumbs(games: list[dict], thumbs: Path) -> None:
+    """Copy each uploaded game's screenshot from its release into the site, which is where the app may load pictures from (its CSP). A
+    screenshot that cannot be fetched leaves the game without one rather than failing the site."""
+    import urllib.request
+    for g in games:
+        url = g.pop("thumb_url", "")
+        if not url:
+            continue
+        name = f'{g["slug"]}{Path(url).suffix.lower()}'
+        try:
+            with urllib.request.urlopen(url, timeout=30) as r:
+                (thumbs / name).write_bytes(r.read())
+            g["thumb"] = f"thumbs/{name}"
+        except OSError as err:
+            print(f"warning: {g['slug']}: screenshot not fetched ({err})", file=sys.stderr)
+
+
+def download(v: dict) -> dict:
+    """What a version's main button downloads: the installer, or the portable ZIP for a game that has none."""
+    return v["installer"] or v["zip"]
 
 
 # ---- pages ----------------------------------------------------------------------------------------------------------------------------------
@@ -246,7 +303,7 @@ def shell(title: str, description: str, body: str, depth: int, script: str = "")
 <body>
 <header class="site">
   <h1><a href="{up or "./"}"><span>Red</span>EngineGames</a></h1>
-  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows.</p>
+  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows. · <a href="{up}feedback/">Engine feedback</a></p>
 </header>
 <main>
 {body}
@@ -262,7 +319,7 @@ def shell(title: str, description: str, body: str, depth: int, script: str = "")
 
 
 def signed_note(games: list[dict]) -> str:
-    latest = [g["versions"][0] for g in games if g["versions"]]
+    latest = [g["versions"][0] for g in games if g["versions"] and g["versions"][0]["installer"]]
     if latest and all(v.get("signed") for v in latest):
         return ""
     return ('<p class="fine">These installers are not code-signed yet, so Windows may say “Windows protected your PC”: choose '
@@ -282,10 +339,14 @@ def card(g: dict, index: int) -> str:
     page = f'games/{g["slug"]}/'
     count = len(g["versions"]) + len(g["earlier"])
     if v:
-        meta = f'<span>version {v["version"]}</span><span>{e(v["released"])}</span><span>{human_size(v["installer"]["size"])}</span>'
-        button = f'<a class="dl" href="{e(v["installer"]["url"])}">Install for Windows</a>'
-        links = f'<a href="{e(v["zip"]["url"])}">portable ZIP</a><a href="{page}">all versions ({count})</a>'
-        size = v["installer"]["size"]
+        meta = f'<span>version {v["version"]}</span><span>{e(v["released"])}</span><span>{human_size(download(v)["size"])}</span>'
+        if v["installer"]:
+            button = f'<a class="dl" href="{e(v["installer"]["url"])}">Install for Windows</a>'
+            links = f'<a href="{e(v["zip"]["url"])}">portable ZIP</a><a href="{page}">all versions ({count})</a>'
+        else:
+            button = f'<a class="dl" href="{e(v["zip"]["url"])}">Download ZIP for Windows</a>'
+            links = f'<a href="#app">get it in the app</a><a href="{page}">all versions ({count})</a>'
+        size = download(v)["size"]
     else:
         o = g["earlier"][0]
         meta = f'<span>build of {e(o["date"])}</span><span>{human_size(o["size"])}</span>'
@@ -433,12 +494,12 @@ def index_page(games: list[dict], app: dict | None = None) -> str:
 def version_rows(g: dict) -> str:
     rows = []
     for i, v in enumerate(g["versions"]):
-        notes = "".join(f"<li>{e(n)}</li>" for n in v["notes"]) or f'<li>Built with RedEngine {e(v["engine_revision"][:12])}</li>'
+        notes = "".join(f"<li>{e(n)}</li>" for n in v["notes"]) or f'<li>Built with RedEngine {e(v.get("engine_revision", "")[:12])}</li>'
         latest = ' <span class="tag">latest</span>' if i == 0 else ""
         rows.append(f'''<tr>
   <td><strong>{v["version"]}</strong>{latest}<br><span class="meta">{e(v["released"])}</span></td>
   <td><ul>{notes}</ul></td>
-  <td><a href="{e(v["installer"]["url"])}">Installer</a> ({human_size(v["installer"]["size"])})<br><code>{e(v["installer"]["sha256"])}</code></td>
+  <td>{f'<a href="{e(v["installer"]["url"])}">Installer</a> ({human_size(v["installer"]["size"])})<br><code>{e(v["installer"]["sha256"])}</code>' if v["installer"] else "none: unzip and play, or use the app"}</td>
   <td><a href="{e(v["zip"]["url"])}">Portable ZIP</a> ({human_size(v["zip"]["size"])})<br><code>{e(v["zip"]["sha256"])}</code></td>
 </tr>''')
     return "\n".join(rows)
@@ -456,13 +517,13 @@ def game_page(g: dict, app: dict | None = None) -> str:
     v = g["versions"][0] if g["versions"] else None
     thumb = f'<img class="thumb" src="../../{e(g["thumb"])}" alt="{e(g["name"])} screenshot" width="640" height="360">' if g["thumb"] else ""
     online = f'<p class="online">&#x1F310; online multiplayer</p>' if g["online"] else ""
-    hero_button = (f'<a class="dl" href="{e(v["installer"]["url"])}">Install version {v["version"]}</a>'
-                   f'<p class="meta"><span>{e(v["released"])}</span><span>{human_size(v["installer"]["size"])}</span></p>' if v else "")
+    hero_button = (f'<a class="dl" href="{e(download(v)["url"])}">{"Install" if v["installer"] else "Download"} version {v["version"]}</a>'
+                   f'<p class="meta"><span>{e(v["released"])}</span><span>{human_size(download(v)["size"])}</span></p>' if v else "")
     table = ""
     if g["versions"]:
         table = f'''
   <h2>All versions</h2>
-  <p class="fine">Installing an older version over a newer one works. The game will then offer the newest version when it starts: choose <em>Cancel</em> (“skip this version”) to stay on the one you chose.</p>
+  <p class="fine">{"Every version stays downloadable; the app installs the newest." if g.get("uploaded") else "Installing an older version over a newer one works. The game will then offer the newest version when it starts: choose <em>Cancel</em> (“skip this version”) to stay on the one you chose."}</p>
   <table class="versions">
     <tr><th>Version</th><th>What changed</th><th>Installer (recommended)</th><th>Portable</th></tr>
 {version_rows(g)}
@@ -487,17 +548,38 @@ def game_page(g: dict, app: dict | None = None) -> str:
       {online}
       <p>{e(g["description"])}</p>
       {hero_button}
-      <p class="fine">An installed game checks for updates when it starts and installs them in place; your saved games stay in <code>Saved Games\\{e(rt.clean_name(g["name"]))}</code>.</p>
-      {signed_note([g])}
-      {'<p class="fine">Or get it in the <a href="../../#app">RedEngine Games app</a>, which installs and updates every game for you.</p>' if app and v else ""}
+      {uploaded_note(g, v) if g.get("uploaded") else f'''<p class="fine">An installed game checks for updates when it starts and installs them in place; your saved games stay in <code>Saved Games\\{e(rt.clean_name(g["name"]))}</code>.</p>
+      {signed_note([g])}'''}
+      {'<p class="fine">Or get it in the <a href="../../#app">RedEngine Games app</a>, which installs and updates every game for you.</p>' if app and v and not g.get("uploaded") else ""}
     </div>
   </section>{wiki.render(g["wiki"], g["author"], review_settings(g)) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
     return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
 
 
+def uploaded_note(g: dict, v: dict | None) -> str:
+    if not v:
+        return ""
+    run = e(v["entry"].rsplit("/", 1)[-1])
+    return (f'<p class="fine">A ready-made Windows game, not built with RedEngine. The <a href="../../#app">RedEngine Games app</a> installs it and offers every new '
+            f'version; or unzip the download anywhere and run <code>{run}</code>. Windows may say “Windows protected your PC” for a file downloaded '
+            'with a browser: choose <strong>More info</strong>, then <strong>Run anyway</strong>.</p>')
+
+
+def feedback_page() -> str:
+    """Notes about the engine itself, not one game: the same form and list as the app's Engine feedback."""
+    r = CONFIG.get("reviews")
+    form = wiki.engine_feedback_section(r["send"], r["read"]) if r else "<p>Engine feedback is not open right now.</p>"
+    body = f'''
+  <p><a href="../">&larr; all games</a></p>
+  <h2>Engine feedback</h2>
+  <p>Notes about <strong>RedEngine</strong> itself rather than one game: how its games feel to play, what the engine could do better, tips for the people
+    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}'''
+    return shell("Engine feedback — RedEngineGames", "Tips, ideas and bugs for the RedEngine game engine.", body, 1)
+
+
 def latest_json(g: dict) -> str | None:
-    """What an installed game fetches to learn whether there is a newer version."""
-    if not g["versions"]:
+    """What an installed game fetches to learn whether there is a newer version (a game without an installer has no updater of its own)."""
+    if not g["versions"] or not g["versions"][0]["installer"]:
         return None
     v = g["versions"][0]
     return json.dumps({
@@ -516,6 +598,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--releases", required=True, help="JSON from `gh api --paginate repos/<repo>/releases`")
     ap.add_argument("--out", default=str(REPO / "site" / "dist"))
+    ap.add_argument("--offline", action="store_true", help="do not fetch uploaded games' screenshots from their releases")
     args = ap.parse_args()
 
     releases = rt.load_releases(args.releases)
@@ -525,7 +608,14 @@ def main() -> int:
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
     shutil.copytree(REPO / "site" / "thumbs", out / "thumbs")
+    if args.offline:
+        for g in games:
+            g.pop("thumb_url", None)
+    else:
+        fetch_upload_thumbs(games, out / "thumbs")
     (out / "index.html").write_text(index_page(games, app), encoding="utf-8")
+    (out / "feedback").mkdir()
+    (out / "feedback" / "index.html").write_text(feedback_page(), encoding="utf-8")
     if app:
         (out / "launcher").mkdir()
         (out / "launcher" / "latest.json").write_text(json.dumps(app, indent=1) + "\n", encoding="utf-8")
@@ -533,14 +623,14 @@ def main() -> int:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)
         (folder / "index.html").write_text(game_page(g, app), encoding="utf-8")
-        if g["wiki"]:
+        if g["wiki"] and (REPO / "site" / "wiki" / g["slug"]).is_dir():
             for f in (REPO / "site" / "wiki" / g["slug"]).iterdir():
                 if f.name != "wiki.json":
                     shutil.copy(f, folder / f.name)
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "reviews": CONFIG.get("reviews"), "games": [
-        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier")}, "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier")}, "uploaded": bool(g.get("uploaded")), "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0

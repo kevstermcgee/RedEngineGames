@@ -17,6 +17,7 @@ const S = {
   updateState: null,    // null | {phase: "waiting"|"download"|"installing"|"error", done, total, message}
   updateLater: false,
   playing: new Set(),
+  canPublish: false,    // this PC has a GitHub token that may publish (learned when a game is dropped, or set up)
 };
 
 try {
@@ -59,7 +60,8 @@ function badges(g) {
   const pres = g.presentation ? `<span class="badge pres">${h(g.presentation.toUpperCase())}</span>` : "";
   const online = g.online ? `<span class="badge online" title="${h(g.online)}">Online multiplayer</span>` : "";
   const retired = g.retired ? `<span class="badge retired">No longer on the site</span>` : "";
-  return `<div class="badges">${g.retired ? "" : who + pres}${online}${retired}</div>`;
+  const local = g.local ? `<span class="badge local" title="You added it by dropping it on this window">On this PC only</span>` : "";
+  return `<div class="badges">${g.retired ? "" : who + pres}${online}${retired}${local}</div>`;
 }
 
 function toast(text, kind) {
@@ -94,6 +96,7 @@ async function load(refresh) {
     S.bySlug = new Map(o.games.map((g) => [g.slug, g]));
     S.offline = o.offline;
     S.error = o.error;
+    S.canPublish = !!o.can_publish;
     S.loaded = true;
   } catch (e) {
     S.offline = true;
@@ -366,9 +369,10 @@ function paintGrid() {
 
 function libraryView() {
   const mine = sortedInstalled();
+  const dls = downloadsHtml();
   if (!mine.length) {
-    return `<div class="empty"><h2>No games installed yet</h2><p>Pick one under Games: it downloads, installs and stays up to date here. No installers, no warnings.</p>
-      <button class="btn primary big" data-view-go="games">Browse the games</button></div>`;
+    return `${dls}<div class="empty"><h2>No games installed yet</h2><p>Pick one under Games: it downloads, installs and stays up to date here. No installers, no warnings.</p>
+      <button class="btn primary big" data-view-go="games">Browse the games</button><p class="drop-hint">${DROP_HINT}</p></div>`;
   }
   const ups = updatable();
   const busy = ups.filter((g) => S.jobs.has(g.slug)).length;
@@ -381,24 +385,26 @@ function libraryView() {
       <div><h3>${h(g.name)}</h3>${badges(g)}${meta}<p class="meta">${i.played ? `Last played ${h(day(i.played))}` : "Not played yet"}</p></div>
       <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, "")}</div></div>`;
   }).join("");
-  return `<div class="lib-head"><h2>Installed games <span class="count">${mine.length}</span></h2>${upAll}</div><div class="rows">${rows}</div>`;
+  return `${dls}<div class="lib-head"><h2>Installed games <span class="count">${mine.length}</span></h2>${upAll}</div><p class="drop-hint">${DROP_HINT}</p><div class="rows">${rows}</div>`;
 }
 
-function downloadsView() {
+/** The top of Library while games install: the one downloading and the ones waiting, and any install that failed since the app opened
+ *  (with Try again). Nothing at all when nothing is happening. */
+function downloadsHtml() {
   const live = [S.active, ...S.queue].filter(Boolean).map((slug) => S.bySlug.get(slug)).filter(Boolean);
-  const item = (g, inner) => `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${inner}</div><div class="act"><button class="btn link" data-open="${h(g.slug)}">Details</button></div></div>`;
-  let out = `<h2 class="section">Downloading</h2>`;
-  out += live.length ? `<div class="dl-list">${live.map((g) => item(g, `<div data-act-for="${h(g.slug)}">${jobHtml(g.slug)}</div><div class="state" data-bytes-for="${h(g.slug)}">${bytesText(g.slug)}</div>`)).join("")}</div>`
-    : `<p class="fine">Nothing is downloading. Installs and updates you start appear here, one at a time.</p>`;
-  const done = S.recent.map((r) => [r, S.bySlug.get(r.slug)]).filter(([, g]) => g);
-  if (done.length) {
-    out += `<h2 class="section">Finished</h2><div class="dl-list">${done.map(([r, g]) => {
-      const text = r.phase === "done" ? `<div class="state good">Installed</div>` : r.phase === "cancelled" ? `<div class="state">Cancelled</div>` : `<div class="state bad">Failed: ${h(r.message)}</div>`;
-      const again = r.phase === "done" ? actHtml(g, "") : state(g) !== "installed" && latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : "";
-      return `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${text}</div><div class="act" data-act-for="${h(g.slug)}" data-finished="1">${again}</div></div>`;
-    }).join("")}</div>`;
+  const failed = S.recent.filter((r) => r.phase === "error").map((r) => [r, S.bySlug.get(r.slug)]).filter(([, g]) => g && !S.jobs.has(g.slug));
+  if (!live.length && !failed.length) return "";
+  const item = (g, inner, act) => `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${inner}</div><div class="act"${act ? ` data-act-for="${h(g.slug)}" data-finished="1"` : ""}>${act || `<button class="btn link" data-open="${h(g.slug)}">Details</button>`}</div></div>`;
+  let out = "";
+  if (live.length) {
+    out += `<h2 class="section">Downloading <span class="count hot">${live.length}</span></h2><div class="dl-list">${live.map((g) => item(g,
+      `<div data-act-for="${h(g.slug)}">${jobHtml(g.slug)}</div><div class="state" data-bytes-for="${h(g.slug)}">${bytesText(g.slug)}</div>`)).join("")}</div>`;
   }
-  return out;
+  if (failed.length) {
+    out += `<h2 class="section">Didn't finish</h2><div class="dl-list">${failed.map(([r, g]) => item(g, `<div class="state bad">Failed: ${h(r.message)}</div>`,
+      `<button class="btn link" data-act="dismiss" data-slug="${h(g.slug)}">Dismiss</button>${latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : ""}`)).join("")}</div>`;
+  }
+  return `<section class="downloads">${out}</section>`;
 }
 
 function bytesText(slug) {
@@ -536,7 +542,7 @@ async function sendReview(form) {
 
 document.addEventListener("submit", (e) => {
   const form = e.target.closest(".rv-form");
-  if (!form) return;
+  if (!form || form.classList.contains("note-form")) return;
   e.preventDefault();
   sendReview(form);
 });
@@ -594,7 +600,9 @@ function gameView(g) {
   const first = g.wiki && g.wiki.gallery && g.wiki.gallery[0];
   const hero = first ? pic(g, first.image) : thumb(g);
   const online = g.online ? `<p class="online-note"><strong>Online multiplayer.</strong> ${h(g.online)}</p>` : "";
-  const body = g.wiki ? wikiHtml(g) : g.retired
+  const body = g.wiki ? wikiHtml(g) : g.local
+    ? `<div class="wiki"><p class="fine">You added this game by dropping it on this window, so it is only on this PC${S.canPublish ? " until you publish it" : ""}. To update it, drop a newer build with the same name.</p></div>`
+    : g.retired
     ? `<p class="fine">This game has been taken off the site. Your installed copy still plays; once you uninstall it, it cannot be installed again.</p>`
     : `<div class="wiki"><p class="fine">This game has no wiki page yet.</p>${versionsHtml(g)}</div>`;
   return `<button class="btn link back" data-act="back">&#x2039; Back</button>
@@ -612,12 +620,12 @@ function paintTabs() {
   document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.view === S.view && !S.slug));
   const mine = S.games.filter((g) => state(g) !== "not_installed").length;
   const nl = $("#n-library");
-  nl.textContent = mine ? (updatable().length ? `${mine} · ${updatable().length} update${updatable().length === 1 ? "" : "s"}` : mine) : "";
-  nl.classList.toggle("hot", updatable().length > 0);
-  const nd = $("#n-downloads");
+  // What Library holds, then what it is busy with: "3 · 1 update · 2 downloading".
   const live = (S.active ? 1 : 0) + S.queue.length;
-  nd.textContent = live || "";
-  nd.classList.toggle("hot", live > 0);
+  const ups = updatable().filter((g) => !S.jobs.has(g.slug)).length;
+  const parts = [mine && String(mine), ups && `${ups} update${ups === 1 ? "" : "s"}`, live && `${live} downloading`].filter(Boolean);
+  nl.textContent = parts.join(" · ");
+  nl.classList.toggle("hot", ups > 0 || live > 0);
   const ver = $("#version");
   const later = S.update && S.updateLater && !S.updateState;
   ver.textContent = S.version ? (later ? `v${S.version} · update to ${S.update.version}` : `v${S.version}`) : "";
@@ -672,8 +680,9 @@ function paintView() {
     loadReviews(g.slug);
   } else if (S.view === "library") {
     main.innerHTML = libraryView();
-  } else if (S.view === "downloads") {
-    main.innerHTML = downloadsView();
+  } else if (S.view === "feedback") {
+    main.innerHTML = feedbackView();
+    loadNotes();
   } else {
     main.innerHTML = gamesView();
     paintGrid();
@@ -685,13 +694,9 @@ function paintView() {
 function changed(slug, statusChanged) {
   paintTabs();
   const g = S.bySlug.get(slug);
-  if (S.view === "downloads" && !S.slug) return keepScroll(paintView);
-  if (S.view === "library" && !S.slug && statusChanged) return keepScroll(paintView);
+  // Library lists the downloads at its top, so any change of a download (started, queued, finished, failed) rebuilds it.
+  if (S.view === "library" && !S.slug) return keepScroll(paintView);
   if (!S.slug && S.view === "games" && statusChanged && S.filters.show && S.filters.show !== "online") return keepScroll(paintGrid);
-  if (S.view === "library" && !S.slug) {
-    const up = $('[data-act="update-all"]');
-    if (up) up.disabled = updatable().every((u) => S.jobs.has(u.slug));
-  }
   if (!g) return;
   document.querySelectorAll(`[data-act-for="${CSS.escape(slug)}"]`).forEach((el) => { if (!el.dataset.finished) el.innerHTML = actHtml(g, el.dataset.size || ""); });
   document.querySelectorAll(`[data-ver-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = verLineHtml(g); });
@@ -831,6 +836,7 @@ document.addEventListener("click", async (e) => {
       case "saves": case "folder": case "page":
         return invoke("open", { slug, what: act.dataset.act }).catch((err) => toast(String(err), "error"));
       case "update-all": updatable().forEach((g) => enqueue(g.slug)); return;
+      case "dismiss": S.recent = S.recent.filter((r) => r.slug !== slug); return keepScroll(paintView);
       case "back": return back();
       case "refresh": return refresh();
       case "clear-filters":
@@ -840,6 +846,7 @@ document.addEventListener("click", async (e) => {
       case "update-now": return applyUpdate();
       case "update-later": S.updateLater = true; S.updateState = null; paintTabs(); return paintBanners();
       case "show-update": if (S.update && S.updateLater) { S.updateLater = false; paintTabs(); paintBanners(); } return;
+      case "publish-setup": return openPublishSetup();
     }
     return;
   }
@@ -869,7 +876,7 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") stepLightbox(1);
     return;
   }
-  if ($("#dialog").open) return;
+  if (document.querySelector("dialog[open]")) return;
   const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && document.activeElement.type !== "radio";
   if (e.key === "Escape" && S.slug && !typing) back();
   else if (e.key === "/" && !typing && S.view === "games" && !S.slug) { e.preventDefault(); $("#q").focus(); }
@@ -888,11 +895,269 @@ document.addEventListener("error", (e) => { if (e.target.tagName === "IMG") e.ta
 // No browser context menu or text-selection look on the chrome, like any desktop app.
 document.addEventListener("contextmenu", (e) => { if (!e.target.closest("input, textarea, blockquote, .wiki p, .wiki li")) e.preventDefault(); });
 
+/** Check the site again (the button, F5, or "Try again") and say what changed: new games, updates ready, or nothing. */
 async function refresh() {
+  if ($("#refresh").classList.contains("spin")) return;
+  const before = new Set(S.games.map((g) => g.slug));
   await load(true);
   paintAll();
   checkUpdate();
+  if (S.offline) return toast("Can't reach the RedEngine Games site right now; try again in a moment.", "error");
+  const fresh = S.games.filter((g) => !before.has(g.slug) && !g.local);
+  const ups = updatable().length;
+  const parts = [];
+  if (fresh.length) parts.push(fresh.length === 1 ? `New game: ${fresh[0].name}` : `${fresh.length} new games: ${fresh.slice(0, 3).map((g) => g.name).join(", ")}${fresh.length > 3 ? "…" : ""}`);
+  if (ups) parts.push(`${plural(ups, "update")} ready in Library`);
+  toast(parts.length ? parts.join(" · ") : `Up to date: no new games (${plural(S.games.filter((g) => !g.retired && !g.local).length, "game")} on the site).`);
 }
+
+// ---------- a game of the player's own: drop it on the window to add it to this PC's library, or publish it for everyone
+
+const DROP_HINT = `Have a game of your own? Drop its ZIP, folder, .exe or .bat anywhere on this window to add it. <button class="inline-link" data-act="publish-setup">Publishing…</button>`;
+const DROP = { info: null, busy: false };
+
+/** The game's id in addresses, as the window makes it (`upload::slugify`). */
+const slugify = (name) => String(name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+async function dropped(paths) {
+  if (DROP.busy || document.querySelector("dialog[open]")) return;
+  DROP.busy = true;
+  toast("Looking at the game…");
+  try {
+    DROP.info = await invoke("drop_inspect", { paths });
+    S.canPublish = DROP.info.can_publish;
+  } catch (e) {
+    toast(String(e), "error");
+    return;
+  } finally {
+    DROP.busy = false;
+  }
+  openDropDialog(paths);
+}
+
+function openDropDialog(paths) {
+  const d = $("#drop");
+  const f = $("form", d);
+  const info = DROP.info;
+  f.reset();
+  f.name.value = info.name;
+  const names = paths.map((p) => p.split(/[\\/]/).pop());
+  $(".drop-what", d).textContent = `${names.slice(0, 3).join(", ")}${names.length > 3 ? ` and ${names.length - 3} more` : ""} · ${mb(info.size)}${info.thumb ? " · with a screenshot" : ""}`;
+  const sel = f.entry;
+  sel.innerHTML = info.candidates.map((c) => `<option${c === info.entry ? " selected" : ""}>${h(c)}</option>`).join("")
+    || `<option value="">Nothing to start: it needs an .exe, .bat or .cmd</option>`;
+  if (info.entry && !info.candidates.includes(info.entry)) sel.insertAdjacentHTML("afterbegin", `<option selected>${h(info.entry)}</option>`);
+  prefill(f);
+  $(".drop-progress", d).hidden = true;
+  $(".drop-status", d).textContent = "";
+  $(".drop-status", d).className = "drop-status";
+  paintDropNote();
+  d.showModal();
+}
+
+/** A new version of a game already on the site or in the library starts from what it says now. */
+function prefill(f) {
+  const g = S.bySlug.get(slugify(f.name.value));
+  if (!g || !(g.uploaded || g.local)) return;
+  if (g.description) f.description.value = g.description;
+  if (g.presentation) f.presentation.value = g.presentation;
+  if (g.author) f.author.value = g.author;
+}
+
+/** Under the form: what adding or publishing will do with this name. */
+function paintDropNote() {
+  const d = $("#drop");
+  const f = $("form", d);
+  const note = $(".drop-note", d);
+  const slug = slugify(f.name.value);
+  const g = S.bySlug.get(slug);
+  const add = $('[data-drop="add"]', d);
+  const pub = $('[data-drop="publish"]', d);
+  pub.textContent = S.canPublish ? "Publish for everyone" : "Set up publishing…";
+  let text = S.canPublish ? "Publishing puts it on the website and in everyone's app within a few minutes." : "Add it to play it on this PC. Publishing it for everyone needs the site owner's GitHub token.";
+  let bad = !slug || !f.entry.value;
+  if (!slug) text = "Give the game a name.";
+  else if (!f.entry.value) text = "There is nothing in it that starts the game.";
+  else if (g && !g.uploaded && !g.local) { text = `“${g.name}” is already a game on the site: give this one another name.`; bad = true; }
+  else if (g) {
+    const next = Math.max((latest(g) || {}).version || 0, (g.installed || {}).version || 0) + 1;
+    text = `This becomes version ${next} of ${g.name}. ${g.uploaded ? "Everyone who installed it is offered the update once you publish it." : "It replaces your copy."}`;
+  }
+  note.textContent = text;
+  note.classList.toggle("warn", bad);
+  add.disabled = bad || DROP.busy;
+  pub.disabled = (bad && S.canPublish) || DROP.busy;
+}
+
+function dropDetails() {
+  const f = $("#drop form");
+  return { name: f.name.value.trim(), entry: f.entry.value, description: f.description.value.trim(), presentation: f.presentation.value, author: f.author.value, notes: f.notes.value.trim() };
+}
+
+async function dropCommit(kind) {
+  const d = $("#drop");
+  const status = $(".drop-status", d);
+  if (kind === "publish" && !S.canPublish) return openPublishSetup();
+  DROP.busy = true;
+  paintDropNote();
+  status.className = "drop-status good";
+  status.textContent = kind === "publish" ? "Publishing… keep the app open." : "Adding it to your library…";
+  try {
+    let slug;
+    if (kind === "publish") {
+      const p = await invoke("drop_publish", { details: dropDetails() });
+      slug = p.slug;
+      toast(`Published ${dropDetails().name} version ${p.version}. It appears on the site and in everyone's app in a few minutes.`);
+    } else {
+      slug = await invoke("drop_add", { details: dropDetails() });
+      toast(`${dropDetails().name} is in your library.`);
+    }
+    d.close();
+    await load(false);
+    paintTabs();
+    openGame(slug);
+  } catch (e) {
+    status.className = "drop-status";
+    status.textContent = String(e);
+    $(".drop-progress", d).hidden = true;
+  } finally {
+    DROP.busy = false;
+    if (d.open) paintDropNote();
+  }
+}
+
+function onPublish(p) {
+  const box = $("#drop .drop-progress");
+  if (!box) return;
+  box.hidden = p.phase === "done";
+  const pct = p.total ? Math.min(100, (100 * p.done) / p.total) : 0;
+  $(".bar", box).classList.toggle("busy", p.phase === "pack");
+  $(".bar i", box).style.width = p.phase === "pack" ? "100%" : `${pct}%`;
+  $("span", box).textContent = p.phase === "pack" ? "Packing the game…" : `Uploading: ${mb(p.done)} of ${mb(p.total)}`;
+}
+
+function openPublishSetup() {
+  const d = $("#pub");
+  $("form", d).reset();
+  $(".pub-status", d).textContent = S.canPublish ? "This PC can publish already. Save another token to replace it." : "";
+  $(".pub-status", d).className = "pub-status good";
+  $('[data-pub="forget"]', d).hidden = !S.canPublish;
+  d.showModal();
+}
+
+async function publishSave() {
+  const d = $("#pub");
+  const status = $(".pub-status", d);
+  const token = $("input", d).value.trim();
+  if (!token) { status.className = "pub-status"; status.textContent = "Paste the token first."; return; }
+  status.className = "pub-status good";
+  status.textContent = "Checking it with GitHub…";
+  try {
+    const login = await invoke("publish_setup", { token });
+    S.canPublish = true;
+    d.close();
+    toast(`This PC can now publish games${login ? ` (as ${login})` : ""}.`);
+    if ($("#drop").open) paintDropNote();
+  } catch (e) {
+    status.className = "pub-status";
+    status.textContent = String(e);
+  }
+}
+
+$("#drop").addEventListener("input", (e) => { if (e.target.name === "name" || e.target.name === "entry") paintDropNote(); });
+$("#drop").addEventListener("click", (e) => { const b = e.target.closest("[data-drop]"); if (b && !b.disabled) dropCommit(b.dataset.drop); });
+$("#drop").addEventListener("cancel", (e) => { if (DROP.busy) e.preventDefault(); });
+$("#pub").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-pub]");
+  if (!b) return;
+  if (b.dataset.pub === "save") return publishSave();
+  await invoke("publish_forget");
+  S.canPublish = false;
+  $("#pub").close();
+  toast("The token is forgotten: this PC can no longer publish.");
+  if ($("#drop").open) paintDropNote();
+});
+
+// ---------- engine feedback: notes about RedEngine itself, not one game
+
+const NOTE_KINDS = [["tip", "Tip"], ["idea", "Idea"], ["bug", "Bug"], ["other", "Other"]];
+const NOTES_KEY = "engine-notes-sent";
+
+function feedbackView() {
+  const kinds = NOTE_KINDS.map(([v, l], i) => `<label><input type="radio" name="kind" value="${v}"${i === 0 ? " checked" : ""}><span>${l}</span></label>`).join("");
+  return `<section class="feedback"><h1>Engine feedback</h1>
+    <p class="intro">Notes about <strong>RedEngine</strong> itself rather than one game: how its games feel to play, what the engine could do better, tips for the people building it, a bug you keep meeting in several games. Every note is read.</p>
+    <form class="rv-form note-form"><h3>Leave a note</h3>
+      <fieldset class="note-kind"><legend>What kind of note?</legend><div>${kinds}</div></fieldset>
+      <label>Your note<textarea name="text" maxlength="2000" rows="5" placeholder="For example: the camera turns too fast with a gamepad in every 3D game."></textarea></label>
+      <label><span>Your name <span class="fine">(optional)</span></span><input name="name" maxlength="40"></label>
+      <p class="fine">No account needed. Notes are public and go to the engine's developers. Please leave out links. Yours shows here within about half an hour.</p>
+      <p><button class="btn primary" type="submit">Send note</button> <span class="rv-status" role="status"></span></p>
+    </form>
+    <h2 class="section">Notes so far <span class="count" id="n-notes"></span></h2><div class="rv-list" id="notes"><p class="fine">Loading the notes…</p></div></section>`;
+}
+
+function ownNotes() {
+  try { const v = JSON.parse(localStorage.getItem(NOTES_KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (_) { return []; }
+}
+
+function noteCard(n, pending) {
+  const label = (NOTE_KINDS.find(([v]) => v === n.kind) || [n.kind, n.kind])[1];
+  const meta = pending ? "your note: it shows for everyone within about half an hour" : `${h(day(n.date))}${n.source === "app" ? " · in the app" : ""}`;
+  return `<article class="rv note${pending ? " pending" : ""}"><header><span class="kind ${h(n.kind)}">${h(label)}</span><span><strong>${h(n.name || "Anonymous player")}</strong> <span class="fine">${meta}</span></span></header>
+    <p>${h(n.text).replace(/\n/g, "<br>")}</p></article>`;
+}
+
+function paintNotes() {
+  const list = $("#notes");
+  if (!list) return;
+  const e = RV.data && RV.data.engine;
+  const published = (e && e.notes) || [];
+  const own = ownNotes().filter((o) => !published.some((n) => n.text === o.text));
+  try { localStorage.setItem(NOTES_KEY, JSON.stringify(own)); } catch (_) { /* fine */ }
+  $("#n-notes").textContent = (e && e.count) || "";
+  list.innerHTML = own.map((n) => noteCard(n, true)).join("") + published.map((n) => noteCard(n, false)).join("")
+    || `<p class="fine">${RV.data ? "No notes yet: be the first." : "The notes could not be loaded right now."}</p>`;
+}
+
+async function loadNotes() {
+  try {
+    if (!RV.data || Date.now() - RV.at > 120000) {
+      RV.data = await invoke("reviews_published");
+      RV.at = Date.now();
+    }
+  } catch (_) { /* paintNotes says so */ }
+  paintNotes();
+}
+
+async function sendNote(form) {
+  const f = new FormData(form);
+  const status = $(".rv-status", form);
+  const note = { kind: String(f.get("kind") || ""), text: String(f.get("text") || "").trim(), name: String(f.get("name") || "").trim() };
+  if (note.text.length < 10) { status.textContent = "Write a little more (at least a sentence)."; return; }
+  if (RV_LINK.test(`${note.text} ${note.name}`)) { status.textContent = "Please leave out links (they are not accepted)."; return; }
+  const btn = $("button", form);
+  btn.disabled = true;
+  status.textContent = "Sending…";
+  try {
+    await invoke("note_send", { note });
+    try { localStorage.setItem(NOTES_KEY, JSON.stringify([note, ...ownNotes()].slice(0, 5))); } catch (_) { /* fine */ }
+    form.reset();
+    status.textContent = "Thank you! Your note is on its way.";
+    paintNotes();
+  } catch (e) {
+    status.textContent = String(e);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.addEventListener("submit", (e) => {
+  const form = e.target.closest(".note-form");
+  if (!form) return;
+  e.preventDefault();
+  sendNote(form);
+});
 
 // ---------- start
 
@@ -908,6 +1173,11 @@ async function refresh() {
     const quit = await ask("Quit while downloading?", `<p>${plural(n, "game is", "games are")} still downloading. Quitting stops ${n === 1 ? "it" : "them"}; start again any time.</p>`, "Quit", "Keep downloading");
     if (quit) invoke("quit");
   });
+  await listen("publish", onPublish);
+  // Files dragged over the window (the window's own drag and drop: the page gets the paths, not the files).
+  await listen("tauri://drag-enter", () => { if (!document.querySelector("dialog[open]")) $("#dropzone").hidden = false; });
+  await listen("tauri://drag-leave", () => { $("#dropzone").hidden = true; });
+  await listen("tauri://drag-drop", (p) => { $("#dropzone").hidden = true; if (p && p.paths && p.paths.length) dropped(p.paths); });
   await load(false);
   paintAll();
   setTimeout(checkUpdate, 1500);

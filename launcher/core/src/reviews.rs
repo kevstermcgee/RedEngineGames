@@ -2,6 +2,9 @@
 //! they go (`reviews.send`, a public relay topic) and where the published ones are read (`reviews.read`, RedEngine's
 //! `docs/player-reviews/public.json`). RedEngine's `scripts/player_reviews.py` collects them from the relay into the repo; it is the judge, and
 //! these checks only spare a player a review that would be dropped.
+//!
+//! Engine feedback goes the same way: a note about RedEngine itself, not one game (a tip, an idea, a bug or anything else), which the collector
+//! keeps apart from the reviews (`engine` in `public.json`).
 
 use serde::{Deserialize, Serialize};
 
@@ -101,6 +104,56 @@ pub fn send(settings: &Settings, r: &Review, app_version: &str) -> Result<()> {
     }
 }
 
+/// A note about the engine, not one game.
+#[derive(Debug, Clone, Deserialize)]
+pub struct EngineNote {
+    /// `tip`, `idea`, `bug` or `other`.
+    pub kind: String,
+    pub text: String,
+    #[serde(default)]
+    pub name: String,
+}
+
+pub const NOTE_KINDS: [&str; 4] = ["tip", "idea", "bug", "other"];
+
+/// Why the collector would drop this note, as a sentence for the player; `None` when it is fine.
+pub fn note_problem(n: &EngineNote) -> Option<&'static str> {
+    if !NOTE_KINDS.contains(&n.kind.as_str()) {
+        return Some("Pick what kind of note it is.");
+    }
+    if n.text.trim().chars().count() < 10 {
+        return Some("Write a little more (at least a sentence).");
+    }
+    if n.text.chars().count() > MAX_TEXT || n.name.trim().chars().count() > MAX_NAME {
+        return Some("That is a bit long: keep it under 2000 characters and the name under 40.");
+    }
+    if has_link(&n.text) || has_link(&n.name) {
+        return Some("Please leave out links (they are not accepted).");
+    }
+    None
+}
+
+/// The relay message for an engine note (v1 with `about: engine`, as `scripts/player_reviews.py` reads it).
+pub fn note_message(n: &EngineNote, app_version: &str) -> String {
+    serde_json::json!({"v": 1, "about": "engine", "kind": n.kind, "text": n.text.trim(), "name": n.name.trim(), "source": "app", "app": app_version}).to_string()
+}
+
+/// Send an engine note, anonymously.
+pub fn send_note(settings: &Settings, n: &EngineNote, app_version: &str) -> Result<()> {
+    if let Some(p) = note_problem(n) {
+        return Err(Error::Review(p.into()));
+    }
+    if !settings.send.starts_with("https://") {
+        return Err(Error::Review("the feedback address in the catalog is not https".into()));
+    }
+    let url = format!("{}?title={}", settings.send, encode(&format!("Engine feedback: {}", n.kind)));
+    match crate::download::post_text(&url, &note_message(n, app_version)) {
+        Ok(()) => Ok(()),
+        Err(Error::Network { reason, .. }) if reason.contains("429") => Err(Error::Review("Too many notes from your connection just now; try again in a minute.".into())),
+        Err(_) => Err(Error::Review("Could not send it (are you online?); try again.".into())),
+    }
+}
+
 /// The published reviews of every game (`{"games": {slug: {count, average, reviews}}}`), passed to the page as they are.
 pub fn published(settings: &Settings) -> Result<serde_json::Value> {
     let text = crate::download::text(&settings.read)?;
@@ -145,6 +198,18 @@ mod tests {
         assert_eq!(m["liked"], "Clever swaps");
         assert_eq!(m["name"], "Jo");
         assert_eq!(m["source"], "app");
+    }
+
+    #[test]
+    fn an_engine_note_needs_a_kind_and_a_sentence() {
+        let note = |kind: &str, text: &str| EngineNote { kind: kind.into(), text: text.into(), name: " Sam ".into() };
+        assert_eq!(note_problem(&note("rant", "The jump feels floaty in every game.")), Some("Pick what kind of note it is."));
+        assert_eq!(note_problem(&note("tip", "ok")), Some("Write a little more (at least a sentence)."));
+        assert!(note_problem(&note("idea", "add mods at www.mods.com please")).is_some());
+        assert_eq!(note_problem(&note("bug", "The gamepad stops working after alt-tab.")), None);
+        let m: serde_json::Value = serde_json::from_str(&note_message(&note("tip", " Let cameras ease in. "), "0.4.0")).unwrap();
+        assert_eq!((m["v"].as_u64(), m["about"].as_str(), m["kind"].as_str(), m["text"].as_str(), m["name"].as_str()), (Some(1), Some("engine"), Some("tip"), Some("Let cameras ease in."), Some("Sam")));
+        assert!(m.get("game").is_none(), "never mistaken for a game review");
     }
 
     #[test]
