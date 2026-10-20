@@ -1051,6 +1051,7 @@
         "games/snake"
       ],
       "kind": "2d",
+      "maintainer": "meastwood13",
       "name": "Snake",
       "page": "pages/snake",
       "slug": "snake"
@@ -1136,6 +1137,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "7f6a9df0748ccdae1d1e50975aeb8f0e1fc83a7a",
+  "source_revision": "3b6d531600af4e21f64cf729e1d763f58a9b0591",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
