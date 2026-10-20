@@ -369,8 +369,9 @@ function paintGrid() {
 
 function libraryView() {
   const mine = sortedInstalled();
+  const dls = downloadsHtml();
   if (!mine.length) {
-    return `<div class="empty"><h2>No games installed yet</h2><p>Pick one under Games: it downloads, installs and stays up to date here. No installers, no warnings.</p>
+    return `${dls}<div class="empty"><h2>No games installed yet</h2><p>Pick one under Games: it downloads, installs and stays up to date here. No installers, no warnings.</p>
       <button class="btn primary big" data-view-go="games">Browse the games</button><p class="drop-hint">${DROP_HINT}</p></div>`;
   }
   const ups = updatable();
@@ -384,24 +385,26 @@ function libraryView() {
       <div><h3>${h(g.name)}</h3>${badges(g)}${meta}<p class="meta">${i.played ? `Last played ${h(day(i.played))}` : "Not played yet"}</p></div>
       <div class="act" data-act-for="${h(g.slug)}">${actHtml(g, "")}</div></div>`;
   }).join("");
-  return `<div class="lib-head"><h2>Installed games <span class="count">${mine.length}</span></h2>${upAll}</div><p class="drop-hint">${DROP_HINT}</p><div class="rows">${rows}</div>`;
+  return `${dls}<div class="lib-head"><h2>Installed games <span class="count">${mine.length}</span></h2>${upAll}</div><p class="drop-hint">${DROP_HINT}</p><div class="rows">${rows}</div>`;
 }
 
-function downloadsView() {
+/** The top of Library while games install: the one downloading and the ones waiting, and any install that failed since the app opened
+ *  (with Try again). Nothing at all when nothing is happening. */
+function downloadsHtml() {
   const live = [S.active, ...S.queue].filter(Boolean).map((slug) => S.bySlug.get(slug)).filter(Boolean);
-  const item = (g, inner) => `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${inner}</div><div class="act"><button class="btn link" data-open="${h(g.slug)}">Details</button></div></div>`;
-  let out = `<h2 class="section">Downloading</h2>`;
-  out += live.length ? `<div class="dl-list">${live.map((g) => item(g, `<div data-act-for="${h(g.slug)}">${jobHtml(g.slug)}</div><div class="state" data-bytes-for="${h(g.slug)}">${bytesText(g.slug)}</div>`)).join("")}</div>`
-    : `<p class="fine">Nothing is downloading. Installs and updates you start appear here, one at a time.</p>`;
-  const done = S.recent.map((r) => [r, S.bySlug.get(r.slug)]).filter(([, g]) => g);
-  if (done.length) {
-    out += `<h2 class="section">Finished</h2><div class="dl-list">${done.map(([r, g]) => {
-      const text = r.phase === "done" ? `<div class="state good">Installed</div>` : r.phase === "cancelled" ? `<div class="state">Cancelled</div>` : `<div class="state bad">Failed: ${h(r.message)}</div>`;
-      const again = r.phase === "done" ? actHtml(g, "") : state(g) !== "installed" && latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : "";
-      return `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${text}</div><div class="act" data-act-for="${h(g.slug)}" data-finished="1">${again}</div></div>`;
-    }).join("")}</div>`;
+  const failed = S.recent.filter((r) => r.phase === "error").map((r) => [r, S.bySlug.get(r.slug)]).filter(([, g]) => g && !S.jobs.has(g.slug));
+  if (!live.length && !failed.length) return "";
+  const item = (g, inner, act) => `<div class="dl">${shot(thumb(g), g.name)}<div><h3>${h(g.name)}</h3>${inner}</div><div class="act"${act ? ` data-act-for="${h(g.slug)}" data-finished="1"` : ""}>${act || `<button class="btn link" data-open="${h(g.slug)}">Details</button>`}</div></div>`;
+  let out = "";
+  if (live.length) {
+    out += `<h2 class="section">Downloading <span class="count hot">${live.length}</span></h2><div class="dl-list">${live.map((g) => item(g,
+      `<div data-act-for="${h(g.slug)}">${jobHtml(g.slug)}</div><div class="state" data-bytes-for="${h(g.slug)}">${bytesText(g.slug)}</div>`)).join("")}</div>`;
   }
-  return out;
+  if (failed.length) {
+    out += `<h2 class="section">Didn't finish</h2><div class="dl-list">${failed.map(([r, g]) => item(g, `<div class="state bad">Failed: ${h(r.message)}</div>`,
+      `<button class="btn link" data-act="dismiss" data-slug="${h(g.slug)}">Dismiss</button>${latest(g) ? `<button class="btn" data-act="install" data-slug="${h(g.slug)}">Try again</button>` : ""}`)).join("")}</div>`;
+  }
+  return `<section class="downloads">${out}</section>`;
 }
 
 function bytesText(slug) {
@@ -617,12 +620,12 @@ function paintTabs() {
   document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.view === S.view && !S.slug));
   const mine = S.games.filter((g) => state(g) !== "not_installed").length;
   const nl = $("#n-library");
-  nl.textContent = mine ? (updatable().length ? `${mine} · ${updatable().length} update${updatable().length === 1 ? "" : "s"}` : mine) : "";
-  nl.classList.toggle("hot", updatable().length > 0);
-  const nd = $("#n-downloads");
+  // What Library holds, then what it is busy with: "3 · 1 update · 2 downloading".
   const live = (S.active ? 1 : 0) + S.queue.length;
-  nd.textContent = live || "";
-  nd.classList.toggle("hot", live > 0);
+  const ups = updatable().filter((g) => !S.jobs.has(g.slug)).length;
+  const parts = [mine && String(mine), ups && `${ups} update${ups === 1 ? "" : "s"}`, live && `${live} downloading`].filter(Boolean);
+  nl.textContent = parts.join(" · ");
+  nl.classList.toggle("hot", ups > 0 || live > 0);
   const ver = $("#version");
   const later = S.update && S.updateLater && !S.updateState;
   ver.textContent = S.version ? (later ? `v${S.version} · update to ${S.update.version}` : `v${S.version}`) : "";
@@ -677,8 +680,6 @@ function paintView() {
     loadReviews(g.slug);
   } else if (S.view === "library") {
     main.innerHTML = libraryView();
-  } else if (S.view === "downloads") {
-    main.innerHTML = downloadsView();
   } else if (S.view === "feedback") {
     main.innerHTML = feedbackView();
     loadNotes();
@@ -693,13 +694,9 @@ function paintView() {
 function changed(slug, statusChanged) {
   paintTabs();
   const g = S.bySlug.get(slug);
-  if (S.view === "downloads" && !S.slug) return keepScroll(paintView);
-  if (S.view === "library" && !S.slug && statusChanged) return keepScroll(paintView);
+  // Library lists the downloads at its top, so any change of a download (started, queued, finished, failed) rebuilds it.
+  if (S.view === "library" && !S.slug) return keepScroll(paintView);
   if (!S.slug && S.view === "games" && statusChanged && S.filters.show && S.filters.show !== "online") return keepScroll(paintGrid);
-  if (S.view === "library" && !S.slug) {
-    const up = $('[data-act="update-all"]');
-    if (up) up.disabled = updatable().every((u) => S.jobs.has(u.slug));
-  }
   if (!g) return;
   document.querySelectorAll(`[data-act-for="${CSS.escape(slug)}"]`).forEach((el) => { if (!el.dataset.finished) el.innerHTML = actHtml(g, el.dataset.size || ""); });
   document.querySelectorAll(`[data-ver-for="${CSS.escape(slug)}"]`).forEach((el) => { el.innerHTML = verLineHtml(g); });
@@ -839,6 +836,7 @@ document.addEventListener("click", async (e) => {
       case "saves": case "folder": case "page":
         return invoke("open", { slug, what: act.dataset.act }).catch((err) => toast(String(err), "error"));
       case "update-all": updatable().forEach((g) => enqueue(g.slug)); return;
+      case "dismiss": S.recent = S.recent.filter((r) => r.slug !== slug); return keepScroll(paintView);
       case "back": return back();
       case "refresh": return refresh();
       case "clear-filters":

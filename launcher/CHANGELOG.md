@@ -5,6 +5,7 @@ here to publish a new version (`.github/workflows/launcher.yml`).
 
 ## 0.4.0
 
+- Downloads are now part of Library: games that are downloading or waiting show at the top of Library, and the Library tab says how many. The separate Downloads tab is gone.
 - A **Check for new games** button at the top right looks for new games and updates whenever you like, and says what it found. (The old refresh icon did nothing when clicked; only F5 worked.)
 - Drop a game on the window to add it: a ZIP, a folder, or an .exe or .bat file (drop a screenshot with it if you have one). It goes into your library on this PC, ready to play.
 - The site's owner can publish a dropped game for everyone from the same window, and drop a newer build to publish its next version.
