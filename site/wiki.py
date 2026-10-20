@@ -139,6 +139,67 @@ def reviews_section(game: str, name: str, version: int, send: str, read: str) ->
   <script>{REVIEWS_JS}</script>'''
 
 
+def engine_feedback_section(send: str, read: str) -> str:
+    """Engine feedback: notes about RedEngine itself rather than one game (a tip, an idea, a bug, anything else), sent anonymously to the same
+    relay as reviews (`{"v": 1, "about": "engine", ...}`) and shown from `public.json`'s `engine`, as in the app."""
+    kinds = "".join(f'<label><input type="radio" name="kind" value="{v}"{" checked" if i == 0 else ""}><span>{l}</span></label>'
+                    for i, (v, l) in enumerate([("tip", "Tip"), ("idea", "Idea"), ("bug", "Bug"), ("other", "Other")]))
+    return f'''
+  <section id="engine-notes" class="reviews" data-send="{e(send)}" data-read="{e(read)}">
+    <form class="rv-form">
+      <h3>Leave a note</h3>
+      <fieldset class="note-kind"><legend>What kind of note?</legend><div>{kinds}</div></fieldset>
+      <label>Your note<textarea name="text" maxlength="2000" rows="5" placeholder="For example: the camera turns too fast with a gamepad in every 3D game."></textarea></label>
+      <label><span>Your name <span class="fine">(optional)</span></span><input name="name" maxlength="40" autocomplete="nickname"></label>
+      <p class="fine">No account needed. Notes are public and go to the engine's developers. Please leave out links. Yours shows here within about half an hour.</p>
+      <p><button type="submit">Send note</button> <span class="rv-status" role="status"></span></p>
+    </form>
+    <h2>Notes so far</h2>
+    <div class="rv-list"><p class="fine">Loading the notes&hellip;</p></div>
+  </section>
+  <script>{ENGINE_NOTES_JS}</script>'''
+
+
+# The page's side of engine feedback: the same rules as the app (`reviews::note_problem`) and the collector.
+ENGINE_NOTES_JS = r'''
+(function () {
+  var sec = document.getElementById("engine-notes");
+  if (!sec || !window.fetch) return;
+  var d = sec.dataset, form = sec.querySelector(".rv-form"), status = sec.querySelector(".rv-status"), list = sec.querySelector(".rv-list");
+  var LINK = /https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|ru|xyz|top|info|biz)\b/i, KEY = "engine-notes-sent";
+  var LABEL = {tip: "Tip", idea: "Idea", bug: "Bug", other: "Other"};
+  function h(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]; }); }
+  function mine() { try { var v = JSON.parse(localStorage.getItem(KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+  function card(n, pending) {
+    return '<article class="rv note' + (pending ? " pending" : "") + '"><header><span class="kind ' + h(n.kind) + '">' + h(LABEL[n.kind] || n.kind) + "</span><span><strong>" + h(n.name || "Anonymous player") + "</strong> " +
+      '<span class="fine">' + (pending ? "your note: it shows for everyone within about half an hour" : h(n.date) + (n.source === "app" ? " · in the app" : "")) + "</span></span></header><p>" + h(n.text).replace(/\n/g, "<br>") + "</p></article>";
+  }
+  var shown = null;
+  function paint() {
+    var notes = (shown && shown.notes) || [];
+    var own = mine().filter(function (o) { return !notes.some(function (n) { return n.text === o.text; }); });
+    try { localStorage.setItem(KEY, JSON.stringify(own)); } catch (e) {}
+    list.innerHTML = own.map(function (n) { return card(n, true); }).join("") + notes.map(function (n) { return card(n, false); }).join("") || '<p class="fine">No notes yet: be the first.</p>';
+  }
+  fetch(d.read, {cache: "no-cache"}).then(function (r) { return r.ok ? r.json() : null; }).then(function (all) { shown = all ? all.engine : null; paint(); })
+    .catch(function () { list.innerHTML = '<p class="fine">The notes could not be loaded right now.</p>'; });
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = new FormData(form), note = {v: 1, about: "engine", kind: f.get("kind") || "other", text: (f.get("text") || "").trim(), name: (f.get("name") || "").trim(), source: "site"};
+    if (note.text.length < 10) { status.textContent = "Write a little more (at least a sentence)."; return; }
+    if (LINK.test(note.text + " " + note.name)) { status.textContent = "Please leave out links (they are not accepted)."; return; }
+    var btn = form.querySelector("button"); btn.disabled = true; status.textContent = "Sending\u2026";
+    fetch(d.send + "?title=" + encodeURIComponent("Engine feedback: " + note.kind), {method: "POST", body: JSON.stringify(note)}).then(function (r) {
+      if (!r.ok) throw new Error(r.status === 429 ? "Too many notes from your connection just now; try again in a minute." : "The feedback service answered " + r.status + "; try again later.");
+      try { localStorage.setItem(KEY, JSON.stringify([{kind: note.kind, text: note.text, name: note.name}].concat(mine()).slice(0, 5))); } catch (e) {}
+      form.reset(); status.textContent = "Thank you! Your note is on its way."; if (shown !== undefined) paint();
+    }).catch(function (e) { status.textContent = e.message && /notes|service/.test(e.message) ? e.message : "Could not send it (are you online?); try again."; })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+'''
+
+
 # The page's side of player reviews. The same rules as `scripts/player_reviews.py` in RedEngine (the judge): a score, a write-up, no links.
 REVIEWS_JS = r'''
 (function () {
@@ -232,5 +293,15 @@ kbd { white-space: normal; }
 .rv-n small { font-size: .7rem; color: var(--muted); font-weight: 500; }
 .rv p { margin: 8px 0 0; overflow-wrap: anywhere; }
 .rv-k { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.note-kind { border: 0; padding: 0; margin: 0; }
+.note-kind legend { font-size: .92rem; margin-bottom: 6px; }
+.note-kind div { display: flex; gap: 8px; flex-wrap: wrap; }
+.note-kind label { display: block; }
+.note-kind input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.note-kind span { display: inline-flex; padding: 8px 16px; border-radius: 6px; background: var(--card); cursor: pointer; font-weight: 700; }
+.note-kind input:checked + span { background: var(--accent); color: #1C0810; }
+.note-kind input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note .kind { display: inline-block; border-radius: 4px; padding: 0 6px; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; background: var(--accent); color: #1C0810; }
+.note .kind.bug { background: #FF8A80; } .note .kind.idea { background: #9CC8FF; } .note .kind.other { background: var(--muted); }
 @media (max-width: 640px) { table.versions { display: block; overflow-x: auto; } .toc { position: static; } .rv-score div { gap: 4px; } .rv-score span { height: 36px; } }
 '''

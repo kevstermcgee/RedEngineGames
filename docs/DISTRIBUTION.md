@@ -35,7 +35,13 @@ python3 distribution/upload_game.py ~/Downloads/StarMiner-1.1.zip --name "Star M
 python3 distribution/upload_game.py quest.bat --add story.txt --name "Text Quest" --dry-run                           # pack only, publish nothing
 ```
 
-Without a terminal: *Actions → Upload a game → Run workflow*, with a direct download link to the file (and optionally to a screenshot).
+**Easiest: drag and drop onto the RedEngine Games app.** Drop the ZIP, folder, `.exe` or `.bat` (plus a screenshot if you have one) anywhere
+on the app's window, fill in the name and description, and choose *Publish for everyone*. The first time, the app asks for a GitHub
+fine-grained token with *Contents: Read and write* on this repository; it keeps it on that PC. Anyone without a token can still choose
+*Add to my games* to play a dropped game on their own PC. The app writes exactly the release this tool writes (through a draft, so a failed
+upload never shows a version without its download).
+
+Without a terminal or the app: *Actions → Upload a game → Run workflow*, with a direct download link to the file (and optionally to a screenshot).
 
 * **What it accepts:** a `.zip`, a folder, or one `.exe`/`.bat`/`.cmd` (`--add` puts more files beside it). A ZIP holding a single folder is played from inside that folder.
 * **What it starts:** the game's only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none), or `--run bin/Game.exe`. `--args` adds arguments.

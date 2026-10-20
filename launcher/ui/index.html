@@ -13,6 +13,7 @@
     <button data-view="games">Games</button>
     <button data-view="library">Library <span class="count" id="n-library"></span></button>
     <button data-view="downloads">Downloads <span class="count" id="n-downloads"></span></button>
+    <button data-view="feedback">Engine feedback</button>
   </nav>
   <div class="top-right">
     <button class="version" id="version" data-act="show-update" title="The launcher's version"></button>
@@ -23,6 +24,31 @@
 <main id="view" tabindex="-1"><p class="loading">Loading the games&hellip;</p></main>
 <div id="toasts" aria-live="polite"></div>
 <dialog id="dialog"><form method="dialog"><h2></h2><div class="body"></div><menu><button value="cancel" class="btn"></button><button value="ok" class="btn primary"></button></menu></form></dialog>
+<div id="dropzone" hidden><div><strong>Drop to add a game</strong><span>A ZIP, a folder, or an .exe, .bat or .cmd file (and a screenshot, if you have one)</span></div></div>
+<dialog id="drop" aria-labelledby="drop-title"><form method="dialog" class="drop-form">
+  <h2 id="drop-title">Add a game</h2>
+  <p class="fine drop-what"></p>
+  <label>Name<input name="name" maxlength="60" autocomplete="off"></label>
+  <label class="drop-entry">What starts the game<select name="entry"></select></label>
+  <label>Description <span class="fine">(one or two sentences, for the site)</span><textarea name="description" rows="2" maxlength="300"></textarea></label>
+  <div class="two"><label>2D or 3D<select name="presentation"><option value="2d">2D</option><option value="3d" selected>3D</option><option value="hybrid">2D and 3D</option></select></label>
+    <label>Designed by<select name="author"><option value="human" selected>A person</option><option value="ai">An AI</option></select></label></div>
+  <label>What changed <span class="fine">(for a new version, optional)</span><textarea name="notes" rows="2" maxlength="600"></textarea></label>
+  <p class="drop-note"></p>
+  <div class="drop-progress" hidden><div class="bar"><i></i></div><span class="fine"></span></div>
+  <p class="drop-status" role="status"></p>
+  <menu><button value="cancel" class="btn link">Cancel</button><button type="button" class="btn" data-drop="add">Add to my games</button><button type="button" class="btn primary" data-drop="publish">Publish for everyone</button></menu>
+</form></dialog>
+<dialog id="pub" aria-labelledby="pub-title"><form method="dialog">
+  <h2 id="pub-title">Publish games from this PC</h2>
+  <div class="body"><p>Publishing puts a game on the website and in everyone's app. It needs a GitHub token that may write to <strong>kevstermcgee/RedEngineGames</strong>, so only the site's owner can publish. Anyone can add games to their own library.</p>
+    <ol><li>On GitHub: <em>Settings → Developer settings → Fine-grained tokens → Generate new token</em>.</li>
+      <li>Repository access: only <em>kevstermcgee/RedEngineGames</em>. Permissions: <em>Contents: Read and write</em>.</li>
+      <li>Paste the token here.</li></ol>
+    <input name="token" type="password" placeholder="github_pat_…" autocomplete="off" aria-label="GitHub token">
+    <p class="fine">It is kept on this PC only, in the app's own folder.</p><p class="pub-status" role="status"></p></div>
+  <menu><button type="button" class="btn link danger" data-pub="forget">Forget the saved token</button><button value="cancel" class="btn link">Cancel</button><button type="button" class="btn primary" data-pub="save">Check and save</button></menu>
+</form></dialog>
 <div id="lightbox" hidden><button class="icon close" aria-label="Close">&times;</button><button class="icon prev" aria-label="Previous">&#x2039;</button><figure><img alt=""><figcaption></figcaption></figure><button class="icon next" aria-label="Next">&#x203a;</button></div>
 <script src="app.js"></script>
 </body>

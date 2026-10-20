@@ -5,6 +5,9 @@ here to publish a new version (`.github/workflows/launcher.yml`).
 
 ## 0.4.0
 
+- Drop a game on the window to add it: a ZIP, a folder, or an .exe or .bat file (drop a screenshot with it if you have one). It goes into your library on this PC, ready to play.
+- The site's owner can publish a dropped game for everyone from the same window, and drop a newer build to publish its next version.
+- Engine feedback: a new tab for tips, ideas and bugs about the engine itself, not just one game. No account needed.
 - The app can now install and play games that were not made with RedEngine: ready-made games uploaded as a ZIP, an .exe or a .bat file. They update like every other game.
 - A game started from a .bat or .cmd file opens in its own console window, so text games can be played.
 

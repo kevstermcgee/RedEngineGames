@@ -21,6 +21,14 @@ so games and the app's own updates never trigger it.
 - A game starts the way its own `Play-<slug>.exe` starts it: the engine named in `engine.name` with the arguments in `launch.args`, and `RE2_SAVE_DIR` set.
   A game uploaded ready-made (`distribution/upload_game.py`) has the same two files; its `engine.name` may name a `.exe`, `.bat` or `.cmd` in a subfolder
   (it starts from that folder), and a `.bat`/`.cmd` gets a console window of its own.
+- **Drop a game on the window** (a ZIP, a folder, `.exe` / `.bat` / `.cmd` files, and a screenshot if there is one): `core/src/upload.rs` copies it to
+  `uploads\staging\` (what was dropped is never changed), finds what starts it with the same rules as `distribution/upload_game.py`, and asks
+  for a name, what starts it, a description, 2D/3D and who designed it. **Add to my games** moves it into the library as `local` ("On this
+  PC only"). **Publish for everyone** (`core/src/publish.rs`) needs a GitHub token that may write to the repository, saved once in
+  `publish-token` in the library folder (or `GH_TOKEN`): it makes the release `<slug>-v<N>` as a draft, uploads the ZIP and screenshot, then
+  publishes it, so the site rebuilds and every app sees the game. Dropping a build with the same name makes its next version.
+- **Engine feedback:** a tab for notes about the engine itself (tip, idea, bug, other), sent like reviews (`reviews::send_note`) and shown from
+  `public.json`'s `engine`. The website has the same form at `/feedback/`.
 - **Player reviews:** each game's page shows its score out of 10 and every review, and has a form to leave one, anonymously. The app posts the review to the relay that the catalog names (`reviews.send`). RedEngine's `scripts/player_reviews.py` collects it into that repo's `docs/player-reviews/`, and the published ones are read back from `reviews.read` (`core/src/reviews.rs`).
 - **Updating the app:** at start and every four hours the app reads the site's `launcher/latest.json`, which `site/generate.py` writes from the newest `launcher-v*` release. When it names a newer version, a banner offers **Update now**. The app then:
   1. downloads the installer and checks its SHA-256;

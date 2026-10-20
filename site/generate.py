@@ -303,7 +303,7 @@ def shell(title: str, description: str, body: str, depth: int, script: str = "")
 <body>
 <header class="site">
   <h1><a href="{up or "./"}"><span>Red</span>EngineGames</a></h1>
-  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows.</p>
+  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows. · <a href="{up}feedback/">Engine feedback</a></p>
 </header>
 <main>
 {body}
@@ -565,6 +565,18 @@ def uploaded_note(g: dict, v: dict | None) -> str:
             'with a browser: choose <strong>More info</strong>, then <strong>Run anyway</strong>.</p>')
 
 
+def feedback_page() -> str:
+    """Notes about the engine itself, not one game: the same form and list as the app's Engine feedback."""
+    r = CONFIG.get("reviews")
+    form = wiki.engine_feedback_section(r["send"], r["read"]) if r else "<p>Engine feedback is not open right now.</p>"
+    body = f'''
+  <p><a href="../">&larr; all games</a></p>
+  <h2>Engine feedback</h2>
+  <p>Notes about <strong>RedEngine</strong> itself rather than one game: how its games feel to play, what the engine could do better, tips for the people
+    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}'''
+    return shell("Engine feedback — RedEngineGames", "Tips, ideas and bugs for the RedEngine game engine.", body, 1)
+
+
 def latest_json(g: dict) -> str | None:
     """What an installed game fetches to learn whether there is a newer version (a game without an installer has no updater of its own)."""
     if not g["versions"] or not g["versions"][0]["installer"]:
@@ -602,6 +614,8 @@ def main() -> int:
     else:
         fetch_upload_thumbs(games, out / "thumbs")
     (out / "index.html").write_text(index_page(games, app), encoding="utf-8")
+    (out / "feedback").mkdir()
+    (out / "feedback" / "index.html").write_text(feedback_page(), encoding="utf-8")
     if app:
         (out / "launcher").mkdir()
         (out / "launcher" / "latest.json").write_text(json.dumps(app, indent=1) + "\n", encoding="utf-8")

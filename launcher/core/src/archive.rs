@@ -9,6 +9,12 @@ use std::path::{Component, Path, PathBuf};
 use crate::{Error, Result};
 
 pub fn extract(zip_path: &Path, into: &Path) -> Result<()> {
+    unpack(zip_path, into)?;
+    check_game(into).map(|_| ())
+}
+
+/// Unpack any ZIP into `into` (a player's dropped game too), refusing entries that would land outside it.
+pub fn unpack(zip_path: &Path, into: &Path) -> Result<()> {
     let mut zip = zip::ZipArchive::new(File::open(zip_path)?).map_err(|e| Error::Archive(e.to_string()))?;
     std::fs::create_dir_all(into)?;
     for i in 0..zip.len() {
@@ -28,7 +34,7 @@ pub fn extract(zip_path: &Path, into: &Path) -> Result<()> {
         let mut out = File::create(&target)?;
         io::copy(&mut entry, &mut out)?;
     }
-    check_game(into).map(|_| ())
+    Ok(())
 }
 
 /// The folder holds a runnable game; returns the program `engine.name` names.

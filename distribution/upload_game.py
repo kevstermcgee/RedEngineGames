@@ -37,7 +37,8 @@ import release_tool as rt  # noqa: E402
 
 RUNNABLE = (".exe", ".bat", ".cmd")
 # Executables a ready-made game often carries that are never the game itself.
-NOT_THE_GAME = re.compile(r"^(unins\d*|uninstall.*|setup.*|install.*|vc_?redist.*|dxsetup|unitycrashhandler.*|crashpad_handler|notification_helper)\.(exe|bat|cmd)$", re.I)
+# The start of the name, as the app's `upload::NOT_THE_GAME`.
+NOT_THE_GAME = re.compile(r"^(unins|setup|install|vc_?redist|dxsetup|unitycrashhandler|crashpad_handler|notification_helper)[^/]*\.(exe|bat|cmd)$", re.I)
 KINDS = ("2d", "3d", "hybrid")
 
 

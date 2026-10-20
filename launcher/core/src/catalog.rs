@@ -32,6 +32,9 @@ pub struct Game {
     /// Newest first.
     #[serde(default)]
     pub versions: Vec<Version>,
+    /// Uploaded ready-made (`distribution/upload_game.py` or the app's drag and drop), not built from the repository.
+    #[serde(default)]
+    pub uploaded: bool,
     /// The game's wiki page (`site/wiki.py`), passed to the window as it is.
     #[serde(default)]
     pub wiki: Option<serde_json::Value>,
