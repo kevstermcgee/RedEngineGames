@@ -1,0 +1,39 @@
+name: Site and release tools
+
+# A pull request that changes the site or the release tools runs their tests and builds the whole site from the real releases, as pages.yml will
+# after the merge, so a change that would break the site or the next release shows on the pull request (before this, only launcher/** had pull
+# request checks). Nothing is published from here. RedEngine's daily improver merges its own pull requests here only once a check has passed.
+on:
+  pull_request:
+    paths:
+      - site/**
+      - distribution/**
+      - .release-games.json
+      - .games-catalog.json
+      - .github/workflows/checks.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  site:
+    name: site and release tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # site/generate.py derives each game's added-date from history
+
+      - name: Test the site generator and the release tools
+        run: |
+          python3 -m unittest discover -s site
+          python3 -m unittest discover -s distribution
+
+      - name: Build the whole site from every release (screenshots of uploads are not fetched)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > "$RUNNER_TEMP/releases.json"
+          python3 site/generate.py --releases "$RUNNER_TEMP/releases.json" --out "$RUNNER_TEMP/site" --offline
+          test -f "$RUNNER_TEMP/site/family/index.html"

@@ -1,6 +1,6 @@
 // A stand-in for the window (app/src/main.rs) so the page can be tested in a plain browser: the same commands and events, backed by
 // `window.__MOCK__` = {catalog, installed: {slug: version}, favorites: [slug], update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail,
-// canPublish, dropped (what `drop_inspect` finds), publishFail, badToken}.
+// canPublish, publishLogin, dropped (what `drop_inspect` finds), publishFail, badToken}.
 // Every call is recorded in `window.__CALLS__`.
 (function () {
   const M = window.__MOCK__;
@@ -28,7 +28,7 @@
       for (const [slug, i] of Object.entries(lib)) {
         if (!M.catalog.games.some((g) => g.slug === slug)) games.push({ slug, name: i.name, versions: [], status: { state: "installed", version: i.version }, installed: i, retired: !i.local, local: !!i.local, favorite: favorites.has(slug) });
       }
-      return { games, offline: !!M.offline, error: M.offline ? "could not reach https://kevstermcgee.github.io/RedEngineGames/catalog.json: dns failed" : null, launcher_version: "0.1.0", site: "https://kevstermcgee.github.io/RedEngineGames/", can_publish: !!M.canPublish };
+      return { games, offline: !!M.offline, error: M.offline ? "could not reach https://kevstermcgee.github.io/RedEngineGames/catalog.json: dns failed" : null, launcher_version: "0.1.0", site: "https://kevstermcgee.github.io/RedEngineGames/", can_publish: !!M.canPublish, publish_login: M.canPublish ? (M.publishLogin || "") : "" };
     },
     async install({ slug }) {
       const g = M.catalog.games.find((x) => x.slug === slug);
@@ -71,6 +71,11 @@
     reviews_published() { if (M.offline) throw "offline"; return M.reviews || { schema: 1, games: {} }; },
     review_send({ review }) { if (M.reviewFail) throw M.reviewFail; },
     note_send({ note }) { if (M.reviewFail) throw M.reviewFail; },
+    note_send_signed({ note }) { if (!M.canPublish) throw "Set up publishing first."; return "https://github.com/kevstermcgee/RedEngineGames/issues/99"; },
+    fork_make({ slug, name }) {
+      if (!lib[slug]) throw "Install the game first: a fork starts from the version on this PC.";
+      return `C:\\Users\\you\\AppData\\Local\\RedEngineGames\\forks\\${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`;
+    },
     drop_inspect({ paths }) {
       return { name: "Star Miner", candidates: ["StarMiner.exe"], entry: "StarMiner.exe", size: 52_000_000, thumb: true, can_publish: !!M.canPublish, ...(M.dropped || {}) };
     },

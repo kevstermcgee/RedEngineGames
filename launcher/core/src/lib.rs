@@ -9,6 +9,7 @@
 pub mod archive;
 pub mod catalog;
 pub mod download;
+pub mod fork;
 pub mod launch;
 pub mod library;
 pub mod publish;

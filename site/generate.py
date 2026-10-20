@@ -155,13 +155,29 @@ def load_games(releases: list[dict]) -> list[dict]:
             "thumb": f"thumbs/{slug}.png" if (REPO / "site" / "thumbs" / f"{slug}.png").exists() else "",
             "versions": versions,
             "earlier": old,
+            "maintainer": p.get("maintainer") or (versions[0].get("maintainer", "") if versions else ""),
+            "forked_from": p.get("forked_from") or (versions[-1].get("forked_from") if versions else None),
+            "forkable": "" if p.get("binary") else "repo",
         })
     if wiki_errors:
         raise SystemExit("wiki pages are incomplete:\n  " + "\n  ".join(wiki_errors))
     games += upload_games(history, {g["slug"] for g in games} | {p["slug"] for p in rt.load_playables()})
     games.sort(key=lambda g: g["name"].lower())
     games.sort(key=lambda g: g["added"], reverse=True)
+    link_families(games)
     return games
+
+
+def link_families(games: list[dict]) -> None:
+    """Each game's `forks` (the games forked from it, oldest first), from the others' `forked_from`. A parent the site does not list keeps its edge
+    (the fork's page names it) but links nowhere."""
+    by_slug = {g["slug"]: g for g in games}
+    for g in games:
+        g["forks"] = []
+    for g in sorted(games, key=lambda g: (g["added"], g["slug"])):
+        parent = (g.get("forked_from") or {}).get("slug")
+        if parent in by_slug and parent != g["slug"]:
+            by_slug[parent]["forks"].append(g["slug"])
 
 
 def upload_games(history: dict[str, list[dict]], taken: set[str]) -> list[dict]:
@@ -191,6 +207,9 @@ def upload_games(history: dict[str, list[dict]], taken: set[str]) -> list[dict]:
             "uploaded": True,
             "versions": versions,
             "earlier": [],
+            "maintainer": latest.get("maintainer", ""),
+            "forked_from": next((v["forked_from"] for v in reversed(versions) if v.get("forked_from")), None),
+            "forkable": "app",
         })
     return games
 
@@ -283,6 +302,13 @@ table.versions ul {{ margin: 0; padding-left: 18px; }}
 .tag {{ background: var(--accent); color: #1C0810; border-radius: 4px; padding: 1px 6px; font-size: .75rem; font-weight: 600; }}
 details {{ margin: 10px 0; }}
 summary {{ cursor: pointer; color: var(--muted); }}
+.family {{ background: var(--surface); border-radius: 8px; padding: 6px 18px 10px; margin: 18px 0; }}
+.family h2 {{ font-size: 1.1rem; display: flex; gap: 14px; align-items: baseline; }}
+.family .fine, .who {{ color: var(--muted); font-size: .85rem; }}
+.family pre.prompt {{ white-space: pre-wrap; background: var(--card); border-radius: 6px; padding: 10px 12px; font-size: .85rem; user-select: all; }}
+ul.tree, ul.tree ul {{ list-style: none; margin: 4px 0; padding-left: 20px; border-left: 2px solid var(--card); }}
+ul.tree {{ border-left: 0; padding-left: 0; }}
+ul.tree li {{ margin: 6px 0; }}
 footer {{ margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--card); color: var(--muted); font-size: .85rem; }}
 footer p {{ margin: 4px 0; }}
 '''
@@ -303,7 +329,7 @@ def shell(title: str, description: str, body: str, depth: int, script: str = "")
 <body>
 <header class="site">
   <h1><a href="{up or "./"}"><span>Red</span>EngineGames</a></h1>
-  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows. · <a href="{up}feedback/">Engine feedback</a></p>
+  <p>Free Windows games built on <a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a>. Download and install for Windows. · <a href="{up}family/">Game families</a> · <a href="{up}feedback/">Engine feedback</a></p>
 </header>
 <main>
 {body}
@@ -358,7 +384,7 @@ def card(g: dict, index: int) -> str:
   {thumb}
   <button class="heart" type="button" aria-pressed="false" aria-label="Favourite {e(g["name"])}" title="Favourite: keep it at the top of your feed">&#x2661;</button>
   <div class="body">
-    <h3><a href="{page}">{e(g["name"])}</a></h3>
+    <h3><a href="{page}">{e(g["name"])}</a></h3>{f'<p class="meta">fork of <a href="games/{e(g["forked_from"]["slug"])}/">{e(g["forked_from"]["slug"])}</a> v{int(g["forked_from"].get("version") or 0)}</p>' if g.get("forked_from") else ""}
     <p class="meta"><span class="pres">{e(g["presentation"].upper())}</span>{by_badge(g)}{meta}</p>
     {online}
     <p class="desc">{e(g["description"])}</p>
@@ -513,7 +539,7 @@ def review_settings(g: dict) -> dict | None:
     return {"game": g["slug"], "name": g["name"], "version": g["versions"][0]["version"], "send": r["send"], "read": r["read"]}
 
 
-def game_page(g: dict, app: dict | None = None) -> str:
+def game_page(g: dict, app: dict | None = None, by_slug: dict | None = None) -> str:
     v = g["versions"][0] if g["versions"] else None
     thumb = f'<img class="thumb" src="../../{e(g["thumb"])}" alt="{e(g["name"])} screenshot" width="640" height="360">' if g["thumb"] else ""
     online = f'<p class="online">&#x1F310; online multiplayer</p>' if g["online"] else ""
@@ -552,8 +578,88 @@ def game_page(g: dict, app: dict | None = None) -> str:
       {signed_note([g])}'''}
       {'<p class="fine">Or get it in the <a href="../../#app">RedEngine Games app</a>, which installs and updates every game for you.</p>' if app and v and not g.get("uploaded") else ""}
     </div>
-  </section>{wiki.render(g["wiki"], g["author"], review_settings(g)) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
+  </section>{family_section(g, by_slug or {g["slug"]: g})}{wiki.render(g["wiki"], g["author"], review_settings(g)) if g["wiki"] else '<p class="soon">This game has no wiki page yet: its rules, story, characters and pictures are still to be written.</p>'}{table}{earlier}'''
     return shell(f'{g["name"]} — RedEngineGames', g["description"], body, 2)
+
+
+def game_link(slug: str, by_slug: dict, depth: int = 2) -> str:
+    g = by_slug.get(slug)
+    if not g:
+        return f"<code>{e(slug)}</code>"
+    who = f' <span class="who">by @{e(g["maintainer"])}</span>' if g.get("maintainer") else ""
+    return f'<a href="{"../" * depth}games/{e(slug)}/">{e(g["name"])}</a>{who}'
+
+
+def root_of(g: dict, by_slug: dict) -> str:
+    """The original a game's family starts from (the game itself when it is not a fork of a listed game)."""
+    seen = set()
+    while (g.get("forked_from") or {}).get("slug") in by_slug and g["slug"] not in seen:
+        seen.add(g["slug"])
+        g = by_slug[g["forked_from"]["slug"]]
+    return g["slug"]
+
+
+def fork_prompt(g: dict) -> str:
+    """What to paste into an AI session (Claude Code in a RedEngine checkout) to fork this game: the command copies it; the person says what changes."""
+    v = g["versions"][0]["version"] if g["versions"] else 1
+    return (f'Fork the RedEngine game "{g["name"]}" (version {v}) into a game of my own called "MY GAME". In a RedEngine checkout run\n'
+            f'  python3 scripts/games.py fork {g["slug"]}@v{v} my-game --name "MY GAME"\n'
+            "then make the changes below, check it, finish its page (every TODO(fork)) and send it in one pull request (CONTRIBUTING.md).\n\n"
+            "What I want different: ")
+
+
+def family_section(g: dict, by_slug: dict) -> str:
+    """Where the game came from, what came of it, and how to make your own version of it."""
+    parts = []
+    parent = g.get("forked_from")
+    if parent:
+        parts.append(f'<p>Forked from {game_link(parent["slug"], by_slug)}, version {int(parent.get("version") or 0) or "?"}.</p>')
+    if g.get("forks"):
+        parts.append("<p>Forks: " + " · ".join(game_link(s, by_slug) for s in g["forks"]) + "</p>")
+    if g.get("forkable") == "repo":
+        how = ('<p>A fork is a new game, with its own page and versions, that remembers it came from this one. Ask an AI (Claude Code in a '
+               '<a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a> checkout) with the text below after saying what you want different, '
+               'or press <strong>Fork</strong> on this game in the RedEngine Games app.</p>'
+               f'<pre class="prompt">{e(fork_prompt(g))}</pre>')
+    elif g.get("forkable") == "app":
+        how = "<p>Press <strong>Fork</strong> on this game in the RedEngine Games app, change the copy it makes, and publish it as your version.</p>"
+    else:
+        how = ('<p>This game plays with its own client, which is engine code: fork it as code, in a pull request to '
+               '<a href="https://github.com/kevstermcgee/RedEngine">RedEngine</a> that the other maintainer reviews.</p>')
+    whole = f' <a class="fine" href="../../family/#{e(root_of(g, by_slug))}">the whole family</a>' if parent or g.get("forks") else ""
+    origin = "".join(parts) or '<p class="fine">An original: not made from another game, and not forked yet.</p>'
+    return f'''
+  <section class="family">
+    <h2>Family{whole}</h2>
+    {origin}
+    <details><summary>Fork this game</summary>{how}</details>
+  </section>'''
+
+
+def family_page(games: list[dict]) -> str:
+    """Every family: an original with its forks below it, and their forks below them, each with its newest version and who keeps it."""
+    by_slug = {g["slug"]: g for g in games}
+
+    def node(g: dict, seen: set) -> str:
+        if g["slug"] in seen:
+            return ""
+        seen.add(g["slug"])
+        v = f'v{g["versions"][0]["version"]}' if g["versions"] else ""
+        edge = f' <span class="who">from v{int(g["forked_from"].get("version") or 0)}</span>' if g.get("forked_from") else ""
+        kids = "".join(node(by_slug[c], seen) for c in g.get("forks", []))
+        return f'<li>{game_link(g["slug"], by_slug, 1)} <span class="who">{v}</span>{edge}{f"<ul>{kids}</ul>" if kids else ""}</li>'
+
+    roots = sorted((g for g in games if g.get("forks") and root_of(g, by_slug) == g["slug"]), key=lambda g: g["name"].lower())
+    trees = "".join(f'<section class="family" id="{e(g["slug"])}"><ul class="tree">{node(g, set())}</ul></section>' for g in roots)
+    alone = sum(1 for g in games if not g.get("forks") and not g.get("forked_from"))
+    body = f'''
+  <p><a href="../">&larr; all games</a></p>
+  <h2>Game families</h2>
+  <p>A fork is a game made from another one: someone took a version of it, changed it and published it as a game of its own. Each family starts with an
+    original, with its forks under it and their forks under them. Every version of every game stays downloadable, so each step can still be played.</p>
+  {trees or '<p class="soon">No game has been forked yet: open any game and choose “Fork this game”.</p>'}
+  <p class="fine">{alone} game(s) have no family yet.</p>'''
+    return shell("Game families — RedEngineGames", "Which games were made from which: originals, their forks and forks of forks.", body, 1)
 
 
 def uploaded_note(g: dict, v: dict | None) -> str:
@@ -573,7 +679,9 @@ def feedback_page() -> str:
   <p><a href="../">&larr; all games</a></p>
   <h2>Engine feedback</h2>
   <p>Notes about <strong>RedEngine</strong> itself rather than one game: how its games feel to play, what the engine could do better, tips for the people
-    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}'''
+    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}
+  <p class="fine">With a GitHub account you can also <a href="https://github.com/kevstermcgee/RedEngine/issues/new?title=Engine%20note%3A%20">open an issue</a>:
+    it is signed with your name, and you hear on it when it is fixed. Maintainers can send signed notes from the app's Engine feedback tab.</p>'''
     return shell("Engine feedback — RedEngineGames", "Tips, ideas and bugs for the RedEngine game engine.", body, 1)
 
 
@@ -616,13 +724,16 @@ def main() -> int:
     (out / "index.html").write_text(index_page(games, app), encoding="utf-8")
     (out / "feedback").mkdir()
     (out / "feedback" / "index.html").write_text(feedback_page(), encoding="utf-8")
+    (out / "family").mkdir()
+    (out / "family" / "index.html").write_text(family_page(games), encoding="utf-8")
+    by_slug = {g["slug"]: g for g in games}
     if app:
         (out / "launcher").mkdir()
         (out / "launcher" / "latest.json").write_text(json.dumps(app, indent=1) + "\n", encoding="utf-8")
     for g in games:
         folder = out / "games" / g["slug"]
         folder.mkdir(parents=True)
-        (folder / "index.html").write_text(game_page(g, app), encoding="utf-8")
+        (folder / "index.html").write_text(game_page(g, app, by_slug), encoding="utf-8")
         if g["wiki"] and (REPO / "site" / "wiki" / g["slug"]).is_dir():
             for f in (REPO / "site" / "wiki" / g["slug"]).iterdir():
                 if f.name != "wiki.json":
@@ -630,7 +741,8 @@ def main() -> int:
         if (text := latest_json(g)) is not None:
             (folder / "latest.json").write_text(text, encoding="utf-8")
     (out / "catalog.json").write_text(json.dumps({"schema": 2, "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "reviews": CONFIG.get("reviews"), "games": [
-        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier")}, "uploaded": bool(g.get("uploaded")), "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
+        {**{k: g[k] for k in ("slug", "name", "description", "added", "online", "author", "thumb", "wiki", "versions", "earlier", "maintainer", "forked_from", "forks",
+                              "forkable")}, "uploaded": bool(g.get("uploaded")), "presentation": g["presentation"]} for g in games]}, indent=1), encoding="utf-8")
     (out / ".nojekyll").write_text("")
     print(f"{len(games)} games -> {out / 'index.html'}")
     return 0

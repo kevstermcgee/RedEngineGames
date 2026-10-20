@@ -409,6 +409,65 @@ with sync_playwright() as p:
     check(not errors, f"no script errors {errors[:3]}")
     page.close()
 
+    # Signed notes: with a publishing token, a note goes out as a GitHub issue under the maintainer's name.
+    page, errors = boot(reviews=notes, canPublish=True, publishLogin="meastwood13")
+    page.click('.tabs [data-view="feedback"]')
+    expect(page.locator(".note-form label.signed")).to_contain_text("@meastwood13")
+    page.fill(".note-form textarea", "Joining my cousin's game needs a code that is too long to read out.")
+    page.click(".note-form button[type=submit]")
+    expect(page.locator(".note-form .rv-status")).to_contain_text("GitHub issue")
+    signed = [c[1]["note"] for c in page.evaluate("window.__CALLS__") if c[0] == "note_send_signed"]
+    check(len(signed) == 1 and signed[0]["kind"] == "tip" and "cousin" in signed[0]["text"], f"a signed note is filed as an issue {signed}")
+    check(not [c for c in page.evaluate("window.__CALLS__") if c[0] == "note_send"], "and is not also sent anonymously")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # Families and forks: a fork names its parent and the parent lists it; Fork copies an installed game, or offers the AI prompt.
+    fam = json.loads(json.dumps(catalog))
+    parent = next(g for g in fam["games"] if g["slug"] == small["slug"])
+    child = {**json.loads(json.dumps(parent)), "slug": "neon-" + parent["slug"], "name": "Neon " + parent["name"], "maintainer": "meastwood13",
+             "forked_from": {"slug": parent["slug"], "version": parent["versions"][-1]["version"]}, "forks": [], "forkable": "repo"}
+    parent["forks"] = [child["slug"]]
+    fam["games"].insert(0, child)
+    page, errors = boot(installed={parent["slug"]: parent["versions"][0]["version"]}, catalog=fam)
+    page.fill("#q", child["name"])
+    card(page, child).click()
+    expect(page.locator(".family")).to_contain_text(f"Forked from {parent['name']}")
+    expect(page.locator(".family")).to_contain_text("version " + str(child["forked_from"]["version"]))
+    page.locator(".family .inline-link", has_text=parent["name"]).click()
+    expect(page.locator("h1")).to_have_text(parent["name"])
+    expect(page.locator(".family")).to_contain_text(f"Forks: {child['name']}")
+    page.click('.family [data-act="fork"]')
+    expect(page.locator("#fork")).to_be_visible()
+    expect(page.locator("#fork pre.prompt")).to_contain_text(f"scripts/games.py fork {parent['slug']}@v{parent['versions'][0]['version']} my-game")
+    page.fill("#fork input[name=name]", parent["name"])
+    page.click('#fork [data-fork="make"]')
+    expect(page.locator("#fork .fork-status")).to_contain_text("already a game")
+    page.fill("#fork input[name=name]", "Night " + parent["name"])
+    snap(page, "fork-dialog")
+    page.click('#fork [data-fork="make"]')
+    expect(page.locator("#dialog")).to_contain_text("drop that folder on this window")
+    made = [c[1] for c in page.evaluate("window.__CALLS__") if c[0] == "fork_make"]
+    check(made == [{"slug": parent["slug"], "name": "Night " + parent["name"]}], f"Fork copies the installed game under the new name {made}")
+    page.click('#dialog button[value="ok"]')
+    page.click('[data-act="back"]')
+    expect(page.locator("h1")).to_have_text(child["name"])
+    page.click('.family [data-act="fork"]')
+    expect(page.locator('#fork [data-fork="make"]')).to_have_text("Install it")
+    page.click('#fork button[value="cancel"]')
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # A fork made in the window, dropped back: the dialog says whose family it joins and refuses the original's own name.
+    page, errors = boot(canPublish=True, dropped={"name": "Night Snake", "forked_from": {"slug": parent["slug"], "version": 1}})
+    page.evaluate('window.__EMIT__("tauri://drag-drop", {paths: ["C:/forks/night-snake"]})')
+    expect(page.locator("#drop .drop-fork")).to_contain_text(f"A fork of {parent['name']} version 1")
+    page.fill("#drop input[name=name]", parent["slug"])
+    expect(page.locator("#drop .drop-note")).to_contain_text("original's name")
+    check(page.locator('#drop [data-drop="publish"]').is_disabled(), "the original's name cannot be published over")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
     # The refresh button checks the site again and says what it found.
     page, errors = boot()
     page.click("#refresh")

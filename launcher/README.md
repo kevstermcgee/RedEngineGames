@@ -27,8 +27,14 @@ so games and the app's own updates never trigger it.
   PC only"). **Publish for everyone** (`core/src/publish.rs`) needs a GitHub token that may write to the repository, saved once in
   `publish-token` in the library folder (or `GH_TOKEN`): it makes the release `<slug>-v<N>` as a draft, uploads the ZIP and screenshot, then
   publishes it, so the site rebuilds and every app sees the game. Dropping a build with the same name makes its next version.
+- **Forks and families:** a game's page shows the game it was forked from and its forks (the catalog's `forked_from` and `forks`). **Fork…**
+  (`core/src/fork.rs`) copies the installed version to `forks\<slug>\` under the library with `fork.json` (its parent and version) and a
+  `FORK.md` for the player or their AI; dropping that folder back on the window reads the record (`upload::stage`), so publishing it writes
+  `forked_from` and the publisher's login (`maintainer`, saved as `publish-login` beside the token) into the release record, and the site draws
+  the family from it. The dialog also gives the prompt for forking from source in a RedEngine checkout (`scripts/games.py fork`).
 - **Engine feedback:** a tab for notes about the engine itself (tip, idea, bug, other), sent like reviews (`reviews::send_note`) and shown from
-  `public.json`'s `engine`. The website has the same form at `/feedback/`.
+  `public.json`'s `engine`. With a publishing token saved, a note can go out **signed**: a GitHub issue in this repository by that account
+  (`reviews::signed_note`, `publish::issue`), which RedEngine's `scripts/feedback.py digest` reads as a maintainer's word. The website has the same form at `/feedback/`.
 - **Player reviews:** each game's page shows its score out of 10 and every review, and has a form to leave one, anonymously. The app posts the review to the relay that the catalog names (`reviews.send`). RedEngine's `scripts/player_reviews.py` collects it into that repo's `docs/player-reviews/`, and the published ones are read back from `reviews.read` (`core/src/reviews.rs`).
 - **Updating the app:** at start and every four hours the app reads the site's `launcher/latest.json`, which `site/generate.py` writes from the newest `launcher-v*` release. When it names a newer version, a banner offers **Update now**. The app then:
   1. downloads the installer and checks its SHA-256;

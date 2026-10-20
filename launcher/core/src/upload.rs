@@ -38,6 +38,8 @@ pub struct Staged {
     pub entry: Option<String>,
     /// The game's size on disk, in bytes.
     pub size: u64,
+    /// The game it was forked from, when it is a fork made in the window (`crate::fork`): its releases will name it.
+    pub forked_from: Option<crate::fork::Parent>,
 }
 
 fn ext(p: &Path) -> String {
@@ -57,7 +59,7 @@ pub fn slugify(name: &str) -> String {
     out.trim_end_matches('-').to_string()
 }
 
-fn copy_tree(from: &Path, to: &Path) -> io::Result<()> {
+pub(crate) fn copy_tree(from: &Path, to: &Path) -> io::Result<()> {
     if from.is_dir() {
         std::fs::create_dir_all(to)?;
         for entry in std::fs::read_dir(from)? {
@@ -123,7 +125,23 @@ pub fn stage(paths: &[PathBuf], work: &Path) -> Result<Staged> {
         Err(_) if candidates.len() == 1 => Some(candidates[0].clone()),
         Err(_) => None,
     };
-    Ok(Staged { size: size_of(&folder), folder, thumb, name, candidates, entry })
+    // A fork made in the window carries its record: it keeps its name and says where it came from.
+    let (forked_from, name) = match crate::fork::read(&folder) {
+        Some((parent, fork_name)) => (Some(parent), fork_name),
+        None => (None, name),
+    };
+    Ok(Staged { size: size_of(&folder), folder, thumb, name, candidates, entry, forked_from })
+}
+
+/// The release record with the game's family: the game it was forked from and who publishes it (`maintainer`, a GitHub login).
+pub fn with_family(mut meta: serde_json::Value, forked_from: Option<&crate::fork::Parent>, maintainer: &str) -> serde_json::Value {
+    if let Some(p) = forked_from {
+        meta["forked_from"] = serde_json::json!({"slug": p.slug, "version": p.version});
+    }
+    if !maintainer.is_empty() {
+        meta["maintainer"] = maintainer.into();
+    }
+    meta
 }
 
 /// The files that could start the game: the top folder's, or one folder down when the top has none.
@@ -348,6 +366,25 @@ mod tests {
         assert_eq!(back["description"], "Text Quest, a Windows game.");
         assert!(body.contains("run `quest.bat`"));
         assert!(Details { name: "!!".into(), entry: "a.exe".into(), description: String::new(), presentation: String::new(), author: String::new(), notes: String::new() }.checked().is_err());
+    }
+
+    #[test]
+    fn a_fork_made_in_the_window_comes_back_with_its_name_and_parent_in_its_record() {
+        let dir = tempfile::tempdir().unwrap();
+        let installed = dir.path().join("games/snake/v3");
+        std::fs::create_dir_all(&installed).unwrap();
+        std::fs::write(installed.join("RedEngine2D.exe"), "MZ").unwrap();
+        std::fs::write(installed.join("engine.name"), "RedEngine2D.exe\n").unwrap();
+        let parent = crate::fork::Parent { slug: "snake".into(), version: 3 };
+        let fork = crate::fork::make(dir.path(), &installed, &parent, "Snake", "Neon Snake").unwrap();
+        let s = stage(std::slice::from_ref(&fork), &dir.path().join("work")).unwrap();
+        assert_eq!((s.name.as_str(), s.forked_from.as_ref(), s.entry.as_deref()), ("Neon Snake", Some(&parent), Some("RedEngine2D.exe")));
+        let d = Details { name: s.name.clone(), entry: "RedEngine2D.exe".into(), description: String::new(), presentation: "2d".into(), author: "human".into(), notes: String::new() };
+        let meta = with_family(record(&d, "neon-snake", 1, "2026-10-21", ("z", 1, "ab"), None), s.forked_from.as_ref(), "meastwood13");
+        assert_eq!(meta["forked_from"], serde_json::json!({"slug": "snake", "version": 3}));
+        assert_eq!(meta["maintainer"], "meastwood13");
+        let plain = with_family(record(&d, "x", 1, "d", ("z", 1, "ab"), None), None, "");
+        assert!(plain.get("forked_from").is_none() && plain.get("maintainer").is_none(), "an original's record is unchanged");
     }
 
     #[test]

@@ -65,6 +65,16 @@ fn call(method: &str, url: &str, token: &str, json: Option<&serde_json::Value>) 
     Ok((status, text))
 }
 
+/// File a note as a GitHub issue in the repository, by the token's account (a signed note: trusted, and its author hears when it is fixed);
+/// returns the issue's address.
+pub fn issue(token: &str, title: &str, body: &str) -> Result<String> {
+    let (status, text) = call("POST", &format!("{API}/repos/{REPOSITORY}/issues"), token, Some(&serde_json::json!({"title": title, "body": body})))?;
+    if status != 201 {
+        return Err(failed("file the note", status, &text));
+    }
+    Ok(serde_json::from_str::<serde_json::Value>(&text).ok().and_then(|v| v["html_url"].as_str().map(String::from)).unwrap_or_default())
+}
+
 /// Check that `token` may publish (write to the repository); returns the GitHub account it belongs to.
 pub fn check(token: &str) -> Result<String> {
     let (status, body) = call("GET", &format!("{API}/repos/{REPOSITORY}"), token, None)?;

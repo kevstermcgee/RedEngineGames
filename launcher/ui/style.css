@@ -301,3 +301,16 @@ dialog#drop, dialog#pub { max-width: 560px; width: calc(100% - 40px); }
 .note .kind.other { background: var(--muted); }
 .btn.refresh { gap: 6px; }
 @media (max-width: 1000px) { .btn.refresh .label { display: none; } }
+
+/* A game's family (forks) and the Fork dialog */
+.family { max-width: 1000px; margin: 4px 0 6px; }
+.family p { margin: 6px 0; }
+#fork { max-width: 560px; }
+#fork label { display: grid; gap: 4px; font-size: .92rem; margin: 10px 0 4px; }
+#fork input { background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; font: inherit; }
+#fork h3 { font-size: .95rem; margin: 16px 0 4px; }
+#fork pre.prompt { font: .8rem/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; background: var(--card); border-radius: 6px; padding: 9px 11px; margin: 6px 0; user-select: all; }
+#fork [hidden] { display: none; }
+.fork-status { color: var(--bad); min-height: 1.2em; margin: 4px 0; }
+.drop-fork { color: var(--good); font-size: .9rem; margin: 2px 0 8px; }
+.rv-form label.signed { display: flex; gap: 8px; align-items: flex-start; }

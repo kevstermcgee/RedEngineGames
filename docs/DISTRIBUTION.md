@@ -52,6 +52,21 @@ Without a terminal or the app: *Actions → Upload a game → Run workflow*, wit
 * **What players get:** the game's page offers the portable ZIP and the app; there is no installer and no in-game updater, so updates arrive through the app. The site lists it once `pages.yml` has run (a release published from a computer starts it; the workflow chains on *Upload a game*).
 * **Limits:** the slug of a game built here is refused. A wiki page in `site/wiki/<slug>/` is used when present but not required. The app checks each download's SHA-256, which proves it arrived intact, not that the game is safe: upload only games you trust. Removing a game means deleting its releases (`gh release delete <slug>-v<N>`) and rerunning *Deploy download site*.
 
+## Forks
+
+A fork is a game made from another game's version, published as a game of its own that remembers where it came from. Its playable (or, for a
+ready-made upload, its release) says `"forked_from": {"slug": <parent>, "version": <N>}`, and `"maintainer"` names whoever keeps it.
+
+- `release_tool.py plan` copies both into every release's record (`family_fields`), so the edge outlives any later edit of the publish list.
+- `upload_game.py --forked-from SLUG@N --maintainer LOGIN` does the same for an upload (an update keeps them); the app writes them when a fork it
+  made (`launcher/core/src/fork.rs`) is dropped back on its window and published.
+- `site/generate.py` reads the edge from the playable, else from the first release that has it (`link_families`), lists each game's `forks`,
+  draws a **Family** box on every game page (the parent, the forks, and how to fork it: the prompt for an AI in a RedEngine checkout, which runs
+  RedEngine's `scripts/games.py fork`, or the app's Fork button) and `/family/` with every family; `catalog.json` carries `maintainer`,
+  `forked_from`, `forks` and `forkable` (`repo`, `app`, or empty for a game with its own client) for the app.
+
+The fork tool and its checks live in RedEngine (`docs/GAMES_PUBLISHING.md`, "Forking a game"; ADR 2026-10-20-a-fork-is-a-game-of-its-own-that-names-the-version-it).
+
 ## Code signing and SmartScreen
 
 Windows SmartScreen warns about any installer that is not signed with a certificate it trusts; there is no way around that from the build side. The workflow signs the engine, the launcher and every installer when the repository has two secrets, and does nothing (the files stay unsigned) when it does not:

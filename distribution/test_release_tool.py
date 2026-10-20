@@ -119,6 +119,16 @@ class Content(unittest.TestCase):
         self.assertEqual(history["a"][0]["notes"], ["Fix the door"])
         self.assertIn("- Fix the door", rt.release_body(meta))
 
+    def test_a_forks_parent_and_its_maintainer_are_recorded_in_every_release(self):
+        fork = {"slug": "neon-snake", "name": "Neon Snake", "files": ["games/neon-snake"], "arguments": [], "maintainer": "meastwood13",
+                "forked_from": {"slug": "snake", "version": 3}}
+        self.assertEqual(rt.family_fields(fork), {"maintainer": "meastwood13", "forked_from": {"slug": "snake", "version": 3}})
+        self.assertEqual(rt.family_fields(PLAYABLES[0]), {}, "an original's record is unchanged")
+        meta = {"slug": "neon-snake", "name": "Neon Snake", "version": 1, "notes": [], "engine_revision": "e" * 40, "installer": {"name": "i"},
+                "zip": {"name": "z"}, "content_hash": "h", "repo_commit": "c", **rt.family_fields(fork)}
+        history = rt.release_history([{"tag_name": "neon-snake-v1", "body": rt.release_body(meta)}])
+        self.assertEqual(history["neon-snake"][0]["forked_from"], {"slug": "snake", "version": 3})
+
     def test_a_2d_game_is_staged_with_the_2d_player_and_a_3d_game_with_the_3d_client(self):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)

@@ -3,6 +3,14 @@
 Each version's "- " lines become its release notes and the text of the update banner in the app. Bump `version` in `Cargo.toml` and add a section
 here to publish a new version (`.github/workflows/launcher.yml`).
 
+## 0.5.0
+
+- Game families: a game's page shows which game it was forked from and which games were forked from it, and you can jump between them.
+- **Fork…** on any game makes your own copy of the version you have installed, in your Forks folder, with a `FORK.md` that says how to change it (by hand or with an AI). Drop the folder back on the window to try it, or publish it as a game of your own: the site and the app show it in the original's family.
+- The Fork window also has the prompt to give Claude Code in a RedEngine checkout, to fork a game from its source so it becomes part of RedEngine itself.
+- Engine notes can be sent signed: with a publishing token saved, a note goes to GitHub as an issue under your name, so the maintainers know who sent it and you hear when it is fixed.
+- Publishing works for every maintainer, not only the site's owner: the setup window says which kind of GitHub token a collaborator needs.
+
 ## 0.4.0
 
 - Downloads are now part of Library: games that are downloading or waiting show at the top of Library, and the Library tab says how many. The separate Downloads tab is gone.

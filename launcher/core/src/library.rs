@@ -218,6 +218,10 @@ mod tests {
                 .collect(),
             uploaded: false,
             wiki: None,
+            maintainer: String::new(),
+            forked_from: None,
+            forks: vec![],
+            forkable: "repo".into(),
         }
     }
 
