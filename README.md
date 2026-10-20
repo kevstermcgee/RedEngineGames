@@ -8,6 +8,10 @@ each game has an installer (no administrator rights, optional desktop shortcut),
 released, keeps its saves in `Saved Games`, and every older version stays downloadable. How it works, and code signing:
 [docs/DISTRIBUTION.md](docs/DISTRIBUTION.md).
 
+Making, updating and forking games, and where feedback goes, is one loop shared by RedEngine's two maintainers:
+[RedEngine docs/COLLABORATING.md](https://github.com/kevstermcgee/RedEngine/blob/main/docs/COLLABORATING.md). Every game page on the site shows its
+**family** (what it was forked from, its forks), and `/family/` shows them all.
+
 - `games/` contains playable game scenes.
 - `projects/` contains standalone game projects that pin a sibling RedEngine checkout.
 - `prototypes/` contains data-driven recipes and their reference views.

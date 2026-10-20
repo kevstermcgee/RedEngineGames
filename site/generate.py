@@ -679,7 +679,9 @@ def feedback_page() -> str:
   <p><a href="../">&larr; all games</a></p>
   <h2>Engine feedback</h2>
   <p>Notes about <strong>RedEngine</strong> itself rather than one game: how its games feel to play, what the engine could do better, tips for the people
-    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}'''
+    building it, a bug you keep meeting in several games. Every note is read. (To review a single game, use the form on its page.)</p>{form}
+  <p class="fine">With a GitHub account you can also <a href="https://github.com/kevstermcgee/RedEngine/issues/new?title=Engine%20note%3A%20">open an issue</a>:
+    it is signed with your name, and you hear on it when it is fixed. Maintainers can send signed notes from the app's Engine feedback tab.</p>'''
     return shell("Engine feedback — RedEngineGames", "Tips, ideas and bugs for the RedEngine game engine.", body, 1)
 
 
