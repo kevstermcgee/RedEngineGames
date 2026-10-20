@@ -1,0 +1,1483 @@
+{
+  "about": "What a reader of the game card must find in each fixture; written by build_fixtures.py (docs/GAME_METADATA.md).",
+  "fixtures": {
+    "both.exe": {
+      "card": {
+        "description": "Version comment.",
+        "name": "Record Name",
+        "presentation": "2d"
+      },
+      "from": {
+        "description": "program",
+        "name": "exe",
+        "presentation": "exe"
+      }
+    },
+    "folder-bat-header": {
+      "card": {
+        "author": "ai",
+        "description": "A tiny text adventure about a lost key.",
+        "name": "Text Quest",
+        "notes": [
+          "First release."
+        ],
+        "presentation": "2d"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat",
+        "notes": "bat",
+        "presentation": "bat"
+      }
+    },
+    "folder-card": {
+      "card": {
+        "args": [
+          "--fast",
+          "level 2"
+        ],
+        "author": "human",
+        "description": "Mine asteroids, dodge pirates.",
+        "entry": "Quest.bat",
+        "forked_from": {
+          "slug": "snake",
+          "version": 3
+        },
+        "name": "Star Miner",
+        "notes": [
+          "First release.",
+          "Fixed the save bug."
+        ],
+        "online": "Up to four players on one LAN.",
+        "presentation": "3d",
+        "thumb": "media/shot.png"
+      },
+      "from": {
+        "args": "card",
+        "author": "card",
+        "description": "card",
+        "entry": "card",
+        "forked_from": "card",
+        "name": "card",
+        "notes": "card",
+        "online": "card",
+        "presentation": "card",
+        "thumb": "card"
+      }
+    },
+    "folder-card-16k-exact": {
+      "card": {
+        "name": "Exactly sixteen KiB"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "folder-card-16k-over": {
+      "card": {},
+      "from": {}
+    },
+    "folder-card-beats-bat": {
+      "card": {
+        "author": "ai",
+        "description": "From the bat.",
+        "name": "Card Name",
+        "presentation": "2d"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "card",
+        "presentation": "card"
+      }
+    },
+    "folder-card-big-numbers": {
+      "card": {
+        "name": "Big numbers"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "folder-card-bom": {
+      "card": {
+        "name": "With a byte order mark"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "folder-card-entry": {
+      "card": {
+        "author": "ai",
+        "description": "Beta's description.",
+        "entry": "B.bat",
+        "name": "Beta"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "entry": "card",
+        "name": "bat"
+      }
+    },
+    "folder-depth-two": {
+      "card": {
+        "name": "Deep Game"
+      },
+      "from": {
+        "name": "bat"
+      }
+    },
+    "folder-dot-bat": {
+      "card": {
+        "name": "Dot Bat"
+      },
+      "from": {
+        "name": "bat"
+      }
+    },
+    "folder-engine-name": {
+      "card": {
+        "author": "ai",
+        "description": "Beta's description.",
+        "name": "Beta"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-engine-name-1024": {
+      "card": {
+        "author": "ai",
+        "description": "Beta's description.",
+        "name": "Beta"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-engine-name-1025": {
+      "card": {
+        "author": "ai",
+        "description": "Alpha's description.",
+        "name": "Alpha"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-engine-name-beats-entry": {
+      "card": {
+        "description": "Alpha's description.",
+        "entry": "B.bat",
+        "name": "Alpha"
+      },
+      "from": {
+        "description": "bat",
+        "entry": "card",
+        "name": "bat"
+      }
+    },
+    "folder-engine-name-unicode-space": {
+      "card": {
+        "author": "ai",
+        "description": "Beta's description.",
+        "name": "Beta"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-fork-ignores-parents-program": {
+      "card": {
+        "forked_from": {
+          "slug": "snake",
+          "version": 3
+        },
+        "name": "My Fork",
+        "presentation": "3d"
+      },
+      "from": {
+        "forked_from": "card",
+        "name": "card",
+        "presentation": "exe"
+      }
+    },
+    "folder-fork-ignores-parents-script": {
+      "card": {
+        "forked_from": {
+          "slug": "snake",
+          "version": 3
+        },
+        "name": "My Fork",
+        "presentation": "2d"
+      },
+      "from": {
+        "forked_from": "card",
+        "name": "card",
+        "presentation": "card"
+      }
+    },
+    "folder-forked-slug-64": {
+      "card": {
+        "forked_from": {
+          "slug": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "version": 1
+        },
+        "name": "Long Slug"
+      },
+      "from": {
+        "forked_from": "card",
+        "name": "card"
+      }
+    },
+    "folder-json-depth-127": {
+      "card": {
+        "name": "Nested"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "folder-kind-synonym": {
+      "card": {
+        "name": "Synonym",
+        "presentation": "hybrid"
+      },
+      "from": {
+        "name": "card",
+        "presentation": "card"
+      }
+    },
+    "folder-nested-top": {
+      "card": {
+        "name": "Star Miner"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "folder-no-card": {
+      "card": {},
+      "from": {}
+    },
+    "folder-online-words": {
+      "card": {
+        "name": "Online",
+        "online": "Co-op: 2-4 players on one LAN (ping 30ms, 16:9 screens, v1.2.3)."
+      },
+      "from": {
+        "name": "card",
+        "online": "card"
+      }
+    },
+    "folder-stamped-exe": {
+      "card": {
+        "author": "ai",
+        "description": "A game with a record in its program.",
+        "name": "Stamped Quest",
+        "notes": [
+          "Built with the tool."
+        ],
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "exe",
+        "description": "exe",
+        "name": "exe",
+        "notes": "exe",
+        "presentation": "exe"
+      }
+    },
+    "folder-two-candidates": {
+      "card": {
+        "author": "ai",
+        "description": "Alpha's description.",
+        "name": "Alpha"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-unicode-setup-name": {
+      "card": {
+        "description": "Zed's description.",
+        "name": "Long S"
+      },
+      "from": {
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "folder-version-info": {
+      "card": {
+        "description": "A game that only has version information.",
+        "name": "Version Quest"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "header-after-64.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-ascii-space.bat": {
+      "card": {
+        "name": "Vt Quest"
+      },
+      "from": {
+        "name": "bat"
+      }
+    },
+    "header-atrem-lf.bat": {
+      "card": {
+        "author": "human",
+        "name": "Colonel Mustard's Quest",
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "bat",
+        "name": "bat",
+        "presentation": "bat"
+      }
+    },
+    "header-cmd.cmd": {
+      "card": {
+        "author": "human",
+        "name": "A Cmd Game"
+      },
+      "from": {
+        "author": "bat",
+        "name": "bat"
+      }
+    },
+    "header-colons-bom.bat": {
+      "card": {
+        "description": "Uses double colons.",
+        "name": "Colons Quest",
+        "presentation": "hybrid"
+      },
+      "from": {
+        "description": "bat",
+        "name": "bat",
+        "presentation": "bat"
+      }
+    },
+    "header-cr-only.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-cut-at-64.bat": {
+      "card": {
+        "author": "ai",
+        "description": "Line 62",
+        "name": "Line 61",
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat",
+        "presentation": "bat"
+      }
+    },
+    "header-ended-by-code.bat": {
+      "card": {
+        "name": "Before"
+      },
+      "from": {
+        "name": "bat"
+      }
+    },
+    "header-hostile.bat": {
+      "card": {
+        "args": [
+          "a01",
+          "a02",
+          "a03",
+          "a04",
+          "a05",
+          "a06",
+          "a07",
+          "a08",
+          "a09",
+          "a10",
+          "a11",
+          "a12",
+          "a13",
+          "a14",
+          "a15",
+          "a16"
+        ],
+        "author": "ai",
+        "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "Caf\ufffd (latin-1 byte)",
+        "notes": [
+          "n01",
+          "n02",
+          "n03",
+          "n04",
+          "n05",
+          "n06",
+          "n07",
+          "n08",
+          "n09",
+          "n10"
+        ],
+        "online": "bell here"
+      },
+      "from": {
+        "args": "bat",
+        "author": "bat",
+        "description": "bat",
+        "name": "bat",
+        "notes": "bat",
+        "online": "bat"
+      }
+    },
+    "header-key-unicode-space.bat": {
+      "card": {
+        "description": "Yes"
+      },
+      "from": {
+        "description": "bat"
+      }
+    },
+    "header-lf-cr.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-rem-crlf.bat": {
+      "card": {
+        "args": [
+          "--fast",
+          "level 2"
+        ],
+        "author": "ai",
+        "description": "A tiny text adventure about a lost key.",
+        "entry": "header-rem-crlf.bat",
+        "name": "Text Quest",
+        "notes": [
+          "First release.",
+          "Added a second key."
+        ],
+        "online": "Two players, same room.",
+        "presentation": "2d"
+      },
+      "from": {
+        "args": "bat",
+        "author": "bat",
+        "description": "bat",
+        "entry": "bat",
+        "name": "bat",
+        "notes": "bat",
+        "online": "bat",
+        "presentation": "bat"
+      }
+    },
+    "header-rem-nbsp.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-rem-vt.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-remark-not-a-marker.bat": {
+      "card": {},
+      "from": {}
+    },
+    "header-tag-unicode-space.bat": {
+      "card": {},
+      "from": {}
+    },
+    "headers-only.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-bad-json": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-control-bidi": {
+      "card": {
+        "description": "Line one. Line two end. Done",
+        "name": "Star Miner",
+        "online": "\u200bkeep zero width"
+      },
+      "from": {
+        "description": "card",
+        "name": "card",
+        "online": "card"
+      }
+    },
+    "hostile-deep-json": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-engine-name-escape/game": {
+      "card": {
+        "name": "Inside"
+      },
+      "from": {
+        "name": "bat"
+      }
+    },
+    "hostile-engine-name-separator-controls": {
+      "card": {
+        "author": "ai",
+        "description": "Alpha's description.",
+        "name": "Alpha"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "hostile-entry-absolute": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-backslash": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-directory": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-dotdot-inner": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-dotdot/game": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-drive-abs": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-drive-rel": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-missing": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-entry-not-runnable": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-forked-bool": {
+      "card": {
+        "name": "Fork"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-forked-float": {
+      "card": {
+        "name": "Fork"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-forked-slug": {
+      "card": {
+        "name": "Fork"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-forked-slug-65": {
+      "card": {
+        "name": "Long Slug"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-forked-version": {
+      "card": {
+        "name": "Fork"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-json-array": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-json-depth-128": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-lone-surrogate": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-long-fields": {
+      "card": {
+        "args": [
+          "arg00xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg01xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg02xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg03xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg04xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg05xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg06xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg07xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg08xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg09xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg10xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg11xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg12xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg13xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg14xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "arg15xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ],
+        "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "name": "012345678901234567890123456789012345678901234567890123456789",
+        "notes": [
+          "note00yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note01yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note02yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note03yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note04yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note05yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note06yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note07yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note08yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "note09yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+        ],
+        "online": "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+      },
+      "from": {
+        "args": "card",
+        "description": "card",
+        "name": "card",
+        "notes": "card",
+        "online": "card"
+      }
+    },
+    "hostile-nan": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-not-utf8": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-number-1.8e308": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-number-1e999999": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-number-310-digits": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-number-minus-1e999999": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-online-domain": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-online-ipv4": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-online-ipv6": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-online-key": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-online-port": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-online-url": {
+      "card": {
+        "description": "Words.",
+        "name": "Online"
+      },
+      "from": {
+        "description": "card",
+        "name": "card"
+      }
+    },
+    "hostile-pe-headers-past-end.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-lfanew-small.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-lfanew.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-optional-100.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-optional-63.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-optional-size.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-pe-sections.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-bad-rva.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-extra-level.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-loop.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-name-flag-missing.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-named-count-lies.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-names-count-lies.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-names-count-over-cap.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-names-count-past-resources.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-no-language.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-size.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-top-count-fits-not.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-top-count-over-cap.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-top-count-short.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-type-flag-missing.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-rsrc-type-is-data.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-thumb-absolute": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-thumb-backslash": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-thumb-escape/game": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-thumb-missing": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-thumb-not-picture": {
+      "card": {
+        "name": "Hostile"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "hostile-version-odd-value.exe": {
+      "card": {
+        "description": "After it.",
+        "name": "Odd Name"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "hostile-version-overrun.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-version-zero-length.exe": {
+      "card": {},
+      "from": {}
+    },
+    "hostile-wrong-types": {
+      "card": {
+        "description": "Only this survives."
+      },
+      "from": {
+        "description": "card"
+      }
+    },
+    "lying-record-huge.exe": {
+      "card": {},
+      "from": {}
+    },
+    "lying-record-length.exe": {
+      "card": {},
+      "from": {}
+    },
+    "not-a-program.exe": {
+      "card": {},
+      "from": {}
+    },
+    "overlay-with-record.exe": {
+      "card": {
+        "name": "Overlay Record"
+      },
+      "from": {
+        "name": "exe"
+      }
+    },
+    "overlay.exe": {
+      "card": {},
+      "from": {}
+    },
+    "plain.bat": {
+      "card": {},
+      "from": {}
+    },
+    "plain.exe": {
+      "card": {},
+      "from": {}
+    },
+    "record-array.exe": {
+      "card": {},
+      "from": {}
+    },
+    "record-empty.exe": {
+      "card": {},
+      "from": {}
+    },
+    "record-not-json.exe": {
+      "card": {},
+      "from": {}
+    },
+    "signed-address-only.exe": {
+      "card": {},
+      "from": {}
+    },
+    "signed-after-record-padded.exe": {
+      "card": {
+        "name": "Signed After"
+      },
+      "from": {
+        "name": "exe"
+      }
+    },
+    "signed-after-record.exe": {
+      "card": {
+        "name": "Signed Afterxxxxx"
+      },
+      "from": {
+        "name": "exe"
+      }
+    },
+    "signed.exe": {
+      "card": {},
+      "from": {}
+    },
+    "stamped.exe": {
+      "card": {
+        "author": "ai",
+        "description": "A game with a record in its program.",
+        "name": "Stamped Quest",
+        "notes": [
+          "Built with the tool."
+        ],
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "exe",
+        "description": "exe",
+        "name": "exe",
+        "notes": "exe",
+        "presentation": "exe"
+      }
+    },
+    "symbols-lying-string-table.exe": {
+      "card": {},
+      "from": {}
+    },
+    "symbols-out-of-file.exe": {
+      "card": {},
+      "from": {}
+    },
+    "tiny.exe": {
+      "card": {},
+      "from": {}
+    },
+    "truncated.exe": {
+      "card": {},
+      "from": {}
+    },
+    "unstripped-stamped.exe": {
+      "card": {
+        "author": "ai",
+        "description": "A game with a record in its program.",
+        "name": "Stamped Quest",
+        "notes": [
+          "Built with the tool."
+        ],
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "exe",
+        "description": "exe",
+        "name": "exe",
+        "notes": "exe",
+        "presentation": "exe"
+      }
+    },
+    "unstripped-then-overlay.exe": {
+      "card": {},
+      "from": {}
+    },
+    "unstripped.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-duplicate-key.exe": {
+      "card": {
+        "description": "One",
+        "name": "First"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "versioned-empty.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-junk.exe": {
+      "card": {
+        "description": "Cool Little Game"
+      },
+      "from": {
+        "description": "program"
+      }
+    },
+    "versioned-long-key-64.exe": {
+      "card": {
+        "name": "After"
+      },
+      "from": {
+        "name": "program"
+      }
+    },
+    "versioned-long-key-65.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-long-name-cut.exe": {
+      "card": {
+        "description": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "versioned-long-name.exe": {
+      "card": {
+        "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "from": {
+        "name": "program"
+      }
+    },
+    "versioned-named-types.exe": {
+      "card": {
+        "description": "A game that only has version information.",
+        "name": "Version Quest"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "versioned-names-count-at-cap.exe": {
+      "card": {
+        "description": "A game that only has version information.",
+        "name": "Version Quest"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "versioned-same.exe": {
+      "card": {
+        "name": "Same Name"
+      },
+      "from": {
+        "name": "program"
+      }
+    },
+    "versioned-two-tables.exe": {
+      "card": {
+        "description": "First Table Wins"
+      },
+      "from": {
+        "description": "program"
+      }
+    },
+    "versioned.exe": {
+      "card": {
+        "description": "A game that only has version information.",
+        "name": "Version Quest"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "versioned32.exe": {
+      "card": {
+        "description": "A 32-bit program with a description.",
+        "name": "Thirty Two"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    },
+    "zip-backslash-names.zip": {
+      "card": {
+        "entry": "bin/Game.bat",
+        "name": "Backslash Quest"
+      },
+      "from": {
+        "entry": "card",
+        "name": "card"
+      }
+    },
+    "zip-backslash-unsafe.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-bat-header.zip": {
+      "card": {
+        "author": "ai",
+        "description": "A tiny text adventure about a lost key.",
+        "name": "Text Quest",
+        "notes": [
+          "First release."
+        ],
+        "presentation": "2d"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat",
+        "notes": "bat",
+        "presentation": "bat"
+      }
+    },
+    "zip-bzip2-member.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-card-and-comment.zip": {
+      "card": {
+        "author": "ai",
+        "description": "From the comment.",
+        "name": "File Name",
+        "presentation": "2d"
+      },
+      "from": {
+        "author": "zip",
+        "description": "zip",
+        "name": "card",
+        "presentation": "card"
+      }
+    },
+    "zip-card-declares-2-gib.zip": {
+      "card": {
+        "name": "Declared Big"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-comment-garbage.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-comment-only.zip": {
+      "card": {
+        "description": "Only the ZIP comment says this.",
+        "name": "Comment Quest",
+        "presentation": "hybrid"
+      },
+      "from": {
+        "description": "zip",
+        "name": "zip",
+        "presentation": "zip"
+      }
+    },
+    "zip-comment-over-16k.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-comment-vt.zip": {
+      "card": {
+        "description": "Whatever the white space.",
+        "name": "Vertical Tab"
+      },
+      "from": {
+        "description": "zip",
+        "name": "zip"
+      }
+    },
+    "zip-deep-chain.zip": {
+      "card": {
+        "name": "Deep Chain"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-device-name.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-dot-members.zip": {
+      "card": {
+        "description": "From the bat.",
+        "name": "Dot Card"
+      },
+      "from": {
+        "description": "bat",
+        "name": "card"
+      }
+    },
+    "zip-engine-name.zip": {
+      "card": {
+        "author": "ai",
+        "description": "Beta's description.",
+        "name": "Beta"
+      },
+      "from": {
+        "author": "bat",
+        "description": "bat",
+        "name": "bat"
+      }
+    },
+    "zip-fork-comment-only.zip": {
+      "card": {
+        "forked_from": {
+          "slug": "snake",
+          "version": 3
+        },
+        "name": "My Fork",
+        "presentation": "3d"
+      },
+      "from": {
+        "forked_from": "zip",
+        "name": "zip",
+        "presentation": "bat"
+      }
+    },
+    "zip-fork-description-from-comment.zip": {
+      "card": {
+        "description": "Its own words.",
+        "forked_from": {
+          "slug": "snake",
+          "version": 3
+        },
+        "name": "My Fork",
+        "presentation": "3d"
+      },
+      "from": {
+        "description": "zip",
+        "forked_from": "card",
+        "name": "card",
+        "presentation": "bat"
+      }
+    },
+    "zip-link-beside-folder.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-macosx.zip": {
+      "card": {
+        "name": "From a Mac"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-name-deepest-allowed.zip": {
+      "card": {
+        "name": "Deepest"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-name-too-deep.zip": {
+      "card": {
+        "name": "Deep Names"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-name-too-long.zip": {
+      "card": {
+        "name": "Deep Names"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-nested-top.zip": {
+      "card": {
+        "name": "Deep Down"
+      },
+      "from": {
+        "name": "card"
+      }
+    },
+    "zip-no-card.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-nul-name.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-stamped-exe.zip": {
+      "card": {
+        "author": "ai",
+        "description": "A game with a record in its program.",
+        "name": "Stamped Quest",
+        "notes": [
+          "Built with the tool."
+        ],
+        "presentation": "3d"
+      },
+      "from": {
+        "author": "exe",
+        "description": "exe",
+        "name": "exe",
+        "notes": "exe",
+        "presentation": "exe"
+      }
+    },
+    "zip-symlink-card.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-top-folder.zip": {
+      "card": {
+        "description": "Mine asteroids, dodge pirates.",
+        "entry": "StarMiner.exe",
+        "name": "Star Miner",
+        "thumb": "shots/one.png"
+      },
+      "from": {
+        "description": "card",
+        "entry": "card",
+        "name": "card",
+        "thumb": "card"
+      }
+    },
+    "zip-two-top-items.zip": {
+      "card": {
+        "description": "Down one folder.",
+        "name": "Root Card"
+      },
+      "from": {
+        "description": "bat",
+        "name": "card"
+      }
+    },
+    "zip-unsafe-names.zip": {
+      "card": {},
+      "from": {}
+    },
+    "zip-versioned-exe.zip": {
+      "card": {
+        "description": "A game that only has version information.",
+        "name": "Version Quest"
+      },
+      "from": {
+        "description": "program",
+        "name": "program"
+      }
+    }
+  },
+  "stamp_refused": [
+    "hostile-pe-headers-past-end.exe",
+    "hostile-pe-lfanew-small.exe",
+    "hostile-pe-lfanew.exe",
+    "hostile-pe-optional-100.exe",
+    "hostile-pe-optional-63.exe",
+    "hostile-pe-optional-size.exe",
+    "hostile-pe-sections.exe",
+    "lying-record-huge.exe",
+    "lying-record-length.exe",
+    "not-a-program.exe",
+    "overlay-with-record.exe",
+    "overlay.exe",
+    "signed-address-only.exe",
+    "signed-after-record-padded.exe",
+    "signed-after-record.exe",
+    "signed.exe",
+    "symbols-lying-string-table.exe",
+    "tiny.exe",
+    "truncated.exe",
+    "unstripped-then-overlay.exe"
+  ]
+}

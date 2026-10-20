@@ -1,0 +1,20 @@
+{
+  "schema": "one",
+  "name": 42,
+  "description": "Only this survives.",
+  "presentation": "4d",
+  "author": "robot",
+  "online": {
+    "a": 1
+  },
+  "entry": 7,
+  "args": "--fast",
+  "thumb": [
+    "a.png"
+  ],
+  "notes": [
+    1,
+    2
+  ],
+  "forked_from": "snake@3"
+}
