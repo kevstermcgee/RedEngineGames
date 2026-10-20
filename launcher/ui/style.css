@@ -29,6 +29,10 @@ img { color: transparent; }
 .icon { background: none; border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1; padding: 6px 8px; border-radius: 6px; color: var(--muted); }
 .icon:hover { background: var(--card); color: var(--text); }
 .icon.spin { animation: spin 1s linear infinite; }
+.btn.refresh { padding: 6px 12px; font-size: .85rem; }
+.btn.refresh .ico { display: inline-block; font-size: 1.05rem; line-height: 1; }
+.btn.refresh.spin { pointer-events: none; opacity: .8; }
+.btn.refresh.spin .ico { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Banners */
@@ -277,7 +281,7 @@ dialog#drop, dialog#pub { max-width: 560px; width: calc(100% - 40px); }
 .drop-form menu, #pub menu { margin-top: 6px; }
 #pub ol { margin: 8px 0; padding-left: 20px; }
 .badge.local { border-color: var(--good); color: var(--good); }
-.drop-hint { color: var(--muted); font-size: .88rem; margin: 6px 0 0; }
+.drop-hint { color: var(--muted); font-size: .88rem; margin: 6px 0 14px; }
 
 /* Engine feedback */
 .feedback { max-width: 860px; }
@@ -295,3 +299,5 @@ dialog#drop, dialog#pub { max-width: 560px; width: calc(100% - 40px); }
 .note .kind.bug { background: var(--bad); }
 .note .kind.idea { background: #9CC8FF; }
 .note .kind.other { background: var(--muted); }
+.btn.refresh { gap: 6px; }
+@media (max-width: 1000px) { .btn.refresh .label { display: none; } }

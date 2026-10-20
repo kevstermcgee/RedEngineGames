@@ -897,10 +897,20 @@ document.addEventListener("error", (e) => { if (e.target.tagName === "IMG") e.ta
 // No browser context menu or text-selection look on the chrome, like any desktop app.
 document.addEventListener("contextmenu", (e) => { if (!e.target.closest("input, textarea, blockquote, .wiki p, .wiki li")) e.preventDefault(); });
 
+/** Check the site again (the button, F5, or "Try again") and say what changed: new games, updates ready, or nothing. */
 async function refresh() {
+  if ($("#refresh").classList.contains("spin")) return;
+  const before = new Set(S.games.map((g) => g.slug));
   await load(true);
   paintAll();
   checkUpdate();
+  if (S.offline) return toast("Can't reach the RedEngine Games site right now; try again in a moment.", "error");
+  const fresh = S.games.filter((g) => !before.has(g.slug) && !g.local);
+  const ups = updatable().length;
+  const parts = [];
+  if (fresh.length) parts.push(fresh.length === 1 ? `New game: ${fresh[0].name}` : `${fresh.length} new games: ${fresh.slice(0, 3).map((g) => g.name).join(", ")}${fresh.length > 3 ? "…" : ""}`);
+  if (ups) parts.push(`${plural(ups, "update")} ready in Library`);
+  toast(parts.length ? parts.join(" · ") : `Up to date: no new games (${plural(S.games.filter((g) => !g.retired && !g.local).length, "game")} on the site).`);
 }
 
 // ---------- a game of the player's own: drop it on the window to add it to this PC's library, or publish it for everyone

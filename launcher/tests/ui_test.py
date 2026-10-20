@@ -403,6 +403,18 @@ with sync_playwright() as p:
     check(not errors, f"no script errors {errors[:3]}")
     page.close()
 
+    # The refresh button checks the site again and says what it found.
+    page, errors = boot()
+    page.click("#refresh")
+    expect(page.locator(".toast").last).to_contain_text("Up to date")
+    check(page.evaluate("window.__CALLS__.filter(c => c[0] === 'overview' && c[1].refresh).length") == 1, "the button fetches the catalog again")
+    page.evaluate("window.__MOCK__.catalog.games.unshift({...window.__MOCK__.catalog.games[0], slug: 'brand-new', name: 'Brand New'})")
+    page.click("#refresh")
+    expect(page.locator(".toast").last).to_contain_text("New game: Brand New")
+    check(card(page, {"slug": "brand-new"}).count() == 1, "the new game appears without restarting")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
     # Offline: the last catalog with a notice, or a clear message on a first run.
     page, errors = boot(offline=True)
     expect(page.locator(".banner.offline")).to_contain_text("Can't reach the RedEngine Games site")
