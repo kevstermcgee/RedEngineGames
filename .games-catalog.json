@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 126,
+    "demos": 128,
     "games": 44,
     "prototypes": 14,
     "tests": 29
@@ -29,6 +29,14 @@
     {
       "path": "demos/examples/2d/gate-meadow.game2d.json",
       "sha256": "71e6ee6c6259cb959c189ad6f9edee88c728fec85c900c9fbbc6585deb6ccce9"
+    },
+    {
+      "path": "demos/examples/2d/glass-bridge.game2d.json",
+      "sha256": "3018a8b43532493fc5b0d483128c3960d39ab75d57e234689cd65333d37d5237"
+    },
+    {
+      "path": "demos/examples/2d/glass-bridge/build.py",
+      "sha256": "57b0b31935f8221b3c96d297e36bcc66c0c2503d24424fa9cb04b30d8b5ebc8e"
     },
     {
       "path": "demos/examples/2d/hollow-weather.game2d.json",
@@ -1137,6 +1145,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "3b6d531600af4e21f64cf729e1d763f58a9b0591",
+  "source_revision": "1cd53b8338555a44c1d3ffcd2b8b4a044f632d14",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
