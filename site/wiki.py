@@ -1,6 +1,7 @@
 """The per-game wiki: what a game is, its rules, story, characters and pictures, and why it exists.
 
-A game's page is data: `site/wiki/<slug>/wiki.json` plus the PNGs it names beside it. `problems()` is the rule every page must meet; `site/generate.py` fails the build on a
+A game's page is data: `site/wiki/<slug>/wiki.json` plus the PNGs it names beside it. A page whose RedEngine playable names a `page` folder is published from there
+(with `thumb.png` as `site/thumbs/<slug>.png`) by RedEngine's content sync, which checks it against these rules first: edit it in RedEngine, not here. `problems()` is the rule every page must meet; `site/generate.py` fails the build on a
 page that breaks it, and on a game that has no page and is not on `site/wiki-pending.json` (the games that predate the wiki: remove a slug from that list when its page lands).
 
 wiki.json:

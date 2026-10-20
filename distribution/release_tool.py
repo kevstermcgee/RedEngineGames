@@ -169,22 +169,32 @@ def decide(playables: list[dict], hashes: dict[str, str], history: dict[str, lis
     return todo
 
 
+SYNC_SUBJECT = "Sync RedEngine content"
+
+
 def change_notes(repo: Path, playable: dict, previous_commit: str | None) -> list[str]:
-    """Subjects of the commits that touched the game since its last release (the automatic content syncs say nothing, so they are left out)."""
+    """What changed in the game since its last release: the subjects of the commits here that touched it and, for an automatic content sync, the lines of
+    its message that name the game (`<slug>: <subject>`, one per RedEngine commit that changed it: RedEngine's publish-games workflow writes them), oldest first."""
     if not previous_commit:
         return []
     try:
         out = subprocess.run(
-            ["git", "-C", str(repo), "log", "--format=%s", f"{previous_commit}..HEAD", "--", *playable["files"]], capture_output=True, text=True, check=True
+            ["git", "-C", str(repo), "log", "--reverse", "--format=%x1e%B", f"{previous_commit}..HEAD", "--", *playable["files"]], capture_output=True, text=True, check=True
         ).stdout
     except subprocess.CalledProcessError:
         return []
+    prefix = f"{playable['slug']}: "
     notes: list[str] = []
-    for line in out.splitlines():
-        line = line.strip()
-        if line and not line.startswith("Sync RedEngine content") and line not in notes:
-            notes.append(line)
-    return notes[:6]
+    for message in out.split("\x1e")[1:]:
+        lines = [line.strip() for line in message.strip().splitlines()]
+        if not lines:
+            continue
+        if lines[0].startswith(SYNC_SUBJECT):
+            found = [line[len(prefix):].strip() for line in lines[1:] if line.startswith(prefix)]
+        else:
+            found = [lines[0]]
+        notes += [n for n in found if n and n not in notes]
+    return notes[-6:]
 
 
 # ---- building ----------------------------------------------------------------------------------------------------------------------------
