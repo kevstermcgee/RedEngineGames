@@ -362,6 +362,32 @@
       "name": "Crooked Ferry",
       "files": ["projects/crooked-ferry"],
       "arguments": ["content/projects/crooked-ferry/crooked-ferry.json"]
+    },
+    {
+      "slug": "moth-harvest",
+      "name": "Moth Harvest",
+      "kind": "2d",
+      "files": ["projects/moth-harvest"],
+      "arguments": ["content/projects/moth-harvest/moth-harvest.game2d.json"]
+    },
+    {
+      "slug": "paper-foundry",
+      "name": "Paper Foundry",
+      "files": ["projects/paper-foundry"],
+      "arguments": ["content/projects/paper-foundry/paper-foundry.json"]
+    },
+    {
+      "slug": "glass-bridge",
+      "name": "Glass Bridge",
+      "kind": "2d",
+      "files": ["projects/glass-bridge"],
+      "arguments": ["content/projects/glass-bridge/glass-bridge.game2d.json"]
+    },
+    {
+      "slug": "drowsy-orchestra",
+      "name": "Drowsy Orchestra",
+      "files": ["projects/drowsy-orchestra"],
+      "arguments": ["content/projects/drowsy-orchestra/drowsy-orchestra.json"]
     }
   ],
   "native_playables": []

@@ -1,0 +1,72 @@
+{
+ "tagline": "Fire yourself like an arrow through glass strings and make them all ring at the same moment.",
+ "overview": "Glass Bridge is a puzzle about momentum and sound. A little robot launches itself in a straight line with the arrow keys and cannot stop until it hits a hedge. Every glass string it flies through rings for a few seconds, and each string has its own note. The trick is that the notes fade, so you must plan a short chain of shots that leaves every string ringing together, which makes a huge chord. Rounds are short, and starting over takes one key press.",
+ "story": "Everyone has left the park, but the robot gardener still tends it. Long ago, the visitors hung glass strings between the hedges to make music. The robot has never heard them play all together. Tonight it decides to fly through each one and make the loudest sound the park has ever made.",
+ "goal": "Win a level by making every string in the room ring at the same time; the final level's chord ends the game. There is no death: touching a red spark sends you back to the start and silences the strings, and R starts a level over.",
+ "rules": [
+  "Press an arrow key and the robot flies in that direction until a hedge stops it.",
+  "Each glass string you fly through rings for about nine seconds with its own note.",
+  "You win a level when every string in the room is ringing at once.",
+  "Red sparks send you back to the start and silence every string.",
+  "Fewer shots across the whole game gives you a better best score."
+ ],
+ "controls": [
+  {
+   "input": "Arrow keys",
+   "action": "Launch the robot in that direction"
+  },
+  {
+   "input": "R",
+   "action": "Start the level over"
+  }
+ ],
+ "characters": [
+  {
+   "name": "The robot gardener",
+   "role": "player",
+   "description": "A small tin gardener who flies like an arrow and cannot steer until it lands.",
+   "image": "c1.png"
+  },
+  {
+   "name": "Glass strings",
+   "role": "key object",
+   "description": "Strings of coloured glass that ring with a note when crossed and glow while they sing.",
+   "image": "c2.png"
+  },
+  {
+   "name": "Hedges",
+   "role": "wall",
+   "description": "Thick hedges that stop the robot and shape every route.",
+   "image": "c3.png"
+  },
+  {
+   "name": "Red sparks",
+   "role": "hazard",
+   "description": "Crackling sparks that send the robot home and silence the strings.",
+   "image": "c4.png"
+  }
+ ],
+ "tips": [
+  "Plan the whole route before the first shot: the strings only ring for a few seconds.",
+  "Work backwards from the last string to find where you must stop."
+ ],
+ "gallery": [
+  {
+   "caption": "The first level: one shot through three strings.",
+   "image": "g1.png"
+  },
+  {
+   "caption": "A string rings in a cloud of sparkles.",
+   "image": "g2.png"
+  },
+  {
+   "caption": "The last level has six strings and five sparks.",
+   "image": "g3.png"
+  },
+  {
+   "caption": "Five of six strings ringing while the fifth and last shot flies to the final one.",
+   "image": "g4.png"
+  }
+ ],
+ "why_made": "The card was about plucking strings to launch yourself, and that picture of flying like a plucked arrow was the part I liked. I kept it and the goal of the loudest sound, and turned them into one clear question: can you leave every string ringing at once? I dropped the light-bending and the haunting echoes because they were hard to explain and the engine cannot record earlier attempts. What remained is a small sliding puzzle that makes music."
+}
