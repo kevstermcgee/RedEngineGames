@@ -1,6 +1,6 @@
 {
   "collections": {
-    "demos": 128,
+    "demos": 133,
     "games": 44,
     "prototypes": 14,
     "tests": 29
@@ -189,6 +189,26 @@
     {
       "path": "demos/examples/3d/drowsy-marathon/lullaby.json",
       "sha256": "f960ac0ce26a4f5a28a64409440a243462861ce415d6abcfda2758f35f94722e"
+    },
+    {
+      "path": "demos/examples/3d/drowsy-orchestra/audio/bell.json",
+      "sha256": "32dc99ad2d7ac81eb19d66e45e85e523981c5ae6abc94fb80eb80b293ade5048"
+    },
+    {
+      "path": "demos/examples/3d/drowsy-orchestra/audio/tick.json",
+      "sha256": "51e79ffb4a6dfcf2ee8bd4ba1742a8c47dc5f8dbc63da4f577e952c4e6a8ccfb"
+    },
+    {
+      "path": "demos/examples/3d/drowsy-orchestra/build.py",
+      "sha256": "952efa648f60cdc500481fe2048d1d1869a6799723421beb746ba5f25cab40c6"
+    },
+    {
+      "path": "demos/examples/3d/drowsy-orchestra/drowsy-orchestra.json",
+      "sha256": "8179640bb3f7a5accb0f4a4e1c5e77a68f5f534d6d98d4340a3caeb590617b07"
+    },
+    {
+      "path": "demos/examples/3d/drowsy-orchestra/playtest.json",
+      "sha256": "9d498cd66c1adee07edf1c3cbfb592c44d51921b743477c0f045fba267bad8ce"
     },
     {
       "path": "demos/examples/3d/gentle-carousel/audio/night.json",
@@ -1145,6 +1165,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "1cd53b8338555a44c1d3ffcd2b8b4a044f632d14",
+  "source_revision": "bead28f4811da9d594f56d82ecc4cd89b2769655",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
