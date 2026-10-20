@@ -435,6 +435,16 @@ def _link(st: os.stat_result) -> bool:
     return stat.S_ISLNK(st.st_mode) or bool(getattr(st, "st_file_attributes", 0) & 0x400)
 
 
+def _named_exactly(path: Path) -> bool:
+    """Whether `path` is in its folder by exactly that name. A Windows disk finds `Quest.bat` when asked for `Quest.BAT`, and a ZIP read in place does
+    not: a name in a card counts only as it is written, so every reader on every disk finds the same files (as `meta::named_exactly` in the app)."""
+    try:
+        with os.scandir(path.parent) as it:
+            return any(e.name == path.name for e in it)
+    except OSError:
+        return False
+
+
 class _Disk:
     """A file read at offsets."""
 
@@ -538,7 +548,7 @@ class _Dir:
             for part in rel.split("/"):
                 p = p / part
                 st = os.lstat(p)
-                if _link(st):
+                if _link(st) or not _named_exactly(p):
                     return False
             return stat.S_ISREG(st.st_mode) and (max_size is None or st.st_size <= max_size)
         except (OSError, ValueError):

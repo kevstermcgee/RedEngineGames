@@ -747,6 +747,25 @@ class Files(Scratch):
         (root / "engine.name").write_bytes(b"A.bat" + b" " * 2000)
         self.assertEqual(gm.read(root)["card"], {"name": "G"}, "an engine.name of more than a kilobyte is not read")
 
+    def test_a_name_counts_only_in_the_case_it_is_written_on_a_disk_that_ignores_case(self):
+        # A Windows disk answers for `Quest.BAT` with `Quest.bat`; a ZIP read in place does not. Every reader finds the same files: names as written.
+        root = self.folder({"Quest.bat": "@echo off\n", "bin/Game.exe": b"MZ", "shot.png": b"png", gm.CARD_FILE: "{}"})
+        real = os.lstat
+
+        def any_case(path, *args, **kwargs):  # what a disk that ignores case answers
+            path = Path(path)
+            with os.scandir(path.parent) as it:
+                same = next((e.name for e in it if e.name.lower() == path.name.lower()), path.name)
+            return real(path.parent / same, *args, **kwargs)
+
+        with mock.patch.object(gm.os, "lstat", any_case):
+            game = gm._Dir(root)
+            self.assertTrue(game.is_file("Quest.bat") and game.is_file("bin/Game.exe") and game.is_file("shot.png"))
+            for rel in ("Quest.BAT", "quest.bat", "BIN/Game.exe", "bin/game.exe", "Shot.png"):
+                self.assertFalse(game.is_file(rel), rel)
+            (root / gm.CARD_FILE).write_text(json.dumps({"entry": "QUEST.bat", "thumb": "SHOT.PNG", "name": "Case"}))
+            self.assertEqual(gm.read(root)["card"], {"name": "Case"})
+
     def test_the_path_must_be_a_game(self):
         with self.assertRaises(SystemExit):
             gm.read(self.tmp / "nowhere")

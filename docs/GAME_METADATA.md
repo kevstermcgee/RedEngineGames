@@ -133,7 +133,8 @@ The `bat`, `exe` and `program` sources come from the file that starts the game, 
 A **fork** (it has a `fork.json` naming its parent, or its card file or ZIP comment says `forked_from`) takes `description`, `author`, `online`
 and `notes` only from its card file and ZIP comment, never from a script or a program: those were its parent's.
 
-A reader never runs anything, never opens the network, never follows a link (a symbolic link or a junction is not a file of the game; only the one
+A name counts only in the case it is written: a card's `Quest.BAT` does not name `Quest.bat`, on a disk that ignores case (Windows) too, as in a
+ZIP read in place. A reader never runs anything, never opens the network, never follows a link (a symbolic link or a junction is not a file of the game; only the one
 file a person names is read through one), and reads at most: one card file (16 KiB and a byte), `engine.name` (1024 bytes), the first 64 lines
 of a script (64 KiB), and a program's headers, last 12 bytes and resources (no read over 128 KiB). Whatever is hostile in a game is left out of
 the answer, never an error.

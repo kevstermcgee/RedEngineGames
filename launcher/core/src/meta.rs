@@ -410,6 +410,13 @@ pub(crate) fn launch_args(folder: &Path) -> Vec<String> {
     text.lines().map(|l| clean(l, 200)).filter(|l| !l.is_empty()).take(16).collect()
 }
 
+/// Whether the last part of `path` is in its folder by exactly that name. A Windows disk finds `Quest.bat` when asked for `Quest.BAT`, and a ZIP read
+/// in place (the command line) does not: a name in a card counts only as it is written, so every reader on every disk finds the same files.
+fn named_exactly(path: &Path) -> bool {
+    let (Some(folder), Some(name)) = (path.parent(), path.file_name()) else { return false };
+    std::fs::read_dir(folder).is_ok_and(|entries| entries.flatten().any(|e| e.file_name() == name))
+}
+
 /// The files a card may name: a game's folder, or one file of it when a program is read alone.
 struct Game<'a> {
     dir: &'a Path,
@@ -434,7 +441,7 @@ impl Game<'_> {
             path.push(part);
             let meta = std::fs::symlink_metadata(&path).ok()?;
             let last = i + 1 == parts.len();
-            if meta.file_type().is_symlink() || if last { !meta.is_file() } else { !meta.is_dir() } {
+            if meta.file_type().is_symlink() || if last { !meta.is_file() } else { !meta.is_dir() } || !named_exactly(&path) {
                 return None;
             }
             if last {
@@ -1495,12 +1502,13 @@ mod tests {
         let of = |json: &str| find(dir.path(), Some(card(json))).card;
         assert_eq!(of(r#"{"entry": "bin/Game.exe", "thumb": "shots/b.jpg"}"#).entry.as_deref(), Some("bin/Game.exe"));
         assert_eq!(of(r#"{"entry": "./bin//Game.exe"}"#).entry, None);
-        for entry in ["bin/Missing.exe", "bin", "bin/", "notes.txt", "../Game.exe", "empty", "Quest.BAT"] {
+        // A name counts only in the case it is written, on a disk that ignores case (Windows) too, as in a ZIP read in place.
+        for entry in ["bin/Missing.exe", "bin", "bin/", "notes.txt", "../Game.exe", "empty", "Quest.BAT", "BIN/Game.exe", "bin/game.exe"] {
             assert_eq!(of(&serde_json::json!({ "entry": entry }).to_string()).entry, None, "{entry}");
         }
         assert_eq!(of(r#"{"thumb": "shot.png"}"#).thumb.as_deref(), Some("shot.png"));
         assert_eq!(of(r#"{"thumb": "fits.png"}"#).thumb.as_deref(), Some("fits.png"), "5 MB exactly");
-        for thumb in ["huge.png", "missing.png", "notes.txt", "shots", "../shot.png"] {
+        for thumb in ["huge.png", "missing.png", "notes.txt", "shots", "../shot.png", "Shot.png", "SHOTS/b.jpg"] {
             assert_eq!(of(&serde_json::json!({ "thumb": thumb }).to_string()).thumb, None, "{thumb}");
         }
         // A bad field in a stronger source does not hide a good one in a weaker.
