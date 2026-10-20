@@ -38,6 +38,18 @@ pub struct Game {
     /// The game's wiki page (`site/wiki.py`), passed to the window as it is.
     #[serde(default)]
     pub wiki: Option<serde_json::Value>,
+    /// Who keeps the game: a GitHub login, when the site knows it.
+    #[serde(default)]
+    pub maintainer: String,
+    /// The game and version this one was forked from: its edge in the family tree (`crate::fork`).
+    #[serde(default)]
+    pub forked_from: Option<crate::fork::Parent>,
+    /// The games forked from this one, oldest first.
+    #[serde(default)]
+    pub forks: Vec<String>,
+    /// How it can be forked: `repo` (from its source in a RedEngine checkout, or here), `app` (here), empty (it has its own client: engine code).
+    #[serde(default)]
+    pub forkable: String,
 }
 
 fn human() -> String {

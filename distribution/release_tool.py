@@ -341,6 +341,12 @@ def sha256_of(path: Path) -> str:
     return h.hexdigest()
 
 
+def family_fields(playable: dict) -> dict:
+    """Who keeps the game and which game (and version) it was forked from, for its release record: written into every release, so the family tree
+    outlives any later edit of the publish list (docs/DISTRIBUTION.md, "Forks")."""
+    return {k: playable[k] for k in ("maintainer", "forked_from") if playable.get(k)}
+
+
 def release_body(meta: dict) -> str:
     """The text of a game's release: what it is, what changed, and the machine-readable line the website reads."""
     lines = [f"**{meta['name']}**, version {meta['version']}", ""]
@@ -376,6 +382,7 @@ def cmd_plan(args) -> int:
             t["notes"].insert(0, args.note.strip())
         t["repo_commit"] = head
         t["engine_revision"] = catalog["source_revision"]
+        t.update(family_fields(by_slug[t["slug"]]))
         t["released"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     Path(args.out).write_text(json.dumps({"engine_revision": catalog["source_revision"], "games": todo}, indent=1))
     for t in todo:

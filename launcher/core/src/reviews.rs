@@ -139,6 +139,18 @@ pub fn note_message(n: &EngineNote, app_version: &str) -> String {
 }
 
 /// Send an engine note, anonymously.
+/// A signed note's GitHub issue: its title and body (`crate::publish::issue` files it by the token's account). The same checks as an anonymous note.
+pub fn signed_note(n: &EngineNote, app_version: &str) -> Result<(String, String)> {
+    if let Some(p) = note_problem(n) {
+        return Err(Error::Review(p.into()));
+    }
+    let first: String = n.text.split_whitespace().collect::<Vec<_>>().join(" ").chars().take(70).collect();
+    let more = if n.text.split_whitespace().collect::<Vec<_>>().join(" ").chars().count() > 70 { "…" } else { "" };
+    let title = format!("Engine {}: {first}{more}", n.kind);
+    let body = format!("{}\n\n---\nAn engine note ({}) sent from the RedEngine Games app {app_version}. `scripts/feedback.py digest` in RedEngine lists it with the other feedback.\n", n.text.trim(), n.kind);
+    Ok((title, body))
+}
+
 pub fn send_note(settings: &Settings, n: &EngineNote, app_version: &str) -> Result<()> {
     if let Some(p) = note_problem(n) {
         return Err(Error::Review(p.into()));
@@ -215,5 +227,14 @@ mod tests {
     #[test]
     fn titles_are_url_encoded() {
         assert_eq!(encode("Restless Tide: 8/10"), "Restless%20Tide%3A%208%2F10");
+    }
+
+    #[test]
+    fn a_signed_note_is_an_issue_with_a_short_title() {
+        let n = EngineNote { kind: "bug".into(), text: "The camera turns far too fast with a gamepad in every 3D game I have played so far, and more words".into(), name: String::new() };
+        let (title, body) = signed_note(&n, "0.5.0").unwrap();
+        assert!(title.starts_with("Engine bug: The camera turns far too fast") && title.ends_with('…'), "{title}");
+        assert!(body.starts_with("The camera turns") && body.contains("RedEngine Games app 0.5.0"));
+        assert!(signed_note(&EngineNote { kind: "bug".into(), text: "short".into(), name: String::new() }, "0.5.0").is_err());
     }
 }

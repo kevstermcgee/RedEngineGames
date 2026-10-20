@@ -158,6 +158,14 @@ def plan_version(slug: str, history: dict[str, list[dict]], playable_slugs: set[
     return (previous["version"] + 1 if previous else 1), previous
 
 
+def parse_forked_from(text: str, slug: str) -> dict:
+    """`snake@3` (or `snake@v3`) -> {"slug": "snake", "version": 3}: the game this one was forked from."""
+    parent, _, version = text.partition("@")
+    if not rt.SLUG.match(parent) or parent == slug or not version.lstrip("v").isdigit() or int(version.lstrip("v")) < 1:
+        raise SystemExit(f"--forked-from {text!r}: SLUG@N, the game and the version it was forked from (not itself)")
+    return {"slug": parent, "version": int(version.lstrip("v"))}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("source", type=Path, help="the game: a .zip, a folder, or one .exe/.bat/.cmd")
@@ -172,6 +180,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--author", choices=("ai", "human"), help="who designed it (default human; an update keeps the previous one)")
     ap.add_argument("--online", help="a note shown when it has online multiplayer (never an address or a join key)")
     ap.add_argument("--thumb", type=Path, help="a 16:9 screenshot (.png or .jpg) for the website and the app")
+    ap.add_argument("--forked-from", help="SLUG@N: the game and version this one was made from (a fork; an update keeps it)")
+    ap.add_argument("--maintainer", help="the GitHub login of whoever keeps it (an update keeps the previous one)")
     ap.add_argument("--out", type=Path, default=Path("dist-upload"), help="where the files are written before publishing")
     ap.add_argument("--dry-run", action="store_true", help="pack and describe the release, publish nothing (needs no network)")
     a = ap.parse_args(argv)
@@ -202,6 +212,11 @@ def main(argv: list[str] | None = None) -> int:
         "notes": [n.strip() for n in a.notes if n.strip()] or (["First release."] if version == 1 else ["A new build."]),
         "zip": {"name": zip_name, "size": files[0].stat().st_size, "sha256": rt.sha256_of(files[0])},
     }
+    forked_from = parse_forked_from(a.forked_from, slug) if a.forked_from else previous.get("forked_from")
+    if forked_from:
+        meta["forked_from"] = forked_from
+    if a.maintainer or previous.get("maintainer"):
+        meta["maintainer"] = a.maintainer or previous["maintainer"]
     if a.thumb:
         ext = a.thumb.suffix.lower()
         if ext not in (".png", ".jpg", ".jpeg"):

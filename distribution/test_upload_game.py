@@ -84,6 +84,13 @@ class Versions(unittest.TestCase):
         with self.assertRaises(SystemExit):
             up.plan_version("old", self.history({"slug": "old", "version": 4}), set())
 
+    def test_a_ready_made_fork_names_its_parent(self):
+        self.assertEqual(up.parse_forked_from("snake@v3", "neon-snake"), {"slug": "snake", "version": 3})
+        self.assertEqual(up.parse_forked_from("snake@2", "neon-snake"), {"slug": "snake", "version": 2})
+        for bad in ("snake", "snake@0", "Snake@1", "neon-snake@1", "snake@x"):
+            with self.assertRaises(SystemExit):
+                up.parse_forked_from(bad, "neon-snake")
+
     def test_release_notes_carry_the_marker_the_site_reads(self):
         meta = {"kind": "upload", "slug": "q", "name": "Q", "version": 1, "description": "d", "notes": ["First release."], "entry": "bin/q.bat",
                 "zip": {"name": "q-1-windows-x64.zip", "size": 1, "sha256": "ab"}}

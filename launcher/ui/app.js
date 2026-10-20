@@ -18,6 +18,7 @@ const S = {
   updateLater: false,
   playing: new Set(),
   canPublish: false,    // this PC has a GitHub token that may publish (learned when a game is dropped, or set up)
+  publishLogin: "",     // the GitHub account of that token, when the app saved it (signed notes go out under it)
 };
 
 try {
@@ -97,6 +98,7 @@ async function load(refresh) {
     S.offline = o.offline;
     S.error = o.error;
     S.canPublish = !!o.can_publish;
+    S.publishLogin = o.publish_login || "";
     S.loaded = true;
   } catch (e) {
     S.offline = true;
@@ -613,8 +615,87 @@ function gameView(g) {
       <div class="act" data-act-for="${h(g.slug)}" data-size="big">${actHtml(g, "big")}</div>
       <div class="more" data-more-for="${h(g.slug)}">${moreHtml(g)}</div>
       <dl class="facts" data-facts-for="${h(g.slug)}">${factsHtml(g)}</dl>${online}</div>
-  </section>${body}`;
+  </section>${familyHtml(g)}${body}`;
 }
+
+/** How a game can be forked: from its source (`repo`, and here), only here (`app`: uploaded ready-made), or not here (its own client). Older catalogs say nothing. */
+const forkable = (g) => g.forkable !== undefined ? g.forkable : (g.uploaded ? "app" : "repo");
+
+function gameRef(slug) {
+  const p = S.bySlug.get(slug);
+  return p ? `<button class="inline-link" data-open="${h(slug)}">${h(p.name)}</button>${p.maintainer ? ` <span class="fine">by @${h(p.maintainer)}</span>` : ""}` : `<code>${h(slug)}</code>`;
+}
+
+/** Where the game came from and what came of it: the site's family tree, and the Fork button. */
+function familyHtml(g) {
+  if (g.local || g.retired) return "";
+  const parts = [];
+  if (g.forked_from) parts.push(`<p>Forked from ${gameRef(g.forked_from.slug)}, version ${h(g.forked_from.version)}.</p>`);
+  if (g.forks && g.forks.length) parts.push(`<p>Forks: ${g.forks.map(gameRef).join(" · ")}</p>`);
+  const how = forkable(g)
+    ? `<button class="btn" data-act="fork" data-slug="${h(g.slug)}">Fork…</button> <span class="fine">Make your own version of it: a new game that remembers it came from this one.</span>`
+    : `<span class="fine">It plays with its own client, which is engine code: it is forked as code, in RedEngine.</span>`;
+  return `<section class="family"><h2 class="section">Family</h2>${parts.join("") || `<p class="fine">An original: not made from another game, and not forked yet.</p>`}<p>${how}</p></section>`;
+}
+
+/** What to give an AI (Claude Code in a RedEngine checkout) to fork the game from its source: the same text as the game's web page. */
+function forkPrompt(g) {
+  const v = (latest(g) || {}).version || 1;
+  return `Fork the RedEngine game "${g.name}" (version ${v}) into a game of my own called "MY GAME". In a RedEngine checkout run\n`
+    + `  python3 scripts/games.py fork ${g.slug}@v${v} my-game --name "MY GAME"\n`
+    + "then make the changes below, check it, finish its page (every TODO(fork)) and send it in one pull request (CONTRIBUTING.md).\n\nWhat I want different: ";
+}
+
+function openFork(slug) {
+  const g = S.bySlug.get(slug);
+  if (!g) return;
+  const d = $("#fork");
+  const f = $("form", d);
+  f.reset();
+  d.dataset.slug = slug;
+  const installed = state(g) !== "not_installed";
+  $("h2", d).textContent = `Fork ${g.name}`;
+  $(".fork-what", d).textContent = installed
+    ? `Your copy starts from version ${(g.installed || {}).version}, the one on this PC.`
+    : `Install ${g.name} first: your copy starts from the version on this PC.`;
+  f.name.value = `My ${g.name}`;
+  f.name.disabled = !installed;
+  const fromSource = forkable(g) === "repo";
+  d.querySelectorAll(".fork-ai").forEach((el) => { el.hidden = !fromSource; });
+  $("pre.prompt", d).textContent = fromSource ? forkPrompt(g) : "";
+  $(".fork-status", d).textContent = "";
+  const make = $('[data-fork="make"]', d);
+  make.textContent = installed ? "Make my copy" : "Install it";
+  d.showModal();
+}
+
+async function forkMake() {
+  const d = $("#fork");
+  const g = S.bySlug.get(d.dataset.slug);
+  const status = $(".fork-status", d);
+  if (!g) return;
+  if (state(g) === "not_installed") { d.close(); return enqueue(g.slug); }
+  const name = $("form", d).name.value.trim();
+  if (!slugify(name)) { status.textContent = "Give your version a name."; return; }
+  if (S.bySlug.has(slugify(name))) { status.textContent = `“${S.bySlug.get(slugify(name)).name}” is already a game: pick another name.`; return; }
+  try {
+    const folder = await invoke("fork_make", { slug: g.slug, name });
+    d.close();
+    await ask(`${name} is ready to change`, `<p>Your copy is in <code>${h(folder)}</code> (it just opened). Its <code>FORK.md</code> says how to change it, by hand or with an AI.</p>
+      <p>When it is ready, <strong>drop that folder on this window</strong>: <em>Add to my games</em> to try it, <em>Publish for everyone</em> to make it a game of its own in ${h(g.name)}'s family.</p>`, "Got it", "");
+  } catch (e) {
+    status.textContent = String(e);
+  }
+}
+
+$("#fork").addEventListener("input", () => { $("#fork .fork-status").textContent = ""; });
+$("#fork").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-fork]");
+  if (!b) return;
+  if (b.dataset.fork === "make") return forkMake();
+  try { await navigator.clipboard.writeText($("#fork pre.prompt").textContent); toast("The prompt is copied: paste it into Claude Code in a RedEngine checkout."); }
+  catch (_) { toast("Select the prompt and copy it.", "error"); }
+});
 
 function paintTabs() {
   document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.view === S.view && !S.slug));
@@ -847,6 +928,7 @@ document.addEventListener("click", async (e) => {
       case "update-later": S.updateLater = true; S.updateState = null; paintTabs(); return paintBanners();
       case "show-update": if (S.update && S.updateLater) { S.updateLater = false; paintTabs(); paintBanners(); } return;
       case "publish-setup": return openPublishSetup();
+      case "fork": return openFork(slug);
     }
     return;
   }
@@ -948,6 +1030,10 @@ function openDropDialog(paths) {
     || `<option value="">Nothing to start: it needs an .exe, .bat or .cmd</option>`;
   if (info.entry && !info.candidates.includes(info.entry)) sel.insertAdjacentHTML("afterbegin", `<option selected>${h(info.entry)}</option>`);
   prefill(f);
+  const parent = info.forked_from && S.bySlug.get(info.forked_from.slug);
+  const forkLine = $(".drop-fork", d);
+  forkLine.hidden = !info.forked_from;
+  forkLine.textContent = info.forked_from ? `A fork of ${parent ? parent.name : info.forked_from.slug} version ${info.forked_from.version}: published, it becomes a game of its own in that game's family.` : "";
   $(".drop-progress", d).hidden = true;
   $(".drop-status", d).textContent = "";
   $(".drop-status", d).className = "drop-status";
@@ -976,7 +1062,9 @@ function paintDropNote() {
   pub.textContent = S.canPublish ? "Publish for everyone" : "Set up publishing…";
   let text = S.canPublish ? "Publishing puts it on the website and in everyone's app within a few minutes." : "Add it to play it on this PC. Publishing it for everyone needs the site owner's GitHub token.";
   let bad = !slug || !f.entry.value;
+  const parentSlug = DROP.info && DROP.info.forked_from && DROP.info.forked_from.slug;
   if (!slug) text = "Give the game a name.";
+  else if (slug === parentSlug) { text = "That is the original's name: give your version its own."; bad = true; }
   else if (!f.entry.value) text = "There is nothing in it that starts the game.";
   else if (g && !g.uploaded && !g.local) { text = `“${g.name}” is already a game on the site: give this one another name.`; bad = true; }
   else if (g) {
@@ -1091,6 +1179,7 @@ function feedbackView() {
       <fieldset class="note-kind"><legend>What kind of note?</legend><div>${kinds}</div></fieldset>
       <label>Your note<textarea name="text" maxlength="2000" rows="5" placeholder="For example: the camera turns too fast with a gamepad in every 3D game."></textarea></label>
       <label><span>Your name <span class="fine">(optional)</span></span><input name="name" maxlength="40"></label>
+      ${S.canPublish ? `<label class="signed"><input type="checkbox" name="signed" checked> <span>Send it signed${S.publishLogin ? `, as <strong>@${h(S.publishLogin)}</strong>` : ""}: a GitHub issue the maintainers' feedback inbox trusts, and you hear when it is fixed</span></label>` : ""}
       <p class="fine">No account needed. Notes are public and go to the engine's developers. Please leave out links. Yours shows here within about half an hour.</p>
       <p><button class="btn primary" type="submit">Send note</button> <span class="rv-status" role="status"></span></p>
     </form>
@@ -1140,6 +1229,13 @@ async function sendNote(form) {
   btn.disabled = true;
   status.textContent = "Sending…";
   try {
+    if (f.get("signed")) {
+      const url = await invoke("note_send_signed", { note: { kind: note.kind, text: note.text, name: "" } });
+      form.reset();
+      status.textContent = "Thank you! It is filed as a GitHub issue; you will hear there when it is fixed.";
+      if (url) toast(`Filed: ${url}`);
+      return;
+    }
     await invoke("note_send", { note });
     try { localStorage.setItem(NOTES_KEY, JSON.stringify([note, ...ownNotes()].slice(0, 5))); } catch (_) { /* fine */ }
     form.reset();

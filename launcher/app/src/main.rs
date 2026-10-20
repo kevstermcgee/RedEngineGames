@@ -48,6 +48,8 @@ struct Overview {
     site: &'static str,
     /// This PC has a GitHub token that may publish dropped games.
     can_publish: bool,
+    /// The GitHub account that token belongs to (saved when it was set up), for signed notes.
+    publish_login: String,
 }
 
 /// The catalog with each game's install state. `refresh` fetches the site again (otherwise the copy from this session is reused).
@@ -97,7 +99,9 @@ async fn overview(state: State<'_, App>, refresh: bool) -> Result<Overview, Stri
                 "retired": catalog.is_some() && !i.local, "local": i.local, "favorite": library.is_favorite(slug)}));
         }
     }
-    Ok(Overview { games, offline, error, launcher_version: VERSION, site: SITE, can_publish: publish::token(library.root()).is_some() })
+    let can_publish = publish::token(library.root()).is_some();
+    let publish_login = if can_publish { std::fs::read_to_string(login_file(library.root())).unwrap_or_default().trim().to_string() } else { String::new() };
+    Ok(Overview { games, offline, error, launcher_version: VERSION, site: SITE, can_publish, publish_login })
 }
 
 #[derive(Clone, Serialize)]
@@ -234,6 +238,37 @@ async fn note_send(state: State<'_, App>, note: reviews::EngineNote) -> Result<(
     tauri::async_runtime::spawn_blocking(move || reviews::send_note(&settings, &note, VERSION)).await.map_err(err)?.map_err(err)
 }
 
+/// Send a note about the engine as a GitHub issue by the saved token's account (signed: the maintainers' inbox trusts it, and its author is told
+/// when it is fixed). Returns the issue's address.
+#[tauri::command]
+async fn note_send_signed(state: State<'_, App>, note: reviews::EngineNote) -> Result<String, String> {
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    let token = publish::token(&root).ok_or("Set up publishing first: a signed note is sent with your GitHub token.")?;
+    tauri::async_runtime::spawn_blocking(move || {
+        let (title, body) = reviews::signed_note(&note, VERSION)?;
+        publish::issue(&token, &title, &body)
+    })
+    .await
+    .map_err(err)?
+    .map_err(err)
+}
+
+/// Fork an installed game: copy it to `forks/<slug>/` with its record and guide (`core::fork`) and open the folder. Returns the folder.
+#[tauri::command]
+fn fork_make(state: State<'_, App>, slug: String, name: String) -> Result<String, String> {
+    let (installed, version, parent_name) = {
+        let library = state.library.lock().unwrap();
+        let i = library.installed(&slug).ok_or("Install the game first: a fork starts from the version on this PC.")?;
+        (library.dir(&slug).map_err(err)?, i.version, i.name.clone())
+    };
+    let root = state.library.lock().unwrap().root().to_path_buf();
+    let parent = core::fork::Parent { slug, version };
+    let folder = core::fork::make(&root, &installed, &parent, &parent_name, &name).map_err(err)?;
+    let shown = folder.display().to_string();
+    let _ = open_with_shell(&shown);
+    Ok(shown)
+}
+
 /// What the page needs to ask about a dropped game.
 #[derive(Serialize)]
 struct Dropped {
@@ -244,6 +279,8 @@ struct Dropped {
     thumb: bool,
     /// Whether this app may publish (it has a token).
     can_publish: bool,
+    /// The game it was forked from, when it is a fork made in the window.
+    forked_from: Option<core::fork::Parent>,
 }
 
 /// Copy what was dropped (`paths`) aside and look at it. Nothing the player dropped is changed.
@@ -260,6 +297,7 @@ async fn drop_inspect(state: State<'_, App>, paths: Vec<String>) -> Result<Dropp
         size: staged.size,
         thumb: staged.thumb.is_some(),
         can_publish: publish::token(&root).is_some(),
+        forked_from: staged.forked_from.clone(),
     };
     *state.dropped.lock().unwrap() = Some(staged);
     Ok(out)
@@ -331,7 +369,8 @@ async fn drop_publish(app: AppHandle, state: State<'_, App>, details: upload::De
             }
             None => previous.as_ref().and_then(|p| p["thumb_url"].as_str().map(String::from)),
         };
-        let meta = upload::record(&d, &slug, version, &core::today(), (&zip_name, size, &sha), thumb_url);
+        let login = std::fs::read_to_string(login_file(&root)).unwrap_or_default().trim().to_string();
+        let meta = upload::with_family(upload::record(&d, &slug, version, &core::today(), (&zip_name, size, &sha), thumb_url), staged.forked_from.as_ref(), &login);
         let url = publish::publish(&token, &tag, &format!("{} {version}", d.name), &upload::release_body(&meta), &files, &mut |done, total| emit("upload", done, total))?;
         let _ = std::fs::remove_dir_all(&out);
         let state = handle.state::<App>();
@@ -353,13 +392,20 @@ async fn publish_setup(state: State<'_, App>, token: String) -> Result<String, S
     let t = token.clone();
     let login = tauri::async_runtime::spawn_blocking(move || publish::check(&t)).await.map_err(err)?.map_err(err)?;
     std::fs::write(publish::token_file(&root), token).map_err(err)?;
+    let _ = std::fs::write(login_file(&root), &login);
     Ok(login)
+}
+
+/// Where the GitHub account of the saved token is kept (beside it), so the window can say whose name a signed note goes out under.
+fn login_file(root: &std::path::Path) -> PathBuf {
+    root.join("publish-login")
 }
 
 /// Forget the saved token.
 #[tauri::command]
 fn publish_forget(state: State<'_, App>) -> Result<(), String> {
     let root = state.library.lock().unwrap().root().to_path_buf();
+    let _ = std::fs::remove_file(login_file(&root));
     match std::fs::remove_file(publish::token_file(&root)) {
         Err(e) if e.kind() != std::io::ErrorKind::NotFound => Err(err(e)),
         _ => Ok(()),
@@ -450,7 +496,7 @@ fn main() {
             }
         })
         .invoke_handler(tauri::generate_handler![overview, install, cancel, uninstall, play, favorite, open, launcher_update, launcher_update_apply, quit, reviews_published, review_send, note_send,
-            drop_inspect, drop_add, drop_publish, publish_setup, publish_forget])
+            drop_inspect, drop_add, drop_publish, publish_setup, publish_forget, note_send_signed, fork_make])
         .run(tauri::generate_context!())
         .expect("the window opens");
 }
