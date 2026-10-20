@@ -200,11 +200,11 @@
     },
     {
       "path": "demos/examples/3d/drowsy-orchestra/build.py",
-      "sha256": "952efa648f60cdc500481fe2048d1d1869a6799723421beb746ba5f25cab40c6"
+      "sha256": "01e1def8b64e59f193b4d5bc136779dae888f4546010426872a8464540889a8d"
     },
     {
       "path": "demos/examples/3d/drowsy-orchestra/drowsy-orchestra.json",
-      "sha256": "8179640bb3f7a5accb0f4a4e1c5e77a68f5f534d6d98d4340a3caeb590617b07"
+      "sha256": "028a1c512c895d00c21fae8452ce1c5c57b9e0777118e140d72092dd93fba252"
     },
     {
       "path": "demos/examples/3d/drowsy-orchestra/playtest.json",
@@ -1165,6 +1165,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "0eb5150f57ded31bf9994a75d591e2442387f66c",
+  "source_revision": "73ac01efc7b4a883920092a6ceb0c08b787ee8cc",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
