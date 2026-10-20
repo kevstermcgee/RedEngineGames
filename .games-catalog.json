@@ -727,6 +727,58 @@
       "sha256": "4af68c4249da0e06fd1a104e7b38ddad5a96bd336fd631d805ab706ce97b6ad9"
     },
     {
+      "path": "site/thumbs/chrono-clash.png",
+      "sha256": "09818b28f781391e61c13df0fba65b06bcbc59809971e5cb14fa4be45d105538"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c1.jpg",
+      "sha256": "3fcaec2210282a3330572518e98239284437f5699b22f550f643c6c4d77f9f1f"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c2.jpg",
+      "sha256": "0f54fed0e5b8140787059c7543eb1dd0d5bb3153a3542801617d95730e465d71"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c3.jpg",
+      "sha256": "52dedc36dd3799bb8e269c50fc69020efd67e0978f09ddc2ea42ebddf8cf2d6c"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c4.jpg",
+      "sha256": "36e8f177851ef249ebf22321b91c7338e484f6b5dd849e0af86be0e95f636449"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c5.jpg",
+      "sha256": "c42362f69571795b747b7250f5ad2b7b8366f03e0bd62011287cd438f123eaf9"
+    },
+    {
+      "path": "site/wiki/chrono-clash/c6.jpg",
+      "sha256": "6210f55c8664e90be11b73bb6888febf0574787f64b5eb03e3d3855be394f42f"
+    },
+    {
+      "path": "site/wiki/chrono-clash/g1.jpg",
+      "sha256": "0083b2c62553346c64dada8d69b8417883dc6de48df633085b6d03dd63530dc9"
+    },
+    {
+      "path": "site/wiki/chrono-clash/g2.jpg",
+      "sha256": "daa66c2bb98a7ffd203badac77f2151c85f9750957e3c17d8fcfd3497031df40"
+    },
+    {
+      "path": "site/wiki/chrono-clash/g3.jpg",
+      "sha256": "435163a60aeb17cd898fffe3e1deb5366bb3a4bd461912353b5cb9ad9a127924"
+    },
+    {
+      "path": "site/wiki/chrono-clash/g4.jpg",
+      "sha256": "17032a84af3ef5444889e4df633bf74573644df29c1cb754981d6f5a7eafec2d"
+    },
+    {
+      "path": "site/wiki/chrono-clash/g5.jpg",
+      "sha256": "6fcd48f75d8af78aa984f37c00fbfca67b8294f70f64ab2c8b9b2297de446246"
+    },
+    {
+      "path": "site/wiki/chrono-clash/wiki.json",
+      "sha256": "0383b38c954727fecd5c11cbc565f2c33875733d4e9752b801498ef04c5e717c"
+    },
+    {
       "path": "tests/performance/README.md",
       "sha256": "6b882837d41a8ba01b630931970fb18d27a74b3869f38d5729aafe887e16f212"
     },
@@ -843,6 +895,7 @@
       "sha256": "667b51382172e36bb4d0d606a9716bb084187361c5e6b6c1afe5c67eae5a6133"
     }
   ],
+  "pages": 1,
   "playables": [
     {
       "arguments": [
@@ -897,7 +950,9 @@
       "files": [
         "games/chrono-clash"
       ],
+      "maintainer": "meastwood13",
       "name": "Chrono Clash",
+      "page": "pages/chrono-clash",
       "slug": "chrono-clash"
     },
     {
@@ -1016,6 +1071,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "8efef7f2731d19a5428b5af9ca90e342bee1cc9b",
+  "source_revision": "c1e43c85703cfa7f84a7142443b26317037dac3f",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
