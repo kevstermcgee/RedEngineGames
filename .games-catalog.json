@@ -1,7 +1,7 @@
 {
   "collections": {
-    "demos": 121,
-    "games": 41,
+    "demos": 123,
+    "games": 43,
     "prototypes": 14,
     "tests": 29
   },
@@ -245,6 +245,14 @@
     {
       "path": "demos/examples/chroma/sky/chroma.wgsl",
       "sha256": "444b3b10442bd23e442e04ce78615496c13bbfc5ffe9ea2ab93580cc3b1f9b0c"
+    },
+    {
+      "path": "demos/examples/chrono-clash/README.md",
+      "sha256": "aad2769d2f81b7f0a3ff5bb1efb692eed12f59293c78e18c05f766fc952543e5"
+    },
+    {
+      "path": "demos/examples/chrono-clash/speakeasy.json",
+      "sha256": "3f76b35117736614c5d9fcb8bd612dca2e7cee0f1716043d73356ce4bdd524fe"
     },
     {
       "path": "demos/examples/day_cycle.json",
@@ -501,6 +509,14 @@
     {
       "path": "games/chroma/sky/chroma.wgsl",
       "sha256": "444b3b10442bd23e442e04ce78615496c13bbfc5ffe9ea2ab93580cc3b1f9b0c"
+    },
+    {
+      "path": "games/chrono-clash/README.md",
+      "sha256": "aad2769d2f81b7f0a3ff5bb1efb692eed12f59293c78e18c05f766fc952543e5"
+    },
+    {
+      "path": "games/chrono-clash/speakeasy.json",
+      "sha256": "3f76b35117736614c5d9fcb8bd612dca2e7cee0f1716043d73356ce4bdd524fe"
     },
     {
       "path": "games/coin-run/coin_run.json",
@@ -874,6 +890,18 @@
     },
     {
       "arguments": [
+        "--host",
+        "content/games/chrono-clash/speakeasy.json"
+      ],
+      "entry": "games/chrono-clash/speakeasy.json",
+      "files": [
+        "games/chrono-clash"
+      ],
+      "name": "Chrono Clash",
+      "slug": "chrono-clash"
+    },
+    {
+      "arguments": [
         "content/games/chroma/chroma.json"
       ],
       "entry": "games/chroma/chroma.json",
@@ -988,6 +1016,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "be8eb0335722fa351136a05e031a57adbda5f9bb",
+  "source_revision": "8b08984b18ba2ce73640e3882a07ab952eab997b",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
