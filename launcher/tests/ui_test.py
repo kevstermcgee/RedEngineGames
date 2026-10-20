@@ -118,6 +118,8 @@ with sync_playwright() as p:
 
     # Install from a card: progress, then Play; a second install waits its turn and can be taken out of the queue.
     card(page, small).scroll_into_view_if_needed()
+    # Slow the stand-in's downloads (~5 s) so the second game is still queued when it is cancelled, however slow the machine running this.
+    page.evaluate("window.__MOCK__.ms = 400")
     act(page, small).locator('[data-act="install"]').click()
     act(page, small2).locator('[data-act="install"]').click()
     expect(act(page, small)).to_contain_text("%")
