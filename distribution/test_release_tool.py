@@ -75,6 +75,27 @@ class Content(unittest.TestCase):
             self.assertNotEqual(rt.content_hash(repo, PLAYABLES[0]), first)
             self.assertEqual(rt.change_notes(repo, PLAYABLES[0], run("rev-parse", "HEAD~1") and subprocess.run(["git", "-C", d, "rev-parse", "HEAD~1"], capture_output=True, text=True).stdout.strip()), ["Fix the door"])
 
+    def test_a_synced_game_says_what_changed_with_the_engine_commits_its_sync_names(self):
+        # RedEngine's publish-games workflow writes one "<slug>: <subject>" line per engine commit that changed a game into the sync commit's message.
+        with tempfile.TemporaryDirectory() as d:
+            repo = Path(d)
+            run = lambda *a: subprocess.run(["git", "-C", d, "-c", "user.email=t@t", "-c", "user.name=t", *a], check=True, capture_output=True, text=True).stdout.strip()
+            run("init", "-q")
+            for g in ("a", "b"):
+                (repo / f"games/{g}").mkdir(parents=True)
+                (repo / f"games/{g}/m.json").write_text("{}\n")
+            run("add", "."), run("commit", "-qm", "Sync RedEngine content at 000000000001")
+            released = run("rev-parse", "HEAD")
+            (repo / "games/a/m.json").write_text("[1]\n")
+            (repo / "games/b/m.json").write_text("[1]\n")
+            run("commit", "-qam", "Sync RedEngine content at 000000000002\n\na: Add the Colosseum map\nb: Something about b\na: Raise the mezzanines")
+            (repo / "games/a/m.json").write_text("[2]\n")
+            run("commit", "-qam", "Sync RedEngine content at 000000000003")
+            (repo / "games/a/m.json").write_text("[3]\n")
+            run("commit", "-qam", "Fix the door by hand")
+            self.assertEqual(rt.change_notes(repo, PLAYABLES[0], released), ["Add the Colosseum map", "Raise the mezzanines", "Fix the door by hand"])
+            self.assertEqual(rt.change_notes(repo, PLAYABLES[1], released), ["Something about b"])
+
     def test_a_game_that_moves_to_its_own_client_is_a_new_version_and_the_others_keep_their_fingerprint(self):
         with tempfile.TemporaryDirectory() as d:
             repo = Path(d)
