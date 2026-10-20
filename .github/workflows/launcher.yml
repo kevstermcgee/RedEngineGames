@@ -9,10 +9,20 @@ on:
     paths:
       - launcher/**
       - .github/workflows/launcher.yml
+      # The game card: the core's conformance test reads the shared fixtures, and the contract and the command-line twin must agree with it.
+      - distribution/game_meta.py
+      - distribution/testdata/game_meta/**
+      - distribution/upload_game.py
+      - docs/GAME_METADATA.md
   pull_request:
     paths:
       - launcher/**
       - .github/workflows/launcher.yml
+      # The game card: the core's conformance test reads the shared fixtures, and the contract and the command-line twin must agree with it.
+      - distribution/game_meta.py
+      - distribution/testdata/game_meta/**
+      - distribution/upload_game.py
+      - docs/GAME_METADATA.md
   workflow_dispatch:
 
 permissions:
