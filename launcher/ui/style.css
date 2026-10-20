@@ -272,6 +272,9 @@ dialog#drop, dialog#pub { max-width: 560px; width: calc(100% - 40px); }
 .drop-form label { display: grid; gap: 4px; font-size: .92rem; }
 .drop-form input, .drop-form select, .drop-form textarea, #pub input { background: var(--bg); color: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; font: inherit; width: 100%; resize: vertical; }
 .drop-form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.drop-form .lab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
+.gm { border: 1px solid var(--good); color: var(--good); border-radius: 4px; padding: 0 6px; font-size: .72rem; font-weight: 700; line-height: 1.6; cursor: help; }
+.gm[hidden] { display: none; }
 .drop-form p, #pub p { margin: 0; }
 .drop-note { font-size: .88rem; color: var(--soft); }
 .drop-note.warn, .drop-status, .pub-status { color: var(--bad); font-size: .9rem; }

@@ -468,6 +468,256 @@ with sync_playwright() as p:
     check(not errors, f"no script errors {errors[:3]}")
     page.close()
 
+    # A game that says what it is (its card): the form arrives filled in and marked "from the game", publishing it takes no typing, and the
+    # details the window receives are the card's. Everything stays editable, and an edit is what is sent.
+    CARD = {"name": "Star Miner", "description": "Mine asteroids, dodge pirates.", "presentation": "hybrid", "author": "ai", "online": "Co-op for two, over the internet.",
+            "notes": ["Added pirates.", "Fixed the save bug."], "args": ["--windowed"]}
+    SAYS = {"name": "card", "description": "card", "presentation": "card", "author": "card", "notes": "card"}
+    ENTRIES = {"entry": "bin/StarMiner.exe", "candidates": ["bin/Editor.exe", "bin/StarMiner.exe"]}
+    FIELDS = "() => { const f = document.querySelector('#drop form'); return Object.fromEntries(['name', 'entry', 'description', 'presentation', 'author', 'notes'].map(k => [k, f[k].value])); }"
+
+    def drop(page, *paths):
+        page.evaluate("paths => window.__EMIT__('tauri://drag-drop', {paths})", list(paths) or ["C:/Users/p/Downloads/Star_Miner.zip"])
+        expect(page.locator("#drop")).to_be_visible()
+
+    def marked(page):
+        return page.eval_on_selector_all("#drop [data-gm]:not([hidden])", "ms => ms.map(m => m.dataset.gm)")
+
+    def read_line(page):
+        line = page.locator("#drop .drop-read")
+        return line.inner_text() if line.is_visible() else None
+
+    def sent_to(page, cmd):
+        return [c[1]["details"] for c in page.evaluate("window.__CALLS__") if c[0] == cmd]
+
+    page, errors = boot(canPublish=True, dropped={**ENTRIES, "card": CARD, "found": SAYS})
+    drop(page)
+    check(page.evaluate(FIELDS) == {"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": CARD["description"], "presentation": "hybrid", "author": "ai",
+                                    "notes": "Added pirates.\nFixed the save bug."}, f"a game with a card arrives with every field filled in {page.evaluate(FIELDS)}")
+    check(marked(page) == ["name", "description", "presentation", "author", "notes"], f"every field read from the game is marked {marked(page)}")
+    check(page.locator("#drop .gm").first.inner_text() == "from the game" and page.locator('#drop [data-gm="name"]').get_attribute("title") == "Read from the game's card",
+          "the mark says it in words, and its title says where it was read")
+    check(read_line(page) == "Read from the game: name, description, 2D/3D, author, what changed, online note.", f"one sentence says what was read: {read_line(page)}")
+    check(page.locator('[data-drop="publish"]').inner_text() == "Publish for everyone" and page.locator('[data-drop="publish"]').is_enabled() and page.locator('[data-drop="add"]').is_enabled(),
+          "with a name and something to start, both buttons are ready with no typing")
+    check("with a screenshot" in page.locator(".drop-what").inner_text(), "the line above still says what was dropped")
+    snap(page, "drop-form-card")
+    page.click('[data-drop="publish"]')
+    expect(page.locator(".toast").last).to_contain_text("Published Star Miner version 1", timeout=10_000)
+    check(sent_to(page, "drop_publish") == [{"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": CARD["description"], "presentation": "hybrid", "author": "ai",
+                                              "notes": "Added pirates.\nFixed the save bug.", "online": CARD["online"]}], f"published with no typing: the details are the card's {sent_to(page, 'drop_publish')}")
+    # The same game again, the poster changing what they disagree with.
+    drop(page)
+    page.fill("#drop textarea[name=description]", "Mine, trade, survive.")
+    page.select_option("#drop select[name=presentation]", "2d")
+    check(marked(page) == ["name", "author", "notes"], f"a field the poster changes is no longer marked {marked(page)}")
+    page.select_option("#drop select[name=presentation]", "hybrid")
+    check(marked(page) == ["name", "presentation", "author", "notes"], "and it is marked again if they put the game's value back")
+    page.select_option("#drop select[name=presentation]", "2d")
+    page.click('[data-drop="add"]')
+    expect(page.locator(".toast").last).to_contain_text("Star Miner is in your library")
+    check(sent_to(page, "drop_add") == [{"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "Mine, trade, survive.", "presentation": "2d", "author": "ai",
+                                          "notes": "Added pirates.\nFixed the save bug.", "online": CARD["online"]}], f"an edit of a prefilled field is what is sent {sent_to(page, 'drop_add')}")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # Where each field was read says in the mark's title: the card file, the ZIP's comment, a script, a program's record or its version information.
+    page, errors = boot(dropped={**ENTRIES, "card": CARD, "found": {"name": "program", "description": "exe", "presentation": "bat", "author": "zip", "notes": "card"}})
+    drop(page)
+    titles = page.eval_on_selector_all("#drop [data-gm]", "ms => Object.fromEntries(ms.map(m => [m.dataset.gm, m.title]))")
+    check(titles == {"name": "Read from the program's file information", "description": "Read from the program's record", "presentation": "Read from the script's header",
+                     "author": "Read from the ZIP's comment", "online": "", "notes": "Read from the game's card"}, f"each mark says where it was read {titles}")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # A card that says only the name: only the name is marked, the rest is the usual defaults and can be filled in.
+    page, errors = boot(canPublish=True, dropped={"name": "Text Quest", "entry": "quest.bat", "candidates": ["quest.bat"], "thumb": False, "card": {"name": "Text Quest"}, "found": {"name": "bat"}})
+    drop(page)
+    check(marked(page) == ["name"] and read_line(page) == "Read from the game: name.", f"only what was read is marked and named: {marked(page)} {read_line(page)}")
+    check(page.evaluate(FIELDS) == {"name": "Text Quest", "entry": "quest.bat", "description": "", "presentation": "3d", "author": "human", "notes": ""}, "the rest is the defaults")
+    check(page.locator('#drop [data-gm="name"]').get_attribute("title") == "Read from the script's header", "a script's header is named as such")
+    page.fill("#drop input[name=name]", "Text Quest II")
+    check(marked(page) == [], "a changed name is no longer marked")
+    page.fill("#drop input[name=name]", "Text Quest")
+    check(marked(page) == ["name"], "and is again when it is put back")
+    page.fill("#drop textarea[name=description]", "A tiny text adventure.")
+    page.select_option("#drop select[name=presentation]", "2d")
+    page.select_option("#drop select[name=author]", "ai")
+    page.click('[data-drop="add"]')
+    expect(page.locator(".toast").last).to_contain_text("Text Quest is in your library")
+    check(sent_to(page, "drop_add") == [{"name": "Text Quest", "entry": "quest.bat", "description": "A tiny text adventure.", "presentation": "2d", "author": "ai", "notes": ""}],
+          f"what the poster filled in is sent, and no online note where the game has none {sent_to(page, 'drop_add')}")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # A new build of a game already on the site: what its card says wins; what it does not say stays what the site says now.
+    upd = {**json.loads(json.dumps(small)), "slug": "star-miner", "name": "Star Miner", "uploaded": True, "maintainer": "meastwood13", "forkable": "app", "forks": [],
+           "description": "Mine asteroids.", "presentation": "2d", "author": "ai"}
+    next_version = upd["versions"][0]["version"] + 1
+    new_build = {**ENTRIES, "card": {"name": "Star Miner", "description": "Mine asteroids and dodge the new pirates."}, "found": {"name": "card", "description": "card"}}
+    page, errors = boot(canPublish=True, catalog={**catalog, "games": [upd, *games]}, dropped=new_build)
+    drop(page)
+    check(page.evaluate(FIELDS) == {"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "Mine asteroids and dodge the new pirates.", "presentation": "2d", "author": "ai", "notes": ""},
+          f"the card's description wins and the other fields come from the site's record {page.evaluate(FIELDS)}")
+    check(marked(page) == ["name", "description"] and read_line(page) == "Read from the game: name, description.", f"only what the game said is marked {marked(page)}")
+    check(f"version {next_version} of Star Miner" in page.locator(".drop-note").inner_text(), "it is still the next version of that game")
+    page.click('#drop button[value="cancel"]')
+    page.evaluate("window.__MOCK__.dropped = {entry: 'bin/StarMiner.exe', candidates: ['bin/StarMiner.exe'], card: {name: 'Star Miner'}, found: {name: 'card'}}")
+    drop(page)
+    check(page.evaluate(FIELDS)["description"] == "Mine asteroids." and marked(page) == ["name"], "a card without a description leaves the site's, as an update always did")
+    page.click('[data-drop="publish"]')
+    expect(page.locator(".toast").last).to_contain_text("Published Star Miner version", timeout=10_000)
+    check(sent_to(page, "drop_publish") == [{"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "Mine asteroids.", "presentation": "2d", "author": "ai", "notes": ""}],
+          f"and publishes without typing {sent_to(page, 'drop_publish')}")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # The online note is a field the poster sees and can clear or change, marked like the others; an update starts from the site's note.
+    ONLINE = {**ENTRIES, "card": {"name": "Star Miner", "online": "Co-op for two."}, "found": {"name": "card", "online": "card"}}
+    page, errors = boot(canPublish=True, dropped=ONLINE)
+    drop(page)
+    check(page.locator("#drop input[name=online]").input_value() == "Co-op for two." and marked(page) == ["name", "online"] and read_line(page) == "Read from the game: name, online note.", f"the game's online note is in a field of its own, marked {marked(page)} {read_line(page)}")
+    check("never an address" in page.locator("#drop label:has(input[name=online]) .fine").inner_text(), "and the field says it is a note, not an address")
+    page.fill("#drop input[name=online]", "")
+    check(marked(page) == ["name"], "clearing it takes the mark away")
+    page.click('[data-drop="add"]')
+    expect(page.locator(".toast").last).to_contain_text("Star Miner is in your library")
+    check(sent_to(page, "drop_add") == [{"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "", "presentation": "3d", "author": "human", "notes": ""}], f"a cleared note is not sent {sent_to(page, 'drop_add')}")
+    drop(page)
+    page.fill("#drop input[name=online]", "Up to four on one LAN.")
+    page.click('[data-drop="add"]')
+    expect(page.locator(".toast").last).to_contain_text("Star Miner is in your library")
+    check(sent_to(page, "drop_add")[-1]["online"] == "Up to four on one LAN.", "a note the poster wrote is what is sent")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+    page, errors = boot(canPublish=True, catalog={**catalog, "games": [{**upd, "online": "Site's online note."}, *games]}, dropped={**ENTRIES, "card": {"name": "Star Miner"}, "found": {"name": "card"}})
+    drop(page)
+    check(page.locator("#drop input[name=online]").input_value() == "Site's online note." and marked(page) == ["name"], "an update keeps the site's online note when the game says none")
+    page.close()
+
+    # An update of a game that is only in the library (just added, or published and not listed yet) starts from the card of the installed copy.
+    LIB = {"description": "Mine rocks, trade ore.", "presentation": "2d", "author": "ai", "online": "LAN."}
+    page, errors = boot(canPublish=True, dropped={**ENTRIES, "card": {"name": "Star Miner"}, "found": {"name": "card"}})
+    drop(page)
+    page.click('[data-drop="add"]')
+    expect(page.locator(".toast").last).to_contain_text("Star Miner is in your library")
+    page.evaluate("l => { window.__MOCK__.dropped = {...window.__MOCK__.dropped, library: l}; }", LIB)
+    drop(page)
+    check(page.evaluate(FIELDS) == {"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": LIB["description"], "presentation": "2d", "author": "ai", "notes": ""}
+          and page.locator("#drop input[name=online]").input_value() == "LAN.", f"the installed copy's card fills what the new build does not say {page.evaluate(FIELDS)}")
+    check("It replaces your copy" in page.locator(".drop-note").inner_text(), "and it is still an update of the copy in the library")
+    page.close()
+    page, errors = boot(canPublish=True, catalog={**catalog, "games": [upd, *games]}, dropped={**ENTRIES, "card": {"name": "Star Miner"}, "found": {"name": "card"}, "library": LIB})
+    drop(page)
+    check(page.evaluate(FIELDS)["description"] == "Mine asteroids." and page.evaluate(FIELDS)["presentation"] == "2d", "the site's own record comes before the library's card")
+    page.close()
+
+    # The weakest thing a game says (its program's file information) never replaces the words the site already has; with none there, it fills in.
+    junk = {**ENTRIES, "card": {"name": "Star Miner", "description": "StarMiner Game Launcher"}, "found": {"name": "program", "description": "program"}}
+    page, errors = boot(canPublish=True, catalog={**catalog, "games": [upd, *games]}, dropped=junk)
+    drop(page)
+    check(page.evaluate(FIELDS)["description"] == "Mine asteroids." and marked(page) == ["name"] and read_line(page) == "Read from the game: name.",
+          f"an update keeps the site's description over the program's {page.evaluate(FIELDS)['description']!r} {marked(page)} {read_line(page)}")
+    page.close()
+    page, errors = boot(canPublish=True, dropped=junk)
+    drop(page)
+    check(page.evaluate(FIELDS)["description"] == "StarMiner Game Launcher" and marked(page) == ["name", "description"], "a new game takes it, marked")
+    page.close()
+
+    # A name read from a game can be a name somebody else's game has: the window says whose, on the button too, and lets the poster decide.
+    page, errors = boot(canPublish=True, publishLogin="someone-else", catalog={**catalog, "games": [upd, *games]}, dropped=new_build)
+    drop(page)
+    next_v = upd["versions"][0]["version"] + 1
+    note = page.locator("#drop .drop-note")
+    check("warn" in (note.get_attribute("class") or "") and "@meastwood13" in note.inner_text() and f"version {next_v}" in note.inner_text(), f"a game kept by somebody else is a warning that names them {note.inner_text()!r}")
+    check(page.locator('[data-drop="publish"]').inner_text() == f"Publish as @meastwood13's version {next_v}" and page.locator('[data-drop="publish"]').is_enabled(), "the button says what it does, and it can still be pressed")
+    page.fill("#drop input[name=name]", "Star Miner Remix")
+    check("warn" not in (note.get_attribute("class") or "") and page.locator('[data-drop="publish"]').inner_text() == "Publish for everyone", "another name is no warning")
+    page.close()
+    page, errors = boot(canPublish=True, publishLogin="MEastwood13", catalog={**catalog, "games": [upd, *games]}, dropped=new_build)
+    drop(page)
+    check("warn" not in (page.locator("#drop .drop-note").get_attribute("class") or "") and page.locator('[data-drop="publish"]').inner_text() == "Publish for everyone",
+          "the maintainer's own game is the usual note (a login is compared in any case)")
+    page.close()
+
+    # What changed comes from the card's notes, one per line, and a long card is kept whole and still editable.
+    long_notes = [f"{n:02d} " + "x" * 197 for n in range(10)]
+    page, errors = boot(canPublish=True, dropped={**ENTRIES, "card": {"name": "Star Miner", "description": "d" * 400, "notes": long_notes}, "found": {"name": "card", "description": "card", "notes": "card"}})
+    drop(page)
+    got = page.evaluate(FIELDS)
+    check(got["notes"] == "\n".join(long_notes) and got["description"] == "d" * 400, f"the longest card fits whole ({len(got['notes'])} and {len(got['description'])} characters)")
+    check(marked(page) == ["name", "description", "notes"] and read_line(page) == "Read from the game: name, description, what changed.", f"{marked(page)} {read_line(page)}")
+    page.fill("#drop textarea[name=notes]", "Added a pirate boss.")
+    check(marked(page) == ["name", "description"], "an edited what-changed is no longer marked")
+    page.click('[data-drop="publish"]')
+    expect(page.locator(".toast").last).to_contain_text("Published Star Miner version 1", timeout=10_000)
+    check(sent_to(page, "drop_publish")[0]["notes"] == "Added a pirate boss.", "and what is sent is what the poster left")
+    page.close()
+    page, errors = boot(dropped={**ENTRIES, "card": {"name": "Star Miner", "notes": ["First release.", "", 7, "  Fixed the save bug.  "]}, "found": {"name": "card", "notes": "card"}})
+    drop(page)
+    check(page.evaluate(FIELDS)["notes"] == "First release.\nFixed the save bug.", "empty and odd lines in the notes are left out")
+    page.close()
+
+    # A game with no card at all, or an empty one, is dropped as it always was: no marks, no sentence, the defaults.
+    for what, extra in (("no card", {}), ("an empty card", {"card": {}, "found": {}}), ("a card with nothing the form takes", {"card": {"presentation": "4d", "author": "robot", "description": 5, "notes": "x"}, "found": {}})):
+        page, errors = boot(canPublish=True, dropped={**ENTRIES, **extra})
+        drop(page)
+        check(marked(page) == [] and read_line(page) is None, f"{what}: nothing is marked and nothing is said about it")
+        check(page.evaluate(FIELDS) == {"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "", "presentation": "3d", "author": "human", "notes": ""}, f"{what}: the defaults")
+        page.click('[data-drop="publish"]')
+        expect(page.locator(".toast").last).to_contain_text("Published Star Miner version 1", timeout=10_000)
+        check(sent_to(page, "drop_publish") == [{"name": "Star Miner", "entry": "bin/StarMiner.exe", "description": "", "presentation": "3d", "author": "human", "notes": ""}],
+              f"{what}: the details are as before, with no online note {sent_to(page, 'drop_publish')}")
+        check(not errors, f"no script errors {errors[:3]}")
+        page.close()
+
+    # A fork's card (its own name and look) is read like any other, and a card that names another game does not rename the fork.
+    fork_drop = {"name": "Night Snake", "entry": "Snake.exe", "candidates": ["Snake.exe"], "forked_from": {"slug": parent["slug"], "version": 1},
+                 "card": {"name": "Night Snake", "presentation": "2d"}, "found": {"name": "card", "presentation": "card"}}
+    page, errors = boot(canPublish=True, dropped=fork_drop)
+    drop(page, "C:/forks/night-snake")
+    expect(page.locator("#drop .drop-fork")).to_contain_text(f"A fork of {parent['name']} version 1")
+    check(marked(page) == ["name", "presentation"] and page.evaluate(FIELDS)["presentation"] == "2d", "a fork's card fills its look, and the fork line is still there")
+    page.click('#drop button[value="cancel"]')
+    page.evaluate("d => { window.__MOCK__.dropped = d; }", {**fork_drop, "card": {"name": parent["name"], "description": "The original's words."}, "found": {"name": "card", "description": "card"}})
+    drop(page, "C:/forks/night-snake")
+    expect(page.locator("#drop .drop-fork")).to_contain_text(f"A fork of {parent['name']} version 1")
+    check(page.evaluate(FIELDS)["name"] == "Night Snake" and marked(page) == ["description"], f"a card with another game's name does not overwrite the fork's {marked(page)}")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
+    # Everything a card says is shown as text: markup in it is never run, in the form, the sentence, or the marks.
+    EVIL = "<img src=x onerror=alert(1)>"
+    SCRIPT = "<script>window.__PWNED__ = 1</script>"
+    page, errors = boot(canPublish=True, dropped={**ENTRIES, "name": f"B{EVIL}", "card": {"name": f"B{EVIL}", "description": EVIL, "online": EVIL, "notes": [EVIL, SCRIPT]},
+                                                  "found": {"name": EVIL, "description": "<b>x</b>", "notes": "constructor"}})
+    alerts = []
+    page.on("dialog", lambda d: (alerts.append(d.message), d.dismiss()))
+    drop(page)
+    page.wait_for_timeout(300)
+    check(page.evaluate(FIELDS)["name"] == f"B{EVIL}" and page.evaluate(FIELDS)["description"] == EVIL and page.evaluate(FIELDS)["notes"] == f"{EVIL}\n{SCRIPT}", "markup from a card is the text of the fields")
+    check(page.locator("#drop img, #drop script, #drop b").count() == 0 and page.locator("#drop .drop-read *").count() == 0, "and is never an element of the dialog")
+    check(read_line(page) == "Read from the game: name, description, what changed, online note.", f"the sentence is only its own words {read_line(page)}")
+    check(page.eval_on_selector_all("#drop [data-gm]:not([hidden])", "ms => ms.map(m => m.title)") == ["Read from the game"] * 3, "a source the window never names is not repeated in a mark")
+    page.click('[data-drop="publish"]')
+    expect(page.locator(".toast").last).to_contain_text("Published", timeout=10_000)
+    page.wait_for_timeout(300)
+    check(sent_to(page, "drop_publish")[0]["online"] == EVIL and sent_to(page, "drop_publish")[0]["description"] == EVIL, "the card's words go on exactly as written")
+    check(not alerts and page.evaluate("window.__PWNED__") is None and not errors, f"nothing ran {alerts} {errors[:3]}")
+    page.close()
+
+    # The dialog with a full card in the smallest window: it fits, and its buttons can be reached.
+    page, errors = boot(width=820, height=560, canPublish=True, dropped={**ENTRIES, "card": CARD, "found": SAYS})
+    drop(page)
+    box = page.evaluate("() => { const d = document.querySelector('#drop'); const r = d.getBoundingClientRect(); return [d.scrollWidth, d.clientWidth, r.left, r.right, r.top, r.bottom, innerWidth, innerHeight]; }")
+    check(box[0] <= box[1] and box[2] >= 0 and box[3] <= box[6] and box[4] >= 0 and box[5] <= box[7], f"the dialog fits the smallest window {box}")
+    snap(page, "drop-form-card-narrow")
+    page.locator('[data-drop="publish"]').scroll_into_view_if_needed()
+    check(page.locator('[data-drop="publish"]').is_visible(), "its buttons can be reached")
+    no_overflow(page, "the drop dialog at 820px")
+    check(not errors, f"no script errors {errors[:3]}")
+    page.close()
+
     # The refresh button checks the site again and says what it found.
     page, errors = boot()
     page.click("#refresh")

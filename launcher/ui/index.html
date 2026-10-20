@@ -27,13 +27,15 @@
 <dialog id="drop" aria-labelledby="drop-title"><form method="dialog" class="drop-form">
   <h2 id="drop-title">Add a game</h2>
   <p class="fine drop-what"></p>
+  <p class="fine drop-read" hidden></p>
   <p class="drop-fork" hidden></p>
-  <label>Name<input name="name" maxlength="60" autocomplete="off"></label>
+  <label><span class="lab">Name <span class="gm" data-gm="name" hidden>from the game</span></span><input name="name" maxlength="60" autocomplete="off"></label>
   <label class="drop-entry">What starts the game<select name="entry"></select></label>
-  <label>Description <span class="fine">(one or two sentences, for the site)</span><textarea name="description" rows="2" maxlength="300"></textarea></label>
-  <div class="two"><label>2D or 3D<select name="presentation"><option value="2d">2D</option><option value="3d" selected>3D</option><option value="hybrid">2D and 3D</option></select></label>
-    <label>Designed by<select name="author"><option value="human" selected>A person</option><option value="ai">An AI</option></select></label></div>
-  <label>What changed <span class="fine">(for a new version, optional)</span><textarea name="notes" rows="2" maxlength="600"></textarea></label>
+  <label><span class="lab">Description <span class="fine">(one or two sentences, for the site)</span><span class="gm" data-gm="description" hidden>from the game</span></span><textarea name="description" rows="2" maxlength="400"></textarea></label>
+  <div class="two"><label><span class="lab">2D or 3D <span class="gm" data-gm="presentation" hidden>from the game</span></span><select name="presentation"><option value="2d">2D</option><option value="3d" selected>3D</option><option value="hybrid">2D and 3D</option></select></label>
+    <label><span class="lab">Designed by <span class="gm" data-gm="author" hidden>from the game</span></span><select name="author"><option value="human" selected>A person</option><option value="ai">An AI</option></select></label></div>
+  <label><span class="lab">Online play <span class="fine">(a note, never an address or a key)</span><span class="gm" data-gm="online" hidden>from the game</span></span><input name="online" maxlength="200" autocomplete="off" placeholder="Leave empty when it has none"></label>
+  <label><span class="lab">What changed <span class="fine">(for a new version, optional)</span><span class="gm" data-gm="notes" hidden>from the game</span></span><textarea name="notes" rows="2" maxlength="2100"></textarea></label>
   <p class="drop-note"></p>
   <div class="drop-progress" hidden><div class="bar"><i></i></div><span class="fine"></span></div>
   <p class="drop-status" role="status"></p>

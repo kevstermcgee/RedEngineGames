@@ -22,14 +22,19 @@ so games and the app's own updates never trigger it.
   A game uploaded ready-made (`distribution/upload_game.py`) has the same two files; its `engine.name` may name a `.exe`, `.bat` or `.cmd` in a subfolder
   (it starts from that folder), and a `.bat`/`.cmd` gets a console window of its own.
 - **Drop a game on the window** (a ZIP, a folder, `.exe` / `.bat` / `.cmd` files, and a screenshot if there is one): `core/src/upload.rs` copies it to
-  `uploads\staging\` (what was dropped is never changed), finds what starts it with the same rules as `distribution/upload_game.py`, and asks
-  for a name, what starts it, a description, 2D/3D and who designed it. **Add to my games** moves it into the library as `local` ("On this
-  PC only"). **Publish for everyone** (`core/src/publish.rs`) needs a GitHub token that may write to the repository, saved once in
-  `publish-token` in the library folder (or `GH_TOKEN`): it makes the release `<slug>-v<N>` as a draft, uploads the ZIP and screenshot, then
-  publishes it, so the site rebuilds and every app sees the game. Dropping a build with the same name makes its next version.
+  `uploads\staging\` (what was dropped is never changed), reads what the game says about itself (its card, `core/src/meta.rs`, the contract in
+  `docs/GAME_METADATA.md`), finds what starts it with the same rules as `distribution/upload_game.py`, and asks for a name, what starts it, a
+  description, 2D/3D, who designed it, an online note and what changed. Every field the game filled in is marked "from the game", so a game
+  with a card needs no typing. Only a ZIP is unpacked: a 7z, RAR or `.tar.gz` is copied as it is and has nothing to start (repack it as a ZIP).
+  **Add to my games** writes the card into the game's folder (`redengine-game.json`, and a dropped screenshot beside it) and moves it into the
+  library as `local` ("On this PC only"). **Publish for everyone** (`core/src/publish.rs`) needs a GitHub token that may write to the
+  repository, saved once in `publish-token` in the library folder (or `GH_TOKEN`): it writes the card the same way (and as the ZIP's comment),
+  makes the release `<slug>-v<N>` as a draft, uploads the ZIP and screenshot, then publishes it, so the site rebuilds and every app sees the
+  game. Dropping a build with the same name makes its next version; when that name is a game somebody else keeps, the window says so first.
 - **Forks and families:** a game's page shows the game it was forked from and its forks (the catalog's `forked_from` and `forks`). **Fork…**
-  (`core/src/fork.rs`) copies the installed version to `forks\<slug>\` under the library with `fork.json` (its parent and version) and a
-  `FORK.md` for the player or their AI; dropping that folder back on the window reads the record (`upload::stage`), so publishing it writes
+  (`core/src/fork.rs`) copies the installed version to `forks\<slug>\` under the library with `fork.json` (its parent and version), its own
+  card (its name, its parent and the parent's 2D/3D, none of the parent's description, designer or screenshot) and a `FORK.md` for the player
+  or their AI; dropping that folder back on the window reads the record (`upload::stage`), so publishing it writes
   `forked_from` and the publisher's login (`maintainer`, saved as `publish-login` beside the token) into the release record, and the site draws
   the family from it. The dialog also gives the prompt for forking from source in a RedEngine checkout (`scripts/games.py fork`).
 - **Engine feedback:** a tab for notes about the engine itself (tip, idea, bug, other), sent like reviews (`reviews::send_note`) and shown from
@@ -48,6 +53,7 @@ so games and the app's own updates never trigger it.
 ```sh
 cargo test --manifest-path launcher/Cargo.toml -p redengine-games-core     # the library
 cargo run  --manifest-path launcher/Cargo.toml -p redengine-games-core --example live   # a real install, update and uninstall from the site, in a temp folder
+cargo run  --manifest-path launcher/Cargo.toml -p redengine-games-core --example card -- Game.zip   # what a game says about itself (its card)
 python3 launcher/tests/ui_test.py --shots /tmp/shots                        # the page (pip install playwright; python -m playwright install chromium)
 cd launcher/app && npx @tauri-apps/cli@2 dev                                # the app itself (Windows, or Linux with WebKitGTK)
 ```
