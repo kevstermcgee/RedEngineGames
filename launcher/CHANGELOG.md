@@ -3,6 +3,11 @@
 Each version's "- " lines become its release notes and the text of the update banner in the app. Bump `version` in `Cargo.toml` and add a section
 here to publish a new version (`.github/workflows/launcher.yml`).
 
+## 0.4.0
+
+- The app can now install and play games that were not made with RedEngine: ready-made games uploaded as a ZIP, an .exe or a .bat file. They update like every other game.
+- A game started from a .bat or .cmd file opens in its own console window, so text games can be played.
+
 ## 0.3.0
 
 - Each game's page says at the top which version you have (or would get) and when it was released.

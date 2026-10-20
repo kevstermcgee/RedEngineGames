@@ -1,9 +1,10 @@
-//! Unpacking a game's portable ZIP: every entry must stay inside the target folder, and the result must look like a RedEngine game
-//! (`engine.name` naming an executable that is there, and `launch.args`).
+//! Unpacking a game's portable ZIP: every entry must stay inside the target folder, and the result must look like a game the launcher can
+//! start (`engine.name` naming the program that is there, and `launch.args`). A RedEngine game names its engine beside it; a game uploaded
+//! ready-made (`distribution/upload_game.py`) may name a `.exe`, `.bat` or `.cmd` in a subfolder (`bin/Game.exe`).
 
 use std::fs::File;
 use std::io;
-use std::path::Path;
+use std::path::{Component, Path, PathBuf};
 
 use crate::{Error, Result};
 
@@ -27,20 +28,24 @@ pub fn extract(zip_path: &Path, into: &Path) -> Result<()> {
         let mut out = File::create(&target)?;
         io::copy(&mut entry, &mut out)?;
     }
-    check_game(into)
+    check_game(into).map(|_| ())
 }
 
-/// The folder holds a runnable RedEngine game.
-pub fn check_game(dir: &Path) -> Result<()> {
+/// The folder holds a runnable game; returns the program `engine.name` names.
+pub fn check_game(dir: &Path) -> Result<PathBuf> {
     let engine = std::fs::read_to_string(dir.join("engine.name")).map_err(|_| Error::Archive("engine.name is missing".into()))?;
     let engine = engine.trim();
-    if engine.is_empty() || engine.contains(['/', '\\']) || !dir.join(engine).is_file() {
+    let relative = Path::new(engine);
+    // Only plain names inside the folder: no drive, no root, no `..`.
+    let inside = !engine.is_empty() && relative.components().all(|c| matches!(c, Component::Normal(_))) && !engine.contains(['\\', ':']);
+    let program = dir.join(relative);
+    if !inside || !program.is_file() {
         return Err(Error::Archive(format!("the engine `{engine}` is missing")));
     }
     if !dir.join("launch.args").is_file() {
         return Err(Error::Archive("launch.args is missing".into()));
     }
-    Ok(())
+    Ok(program)
 }
 
 #[cfg(test)]
@@ -87,6 +92,20 @@ pub(crate) mod tests {
         let e = extract(&zip, &dir.path().join("game")).unwrap_err().to_string();
         assert!(e.contains("unsafe path"), "{e}");
         assert!(!dir.path().join("evil.txt").exists());
+    }
+
+    #[test]
+    fn an_uploaded_game_may_start_a_program_in_a_subfolder_but_never_outside_its_own() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir(dir.path().join("bin")).unwrap();
+        std::fs::write(dir.path().join("bin/Star Miner.exe"), "MZ").unwrap();
+        std::fs::write(dir.path().join("launch.args"), "").unwrap();
+        std::fs::write(dir.path().join("engine.name"), "bin/Star Miner.exe\n").unwrap();
+        assert_eq!(check_game(dir.path()).unwrap(), dir.path().join("bin/Star Miner.exe"));
+        for bad in ["../outside.exe", "/etc/passwd", "bin\\..\\..\\x.exe", "C:x.exe", "bin/../../x.exe"] {
+            std::fs::write(dir.path().join("engine.name"), bad).unwrap();
+            assert!(check_game(dir.path()).is_err(), "{bad}");
+        }
     }
 
     #[test]

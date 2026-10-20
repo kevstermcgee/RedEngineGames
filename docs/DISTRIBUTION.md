@@ -24,6 +24,25 @@ Every version ever released stays downloadable.
 
 A new RedEngine alone does not re-release every game (that was one 28-game bundle per engine commit, which made "version" meaningless). To ship an engine change to games whose content did not change, run *Build Windows releases* by hand with **force** (every game gets a new version) or **only** (a list of slugs). **dry_run** builds everything and attaches it to the run without publishing.
 
+## Uploading a ready-made game
+
+A game that is not built from this repository (made with another engine, a `.bat` text game, anything with an `.exe`) is published with
+`distribution/upload_game.py`. It goes on the website and into the RedEngine Games app, which installs, plays, updates and uninstalls it like the others.
+
+```sh
+python3 distribution/upload_game.py ~/Downloads/StarMiner.zip --name "Star Miner" --description "Mine asteroids, dodge pirates." --kind 2d --thumb shot.png
+python3 distribution/upload_game.py ~/Downloads/StarMiner-1.1.zip --name "Star Miner" --notes "Fixed the save bug."   # publishes version 2
+python3 distribution/upload_game.py quest.bat --add story.txt --name "Text Quest" --dry-run                           # pack only, publish nothing
+```
+
+Without a terminal: *Actions → Upload a game → Run workflow*, with a direct download link to the file (and optionally to a screenshot).
+
+* **What it accepts:** a `.zip`, a folder, or one `.exe`/`.bat`/`.cmd` (`--add` puts more files beside it). A ZIP holding a single folder is played from inside that folder.
+* **What it starts:** the game's only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none), or `--run bin/Game.exe`. `--args` adds arguments.
+* **What it publishes:** the release `<slug>-v<N>` with `<slug>-<N>-windows-x64.zip` (the game plus `engine.name` and `launch.args`, the two files the app reads), an optional screenshot, and the usual `redengine-release` line with `"kind": "upload"` and what the site shows (description, 2D/3D, designer). Run it again with the same name for the next version; description, 2D/3D, designer and screenshot carry over unless given again.
+* **What players get:** the game's page offers the portable ZIP and the app; there is no installer and no in-game updater, so updates arrive through the app. The site lists it once `pages.yml` has run (a release published from a computer starts it; the workflow chains on *Upload a game*).
+* **Limits:** the slug of a game built here is refused. A wiki page in `site/wiki/<slug>/` is used when present but not required. The app checks each download's SHA-256, which proves it arrived intact, not that the game is safe: upload only games you trust. Removing a game means deleting its releases (`gh release delete <slug>-v<N>`) and rerunning *Deploy download site*.
+
 ## Code signing and SmartScreen
 
 Windows SmartScreen warns about any installer that is not signed with a certificate it trusts; there is no way around that from the build side. The workflow signs the engine, the launcher and every installer when the repository has two secrets, and does nothing (the files stay unsigned) when it does not:
@@ -38,5 +57,6 @@ Windows SmartScreen warns about any installer that is not signed with a certific
 * `distribution/release_tool.py` (+ `test_release_tool.py`): plan, build, finalize, publish. `python3 -m unittest discover -s distribution`.
 * `distribution/play_launcher.rs`: the in-game launcher and updater, no dependencies (`rustc --test` runs its tests).
 * `distribution/installer.iss`: the Inno Setup script. `distribution/sign.ps1`: signing hook. `distribution/config.json`: repository and site address.
+* `distribution/upload_game.py` (+ `test_upload_game.py`): ready-made games (see above); `.github/workflows/upload-game.yml` runs it from GitHub.
 * `site/generate.py`: the website, `games/<slug>/latest.json` and `catalog.json`.
 * The old *RedEngine Launcher* (a desktop app that listed the ZIP bundles) was removed; the website and the installers replace it.

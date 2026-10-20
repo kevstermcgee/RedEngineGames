@@ -1,11 +1,15 @@
 name: Deploy download site
 
-# The release workflow publishes with GITHUB_TOKEN, whose events do not
-# trigger `release:` workflows — so chain on the workflow run itself.
+# The release workflows publish with GITHUB_TOKEN, whose events do not
+# trigger `release:` workflows — so chain on the workflow run itself. A game
+# uploaded from a computer (`distribution/upload_game.py`, a person's token)
+# does fire `release:`.
 on:
   workflow_run:
-    workflows: ["Build Windows releases", "Launcher"]
+    workflows: ["Build Windows releases", "Launcher", "Upload a game"]
     types: [completed]
+  release:
+    types: [published]
   push:
     branches: [main]
     paths:

@@ -1,0 +1,80 @@
+name: Upload a game
+
+# Publish a ready-made Windows game (a .zip, .exe, .bat or .cmd at a direct download link) on the website and in the RedEngine Games app, or a
+# new version of one: the same as `distribution/upload_game.py` on a computer. Actions -> Upload a game -> Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Direct download link to the game (.zip, .exe, .bat or .cmd)"
+        required: true
+      name:
+        description: "The game's name (use the same name again to publish a new version)"
+        required: true
+      description:
+        description: "One or two sentences about it (an update keeps the previous one when empty)"
+        required: false
+      notes:
+        description: "What changed in this version"
+        required: false
+      run:
+        description: "What to start, inside the game's folder, when it has several .exe/.bat files (e.g. bin/Game.exe)"
+        required: false
+      kind:
+        description: "2D or 3D"
+        type: choice
+        options: ["", "2d", "3d", "hybrid"]
+        default: ""
+      author:
+        description: "Designed by"
+        type: choice
+        options: ["", "human", "ai"]
+        default: ""
+      thumb:
+        description: "Direct link to a 16:9 screenshot (.png or .jpg), optional"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: upload-game
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Test the upload tool
+        run: python3 -m unittest discover -s distribution -p "test_upload_game.py"
+
+      - name: Download, pack and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: ${{ inputs.url }}
+          NAME: ${{ inputs.name }}
+          DESCRIPTION: ${{ inputs.description }}
+          NOTES: ${{ inputs.notes }}
+          RUN: ${{ inputs.run }}
+          KIND: ${{ inputs.kind }}
+          AUTHOR: ${{ inputs.author }}
+          THUMB: ${{ inputs.thumb }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/in"
+          file=$(python3 -c 'import os, sys, urllib.parse; print(os.path.basename(urllib.parse.urlparse(sys.argv[1]).path) or "game.zip")' "$URL")
+          case "${file,,}" in *.zip|*.exe|*.bat|*.cmd) ;; *) file="game.zip" ;; esac
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/in/$file" "$URL"
+          args=(--name "$NAME" --out "$RUNNER_TEMP/out")
+          [ -n "$DESCRIPTION" ] && args+=(--description "$DESCRIPTION")
+          [ -n "$NOTES" ] && args+=(--notes "$NOTES")
+          [ -n "$RUN" ] && args+=(--run "$RUN")
+          [ -n "$KIND" ] && args+=(--kind "$KIND")
+          [ -n "$AUTHOR" ] && args+=(--author "$AUTHOR")
+          if [ -n "$THUMB" ]; then
+            ext=$(python3 -c 'import os, sys, urllib.parse; e = os.path.splitext(urllib.parse.urlparse(sys.argv[1]).path)[1].lower(); print(e if e in (".png", ".jpg", ".jpeg") else ".png")' "$THUMB")
+            curl -fsSL --retry 3 -o "$RUNNER_TEMP/in/thumb$ext" "$THUMB"
+            args+=(--thumb "$RUNNER_TEMP/in/thumb$ext")
+          fi
+          python3 distribution/upload_game.py "$RUNNER_TEMP/in/$file" "${args[@]}"
