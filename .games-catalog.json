@@ -1,7 +1,7 @@
 {
   "collections": {
-    "demos": 123,
-    "games": 43,
+    "demos": 126,
+    "games": 44,
     "prototypes": 14,
     "tests": 29
   },
@@ -129,6 +129,18 @@
     {
       "path": "demos/examples/2d/phantom-harvest.game2d.json",
       "sha256": "a3d0fb7fb4ce1afd010cc293edf569422f7853cb84ab6b359c2811f87aa3be01"
+    },
+    {
+      "path": "demos/examples/2d/snake.game2d.json",
+      "sha256": "b88b8148eb8b48ecd37e24c7c31c5e51653468c6e83e5c1f62cb064a2474816a"
+    },
+    {
+      "path": "demos/examples/2d/snake/README.md",
+      "sha256": "3b5f69f6bcedc67bebb759ec11780b29b11a7b274f7504e94599c056aeefbe67"
+    },
+    {
+      "path": "demos/examples/2d/snake/build.js",
+      "sha256": "8bade506844080b69b0fb5c7e846bdc30f0a16d262683c932cb19c0ee423f047"
     },
     {
       "path": "demos/examples/2d/tangled-bridge.game2d.json",
@@ -639,6 +651,10 @@
       "sha256": "007f629c7b3a2c649a52067bebca6fda68c10773ad3d845578f243017e311b98"
     },
     {
+      "path": "games/snake/snake.game2d.json",
+      "sha256": "b88b8148eb8b48ecd37e24c7c31c5e51653468c6e83e5c1f62cb064a2474816a"
+    },
+    {
       "path": "games/wormhole/README.md",
       "sha256": "c17e609e5e4932f24d275ae7b7c8dfaa2b4007577808de35bbf2816ab8da841b"
     },
@@ -731,6 +747,10 @@
       "sha256": "09818b28f781391e61c13df0fba65b06bcbc59809971e5cb14fa4be45d105538"
     },
     {
+      "path": "site/thumbs/snake.png",
+      "sha256": "5260b1bfa356986f24b8a581e64dbb21ee1827cf3ee9c3f1f45a0a0ea66b7ed9"
+    },
+    {
       "path": "site/wiki/chrono-clash/c1.jpg",
       "sha256": "3fcaec2210282a3330572518e98239284437f5699b22f550f643c6c4d77f9f1f"
     },
@@ -777,6 +797,38 @@
     {
       "path": "site/wiki/chrono-clash/wiki.json",
       "sha256": "0383b38c954727fecd5c11cbc565f2c33875733d4e9752b801498ef04c5e717c"
+    },
+    {
+      "path": "site/wiki/snake/c1.png",
+      "sha256": "6b40a975067cbeb9dfa0fc33e818d4224e23cf5014ea7f34ff0413bc8d3a7af0"
+    },
+    {
+      "path": "site/wiki/snake/c2.png",
+      "sha256": "f40c1e4d538e6f2e17ac679b40d81225c4ed2935fddff4f28db9675bbc281a39"
+    },
+    {
+      "path": "site/wiki/snake/g1.png",
+      "sha256": "9a2ffdfc7aebaa07633cb0df6f02830374bacef9951747b3239330821d19b066"
+    },
+    {
+      "path": "site/wiki/snake/g2.png",
+      "sha256": "9b8e2280431a8e4428ab2535fb474daf7cb046848ee748b3e6c02f019938d126"
+    },
+    {
+      "path": "site/wiki/snake/g3.png",
+      "sha256": "83033de5d39ac426e2aadc3f291111c87649e4b5b5a7567c86ae7737badfbbc9"
+    },
+    {
+      "path": "site/wiki/snake/g4.png",
+      "sha256": "2db7ba0e7249e99797db9850b64a008c814e687023bab00837c922c579ba6874"
+    },
+    {
+      "path": "site/wiki/snake/g5.png",
+      "sha256": "cb47d452f4926bb12ff4481ba68ee6091a14d751e28b34cb743c3b2b5f0763a7"
+    },
+    {
+      "path": "site/wiki/snake/wiki.json",
+      "sha256": "16e5ed196fb5453b876b5f44eef24f8f3d4e5809f4b013ace3feb6a8b91a80ce"
     },
     {
       "path": "tests/performance/README.md",
@@ -895,7 +947,7 @@
       "sha256": "667b51382172e36bb4d0d606a9716bb084187361c5e6b6c1afe5c67eae5a6133"
     }
   ],
-  "pages": 1,
+  "pages": 2,
   "playables": [
     {
       "arguments": [
@@ -992,6 +1044,19 @@
     },
     {
       "arguments": [
+        "content/games/snake/snake.game2d.json"
+      ],
+      "entry": "games/snake/snake.game2d.json",
+      "files": [
+        "games/snake"
+      ],
+      "kind": "2d",
+      "name": "Snake",
+      "page": "pages/snake",
+      "slug": "snake"
+    },
+    {
+      "arguments": [
         "content/games/redcraft/redcraft.json"
       ],
       "binary": "redcraft",
@@ -1071,6 +1136,6 @@
   ],
   "schema_version": 1,
   "source_repository": "kevstermcgee/RedEngine",
-  "source_revision": "c1e43c85703cfa7f84a7142443b26317037dac3f",
+  "source_revision": "7f6a9df0748ccdae1d1e50975aeb8f0e1fc83a7a",
   "target_repository": "kevstermcgee/RedEngineGames"
 }
