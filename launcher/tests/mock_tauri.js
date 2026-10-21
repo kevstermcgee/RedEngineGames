@@ -1,7 +1,9 @@
 // A stand-in for the window (app/src/main.rs) so the page can be tested in a plain browser: the same commands and events, backed by
 // `window.__MOCK__` = {catalog, installed: {slug: version}, favorites: [slug], update: Latest | null, offline, fail: [slug], ms, reviews, reviewFail,
-// canPublish, publishLogin, dropped (what `drop_inspect` finds), publishFail, badToken}.
-// Every call is recorded in `window.__CALLS__`.
+// canPublish, publishLogin, dropped (what `drop_inspect` finds, over a plain game: `card` and `found` are what the game says about itself
+// and where each field was read, and a game with nothing in it has neither; `library` is the card of the copy of that name already installed),
+// publishFail, badToken}.
+// Every call is recorded in `window.__CALLS__`, `drop_add` and `drop_publish` with the details they were given.
 (function () {
   const M = window.__MOCK__;
   const calls = (window.__CALLS__ = []);
@@ -77,6 +79,7 @@
       return `C:\\Users\\you\\AppData\\Local\\RedEngineGames\\forks\\${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`;
     },
     drop_inspect({ paths }) {
+      // `M.dropped` may carry `card` and `found` (and is read at the drop, so a test can change it between drops).
       return { name: "Star Miner", candidates: ["StarMiner.exe"], entry: "StarMiner.exe", size: 52_000_000, thumb: true, can_publish: !!M.canPublish, ...(M.dropped || {}) };
     },
     drop_add({ details }) {

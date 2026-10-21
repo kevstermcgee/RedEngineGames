@@ -3,6 +3,18 @@
 Each version's "- " lines become its release notes and the text of the update banner in the app. Bump `version` in `Cargo.toml` and add a section
 here to publish a new version (`.github/workflows/launcher.yml`).
 
+## 0.6.0
+
+- Games can describe themselves: drop a game that carries its own details (name, description, 2D or 3D, who designed it, what starts it, a screenshot) and the form is already filled in. Each field the game filled in is marked "from the game".
+- The app also reads what a ready-made game already says: a short header in a .bat or .cmd file, or the name and description in an .exe's file properties (but never an engine's own name, such as nwjs or Electron, as the game's).
+- Every game you add or publish now keeps its details inside it, so the published ZIP, your installed copy and any fork carry them, and dropping that ZIP again needs no typing.
+- A new "Online play" field for a note on how the game is played online. Addresses and join keys are refused, so they are never published.
+- If the name you are publishing under belongs to a game somebody else keeps, the window warns you and the button says whose game it would update.
+- Fork… gives your fork its own details: its name, the game it came from and 2D or 3D, without the original's description or screenshot.
+- A single program dropped on the window is the game whatever it is called: a lone Setup.exe or Install_And_Play.bat can now be started.
+- Updating a game on the site keeps its online note instead of clearing it.
+- Safer drops and installs: links inside a dropped folder or ZIP are left out, a folder nested more than 64 deep is refused, and a ZIP with unsafe file names is refused, whether it is dropped or installed from the catalog.
+
 ## 0.5.0
 
 - Game families: a game's page shows which game it was forked from and which games were forked from it, and you can jump between them.

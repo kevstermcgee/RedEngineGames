@@ -8,6 +8,16 @@ same portable ZIP the RedEngine games ship as, so the app installs, plays, updat
   * `engine.name` names what to start (found by itself when the game has exactly one `.exe`, `.bat` or `.cmd` that is not an uninstaller or a
     setup, else pass `--run`), and `launch.args` holds `--args`, one per line.
 
+A game can describe itself (its card, `docs/GAME_METADATA.md`; write one with `game_meta.py stamp`): then `--name` and the rest are not needed. What
+is not given as a flag comes from the card, else from the previous release of the game, else the defaults (a description read only from an .exe's
+version information never replaces the previous release's). The card (without its notes) is written into the packed ZIP, as `redengine-game.json`
+and as the ZIP's comment, so the published game carries it; the card's `entry` is what starts the game when `--run` is absent (`engine.name` still
+wins), its `args` go with that program only when `--args` is absent, and its `notes` (from its card file or ZIP comment only: a script or a program
+ships unchanged in the next build) are "what changed" when there is no `--notes`.
+A folder with a `fork.json` (which the app's Fork… writes) is a fork: that names its parent, wins over the card, and the game's own script or
+program says nothing of its own for a fork's description, designer, online note or notes (they were its parent's). Links in a game's folder are left
+behind, and a program given as the game is the game whatever it is called.
+
 It is published as the GitHub Release `<slug>-v<N>` with the same `redengine-release` line the built games carry (plus `"kind": "upload"` and
 what the website shows: description, 2D/3D, designer, screenshot). `N` is one more than the newest release of that slug, so running it again with
 the same name publishes an update, which the app then offers to everyone who installed the game. There is no installer: players get the game
@@ -15,6 +25,7 @@ in the app or as the portable ZIP.
 
   python3 distribution/upload_game.py path/to/Game.zip --name "Star Miner" --description "Mine asteroids, dodge pirates." --thumb shot.png
   python3 distribution/upload_game.py path/to/Game.zip --name "Star Miner" --notes "Fixed the save bug."      # version 2
+  python3 distribution/upload_game.py path/to/Game.zip                                                         # the game says its own name
   python3 distribution/upload_game.py game.bat --add data.txt --name "Text Quest" --kind 2d --dry-run           # pack only, publish nothing
 
 Needs `gh` signed in with permission to create releases (or GH_TOKEN). The site rebuilds when the release is published.
@@ -22,6 +33,7 @@ Needs `gh` signed in with permission to create releases (or GH_TOKEN). The site 
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -33,13 +45,12 @@ from pathlib import Path, PurePosixPath
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import game_meta as gm  # noqa: E402
 import release_tool as rt  # noqa: E402
 
-RUNNABLE = (".exe", ".bat", ".cmd")
-# Executables a ready-made game often carries that are never the game itself.
-# The start of the name, as the app's `upload::NOT_THE_GAME`.
-NOT_THE_GAME = re.compile(r"^(unins|setup|install|vc_?redist|dxsetup|unitycrashhandler|crashpad_handler|notification_helper)[^/]*\.(exe|bat|cmd)$", re.I)
-KINDS = ("2d", "3d", "hybrid")
+RUNNABLE = gm.RUNNABLE
+NOT_THE_GAME = gm.NOT_THE_GAME  # executables a ready-made game often carries that are never the game itself
+KINDS = gm.KINDS
 
 
 def slugify(name: str) -> str:
@@ -57,10 +68,15 @@ def unpack(zip_path: Path, into: Path) -> None:
         z.extractall(into)
 
 
+def _no_links(folder: str, names: list[str]) -> list[str]:
+    """What `copytree` leaves behind: links, which would bring in whatever they point at, from outside the game."""
+    return [n for n in names if os.path.islink(os.path.join(folder, n))]
+
+
 def collect(source: Path, extra: list[Path], into: Path) -> Path:
-    """The game's files in one folder (returned): a ZIP unpacked, a folder copied, or a single file with its `extra` companions."""
+    """The game's files in one folder (returned): a ZIP unpacked, a folder copied (without its links), or a single file with its `extra` companions."""
     if source.is_dir():
-        shutil.copytree(source, into)
+        shutil.copytree(source, into, ignore=_no_links)
     elif source.suffix.lower() == ".zip":
         unpack(source, into)
     elif source.is_file():
@@ -70,7 +86,7 @@ def collect(source: Path, extra: list[Path], into: Path) -> Path:
         raise SystemExit(f"{source}: no such file or folder")
     for f in extra:
         if f.is_dir():
-            shutil.copytree(f, into / f.name)
+            shutil.copytree(f, into / f.name, ignore=_no_links)
         elif f.is_file():
             shutil.copy2(f, into / f.name)
         else:
@@ -84,8 +100,9 @@ def collect(source: Path, extra: list[Path], into: Path) -> Path:
         return into
 
 
-def find_entry(folder: Path, run: str | None) -> str:
-    """What to start, relative to the folder, with forward slashes: `run` when given (checked), else the one runnable file there is."""
+def find_entry(folder: Path, run: str | None, card_entry: str | None = None, lone: str | None = None) -> str:
+    """What to start, relative to the folder, with forward slashes: `run` when given (checked), else what `engine.name` says, else the card's `entry`
+    (already checked by the reader), else the one runnable file there is, else `lone`, the program given as the game itself (whatever it is called)."""
     if run:
         rel = PurePosixPath(run.replace("\\", "/"))
         if rel.is_absolute() or ".." in rel.parts or not (folder / rel).is_file():
@@ -93,6 +110,8 @@ def find_entry(folder: Path, run: str | None) -> str:
         return str(rel)
     if (folder / "engine.name").is_file():  # already a RedEngine-style portable build
         return (folder / "engine.name").read_text().strip()
+    if card_entry:
+        return card_entry
     def runnable(depth: int) -> list[str]:
         found = []
         for p in sorted(folder.rglob("*")):
@@ -107,22 +126,72 @@ def find_entry(folder: Path, run: str | None) -> str:
             return found[0]
         if found:
             raise SystemExit("more than one thing could start the game; pass --run with one of:\n  " + "\n  ".join(found))
+    if lone and (folder / lone).is_file():
+        return lone
     raise SystemExit("nothing to start: the game has no .exe, .bat or .cmd (pass --run)")
+
+
+def started_with(folder: Path, card: dict, lone: str | None = None) -> str | None:
+    """What the game starts with by itself, before any `--run` (its `engine.name`, else the card's `entry`, else the one candidate, else `lone`); None when
+    several could. Ask before `prepare` writes `engine.name`."""
+    try:
+        return find_entry(folder, None, card.get("entry"), lone)
+    except SystemExit:
+        return None
+
+
+def card_args(card: dict, entry: str, start: str | None) -> list[str]:
+    """The card's arguments when `entry` is the program they were written for: the card's own `entry`, else (a card that names none) the one the game
+    starts with by itself (`start`). Another program, whether `--run` or `engine.name` chose it, gets none (as `Staged::args_for` in the app)."""
+    return list(card.get("args") or []) if entry == (card.get("entry") or start) else []
+
+
+def prepare(folder: Path, run: str | None, args: list[str], card: dict | None = None, lone: str | None = None) -> str:
+    """Make the folder a game the app starts: `engine.name` and `launch.args` (the card's `entry` when `run` is absent, and its `args` when `args` are
+    absent and they are for the program chosen). Returns the entry."""
+    card = card or {}
+    start = started_with(folder, card, lone)
+    entry = find_entry(folder, run, card.get("entry"), lone)
+    if PurePosixPath(entry).suffix.lower() not in RUNNABLE:
+        raise SystemExit(f"{entry}: the app starts .exe, .bat and .cmd files only")
+    (folder / "engine.name").write_text(entry + "\n", encoding="utf-8")
+    args = args or card_args(card, entry, start)
+    if args or not (folder / "launch.args").is_file():
+        (folder / "launch.args").write_text("".join(a + "\n" for a in args), encoding="utf-8")
+    return entry
+
+
+def zip_game(folder: Path, archive: Path, card: dict | None = None) -> None:
+    """Zip the folder; with a `card`, the ZIP's comment is that card too (the card file is in the folder already)."""
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    rt.zip_folder(folder, archive)
+    if card:
+        with zipfile.ZipFile(archive, "a") as z:
+            z.comment = gm.card_comment(card)
+
+
+def source_comment(source: Path) -> dict | None:
+    """The card in the comment of a ZIP given as the game: unpacking it (`collect`) loses the comment, so it is read first, as the app reads it."""
+    return gm.zip_comment(source) if source.is_file() and source.suffix.lower() == ".zip" else None
+
+
+def lone_program(source: Path) -> str | None:
+    """The name of `source` when it is a single program (not a folder or a ZIP): it is the game, whatever its name (`Install_And_Play.bat`)."""
+    return source.name if source.is_file() and source.suffix.lower() in RUNNABLE else None
 
 
 def pack(source: Path, extra: list[Path], run: str | None, args: list[str], archive: Path) -> str:
     """Write the portable ZIP the app installs and return the entry it starts."""
     with tempfile.TemporaryDirectory() as tmp:
         folder = collect(source, extra, Path(tmp) / "game")
-        entry = find_entry(folder, run)
-        if PurePosixPath(entry).suffix.lower() not in RUNNABLE:
-            raise SystemExit(f"{entry}: the app starts .exe, .bat and .cmd files only")
-        (folder / "engine.name").write_text(entry + "\n", encoding="utf-8")
-        if args or not (folder / "launch.args").is_file():
-            (folder / "launch.args").write_text("".join(a + "\n" for a in args), encoding="utf-8")
-        archive.parent.mkdir(parents=True, exist_ok=True)
-        rt.zip_folder(folder, archive)
+        entry = prepare(folder, run, args, gm.read(folder, lone=lone_program(source), comment=source_comment(source))["card"], lone_program(source))
+        zip_game(folder, archive)
     return entry
+
+
+def pick(*values):
+    """The first value that is set: flags, then the card, then the previous release, then the default (None, an empty string and an empty list are not set)."""
+    return next((v for v in values if v not in (None, "", [])), None)
 
 
 def release_body(meta: dict) -> str:
@@ -158,6 +227,27 @@ def plan_version(slug: str, history: dict[str, list[dict]], playable_slugs: set[
     return (previous["version"] + 1 if previous else 1), previous
 
 
+def read_fork(folder: Path) -> tuple[dict, str] | None:
+    """The game a fork says it was made from and the name it was given: its `fork.json` (as the app's Fork… writes it, which wins over the card), or None."""
+    try:
+        with open(folder / "fork.json", "rb") as f:
+            raw = gm.parse_card(f.read(gm.MAX_CARD + 1)) or {}
+    except OSError:
+        return None
+    parent, name = gm.check_card({"forked_from": raw.get("forked_from")}).get("forked_from"), raw.get("name")
+    return (parent, gm.clean(name, gm.LIMITS["name"])) if parent and isinstance(name, str) else None
+
+
+def launch_args(folder: Path) -> list[str]:
+    """The arguments in a game's own `launch.args`, as a card keeps them."""
+    try:
+        with open(folder / "launch.args", "rb") as f:
+            text = f.read(gm.HEADER_BYTES).decode("utf-8", "replace")
+    except OSError:
+        return []
+    return gm.check_card({"args": text.splitlines()}).get("args", [])
+
+
 def parse_forked_from(text: str, slug: str) -> dict:
     """`snake@3` (or `snake@v3`) -> {"slug": "snake", "version": 3}: the game this one was forked from."""
     parent, _, version = text.partition("@")
@@ -169,60 +259,113 @@ def parse_forked_from(text: str, slug: str) -> dict:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("source", type=Path, help="the game: a .zip, a folder, or one .exe/.bat/.cmd")
-    ap.add_argument("--name", required=True, help="the game's name as players see it")
+    ap.add_argument("--name", help="the game's name as players see it (not needed when the game says it: its card, a script header, a program's record or version information)")
     ap.add_argument("--slug", help="its id in addresses (default: from the name); keep it the same for every version")
-    ap.add_argument("--description", help="one or two sentences for the website and the app (an update keeps the previous one when left out)")
-    ap.add_argument("--notes", action="append", default=[], help="a line of \"what changed\" (repeatable)")
-    ap.add_argument("--run", help="what to start, relative to the game's folder (needed when the game has several .exe/.bat/.cmd files)")
-    ap.add_argument("--args", action="append", default=[], help="an argument to start it with (repeatable)")
+    ap.add_argument("--description", help="one or two sentences for the website and the app (default: the game's card; an update keeps the previous one when left out)")
+    ap.add_argument("--notes", action="append", default=[], help="a line of \"what changed\" (repeatable; default: the game's card)")
+    ap.add_argument("--run", help="what to start, relative to the game's folder (default: the card's entry; needed when the game has several .exe/.bat/.cmd files)")
+    ap.add_argument("--args", action="append", default=[], help="an argument to start it with (repeatable; default: the card's; `--args --fullscreen` works as `--args=--fullscreen`)")
     ap.add_argument("--add", type=Path, action="append", default=[], help="a file or folder to put beside a single .exe/.bat (repeatable)")
-    ap.add_argument("--kind", choices=KINDS, help="2d, 3d or hybrid (default 3d; an update keeps the previous one)")
-    ap.add_argument("--author", choices=("ai", "human"), help="who designed it (default human; an update keeps the previous one)")
+    ap.add_argument("--kind", choices=KINDS, help="2d, 3d or hybrid (default 3d; the card's, else the previous release's)")
+    ap.add_argument("--author", choices=("ai", "human"), help="who designed it (default human; the card's, else the previous release's)")
     ap.add_argument("--online", help="a note shown when it has online multiplayer (never an address or a join key)")
-    ap.add_argument("--thumb", type=Path, help="a 16:9 screenshot (.png or .jpg) for the website and the app")
-    ap.add_argument("--forked-from", help="SLUG@N: the game and version this one was made from (a fork; an update keeps it)")
+    ap.add_argument("--thumb", type=Path, help="a 16:9 screenshot (.png or .jpg) for the website and the app (default: the card's)")
+    ap.add_argument("--forked-from", help="SLUG@N: the game and version this one was made from (a fork; the card's or the previous release's is kept)")
     ap.add_argument("--maintainer", help="the GitHub login of whoever keeps it (an update keeps the previous one)")
     ap.add_argument("--out", type=Path, default=Path("dist-upload"), help="where the files are written before publishing")
     ap.add_argument("--dry-run", action="store_true", help="pack and describe the release, publish nothing (needs no network)")
-    a = ap.parse_args(argv)
+    a = ap.parse_args(gm.glue_dashed(sys.argv[1:] if argv is None else [str(x) for x in argv], [ap], "--args", "--notes"))
 
-    slug = a.slug or slugify(a.name)
-    if not rt.SLUG.match(slug):
-        raise SystemExit(f"--slug {slug!r}: use lowercase letters, digits and single hyphens")
+    if a.thumb and (a.thumb.suffix.lower() not in (".png", ".jpg", ".jpeg") or not a.thumb.is_file()):
+        raise SystemExit("--thumb: a .png or .jpg file")
     playable_slugs = {p["slug"] for p in rt.load_playables()}
     history = rt.release_history([] if a.dry_run else fetch_releases())
-    version, previous = plan_version(slug, history, playable_slugs)
-    previous = previous or {}
 
-    shutil.rmtree(a.out, ignore_errors=True)
-    zip_name = f"{slug}-{version}-windows-x64.zip"
-    entry = pack(a.source, a.add, a.run, a.args, a.out / zip_name)
+    with tempfile.TemporaryDirectory() as tmp:
+        folder = collect(a.source, a.add, Path(tmp) / "game")
+        fork = read_fork(folder)
+        found = gm.read(folder, fork=bool(fork), lone=lone_program(a.source), comment=source_comment(a.source))
+        card, origin = found["card"], found["from"]
+        # The card's name, unless it makes no id (`星の旅`) or is the parent's (a fork made before the card existed has its parent's card): then the fork's own.
+        card_name = next((n for n in (card.get("name"),) if n and slugify(n) and not (fork and slugify(n) == fork[0]["slug"])), None)
+        name = (a.name or "").strip() or card_name or (fork[1] if fork and slugify(fork[1]) else None) or (history.get(a.slug) or [{}])[0].get("name")
+        if not name:
+            raise SystemExit("no name for the game: it does not say its own (a redengine-game.json card, a header in the .bat, a record or version information "
+                             "in the .exe) and none was given; pass --name")
+        slug = a.slug or slugify(name)
+        if not rt.SLUG.match(slug):
+            raise SystemExit(f"--slug {slug!r}: use lowercase letters, digits and single hyphens")
+        version, previous = plan_version(slug, history, playable_slugs)
+        previous = previous or {}
+        if previous and not (a.name or a.slug):
+            print(f"note: the game's own name makes this version {version} of {slug} (its newest release is version {previous['version']}"
+                  f"{', kept by ' + previous['maintainer'] if previous.get('maintainer') else ''}); pass --slug to publish it as another game", file=sys.stderr)
+
+        shutil.rmtree(a.out, ignore_errors=True)
+        zip_name = f"{slug}-{version}-windows-x64.zip"
+        start = started_with(folder, card, lone_program(a.source))  # before prepare writes engine.name
+        entry = prepare(folder, a.run, a.args, card, lone_program(a.source))
+        if fork and fork[0]["slug"] == slug and not a.forked_from:
+            raise SystemExit(f"{slug} is the name of the game this fork was made from: give your version its own (--name)")
+        parent = fork[0] if fork else card.get("forked_from")
+        forked_from = parse_forked_from(a.forked_from, slug) if a.forked_from else pick(parent if parent and parent["slug"] != slug else None, previous.get("forked_from"))
+        # A description read only from version information is the weakest thing a game says: it never replaces the previous release's words, as the window
+        # keeps the site's (app.js applyGameSays).
+        weak = origin.get("description") == "program" and previous.get("description")
+        description = pick(a.description, None if weak else card.get("description"), previous.get("description"))
+        presentation = pick(a.kind, card.get("presentation"), previous.get("presentation"), "3d")
+        author = pick(a.author, card.get("author"), previous.get("author"), "human")
+        if a.online and gm.looks_like_address(gm.clean(a.online, gm.LIMITS["online"])):
+            raise SystemExit("--online: a note on how it is played online, never an address or a join key (those are never published)")
+        online = a.online if a.online is not None else pick(card.get("online"), previous.get("online")) or ""
+        notes = [n.strip() for n in a.notes if n.strip()] or card.get("notes") or (["First release."] if version == 1 else ["A new build."])
+        release_thumb = None
+        if a.thumb:  # the screenshot travels in the game, named by the card
+            ext = ".jpg" if a.thumb.suffix.lower() == ".jpeg" else a.thumb.suffix.lower()
+            in_game = gm.THUMB_STEM + ext
+            for other in {gm.THUMB_STEM + e for e in gm.PICTURES} - {in_game}:  # the other kind of picture would be dead weight
+                (folder / other).unlink(missing_ok=True)
+            if a.thumb.stat().st_size > gm.MAX_THUMB:  # a reader ignores a card's picture this big: it goes to the site only, as the app does
+                (folder / in_game).unlink(missing_ok=True)
+                in_game, release_thumb = None, (a.thumb, ext)
+            else:
+                shutil.copy2(a.thumb, folder / in_game)
+        else:
+            in_game = card.get("thumb")
+
+        # The card the published game carries: what was just decided, without the notes (they are for this release only).
+        own = gm.fit(gm.check_card({"name": name, "description": description, "presentation": presentation, "author": author, "online": online, "entry": entry,
+                                    "args": a.args or card_args(card, entry, start) or ([] if a.run else launch_args(folder)), "thumb": in_game, "forked_from": forked_from}))
+        (folder / gm.CARD_FILE).write_bytes(gm.card_text(own).encode("utf-8"))
+        zip_game(folder, a.out / zip_name, own)
+        thumb = None
+        if in_game:
+            thumb = a.out / f"{slug}-{version}-thumb{Path(in_game).suffix.lower()}"
+            shutil.copy2(folder / in_game, thumb)
+        elif release_thumb:
+            thumb = a.out / f"{slug}-{version}-thumb{release_thumb[1]}"
+            shutil.copy2(release_thumb[0], thumb)
+
     files = [a.out / zip_name]
     meta = {
         "kind": "upload",
         "slug": slug,
-        "name": a.name.strip(),
+        "name": name,
         "version": version,
         "released": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "description": rt.one_line(a.description or previous.get("description") or f"{a.name.strip()}, a Windows game."),
-        "presentation": a.kind or previous.get("presentation") or "3d",
-        "author": a.author or previous.get("author") or "human",
-        "online": a.online if a.online is not None else previous.get("online", ""),
+        "description": rt.one_line(description or f"{name}, a Windows game."),
+        "presentation": presentation,
+        "author": author,
+        "online": online,
         "entry": entry,
-        "notes": [n.strip() for n in a.notes if n.strip()] or (["First release."] if version == 1 else ["A new build."]),
+        "notes": notes,
         "zip": {"name": zip_name, "size": files[0].stat().st_size, "sha256": rt.sha256_of(files[0])},
     }
-    forked_from = parse_forked_from(a.forked_from, slug) if a.forked_from else previous.get("forked_from")
     if forked_from:
         meta["forked_from"] = forked_from
     if a.maintainer or previous.get("maintainer"):
         meta["maintainer"] = a.maintainer or previous["maintainer"]
-    if a.thumb:
-        ext = a.thumb.suffix.lower()
-        if ext not in (".png", ".jpg", ".jpeg"):
-            raise SystemExit("--thumb: a .png or .jpg")
-        thumb = a.out / f"{slug}-{version}-thumb{'.jpg' if ext == '.jpeg' else ext}"
-        shutil.copy2(a.thumb, thumb)
+    if thumb:
         files.append(thumb)
         meta["thumb"] = thumb.name
     elif previous.get("thumb_url"):

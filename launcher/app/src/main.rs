@@ -262,8 +262,10 @@ fn fork_make(state: State<'_, App>, slug: String, name: String) -> Result<String
         (library.dir(&slug).map_err(err)?, i.version, i.name.clone())
     };
     let root = state.library.lock().unwrap().root().to_path_buf();
+    // How the parent looks, from the site's record: the fork's card keeps it when the parent's own card does not say.
+    let presentation = state.catalog.lock().unwrap().as_ref().and_then(|c| c.game(&slug)).map(|g| g.presentation.clone());
     let parent = core::fork::Parent { slug, version };
-    let folder = core::fork::make(&root, &installed, &parent, &parent_name, &name).map_err(err)?;
+    let folder = core::fork::make_with(&root, &installed, &parent, &parent_name, &name, presentation.as_deref()).map_err(err)?;
     let shown = folder.display().to_string();
     let _ = open_with_shell(&shown);
     Ok(shown)
@@ -276,11 +278,18 @@ struct Dropped {
     candidates: Vec<String>,
     entry: Option<String>,
     size: u64,
+    /// There is a screenshot: one was dropped with the game, or the game's card names one.
     thumb: bool,
     /// Whether this app may publish (it has a token).
     can_publish: bool,
     /// The game it was forked from, when it is a fork made in the window.
     forked_from: Option<core::fork::Parent>,
+    /// What the game says about itself (its card, `core::meta`): the fields it filled in, as the card's own JSON object.
+    card: serde_json::Value,
+    /// What the copy of a game of this name already in the library says about itself (its card), for an update of a game the site does not list yet.
+    library: serde_json::Value,
+    /// Where each of those fields came from: `card`, `zip`, `bat`, `exe` or `program`. The page marks them "from the game".
+    found: std::collections::BTreeMap<&'static str, core::meta::Source>,
 }
 
 /// Copy what was dropped (`paths`) aside and look at it. Nothing the player dropped is changed.
@@ -290,6 +299,11 @@ async fn drop_inspect(state: State<'_, App>, paths: Vec<String>) -> Result<Dropp
     let paths: Vec<PathBuf> = paths.into_iter().map(PathBuf::from).collect();
     let work = root.join("uploads").join("staging");
     let staged = tauri::async_runtime::spawn_blocking(move || upload::stage(&paths, &work)).await.map_err(err)?.map_err(err)?;
+    let installed = {
+        let library = state.library.lock().unwrap();
+        let slug = upload::slugify(&staged.name);
+        library.installed(&slug).and_then(|_| library.dir(&slug).ok()).and_then(|dir| core::meta::read_card_file(&dir))
+    };
     let out = Dropped {
         name: staged.name.clone(),
         candidates: staged.candidates.clone(),
@@ -298,6 +312,9 @@ async fn drop_inspect(state: State<'_, App>, paths: Vec<String>) -> Result<Dropp
         thumb: staged.thumb.is_some(),
         can_publish: publish::token(&root).is_some(),
         forked_from: staged.forked_from.clone(),
+        card: serde_json::to_value(&staged.found.card).map_err(err)?,
+        library: serde_json::to_value(installed.unwrap_or_default()).map_err(err)?,
+        found: staged.found.from.clone(),
     };
     *state.dropped.lock().unwrap() = Some(staged);
     Ok(out)
@@ -323,7 +340,9 @@ async fn drop_add(state: State<'_, App>, details: upload::Details) -> Result<Str
     let slug = upload::slugify(&d.name);
     let version = local_version(&state, &slug)?;
     let staged = state.dropped.lock().unwrap().take().ok_or("Drop the game again.")?;
-    upload::prepare(&staged.folder, &d.entry, &[]).map_err(err)?;
+    // The game's card goes into its folder first, so the installed copy (and a fork made from it) carries it.
+    upload::write_card(&staged, &d).map_err(err)?;
+    upload::prepare(&staged.folder, &d.entry, &staged.args_for(&d.entry)).map_err(err)?;
     state.library.lock().unwrap().install_folder(&slug, &d.name, version, &staged.folder, &core::today(), true).map_err(err)?;
     Ok(slug)
 }
@@ -352,7 +371,8 @@ async fn drop_publish(app: AppHandle, state: State<'_, App>, details: upload::De
         };
         emit("pack", 0, 0);
         let (version, previous) = publish::next_version(&publish::records(&publish::releases(&token)?), &slug)?;
-        upload::prepare(&staged.folder, &d.entry, &[])?;
+        upload::write_card(&staged, &d)?;
+        upload::prepare(&staged.folder, &d.entry, &staged.args_for(&d.entry))?;
         let out = root.join("uploads").join("out");
         let _ = std::fs::remove_dir_all(&out);
         let zip_name = format!("{slug}-{version}-windows-x64.zip");
@@ -360,8 +380,9 @@ async fn drop_publish(app: AppHandle, state: State<'_, App>, details: upload::De
         let tag = format!("{slug}-v{version}");
         let mut files = vec![(out.join(&zip_name), "application/zip")];
         let thumb_url = match &staged.thumb {
+            // A dropped screenshot, or else the one the game's card names inside it.
             Some(t) => {
-                let ext = t.extension().and_then(|e| e.to_str()).unwrap_or("png").to_string();
+                let ext = t.extension().and_then(|e| e.to_str()).unwrap_or("png").to_ascii_lowercase();
                 let name = format!("{slug}-{version}-thumb.{ext}");
                 std::fs::copy(t, out.join(&name))?;
                 files.push((out.join(&name), if ext == "png" { "image/png" } else { "image/jpeg" }));

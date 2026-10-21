@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "name": "Star Miner",
+  "description": "Mine asteroids, dodge pirates.",
+  "presentation": "3d",
+  "author": "human",
+  "online": "Up to four players on one LAN.",
+  "entry": "Quest.bat",
+  "args": [
+    "--fast",
+    "level 2"
+  ],
+  "thumb": "media/shot.png",
+  "notes": [
+    "First release.",
+    "Fixed the save bug."
+  ],
+  "forked_from": {
+    "slug": "snake",
+    "version": 3
+  },
+  "future_field": {
+    "anything": [
+      1,
+      2
+    ]
+  }
+}

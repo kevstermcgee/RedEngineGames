@@ -160,7 +160,7 @@ mod tests {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../site/dist/catalog.json");
         if let Ok(text) = std::fs::read_to_string(path) {
             let c = Catalog::parse(&text).unwrap();
-            assert!(c.games.iter().all(|g| g.latest().map_or(true, |v| v.zip.sha256.len() == 64)));
+            assert!(c.games.iter().all(|g| g.latest().is_none_or(|v| v.zip.sha256.len() == 64)));
         }
     }
 }

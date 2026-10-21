@@ -36,19 +36,29 @@ A game that is not built from this repository (made with another engine, a `.bat
 python3 distribution/upload_game.py ~/Downloads/StarMiner.zip --name "Star Miner" --description "Mine asteroids, dodge pirates." --kind 2d --thumb shot.png
 python3 distribution/upload_game.py ~/Downloads/StarMiner-1.1.zip --name "Star Miner" --notes "Fixed the save bug."   # publishes version 2
 python3 distribution/upload_game.py quest.bat --add story.txt --name "Text Quest" --dry-run                           # pack only, publish nothing
+python3 distribution/upload_game.py ~/Downloads/StarMiner.zip                                                       # the game says its own name
 ```
 
-**Easiest: drag and drop onto the RedEngine Games app.** Drop the ZIP, folder, `.exe` or `.bat` (plus a screenshot if you have one) anywhere
-on the app's window, fill in the name and description, and choose *Publish for everyone*. The first time, the app asks for a GitHub
+**A game can describe itself.** Its card (`docs/GAME_METADATA.md`) holds its name, description, 2D/3D, designer, online note, what starts it and
+a screenshot: `redengine-game.json` in a ZIP or folder (and the ZIP's comment), a header block in a `.bat`/`.cmd`, a record after an `.exe`'s
+last byte, or the version information a program already has. `python3 distribution/game_meta.py stamp` writes one, `show` prints what a game
+says. A game with a card needs no flags; a flag beats the card, and the card beats the previous release (except a description read only from an
+`.exe`'s version information, which never replaces the previous release's). Every game published by this tool or
+by the app carries its card, so dropping the published ZIP again fills everything in.
+
+**Easiest: drag and drop onto the RedEngine Games app.** Drop the ZIP, folder, `.exe`, `.bat` or `.cmd` (plus a screenshot if you have one)
+anywhere on the app's window. What the game says about itself is already in the form, marked "from the game"; fill in what is missing (at
+least a name) and choose *Publish for everyone*. The first time, the app asks for a GitHub
 fine-grained token with *Contents: Read and write* on this repository; it keeps it on that PC. Anyone without a token can still choose
 *Add to my games* to play a dropped game on their own PC. The app writes exactly the release this tool writes (through a draft, so a failed
 upload never shows a version without its download).
 
-Without a terminal or the app: *Actions → Upload a game → Run workflow*, with a direct download link to the file (and optionally to a screenshot).
+Without a terminal or the app: *Actions → Upload a game → Run workflow*, with a direct download link to the file (and optionally to a screenshot);
+the name is needed only when the game does not say it.
 
-* **What it accepts:** a `.zip`, a folder, or one `.exe`/`.bat`/`.cmd` (`--add` puts more files beside it). A ZIP holding a single folder is played from inside that folder.
-* **What it starts:** the game's only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none), or `--run bin/Game.exe`. `--args` adds arguments.
-* **What it publishes:** the release `<slug>-v<N>` with `<slug>-<N>-windows-x64.zip` (the game plus `engine.name` and `launch.args`, the two files the app reads), an optional screenshot, and the usual `redengine-release` line with `"kind": "upload"` and what the site shows (description, 2D/3D, designer). Run it again with the same name for the next version; description, 2D/3D, designer and screenshot carry over unless given again.
+* **What it accepts:** a `.zip`, a folder, or one `.exe`/`.bat`/`.cmd` (`--add` puts more files beside it). A ZIP holding a single folder is played from inside that folder. Other archives (7z, RAR, `.tar.gz`) are not opened, by this tool or by the app: repack the game as a ZIP.
+* **What it starts:** `--run bin/Game.exe`, else the game's own `engine.name`, else its card's `entry`, else its only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none). A program given alone is the game whatever it is called. `--args` adds arguments (else the card's, when they are for the program it starts).
+* **What it publishes:** the release `<slug>-v<N>` with `<slug>-<N>-windows-x64.zip` (the game plus `engine.name` and `launch.args`, the two files the app reads, and its card as `redengine-game.json` and the ZIP's comment), an optional screenshot, and the usual `redengine-release` line with `"kind": "upload"` and what the site shows (description, 2D/3D, designer, online note). Run it again with the same name for the next version; description, 2D/3D, designer and screenshot carry over unless given again or the game's card says otherwise.
 * **What players get:** the game's page offers the portable ZIP and the app; there is no installer and no in-game updater, so updates arrive through the app. The site lists it once `pages.yml` has run (a release published from a computer starts it; the workflow chains on *Upload a game*).
 * **Limits:** the slug of a game built here is refused. A wiki page in `site/wiki/<slug>/` is used when present but not required. The app checks each download's SHA-256, which proves it arrived intact, not that the game is safe: upload only games you trust. Removing a game means deleting its releases (`gh release delete <slug>-v<N>`) and rerunning *Deploy download site*.
 
@@ -82,5 +92,7 @@ Windows SmartScreen warns about any installer that is not signed with a certific
 * `distribution/play_launcher.rs`: the in-game launcher and updater, no dependencies (`rustc --test` runs its tests).
 * `distribution/installer.iss`: the Inno Setup script. `distribution/sign.ps1`: signing hook. `distribution/config.json`: repository and site address.
 * `distribution/upload_game.py` (+ `test_upload_game.py`): ready-made games (see above); `.github/workflows/upload-game.yml` runs it from GitHub.
+* `distribution/game_meta.py` (+ `test_game_meta.py`): the game card, read and stamped (`docs/GAME_METADATA.md`); `testdata/game_meta/` holds the
+  fixtures the app's reader (`launcher/core/src/meta.rs`) is tested against too.
 * `site/generate.py`: the website, `games/<slug>/latest.json` and `catalog.json`.
 * The old *RedEngine Launcher* (a desktop app that listed the ZIP bundles) was removed; the website and the installers replace it.

@@ -8,6 +8,7 @@ on:
     paths:
       - site/**
       - distribution/**
+      - docs/GAME_METADATA.md
       - .release-games.json
       - .games-catalog.json
       - .github/workflows/checks.yml

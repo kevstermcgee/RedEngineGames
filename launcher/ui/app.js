@@ -996,7 +996,12 @@ async function refresh() {
 // ---------- a game of the player's own: drop it on the window to add it to this PC's library, or publish it for everyone
 
 const DROP_HINT = `Have a game of your own? Drop its ZIP, folder, .exe or .bat anywhere on this window to add it. <button class="inline-link" data-act="publish-setup">Publishing…</button>`;
-const DROP = { info: null, busy: false };
+const DROP = { info: null, busy: false, says: {} };
+
+/** What the game can say that the form takes: the field, and the word the sentence under the first line uses for it. */
+const GAME_SAYS = [["name", "name"], ["description", "description"], ["presentation", "2D/3D"], ["author", "author"], ["notes", "what changed"], ["online", "online note"]];
+/** Where `found` says a field was read (`core::meta::Source`), as a mark's title says it. */
+const READ_FROM = { card: "the game's card", zip: "the ZIP's comment", bat: "the script's header", exe: "the program's record", program: "the program's file information" };
 
 /** The game's id in addresses, as the window makes it (`upload::slugify`). */
 const slugify = (name) => String(name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -1029,7 +1034,8 @@ function openDropDialog(paths) {
   sel.innerHTML = info.candidates.map((c) => `<option${c === info.entry ? " selected" : ""}>${h(c)}</option>`).join("")
     || `<option value="">Nothing to start: it needs an .exe, .bat or .cmd</option>`;
   if (info.entry && !info.candidates.includes(info.entry)) sel.insertAdjacentHTML("afterbegin", `<option selected>${h(info.entry)}</option>`);
-  prefill(f);
+  prefill(f, info);
+  applyGameSays(f, info);
   const parent = info.forked_from && S.bySlug.get(info.forked_from.slug);
   const forkLine = $(".drop-fork", d);
   forkLine.hidden = !info.forked_from;
@@ -1041,13 +1047,62 @@ function openDropDialog(paths) {
   d.showModal();
 }
 
-/** A new version of a game already on the site or in the library starts from what it says now. */
-function prefill(f) {
+/** The fields a dropped game says about itself, as the form holds them: `{field: {value, from}}`. Only what the form can take: text is
+ *  trimmed, and a presentation or author the form does not know is left out. The name counts only when it is the one the form starts with
+ *  (a fork keeps its own). Everything is set as text, never as HTML. */
+function gameSays(info) {
+  const c = info.card || {};
+  const found = info.found || {};
+  const text = (v) => (typeof v === "string" ? v.trim() : "");
+  const value = {
+    name: text(c.name) === info.name ? info.name : "",
+    description: text(c.description),
+    presentation: ["2d", "3d", "hybrid"].includes(c.presentation) ? c.presentation : "",
+    author: ["human", "ai"].includes(c.author) ? c.author : "",
+    online: text(c.online),
+    notes: Array.isArray(c.notes) ? c.notes.map(text).filter(Boolean).join("\n") : "",
+  };
+  const says = {};
+  for (const [field] of GAME_SAYS) if (value[field]) says[field] = { value: value[field], from: found[field] };
+  return says;
+}
+
+/** What the game says about itself goes into the form, ahead of what `prefill` found; one sentence under the first line says what was read. */
+function applyGameSays(f, info) {
+  DROP.says = gameSays(info);
+  for (const [field, say] of Object.entries(DROP.says)) {
+    // The program's file information is the weakest thing a game says: it never replaces words the site or the library already has.
+    if (field === "description" && say.from === "program" && f.description.value.trim()) delete DROP.says[field];
+    else f[field].value = say.value;
+  }
+  const read = GAME_SAYS.filter(([field]) => DROP.says[field]).map(([, word]) => word);
+  const line = $(".drop-read", $("#drop"));
+  line.hidden = !read.length;
+  line.textContent = read.length ? `Read from the game: ${read.join(", ")}.` : "";
+  paintMarks();
+}
+
+/** The "from the game" marks beside the labels: one for a field whose source is known. A mark goes when the poster changes its field, which is then
+ *  theirs, and comes back if they put the game's words back. */
+function paintMarks() {
+  const f = $("#drop form");
+  document.querySelectorAll("#drop [data-gm]").forEach((m) => {
+    const say = DROP.says[m.dataset.gm];
+    m.hidden = !say || !say.from || f[m.dataset.gm].value.trim() !== say.value;
+    m.title = say && say.from ? `Read from ${Object.hasOwn(READ_FROM, say.from) ? READ_FROM[say.from] : "the game"}` : "";
+  });
+}
+
+/** A new version of a game already on the site or in the library starts from what it says now: the site's record, else the card of the copy in the
+ *  library (which is all a game has until the site lists it). */
+function prefill(f, info) {
   const g = S.bySlug.get(slugify(f.name.value));
-  if (!g || !(g.uploaded || g.local)) return;
-  if (g.description) f.description.value = g.description;
-  if (g.presentation) f.presentation.value = g.presentation;
-  if (g.author) f.author.value = g.author;
+  const site = g && (g.uploaded || g.local) ? g : {};
+  const lib = (info && info.library) || {};
+  for (const field of ["description", "presentation", "author", "online"]) {
+    const v = site[field] || lib[field];
+    if (typeof v === "string" && v && (field !== "presentation" || ["2d", "3d", "hybrid"].includes(v)) && (field !== "author" || ["human", "ai"].includes(v))) f[field].value = v;
+  }
 }
 
 /** Under the form: what adding or publishing will do with this name. */
@@ -1059,9 +1114,10 @@ function paintDropNote() {
   const g = S.bySlug.get(slug);
   const add = $('[data-drop="add"]', d);
   const pub = $('[data-drop="publish"]', d);
-  pub.textContent = S.canPublish ? "Publish for everyone" : "Set up publishing…";
   let text = S.canPublish ? "Publishing puts it on the website and in everyone's app within a few minutes." : "Add it to play it on this PC. Publishing it for everyone needs the site owner's GitHub token.";
   let bad = !slug || !f.entry.value;
+  let warn = false;
+  pub.textContent = S.canPublish ? "Publish for everyone" : "Set up publishing…";
   const parentSlug = DROP.info && DROP.info.forked_from && DROP.info.forked_from.slug;
   if (!slug) text = "Give the game a name.";
   else if (slug === parentSlug) { text = "That is the original's name: give your version its own."; bad = true; }
@@ -1070,16 +1126,27 @@ function paintDropNote() {
   else if (g) {
     const next = Math.max((latest(g) || {}).version || 0, (g.installed || {}).version || 0) + 1;
     text = `This becomes version ${next} of ${g.name}. ${g.uploaded ? "Everyone who installed it is offered the update once you publish it." : "It replaces your copy."}`;
+    // A name read from a game can be a name somebody else's game has: say whose, and on the button.
+    const theirs = S.canPublish && g.uploaded && g.maintainer && S.publishLogin && g.maintainer.toLowerCase() !== S.publishLogin.toLowerCase();
+    if (theirs) {
+      text = `“${g.name}” is kept by @${g.maintainer}, not by you. Publishing this makes it version ${next} of their game, for everyone who installed it. Give yours another name unless that is what you mean.`;
+      warn = true;
+      pub.textContent = `Publish as @${g.maintainer}'s version ${next}`;
+    }
   }
   note.textContent = text;
-  note.classList.toggle("warn", bad);
+  note.classList.toggle("warn", bad || warn);
   add.disabled = bad || DROP.busy;
   pub.disabled = (bad && S.canPublish) || DROP.busy;
 }
 
 function dropDetails() {
   const f = $("#drop form");
-  return { name: f.name.value.trim(), entry: f.entry.value, description: f.description.value.trim(), presentation: f.presentation.value, author: f.author.value, notes: f.notes.value.trim() };
+  const online = f.online.value.trim();
+  return {
+    name: f.name.value.trim(), entry: f.entry.value, description: f.description.value.trim(), presentation: f.presentation.value, author: f.author.value, notes: f.notes.value.trim(),
+    ...(online ? { online } : {}),
+  };
 }
 
 async function dropCommit(kind) {
@@ -1152,7 +1219,7 @@ async function publishSave() {
   }
 }
 
-$("#drop").addEventListener("input", (e) => { if (e.target.name === "name" || e.target.name === "entry") paintDropNote(); });
+$("#drop").addEventListener("input", (e) => { if (e.target.name === "name" || e.target.name === "entry") paintDropNote(); paintMarks(); });
 $("#drop").addEventListener("click", (e) => { const b = e.target.closest("[data-drop]"); if (b && !b.disabled) dropCommit(b.dataset.drop); });
 $("#drop").addEventListener("cancel", (e) => { if (DROP.busy) e.preventDefault(); });
 $("#pub").addEventListener("click", async (e) => {
