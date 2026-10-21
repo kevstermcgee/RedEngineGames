@@ -41,8 +41,10 @@ pub struct Staged {
     pub candidates: Vec<String>,
     /// What starts it when that is clear (a RedEngine build's own `engine.name`, else the card's, else a single candidate).
     pub entry: Option<String>,
-    /// What to start it with, when the game's card says (for `entry`: see [`Staged::args_for`]).
+    /// What to start it with, when the game's card says (for the card's own program only: see [`Staged::args_for`]).
     pub args: Vec<String>,
+    /// The program `args` were written for: the card's own `entry`, else (a card that names none) what the game starts with.
+    pub args_entry: Option<String>,
     /// What the game says about itself, and where each field was found.
     pub found: crate::meta::Found,
     /// The game's size on disk, in bytes.
@@ -166,8 +168,11 @@ pub fn stage(paths: &[PathBuf], work: &Path) -> Result<Staged> {
     };
     // A dropped screenshot wins over the one the card names.
     let thumb = dropped_thumb.or_else(|| found.card.thumb.as_ref().map(|t| folder.join(t)));
+    // The card's arguments are for its own `entry`, never for another program (`engine.name`'s, or one the player picks); a card that names no program
+    // speaks for the one the game starts with.
     let args = found.card.args.clone().unwrap_or_default();
-    Ok(Staged { size: size_of(&folder, 1), folder, thumb, name, candidates, entry, args, found, forked_from })
+    let args_entry = found.card.entry.clone().or_else(|| entry.clone());
+    Ok(Staged { size: size_of(&folder, 1), folder, thumb, name, candidates, entry, args, args_entry, found, forked_from })
 }
 
 /// A ZIP or folder holding a single folder (and `__MACOSX` or `.DS_Store` beside it) is played from inside that folder, however deep.
@@ -236,16 +241,21 @@ pub fn prepare(folder: &Path, entry: &str, args: &[String]) -> Result<()> {
     crate::archive::check_game(folder).map(|_| ()).map_err(|_| Error::Upload(format!("`{entry}` is not a file inside the game.")))
 }
 
+/// Whether `a` names the program `b` does (`\` or `/`, spaces around).
+fn same_program(a: Option<&str>, b: &str) -> bool {
+    a.is_some_and(|a| a.trim().replace('\\', "/") == b.trim().replace('\\', "/"))
+}
+
 impl Staged {
     /// Whether `entry` is the program the game started with when it was dropped (its `engine.name`, its card's `entry`, or its one candidate).
     fn starts_with(&self, entry: &str) -> bool {
-        self.entry.as_ref().is_some_and(|e| e.trim().replace('\\', "/") == entry.trim().replace('\\', "/"))
+        same_program(self.entry.as_deref(), entry)
     }
 
-    /// What `entry` starts with, as the game's card says: the card's arguments when it is the program the game started with, none for another one the
-    /// player picked, which they were not written for.
+    /// What `entry` starts with, as the game's card says: the card's arguments when it is the program they were written for (the card's own `entry`,
+    /// else the one the game started with), none for another one, whether `engine.name` or the player chose it.
     pub fn args_for(&self, entry: &str) -> Vec<String> {
-        if self.starts_with(entry) { self.args.clone() } else { vec![] }
+        if same_program(self.args_entry.as_deref(), entry) { self.args.clone() } else { vec![] }
     }
 }
 
@@ -852,6 +862,52 @@ mod tests {
         assert_eq!(crate::meta::read_card_file(&s.folder).unwrap().args, Some(vec!["content/map.json".to_string(), "--windowed".to_string()]));
         prepare(&s.folder, "RedEngine.exe", &s.args_for("RedEngine.exe")).unwrap();
         assert_eq!(std::fs::read_to_string(s.folder.join("launch.args")).unwrap(), "content/map.json\n  --windowed  \n\n", "prepare keeps the arguments file the game came with");
+    }
+
+    #[test]
+    fn notes_in_a_script_are_not_the_next_builds_because_the_script_ships_unchanged() {
+        let dir = tempfile::tempdir().unwrap();
+        let bat = dir.path().join("Quest.bat");
+        std::fs::write(&bat, "@echo off\r\nREM redengine-game\r\nREM name: Text Quest\r\nREM notes: First release.\r\nREM notes: Fixed the door.\r\necho hi\r\n").unwrap();
+        let s = stage(std::slice::from_ref(&bat), &dir.path().join("work")).unwrap();
+        assert_eq!((s.name.as_str(), s.found.card.notes.clone(), s.found.from.get("notes")), ("Text Quest", None, None));
+        // Published as the window publishes it, then dropped again for the next build: the first build's notes do not come back as "what changed".
+        write_card(&s, &details("Text Quest", "Quest.bat").checked().unwrap()).unwrap();
+        prepare(&s.folder, "Quest.bat", &s.args_for("Quest.bat")).unwrap();
+        let out = dir.path().join("text-quest-1-windows-x64.zip");
+        zip_folder(&s.folder, &out).unwrap();
+        let again = stage(&[out], &dir.path().join("work2")).unwrap();
+        assert!(std::fs::read_to_string(again.folder.join("Quest.bat")).unwrap().contains("Fixed the door."), "the script is published as it was");
+        assert_eq!((again.name.as_str(), again.found.card.notes, again.found.from.get("notes")), ("Text Quest", None, None));
+    }
+
+    #[test]
+    fn a_cards_arguments_are_for_its_own_entry_even_when_engine_name_starts_another_program() {
+        let dir = tempfile::tempdir().unwrap();
+        let zip = dir.path().join("g.zip");
+        zip_of(&zip, &[("A.bat", b"@echo off"), ("B.bat", b"@echo off"), ("engine.name", b"A.bat\n"), ("redengine-game.json", br#"{"entry": "B.bat", "args": ["--for-b-only"]}"#)]);
+        let s = stage(&[zip], &dir.path().join("work")).unwrap();
+        assert_eq!(s.entry.as_deref(), Some("A.bat"), "engine.name wins");
+        assert_eq!((s.args_for("A.bat"), s.args_for("B.bat")), (vec![], vec!["--for-b-only".to_string()]));
+        write_card(&s, &details("Two Bats", "A.bat").checked().unwrap()).unwrap();
+        assert_eq!(crate::meta::read_card_file(&s.folder).unwrap().args, None, "the program engine.name starts gets none of the card's arguments");
+        prepare(&s.folder, "A.bat", &s.args_for("A.bat")).unwrap();
+        assert_eq!(std::fs::read_to_string(s.folder.join("launch.args")).unwrap(), "");
+        // A card that names no program speaks for the one the game starts with.
+        let one = dir.path().join("one.zip");
+        zip_of(&one, &[("Game.bat", b"@echo off"), ("redengine-game.json", br#"{"args": ["--x"]}"#)]);
+        let s = stage(&[one], &dir.path().join("work2")).unwrap();
+        assert_eq!(s.args_for("Game.bat"), ["--x"]);
+    }
+
+    #[test]
+    fn the_name_an_engine_gives_its_own_program_does_not_name_the_game() {
+        // `Moonlit Quest/Game.exe` is NW.js's own program, as RPG Maker MV ships it, with NW.js's version information: the game is named after the drop.
+        let dir = tempfile::tempdir().unwrap();
+        let zip = dir.path().join("Moonlit_Quest.zip");
+        std::fs::copy(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../distribution/testdata/game_meta/zip-runtime-program.zip"), &zip).unwrap();
+        let s = stage(&[zip], &dir.path().join("work")).unwrap();
+        assert_eq!((s.name.as_str(), s.entry.as_deref(), s.found.clone()), ("Moonlit Quest", Some("Game.exe"), crate::meta::Found::default()));
     }
 
     #[test]

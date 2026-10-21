@@ -25,9 +25,9 @@ A JSON object. Every field is optional; unknown fields are ignored.
 | `author` | `"ai"` `"human"` | Who designed it. |
 | `online` | string, 200 | A note when it has online multiplayer. Never an address or a join key (see below). |
 | `entry` | string | What starts the game: a path inside the game, `/`-separated, ending `.exe`, `.bat` or `.cmd`. |
-| `args` | array of up to 16 strings, 200 each | What to start `entry` with. They are for the card's own `entry` only, never for another program the poster picks. |
+| `args` | array of up to 16 strings, 200 each | What to start `entry` with. They are for the card's own `entry` only (a card that names none speaks for the program the game starts with), never for another program, whether the poster or `engine.name` picks it. |
 | `thumb` | string | A screenshot inside the game: a `.png` or `.jpg` path, `/`-separated, a file of at most 5 MiB. |
-| `notes` | array of up to 10 strings, 200 each | What changed in **this build**. Read to fill in "what changed"; never written into a published card or an `.exe` record. |
+| `notes` | array of up to 10 strings, 200 each | What changed in **this build**. Read to fill in "what changed", from the card file and the ZIP comment only, which the app and `upload_game.py` rewrite (without notes) on every publish. Never read from a script header or an `.exe` record, and never written into one or into a published card: a game's script and program ship unchanged in its next build, where one build's notes would be read as the next one's. |
 | `forked_from` | `{"slug": "snake", "version": 3}` | The game and version it was made from (as `fork.json`, which wins when both say). |
 
 Cleaning, the same everywhere: a string loses control characters and the Unicode direction overrides (U+202A to U+202E, U+2066 to U+2069),
@@ -65,17 +65,18 @@ White space in the ZIP comment and in a header block is ASCII only: space, tab, 
 
 **A ZIP is read as the app unpacks it.** A member is not there when its name is over 1024 bytes or 64 parts (a backslash separates parts too),
 has an empty or `..` part, a NUL, a root or a drive, or names a device, and when it is encrypted or compressed other than stored or deflated. A
-link in a ZIP is an empty folder, never a file. (Staging a dropped ZIP refuses the whole archive for such a member; reading it for its card only
-leaves the member out.) A ZIP of more than 200 000 members says nothing. The app looks inside by unpacking into a new temporary folder (at
-most 512 MiB written); the tool reads members in place, never opens a compressed member that declares more than 64 MiB, and decompresses at
-most 256 MiB for the whole ZIP.
+link in a ZIP is an empty folder, never a file. The window stages a dropped ZIP whole, unpacking all of it into the library's `uploads/staging`
+folder, and refuses the whole archive for such a member; a reader looking at a ZIP only for its card leaves the member out. That reader, in the
+app (`cargo run --example card`, the tests), unpacks the ZIP into a new temporary folder (at most 512 MiB written) and says nothing for one of more
+than 200 000 members; the tool reads members in place, says nothing for a ZIP of more than 200 000 members, never opens a compressed member that
+declares more than 64 MiB, and decompresses at most 256 MiB for the whole ZIP.
 
 **Header block** in a `.bat` or `.cmd`: within the first 64 lines (lines end at LF, a CR before it is dropped; after an optional UTF-8 byte order
 mark; at most 64 KiB read), a comment line whose text is `redengine-game` starts the block. A comment line is `REM` or `@REM` (in any case)
 followed by a space, a tab or the line's end, or `::`, after any spaces and tabs. The comment lines right after it, `key: value` each, are the
 card: the key is what comes before the first `:`, both sides trimmed. Keys are `name`, `description`, `presentation` (or `kind`), `author`,
-`online`, `entry`, `thumb`, and the repeatable `notes` and `args` (each line adds one); a line with another key or no `:` is skipped. The first
-line that is not a comment line (a blank line too) ends the block. The text is read as UTF-8.
+`online`, `entry`, `thumb`, and the repeatable `args` (each line adds one); a line with another key or no `:` is skipped, and so are `notes`
+lines (see the card's `notes`). The first line that is not a comment line (a blank line too) ends the block. The text is read as UTF-8.
 
 ```bat
 @echo off
@@ -84,20 +85,20 @@ line that is not a comment line (a blank line too) ends the block. The text is r
 @REM description: A tiny text adventure about a lost key.
 @REM presentation: 2d
 @REM author: ai
-@REM notes: First release.
 echo Welcome...
 ```
 
 The tool writes `@REM` lines (so the script prints exactly what it printed before) with CRLF ends, right after a first line `@echo off` or else at
 the top, replacing the block it finds. It refuses a value holding `^ % & | < >` (cmd would read it as part of a command), a UTF-16 script, a
-screenshot and `forked_from` (a script cannot hold them: stamp the folder or ZIP).
+screenshot and `forked_from` (a script cannot hold them: stamp the folder or ZIP). It leaves out `notes`, given or already in the block, and says
+so.
 
 **Record** in an `.exe`: after the last byte of the program, the card as UTF-8 JSON on one line, then its length as 4 bytes little-endian, then
 the 8 bytes `REDGAME1`. A reader looks at the last 12 bytes: the magic, then the length (which must fit in the file and in 16 KiB). When the
 program was signed after it was stamped, the record sits just before the certificate table: when the last 12 bytes are no record and the program
 has a certificate table, a reader looks for one ending where the table starts, or up to 7 bytes before (the table starts on a multiple of 8).
 Windows runs the program as before, because it ignores what follows the last section. The tool never writes `notes` into a record (and says
-so): what changed in one build would outlive it in the program and be read as the next build's.
+so), and a reader ignores them in one: what changed in one build would outlive it in the program and be read as the next build's.
 
 The program's last byte is the last of: the end of its headers, the end of each section's data in the file, and, when the headers point to a COFF
 symbol table (gcc and MinGW leave one), the end of its string table (a size of at least 4 that fits in the file; a claim that reaches outside is
@@ -111,9 +112,13 @@ directories (at most 16 are read), and a section table inside the file. Anything
 **Version information** is read from the program's `VS_VERSION_INFO` resource (`RT_VERSION`, 16; its first name and first language). A resource
 directory of more than 4096 entries or reaching past the resources, a version resource under 6 bytes or over 64 KiB or outside one section, and
 a tree of any other shape read as nothing. Only the first string table counts; of a key that appears twice the first wins, and a key over 64
-UTF-16 units ends the table. `ProductName`, `Comments` and `FileDescription` are read; these values are ignored: empty, `application`, `game`,
-`app` (in any case), and a `FileDescription` equal to the whole `ProductName` (ignoring case, before either is cut). It is the lowest-ranked
-source and only read for the program that starts the game.
+UTF-16 units ends the table. `ProductName`, `Comments` and `FileDescription` are read. A value is ignored when, in any case and without a version
+number after it (a space, an optional `v`, then digits and dots: `LÖVE 11.5`), it is empty, `application`, `game` or `app`, or what an engine
+calls the program it ships as every game's own: `nwjs`, `nw.js`, `node-webkit` (NW.js, which RPG Maker MV and MZ ship as `Game.exe`),
+`electron`, `love`, `löve`, `godot`, `godot engine`, `unity player`, `rgss player`, `rgss2 player`, `rgss3 player`, `rpg maker xp`,
+`rpg maker vx`, `rpg maker vx ace`, `ren'py`, `renpy` (such a name is the engine's, and would give different people's games one slug). So is a
+`FileDescription` equal to the whole `ProductName` (ignoring case, before either is cut). It is the lowest-ranked source and only read for the
+program that starts the game.
 
 ## What the reader does
 
@@ -130,8 +135,8 @@ The `bat`, `exe` and `program` sources come from the file that starts the game, 
    start (in ASCII, any case) with `unins`, `setup`, `install`, `vc_redist`, `vcredist`, `dxsetup`, `unitycrashhandler`, `crashpad_handler` or
    `notification_helper`. A program dropped or given alone is the game whatever it is called (`Install_And_Play.bat`).
 
-A **fork** (it has a `fork.json` naming its parent, or its card file or ZIP comment says `forked_from`) takes `description`, `author`, `online`
-and `notes` only from its card file and ZIP comment, never from a script or a program: those were its parent's.
+A **fork** (it has a `fork.json` naming its parent, or its card file or ZIP comment says `forked_from`) takes `description`, `author` and
+`online` only from its card file and ZIP comment, never from a script or a program: those were its parent's. (No game takes `notes` from them.)
 
 A name counts only in the case it is written: a card's `Quest.BAT` does not name `Quest.bat`, on a disk that ignores case (Windows) too, as in a
 ZIP read in place. A reader never runs anything, never opens the network, never follows a link (a symbolic link or a junction is not a file of the game; only the one
@@ -158,20 +163,23 @@ N". With a name and something to start, the poster can publish without typing an
 
 ## What travels
 
-On **Add to my games** and **Publish for everyone** the app writes the card, as the poster left it after the form, into the game's folder
-before it is installed or zipped: `redengine-game.json` (pretty, `schema` 1, without `notes`). The published ZIP also carries it as its comment.
-When the poster keeps the program the game started with, the card keeps its `args` (and they go into `launch.args`), or, when it had none,
-takes the game's own `launch.args`; for another program it gets none. A card that would be over 16 KiB (only with fields of the longest, in
-4-byte characters) loses its `args` (`launch.args` has them), then `online`, then `description`, then `thumb`, until it fits.
+On **Add to my games** and **Publish for everyone** the app writes the card, as the poster left it after the form, into the game's folder before it
+is installed or zipped: `redengine-game.json` (pretty, `schema` 1, without `notes`). The published ZIP also carries it as its comment. When the
+poster starts the game with the program its card's `args` are for (the card's `entry`, else the program the game started with), the card keeps them
+(and they go into `launch.args`); when they keep the program the game started with and the card has no `args` for it, the card takes the game's own
+`launch.args`; any other program gets none, `engine.name`'s too when it is not the card's `entry`. A card that would be over 16 KiB (only with
+fields of the longest, in 4-byte characters) loses its `args` (`launch.args` has them), then `online`, then `description`, then `thumb`, until it
+fits.
 
 A dropped screenshot is copied into the folder as `redengine-game-thumb.png` or `.jpg` (the other kind is removed) and named by `thumb`. One over
 5 MiB is uploaded as the release's screenshot but not copied into the game, and the card names none. With no screenshot dropped, the card's own
 `thumb` stays and is uploaded as the release's screenshot. So the published ZIP, the installed game and a fork all carry the card, and dropping
 that ZIP again fills in the form completely.
 
-**Fork…** writes the fork's card: its own `name`, `forked_from`, and the parent's `presentation` (from the parent's card, else the site's
-record); the parent's description, author, screenshot and notes are dropped, because the fork is somebody else's game. Its `FORK.md` asks the
-player (or their AI) to keep the card and to give it a `description` and an `author`.
+**Fork…** writes the fork's card: its own `name`, `forked_from`, and the parent's `presentation` (from the parent's card, else the site's record);
+the parent's description, author, online note, screenshot, `entry`, `args` and notes are dropped, because the fork is somebody else's game (what
+starts it stays in `engine.name` and `launch.args`). Its `FORK.md` asks the player (or their AI) to keep the card and to give it a `description` and
+an `author`.
 
 The app never edits a game's own files (programs and scripts): it adds `redengine-game.json` and the screenshot beside them. Putting the card
 inside a program or a script is the creator's choice, made with the tool:
@@ -189,10 +197,11 @@ ignore (with what the field takes), an `entry` or `thumb` that is not in the gam
 would ignore whole (the app and `upload_game.py` cut such a card instead). It replaces a ZIP's other comment (and says so) and refuses a ZIP
 with encrypted members.
 
-`upload_game.py` reads the same card (a ZIP's comment too, read before the ZIP is unpacked): `--name` is only needed when the game does not say
-its name. Each field comes from the flag, else the card,
-else the game's previous release, else the default; the card's `entry` and `args` start the game when `--run` and `--args` are absent
-(`engine.name` still wins), and its `notes` are "what changed" when there is no `--notes`. It writes the card (without notes) into the ZIP it
+`upload_game.py` reads the same card (a ZIP's comment too, read before the ZIP is unpacked): `--name` is only needed when the game does not say its
+name. Each field comes from the flag, else the card, else the game's previous release, else the default, except a description read only from version
+information, which never replaces the previous release's (as the window keeps the site's). The card's `entry` starts the game when `--run` is absent
+(`engine.name` still wins), its `args` go with the program they are for when `--args` is absent (never with another one, whether `--run` or
+`engine.name` chose it), and its `notes` are "what changed" when there is no `--notes`. It writes the card (without notes) into the ZIP it
 publishes, as the file and as the comment, under the same rules as the app, a `--thumb` over 5 MiB included.
 
 ## Left open

@@ -52,9 +52,16 @@ SOURCES = ("card", "zip", "bat", "exe", "program")
 LABELS = {"card": "card file", "zip": "ZIP comment", "bat": "script header", "exe": "record in the program", "program": "version information"}
 HEADER_KEYS = ("name", "description", "presentation", "kind", "author", "online", "entry", "thumb", "notes", "args")
 JUNK = ("application", "game", "app")  # version information that says nothing
+# What engines call the program they ship as every game's own (NW.js, which RPG Maker MV and MZ ship as Game.exe; Electron; LOVE; Godot; Unity; RPG Maker's
+# players; Ren'Py): version information that names the engine, never the game (as `meta::RUNTIMES` in the app).
+RUNTIMES = ("nwjs", "nw.js", "node-webkit", "electron", "love", "löve", "godot", "godot engine", "unity player", "rgss player", "rgss2 player", "rgss3 player",
+            "rpg maker xp", "rpg maker vx", "rpg maker vx ace", "ren'py", "renpy")
+_VERSION_NUMBER = re.compile(r"v?[0-9]+(?:\.[0-9]+)*", re.A)
 MAX_ENTRIES = 200_000  # a ZIP with more members than this is not looked into
 MAX_STARTS = 16
-PARENTS_WORDS = ("description", "author", "online", "notes")  # what a fork does not take from its parent's script or program
+PARENTS_WORDS = ("description", "author", "online")  # what a fork does not take from its parent's script or program
+# Sources a publisher never rewrites: a script or a program ships unchanged in every later build, so "what changed" is never read from one.
+SHIPPED_AS_IS = ("bat", "exe", "program")
 MAX_NAME = 1024  # a ZIP member whose name is longer than this many bytes, or sits deeper than MAX_DEPTH folders, is not there: the app could not unpack it either
 MAX_DEPTH = 64
 MAX_SLUG = 64
@@ -64,6 +71,8 @@ JUNK_FOLDERS = ("__MACOSX", ".DS_Store")
 DEVICES = frozenset(["con", "prn", "aux", "nul", "conin$", "conout$", *(f"com{n}" for n in range(1, 10)), *(f"lpt{n}" for n in range(1, 10))])
 # Characters a script header cannot hold: cmd reads them as part of a command (or a line that goes on) even in a comment.
 CMD_SPECIAL = "^%&|<>"
+NO_NOTES = ("note: {what} does not keep notes (it ships unchanged in the next build, where they would be read as that build's): "
+            "give them to upload_game.py --notes or the app's \"What changed\", or put them in the card of the folder or ZIP")
 
 # Unicode White_Space, so that every reader agrees on what a run of white space is.
 _SPACE = frozenset(map(chr, [*range(9, 14), 0x20, 0x85, 0xA0, 0x1680, *range(0x2000, 0x200B), 0x2028, 0x2029, 0x202F, 0x205F, 0x3000]))
@@ -411,17 +420,27 @@ def _version_strings(b: bytes) -> dict[str, str]:
     return {}
 
 
+def says_nothing(text: str) -> bool:
+    """Whether a value of version information (cleaned) says nothing about the game: it is empty, a word like `application`, or the name of an engine's
+    own program (`nwjs`, `LOVE 11.5`), whatever its case and a version number after it (a space, an optional `v`, digits and dots)."""
+    low = text.lower()
+    head, _, tail = low.rpartition(" ")
+    if head and _VERSION_NUMBER.fullmatch(tail):
+        low = head
+    return not low or low in JUNK or low in RUNTIMES
+
+
 def _program(f) -> dict:
     """What a program's version information says: its `ProductName` as the name, `Comments` else `FileDescription` as the description."""
     pe = _pe(f)
     blob = _version_blob(f, pe) if pe else None
     strings = _version_strings(blob) if blob else {}
     name = clean(strings.get("ProductName", ""))
-    name = "" if name.lower() in JUNK else name
+    name = "" if says_nothing(name) else name
     description = ""
     for key in ("Comments", "FileDescription"):
         text = clean(strings.get(key, ""))
-        if text and text.lower() not in JUNK and not (key == "FileDescription" and text.lower() == name.lower()):
+        if not says_nothing(text) and not (key == "FileDescription" and text.lower() == name.lower()):
             description = text
             break
     return {k: v for k, v in (("name", clean(name, LIMITS["name"])), ("description", clean(description, LIMITS["description"]))) if v}
@@ -748,8 +767,9 @@ def _look_into(game, rel: str, found: dict) -> None:
 def read(path, fork: bool = False, lone: str | None = None, comment: dict | None = None) -> dict:
     """What the game at `path` (a ZIP, a folder, or one .exe, .bat or .cmd) says about itself: {"card": {field: value}, "from": {field: source}}.
     The fields come from the card file (`card`), the ZIP comment (`zip`), the script header (`bat`), the program's record (`exe`) and its version
-    information (`program`), the first of these to have a field winning it. A fork (`fork`, or a card file or ZIP comment that says `forked_from`) has
-    no description, designer, online note or notes of its own in a script or program: those were its parent's. `lone` names a program of a folder that
+    information (`program`), the first of these to have a field winning it. `notes` come only from the card file and the ZIP comment, which a publisher
+    rewrites: a script or a program ships unchanged in the next build. A fork (`fork`, or a card file or ZIP comment that says `forked_from`) has
+    no description, designer or online note of its own in a script or program: those were its parent's. `lone` names a program of a folder that
     is the game itself, whatever it is called. `comment` is the card in the comment of the ZIP a folder was unpacked from (`zip_comment`)."""
     game = _open(Path(path))
     found: dict[str, dict] = {}
@@ -765,8 +785,9 @@ def read(path, fork: bool = False, lone: str | None = None, comment: dict | None
                     _guard(_look_into, game, rel, found)
         finally:
             game.close()
-        for source in ("bat", "exe", "program") if fork else ():
-            for key in PARENTS_WORDS:
+        for source in SHIPPED_AS_IS:
+            found.get(source, {}).pop("notes", None)  # one build's notes, in a file the next build ships unchanged, would be read as the next build's
+            for key in PARENTS_WORDS if fork else ():
                 found.get(source, {}).pop(key, None)
     card: dict = {}
     origin: dict = {}
@@ -957,6 +978,8 @@ def _stamp_script(path: Path, fields: dict, thumb: Path | None) -> dict:
     stripped = [x[:-1] if x.endswith(b"\r") else x for x in lines]
     found = _block(stripped)
     card = _merge(check_card(found[2], None) if found else {}, fields)
+    if card.pop("notes", None):  # the app never rewrites a game's script: what changed in this build would ship in the next one and be read as its notes
+        print(NO_NOTES.format(what="a script's header"), file=sys.stderr)
     # `@REM` lines: the `@` keeps cmd from echoing them, so the script prints exactly what it printed before.
     block = ["@REM redengine-game"]
     for key in FIELDS:
@@ -998,8 +1021,8 @@ def _stamp_program(path: Path, fields: dict, thumb: Path | None) -> dict:
         raise SystemExit(f"{path.name} has data after its last section (an installer, a self-extracting archive or a signature), so a record cannot be added; "
                          "stamp the folder or ZIP it ships in instead")
     card = _merge(existing, fields)
-    if card.pop("notes", None) and fields.get("notes"):  # what changed in this build would outlive it in the program, and be read as the next build's
-        print("note: a program's record does not keep notes: put them in the folder's or ZIP's card, or a script's header", file=sys.stderr)
+    if card.pop("notes", None):  # what changed in this build would outlive it in the program, and be read as the next build's
+        print(NO_NOTES.format(what="a program's record"), file=sys.stderr)
     record = json.dumps({"schema": 1, **card}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     if len(record) > MAX_CARD:
         raise SystemExit("the card is larger than 16 KiB")
@@ -1079,7 +1102,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--online", help="a note shown when it has online multiplayer (never an address or a join key)")
     p.add_argument("--entry", help="what starts the game, a path inside it (.exe, .bat or .cmd)")
     p.add_argument("--args", action="append", help="an argument to start it with (repeatable; `--args --fullscreen` works as `--args=--fullscreen`)")
-    p.add_argument("--notes", action="append", help="a line of \"what changed in this build\" (repeatable)")
+    p.add_argument("--notes", action="append", help="a line of \"what changed in this build\" (repeatable; kept by the card of a folder or ZIP only)")
     p.add_argument("--forked-from", type=_forked_from, help="SLUG@N: the game and version this one was made from")
     p.add_argument("--thumb", type=Path, help="a screenshot (.png or .jpg) to put in the game (a folder or ZIP)")
     a = ap.parse_args(glue_dashed(sys.argv[1:] if argv is None else list(argv), [ap, *sub.choices.values()], "--args", "--notes"))

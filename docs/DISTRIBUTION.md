@@ -42,7 +42,8 @@ python3 distribution/upload_game.py ~/Downloads/StarMiner.zip                   
 **A game can describe itself.** Its card (`docs/GAME_METADATA.md`) holds its name, description, 2D/3D, designer, online note, what starts it and
 a screenshot: `redengine-game.json` in a ZIP or folder (and the ZIP's comment), a header block in a `.bat`/`.cmd`, a record after an `.exe`'s
 last byte, or the version information a program already has. `python3 distribution/game_meta.py stamp` writes one, `show` prints what a game
-says. A game with a card needs no flags; a flag beats the card, and the card beats the previous release. Every game published by this tool or
+says. A game with a card needs no flags; a flag beats the card, and the card beats the previous release (except a description read only from an
+`.exe`'s version information, which never replaces the previous release's). Every game published by this tool or
 by the app carries its card, so dropping the published ZIP again fills everything in.
 
 **Easiest: drag and drop onto the RedEngine Games app.** Drop the ZIP, folder, `.exe`, `.bat` or `.cmd` (plus a screenshot if you have one)
@@ -56,7 +57,7 @@ Without a terminal or the app: *Actions → Upload a game → Run workflow*, wit
 the name is needed only when the game does not say it.
 
 * **What it accepts:** a `.zip`, a folder, or one `.exe`/`.bat`/`.cmd` (`--add` puts more files beside it). A ZIP holding a single folder is played from inside that folder. Other archives (7z, RAR, `.tar.gz`) are not opened, by this tool or by the app: repack the game as a ZIP.
-* **What it starts:** `--run bin/Game.exe`, else the game's own `engine.name`, else its card's `entry`, else its only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none). A program given alone is the game whatever it is called. `--args` adds arguments (else the card's).
+* **What it starts:** `--run bin/Game.exe`, else the game's own `engine.name`, else its card's `entry`, else its only `.exe`, `.bat` or `.cmd` (uninstallers, setups and crash handlers are ignored; it looks one folder down when the top holds none). A program given alone is the game whatever it is called. `--args` adds arguments (else the card's, when they are for the program it starts).
 * **What it publishes:** the release `<slug>-v<N>` with `<slug>-<N>-windows-x64.zip` (the game plus `engine.name` and `launch.args`, the two files the app reads, and its card as `redengine-game.json` and the ZIP's comment), an optional screenshot, and the usual `redengine-release` line with `"kind": "upload"` and what the site shows (description, 2D/3D, designer, online note). Run it again with the same name for the next version; description, 2D/3D, designer and screenshot carry over unless given again or the game's card says otherwise.
 * **What players get:** the game's page offers the portable ZIP and the app; there is no installer and no in-game updater, so updates arrive through the app. The site lists it once `pages.yml` has run (a release published from a computer starts it; the workflow chains on *Upload a game*).
 * **Limits:** the slug of a game built here is refused. A wiki page in `site/wiki/<slug>/` is used when present but not required. The app checks each download's SHA-256, which proves it arrived intact, not that the game is safe: upload only games you trust. Removing a game means deleting its releases (`gh release delete <slug>-v<N>`) and rerunning *Deploy download site*.

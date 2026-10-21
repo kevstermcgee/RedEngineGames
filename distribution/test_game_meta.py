@@ -78,6 +78,32 @@ class Conformance(unittest.TestCase):
     def test_the_builder_is_deterministic(self):
         self.assertEqual(builder().files(), builder().files())
 
+    def test_the_builder_writes_only_into_a_folder_of_its_own(self):
+        # It replaces everything in the folder it is given: a wrong argument (`.`, a home folder) must not wipe it.
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, True)
+
+        def build(out: Path) -> subprocess.CompletedProcess:
+            return subprocess.run([sys.executable, "-I", "-B", str(DATA / "build_fixtures.py"), str(out)], capture_output=True, text=True)
+        busy = tmp / "busy"
+        busy.mkdir()
+        (busy / "keep.txt").write_text("mine")
+        done = build(busy)
+        self.assertNotEqual(done.returncode, 0)
+        self.assertIn("not a fixtures folder", done.stderr)
+        self.assertEqual([p.name for p in busy.iterdir()], ["keep.txt"], "nothing in it is touched")
+        (tmp / "a-file").write_text("x")
+        self.assertNotEqual(build(tmp / "a-file").returncode, 0)
+        made = tmp / "new" / "fixtures"
+        done = build(made)
+        self.assertEqual(done.returncode, 0, done.stderr)
+        self.assertEqual(sorted(p.relative_to(made).as_posix() for p in made.rglob("*") if p.is_file()), sorted(builder().files()), "a missing folder is made")
+        (made / "stale.bin").write_bytes(b"x")
+        self.assertEqual(build(made).returncode, 0, "a folder it wrote before is its own")
+        self.assertFalse((made / "stale.bin").exists())
+        (tmp / "empty").mkdir()
+        self.assertEqual(build(tmp / "empty").returncode, 0)
+
     def test_every_fixture_reads_as_expected(self):
         for path, want in EXPECTED["fixtures"].items():
             with self.subTest(path):
@@ -249,11 +275,30 @@ class Newer(Scratch):
     def test_a_fork_takes_none_of_its_parents_words_from_a_script_or_program(self):
         script = "REM redengine-game\nREM name: Parent\nREM description: Parent's words.\nREM author: ai\nREM online: LAN\nREM notes: n\nREM presentation: 3d\n"
         root = self.folder({"Game.bat": script})
-        self.assertEqual(gm.read(root)["card"], {"name": "Parent", "description": "Parent's words.", "presentation": "3d", "author": "ai", "online": "LAN", "notes": ["n"]})
+        self.assertEqual(gm.read(root)["card"], {"name": "Parent", "description": "Parent's words.", "presentation": "3d", "author": "ai", "online": "LAN"})
         self.assertEqual(gm.read(root, fork=True)["card"], {"name": "Parent", "presentation": "3d"}, "the caller knows it is a fork")
         card = self.folder({"Game.bat": script, gm.CARD_FILE: json.dumps({"forked_from": {"slug": "snake", "version": 1}})})
         self.assertEqual(gm.read(card)["card"], {"forked_from": {"slug": "snake", "version": 1}, "name": "Parent", "presentation": "3d"}, "so does a card that says it")
         self.assertEqual(gm.read(self.folder({"Game.bat": script, gm.CARD_FILE: json.dumps({"description": "Its own."})}))["card"]["description"], "Its own.")
+
+    def test_notes_are_read_only_from_the_card_file_and_the_zip_comment(self):
+        # A script or a program ships unchanged inside every later build (the publishers rewrite only the card file and the comment): notes there
+        # would come back as the next build's "what changed".
+        build = builder()
+        script = "@echo off\r\nREM redengine-game\r\nREM name: Text Quest\r\nREM notes: First release.\r\nREM notes: Fixed the door.\r\necho hi\r\n"
+        root = self.folder({"Quest.bat": script})
+        self.assertEqual(gm.read(root), {"card": {"name": "Text Quest"}, "from": {"name": "bat"}})
+        self.assertEqual(gm.read(root / "Quest.bat")["card"], {"name": "Text Quest"})
+        program = self.tmp / "Game.exe"
+        program.write_bytes(build.pe(tail=build.record({"name": "Star Miner", "notes": ["Written by another tool."]})))
+        self.assertEqual(gm.read(program)["card"], {"name": "Star Miner"})
+        (root / gm.CARD_FILE).write_text(json.dumps({"notes": ["From the card."]}))
+        self.assertEqual(gm.read(root), {"card": {"name": "Text Quest", "notes": ["From the card."]}, "from": {"name": "bat", "notes": "card"}})
+        archive = self.tmp / "g.zip"
+        with zipfile.ZipFile(archive, "w") as z:
+            z.writestr("Quest.bat", script)
+            z.comment = b'redengine-game {"notes": ["From the comment."]}'
+        self.assertEqual(gm.read(archive), {"card": {"name": "Text Quest", "notes": ["From the comment."]}, "from": {"name": "bat", "notes": "zip"}})
 
     def test_a_program_that_was_signed_after_it_was_stamped_still_says_what_it_said(self):
         for name in ("signed-after-record.exe", "signed-after-record-padded.exe"):
@@ -366,6 +411,25 @@ class Programs(Scratch):
         self.assertEqual(info(("ProductName", "N" * 100), ("Comments", "D" * 500)), {"name": "N" * 60, "description": "D" * 400})
         self.assertEqual(info(("ProductName", "A\x00B")), {"name": "A"}, "a value ends at its terminator")
         self.assertEqual(info(("CompanyName", "Nobody"), ("ProductName", "X")), {"name": "X"})
+
+    def test_the_name_an_engine_gives_its_own_program_is_not_the_games(self):
+        # NW.js (RPG Maker MV and MZ ship it as Game.exe), Electron, LOVE, Godot and RPG Maker's players keep their own version information in every
+        # game made with them: read as the game's, it would name every such game after its engine, and different people's games would share one slug.
+        build = builder()
+
+        def info(*pairs):
+            program = self.tmp / "v.exe"
+            program.write_bytes(build.pe(build.resources(build.version_info(list(pairs)))))
+            return gm.read(program)["card"]
+        for product, description in (("nwjs", "nwjs"), ("NW.js", "Node-Webkit"), ("Electron", "Electron"), ("LOVE", "LOVE 11.5"), ("LÖVE", "LÖVE 11.5"),
+                                     ("Godot Engine", "Godot Engine v3.5.1"), ("godot", "Godot 4"), ("RPG Maker VX Ace", "RGSS3 Player"), ("RPG Maker XP", "RGSS Player"),
+                                     ("Unity Player", "Unity Player"), ("Ren'Py", "renpy 8.1")):
+            self.assertEqual(info(("ProductName", product), ("FileDescription", description)), {}, product)
+        self.assertEqual(info(("ProductName", "nwjs"), ("Comments", "A quest by moonlight.")), {"description": "A quest by moonlight."}, "words of the game's own still count")
+        self.assertEqual(info(("ProductName", "Star Miner 2"), ("FileDescription", "Electron 28.1")), {"name": "Star Miner 2"}, "a version number stays in a value that says something")
+        self.assertEqual(info(("ProductName", "Love Story"), ("FileDescription", "Electron Rush")), {"name": "Love Story", "description": "Electron Rush"})
+        self.assertEqual(info(("ProductName", "Game 2")), {}, "a word that says nothing, with a version number")
+        self.assertEqual(info(("ProductName", "nwjs v")), {"name": "nwjs v"}, "a v alone is no version number")
 
     def test_a_version_resource_of_more_than_64_kib_is_not_read(self):
         build = builder()
@@ -903,15 +967,34 @@ class Stamping(Scratch):
                          b"  @ECHO OFF  \r\necho hi", b"setlocal\r\n@echo off\r\n"):
             script = self.tmp / "q.bat"
             script.write_bytes(original)
-            gm.stamp(script, {"name": "Text Quest", "description": "A tiny text adventure.", "kind": "2d", "author": "ai", "notes": ["First release."], "args": ["--x"]})
+            gm.stamp(script, {"name": "Text Quest", "description": "A tiny text adventure.", "kind": "2d", "author": "ai", "args": ["--x"]})
             data = script.read_bytes()
             block = (b"@REM redengine-game\r\n@REM name: Text Quest\r\n@REM description: A tiny text adventure.\r\n@REM presentation: 2d\r\n@REM author: ai\r\n"
-                     b"@REM args: --x\r\n@REM notes: First release.\r\n")
+                     b"@REM args: --x\r\n")
             self.assertEqual(data.count(block), 1, data)
             self.assertEqual(data.startswith(b"\xef\xbb\xbf"), original.startswith(b"\xef\xbb\xbf"))
             self.assertEqual(data.replace(block, b"", 1), original, "every line the script had is still there, in order")
-            self.assertEqual(gm.read(script)["card"], {"name": "Text Quest", "description": "A tiny text adventure.", "presentation": "2d", "author": "ai",
-                                                       "args": ["--x"], "notes": ["First release."]})
+            self.assertEqual(gm.read(script)["card"], {"name": "Text Quest", "description": "A tiny text adventure.", "presentation": "2d", "author": "ai", "args": ["--x"]})
+
+    def test_a_script_header_keeps_no_notes_and_says_so(self):
+        # The app never rewrites a game's script, so notes in its header would ship in every later build and be read as that build's.
+        script = self.tmp / "q.bat"
+        script.write_bytes(b"@echo off\r\necho hi\r\n")
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            card = gm.stamp(script, {"name": "Text Quest", "notes": ["First release."]})
+        self.assertEqual(card, {"name": "Text Quest"})
+        self.assertEqual(script.read_bytes(), b"@echo off\r\n@REM redengine-game\r\n@REM name: Text Quest\r\necho hi\r\n")
+        self.assertIn("does not keep notes", err.getvalue())
+        code, _, printed = run("stamp", script, "--notes", "Fixed the door.")
+        self.assertEqual(code, 0)
+        self.assertIn("does not keep notes", printed)
+        self.assertNotIn(b"notes", script.read_bytes())
+        again = self.copy("header-rem-crlf.bat", "again.bat")  # a header that has notes (written by hand, or by an earlier tool) loses them when stamped again
+        with contextlib.redirect_stderr(io.StringIO()):
+            gm.stamp(again, {"name": "New Name"})
+        self.assertNotIn(b"notes", again.read_bytes())
+        self.assertEqual(gm.read(again)["card"]["args"], ["--fast", "level 2"])
 
     def test_the_block_goes_after_echo_off_when_a_script_starts_with_it(self):
         script = self.tmp / "q.bat"
@@ -926,14 +1009,15 @@ class Stamping(Scratch):
     def test_stamping_a_script_again_replaces_its_block_and_nothing_else(self):
         script = self.copy("header-rem-crlf.bat", "again.bat")
         original = script.read_bytes()
-        gm.stamp(script, {"name": "New Name", "online": ""})
+        with contextlib.redirect_stderr(io.StringIO()):
+            gm.stamp(script, {"name": "New Name", "online": ""})
         data = script.read_bytes()
         self.assertEqual(data.count(b"redengine-game"), 1)
         found = gm.read(script)["card"]
         self.assertEqual(found["name"], "New Name")
         self.assertNotIn("online", found)
         self.assertEqual(found["description"], "A tiny text adventure about a lost key.")
-        self.assertEqual(found["notes"], ["First release.", "Added a second key."])
+        self.assertEqual(found["args"], ["--fast", "level 2"])
         kept = [x for x in original.split(b"\r\n") if not x.startswith(b"REM ") and x != b"REM redengine-game"]
         self.assertEqual([x for x in data.split(b"\r\n") if not x.startswith(b"@REM ")], kept, "the lines that are not the block are the same lines")
         self.assertTrue(data.startswith(b"@echo off\r\n@REM redengine-game\r\n"))

@@ -300,8 +300,10 @@ fn space_end(b: &[u8]) -> &[u8] {
     &b[..b.iter().rposition(|c| !SPACE.contains(&char::from(*c))).map_or(0, |n| n + 1)]
 }
 
-/// What a ZIP, a folder or a single `.exe` / `.bat` / `.cmd` says about itself. A ZIP is unpacked into a temporary folder to be looked at (see
-/// [`unpack_to_read`]), and the answer is the one the app finds when it is dropped on the window.
+/// What a ZIP, a folder or a single `.exe` / `.bat` / `.cmd` says about itself (the `card` example and the tests use it). A ZIP is unpacked into a
+/// temporary folder to be looked at (see [`unpack_to_read`]). The window does not call this: it stages a dropped ZIP whole (`crate::upload::stage`,
+/// which refuses one with a member [`unpack_to_read`] would leave out, and has neither its member count nor its size cap) and reads the staged folder
+/// with [`read_folder`], also told by a `fork.json` that the game is a fork.
 pub fn read_path(path: &Path) -> Found {
     use crate::upload::{candidates, ext, top_folder};
     if path.is_dir() {
@@ -371,7 +373,8 @@ fn unpack_to_read(path: &Path, into: &Path) -> Option<()> {
 
 /// What the game in `folder` says about itself. `zip` is the card in the comment of the ZIP it came from, `candidates` what could start it
 /// (`upload::candidates`) and `fork` whether the caller knows it is a fork (its `fork.json`): a fork, which is also a game whose card file or ZIP comment
-/// says `forked_from`, takes no description, designer, online note or notes from a script or program, because those were its parent's.
+/// says `forked_from`, takes no description, designer or online note from a script or program, because those were its parent's. No game takes
+/// `notes` from a script or program, which ship unchanged in its next build.
 pub fn read_folder(folder: &Path, zip: Option<Card>, candidates: &[String], fork: bool) -> Found {
     read(&Game { dir: folder, only: None }, zip, candidates, fork)
 }
@@ -390,8 +393,13 @@ fn read(game: &Game, zip: Option<Card>, candidates: &[String], fork: bool) -> Fo
     for src in [Source::Bat, Source::Exe, Source::Program] {
         for p in &programs {
             let mut card = game.program_card(p, src);
-            if let Some(c) = card.as_mut().filter(|_| fork) {
-                (c.description, c.author, c.online, c.notes) = (None, None, None, None);
+            if let Some(c) = card.as_mut() {
+                // A script or a program ships unchanged in the next build (a publisher rewrites only the card file and the comment): one build's notes
+                // in it would be read as the next build's.
+                c.notes = None;
+                if fork {
+                    (c.description, c.author, c.online) = (None, None, None);
+                }
             }
             found.add(src, card, game);
         }
@@ -761,8 +769,30 @@ fn blocks(data: &[u8]) -> impl Iterator<Item = Block<'_>> {
     std::iter::successors(block(data, 0), move |b| block(data, b.next)).take(256)
 }
 
+/// What engines call the program they ship as every game's own (NW.js, which RPG Maker MV and MZ ship as `Game.exe`; Electron; LOVE; Godot; Unity;
+/// RPG Maker's players; Ren'Py): version information that names the engine, never the game (as `game_meta.RUNTIMES` in the tool).
+const RUNTIMES: [&str; 17] = [
+    "nwjs", "nw.js", "node-webkit", "electron", "love", "l\u{f6}ve", "godot", "godot engine", "unity player", "rgss player", "rgss2 player", "rgss3 player", "rpg maker xp",
+    "rpg maker vx", "rpg maker vx ace", "ren'py", "renpy",
+];
+
+/// Whether a value of version information (cleaned) says nothing about the game: it is empty, a word like `application`, or the name of an engine's
+/// own program (`nwjs`, `LOVE 11.5`), whatever its case and a version number after it (a space, an optional `v`, digits and dots).
+fn says_nothing(s: &str) -> bool {
+    let number = |t: &str| {
+        let t = t.strip_prefix('v').unwrap_or(t);
+        !t.is_empty() && t.split('.').all(|p| !p.is_empty() && p.bytes().all(|b| b.is_ascii_digit()))
+    };
+    let low = s.to_lowercase();
+    let bare = match low.rsplit_once(' ') {
+        Some((head, tail)) if !head.is_empty() && number(tail) => head,
+        _ => low.as_str(),
+    };
+    bare.is_empty() || ["application", "game", "app"].contains(&bare) || RUNTIMES.contains(&bare)
+}
+
 /// `ProductName`, `Comments` and `FileDescription` of the first string table of a `VS_VERSION_INFO` block, as a card. Values that say nothing
-/// (empty, `application`, `game`, `app`) are ignored, and so is a `FileDescription` equal to the name.
+/// ([`says_nothing`]) are ignored, and so is a `FileDescription` equal to the name.
 fn strings(data: &[u8]) -> Option<Card> {
     let root = block(data, 0).filter(|b| b.key == "VS_VERSION_INFO")?;
     let info = blocks(root.children).find(|b| b.key == "StringFileInfo")?;
@@ -777,7 +807,7 @@ fn strings(data: &[u8]) -> Option<Card> {
         };
         slot.get_or_insert_with(|| String::from_utf16_lossy(&units(s.words).collect::<Vec<_>>()));
     }
-    let say = |v: Option<String>| v.map(|s| clean(&s, usize::MAX)).filter(|s| !s.is_empty() && !["application", "game", "app"].iter().any(|j| s.eq_ignore_ascii_case(j)));
+    let say = |v: Option<String>| v.map(|s| clean(&s, usize::MAX)).filter(|s| !says_nothing(s));
     let name = say(product);
     let description = say(comments).or_else(|| say(description).filter(|d| !name.as_ref().is_some_and(|n| n.to_lowercase() == d.to_lowercase())));
     Some(Card { name: name.map(|n| clean(&n, 60)), description: description.map(|d| clean(&d, 400)), ..Card::default() })
@@ -1649,13 +1679,53 @@ mod tests {
         let dir = game(&[("Game.bat", &script)]);
         let candidates = crate::upload::candidates(dir.path());
         let own = read_folder(dir.path(), None, &candidates, false).card;
-        assert_eq!((own.description.as_deref(), own.author.as_deref(), own.online.as_deref(), own.notes.is_some()), (Some("The parent's words."), Some("ai"), Some("LAN"), true));
+        assert_eq!((own.description.as_deref(), own.author.as_deref(), own.online.as_deref(), own.notes.is_some()), (Some("The parent's words."), Some("ai"), Some("LAN"), false));
         let fork = read_folder(dir.path(), None, &candidates, true).card;
         assert_eq!((fork.name.as_deref(), fork.presentation.as_deref()), (Some("Parent Name"), Some("3d")), "its name and look still come from anywhere");
         assert_eq!((fork.description, fork.author, fork.online, fork.notes), (None, None, None, None));
         let said = Some(card(r#"{"description": "Its own words.", "forked_from": {"slug": "snake", "version": 1}}"#));
         let f = read_folder(dir.path(), said, &candidates, false);
         assert_eq!((f.card.description.as_deref(), f.card.author, f.from["description"]), (Some("Its own words."), None, Source::Zip), "a card or a ZIP comment that says forked_from is a fork");
+    }
+
+    #[test]
+    fn notes_are_read_only_from_the_card_file_and_the_zip_comment() {
+        // A script or a program ships unchanged inside every later build (the publishers rewrite only the card file and the comment): notes there would
+        // come back as the next build's "what changed".
+        let script = header(&["@echo off", "REM redengine-game", "REM name: Text Quest", "REM notes: First release.", "REM notes: Fixed the door.", "echo hi"], "\r\n");
+        let dir = game(&[("Quest.bat", &script)]);
+        let f = find(dir.path(), None);
+        assert_eq!((f.card.name.as_deref(), f.card.notes, f.from.clone()), (Some("Text Quest"), None, from(&[("name", Source::Bat)])));
+        assert_eq!(read_path(&dir.path().join("Quest.bat")).card.notes, None);
+        let exe = dir.path().join("Game.exe");
+        std::fs::write(&exe, [program(None), trailer(r#"{"name": "Star Miner", "notes": ["Written by another tool."]}"#)].concat()).unwrap();
+        assert_eq!(read_path(&exe).card, card(r#"{"name": "Star Miner"}"#));
+        let said = Some(card(r#"{"notes": ["From the comment."]}"#));
+        let f = find(dir.path(), said);
+        assert_eq!((f.card.notes, f.from.get("notes").copied()), (Some(vec!["From the comment.".to_string()]), Some(Source::Zip)));
+        std::fs::write(dir.path().join(FILE), r#"{"notes": ["From the card."]}"#).unwrap();
+        let f = find(dir.path(), None);
+        assert_eq!((f.card.notes, f.from.get("notes").copied()), (Some(vec!["From the card.".to_string()]), Some(Source::Card)));
+    }
+
+    #[test]
+    fn the_name_an_engine_gives_its_own_program_is_not_the_games() {
+        // NW.js (RPG Maker MV and MZ ship it as Game.exe), Electron, LOVE, Godot and RPG Maker's players keep their own version information in every game
+        // made with them: read as the game's, it would name every such game after its engine, and different people's games would share one slug.
+        let of = |strings: &[(&str, &str)]| version_of(program(Some(&strings_info(strings)))).unwrap();
+        for (product, description) in [
+            ("nwjs", "nwjs"), ("NW.js", "Node-Webkit"), ("Electron", "Electron"), ("LOVE", "LOVE 11.5"), ("L\u{d6}VE", "L\u{d6}VE 11.5"), ("Godot Engine", "Godot Engine v3.5.1"),
+            ("godot", "Godot 4"), ("RPG Maker VX Ace", "RGSS3 Player"), ("RPG Maker XP", "RGSS Player"), ("Unity Player", "Unity Player"), ("Ren'Py", "renpy 8.1"),
+        ] {
+            assert_eq!(of(&[("ProductName", product), ("FileDescription", description)]), Card::default(), "{product}");
+        }
+        assert_eq!(of(&[("ProductName", "nwjs"), ("Comments", "A quest by moonlight.")]).description.as_deref(), Some("A quest by moonlight."), "words of the game's own still count");
+        let c = of(&[("ProductName", "Star Miner 2"), ("FileDescription", "Electron 28.1")]);
+        assert_eq!((c.name.as_deref(), c.description), (Some("Star Miner 2"), None), "a version number stays in a value that says something");
+        let c = of(&[("ProductName", "Love Story"), ("FileDescription", "Electron Rush")]);
+        assert_eq!((c.name.as_deref(), c.description.as_deref()), (Some("Love Story"), Some("Electron Rush")));
+        assert_eq!(of(&[("ProductName", "Game 2")]).name, None, "a word that says nothing, with a version number");
+        assert_eq!(of(&[("ProductName", "nwjs v")]).name.as_deref(), Some("nwjs v"), "a v alone is no version number");
     }
 
     #[test]

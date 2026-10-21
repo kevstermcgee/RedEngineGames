@@ -18,16 +18,12 @@
         "author": "ai",
         "description": "A tiny text adventure about a lost key.",
         "name": "Text Quest",
-        "notes": [
-          "First release."
-        ],
         "presentation": "2d"
       },
       "from": {
         "author": "bat",
         "description": "bat",
         "name": "bat",
-        "notes": "bat",
         "presentation": "bat"
       }
     },
@@ -286,16 +282,12 @@
         "author": "ai",
         "description": "A game with a record in its program.",
         "name": "Stamped Quest",
-        "notes": [
-          "Built with the tool."
-        ],
         "presentation": "3d"
       },
       "from": {
         "author": "exe",
         "description": "exe",
         "name": "exe",
-        "notes": "exe",
         "presentation": "exe"
       }
     },
@@ -426,18 +418,6 @@
         "author": "ai",
         "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "name": "Caf\ufffd (latin-1 byte)",
-        "notes": [
-          "n01",
-          "n02",
-          "n03",
-          "n04",
-          "n05",
-          "n06",
-          "n07",
-          "n08",
-          "n09",
-          "n10"
-        ],
         "online": "bell here"
       },
       "from": {
@@ -445,7 +425,6 @@
         "author": "bat",
         "description": "bat",
         "name": "bat",
-        "notes": "bat",
         "online": "bat"
       }
     },
@@ -471,10 +450,6 @@
         "description": "A tiny text adventure about a lost key.",
         "entry": "header-rem-crlf.bat",
         "name": "Text Quest",
-        "notes": [
-          "First release.",
-          "Added a second key."
-        ],
         "online": "Two players, same room.",
         "presentation": "2d"
       },
@@ -484,7 +459,6 @@
         "description": "bat",
         "entry": "bat",
         "name": "bat",
-        "notes": "bat",
         "online": "bat",
         "presentation": "bat"
       }
@@ -1028,16 +1002,12 @@
         "author": "ai",
         "description": "A game with a record in its program.",
         "name": "Stamped Quest",
-        "notes": [
-          "Built with the tool."
-        ],
         "presentation": "3d"
       },
       "from": {
         "author": "exe",
         "description": "exe",
         "name": "exe",
-        "notes": "exe",
         "presentation": "exe"
       }
     },
@@ -1062,16 +1032,12 @@
         "author": "ai",
         "description": "A game with a record in its program.",
         "name": "Stamped Quest",
-        "notes": [
-          "Built with the tool."
-        ],
         "presentation": "3d"
       },
       "from": {
         "author": "exe",
         "description": "exe",
         "name": "exe",
-        "notes": "exe",
         "presentation": "exe"
       }
     },
@@ -1155,6 +1121,30 @@
         "name": "program"
       }
     },
+    "versioned-runtime-electron.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-runtime-godot.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-runtime-love.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-runtime-nwjs.exe": {
+      "card": {},
+      "from": {}
+    },
+    "versioned-runtime-own-words.exe": {
+      "card": {
+        "description": "A quest by moonlight."
+      },
+      "from": {
+        "description": "program"
+      }
+    },
     "versioned-same.exe": {
       "card": {
         "name": "Same Name"
@@ -1169,6 +1159,14 @@
       },
       "from": {
         "description": "program"
+      }
+    },
+    "versioned-version-number.exe": {
+      "card": {
+        "name": "Star Miner 2"
+      },
+      "from": {
+        "name": "program"
       }
     },
     "versioned.exe": {
@@ -1210,16 +1208,12 @@
         "author": "ai",
         "description": "A tiny text adventure about a lost key.",
         "name": "Text Quest",
-        "notes": [
-          "First release."
-        ],
         "presentation": "2d"
       },
       "from": {
         "author": "bat",
         "description": "bat",
         "name": "bat",
-        "notes": "bat",
         "presentation": "bat"
       }
     },
@@ -1397,21 +1391,21 @@
       "card": {},
       "from": {}
     },
+    "zip-runtime-program.zip": {
+      "card": {},
+      "from": {}
+    },
     "zip-stamped-exe.zip": {
       "card": {
         "author": "ai",
         "description": "A game with a record in its program.",
         "name": "Stamped Quest",
-        "notes": [
-          "Built with the tool."
-        ],
         "presentation": "3d"
       },
       "from": {
         "author": "exe",
         "description": "exe",
         "name": "exe",
-        "notes": "exe",
         "presentation": "exe"
       }
     },

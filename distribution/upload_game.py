@@ -9,9 +9,11 @@ same portable ZIP the RedEngine games ship as, so the app installs, plays, updat
     setup, else pass `--run`), and `launch.args` holds `--args`, one per line.
 
 A game can describe itself (its card, `docs/GAME_METADATA.md`; write one with `game_meta.py stamp`): then `--name` and the rest are not needed. What
-is not given as a flag comes from the card, else from the previous release of the game, else the defaults. The card (without its notes) is written
-into the packed ZIP, as `redengine-game.json` and as the ZIP's comment, so the published game carries it; the card's `entry` and `args` are what
-starts the game when `--run` and `--args` are absent (`engine.name` still wins), and its `notes` are "what changed" when there is no `--notes`.
+is not given as a flag comes from the card, else from the previous release of the game, else the defaults (a description read only from an .exe's
+version information never replaces the previous release's). The card (without its notes) is written into the packed ZIP, as `redengine-game.json`
+and as the ZIP's comment, so the published game carries it; the card's `entry` is what starts the game when `--run` is absent (`engine.name` still
+wins), its `args` go with that program only when `--args` is absent, and its `notes` (from its card file or ZIP comment only: a script or a program
+ships unchanged in the next build) are "what changed" when there is no `--notes`.
 A folder with a `fork.json` (which the app's Fork… writes) is a fork: that names its parent, wins over the card, and the game's own script or
 program says nothing of its own for a fork's description, designer, online note or notes (they were its parent's). Links in a game's folder are left
 behind, and a program given as the game is the game whatever it is called.
@@ -129,14 +131,31 @@ def find_entry(folder: Path, run: str | None, card_entry: str | None = None, lon
     raise SystemExit("nothing to start: the game has no .exe, .bat or .cmd (pass --run)")
 
 
+def started_with(folder: Path, card: dict, lone: str | None = None) -> str | None:
+    """What the game starts with by itself, before any `--run` (its `engine.name`, else the card's `entry`, else the one candidate, else `lone`); None when
+    several could. Ask before `prepare` writes `engine.name`."""
+    try:
+        return find_entry(folder, None, card.get("entry"), lone)
+    except SystemExit:
+        return None
+
+
+def card_args(card: dict, entry: str, start: str | None) -> list[str]:
+    """The card's arguments when `entry` is the program they were written for: the card's own `entry`, else (a card that names none) the one the game
+    starts with by itself (`start`). Another program, whether `--run` or `engine.name` chose it, gets none (as `Staged::args_for` in the app)."""
+    return list(card.get("args") or []) if entry == (card.get("entry") or start) else []
+
+
 def prepare(folder: Path, run: str | None, args: list[str], card: dict | None = None, lone: str | None = None) -> str:
-    """Make the folder a game the app starts: `engine.name` and `launch.args` (the card's `entry` and `args` when `run` and `args` are absent). Returns the entry."""
+    """Make the folder a game the app starts: `engine.name` and `launch.args` (the card's `entry` when `run` is absent, and its `args` when `args` are
+    absent and they are for the program chosen). Returns the entry."""
     card = card or {}
+    start = started_with(folder, card, lone)
     entry = find_entry(folder, run, card.get("entry"), lone)
     if PurePosixPath(entry).suffix.lower() not in RUNNABLE:
         raise SystemExit(f"{entry}: the app starts .exe, .bat and .cmd files only")
     (folder / "engine.name").write_text(entry + "\n", encoding="utf-8")
-    args = args or card.get("args") or []
+    args = args or card_args(card, entry, start)
     if args or not (folder / "launch.args").is_file():
         (folder / "launch.args").write_text("".join(a + "\n" for a in args), encoding="utf-8")
     return entry
@@ -265,7 +284,8 @@ def main(argv: list[str] | None = None) -> int:
     with tempfile.TemporaryDirectory() as tmp:
         folder = collect(a.source, a.add, Path(tmp) / "game")
         fork = read_fork(folder)
-        card = gm.read(folder, fork=bool(fork), lone=lone_program(a.source), comment=source_comment(a.source))["card"]
+        found = gm.read(folder, fork=bool(fork), lone=lone_program(a.source), comment=source_comment(a.source))
+        card, origin = found["card"], found["from"]
         # The card's name, unless it makes no id (`星の旅`) or is the parent's (a fork made before the card existed has its parent's card): then the fork's own.
         card_name = next((n for n in (card.get("name"),) if n and slugify(n) and not (fork and slugify(n) == fork[0]["slug"])), None)
         name = (a.name or "").strip() or card_name or (fork[1] if fork and slugify(fork[1]) else None) or (history.get(a.slug) or [{}])[0].get("name")
@@ -283,12 +303,16 @@ def main(argv: list[str] | None = None) -> int:
 
         shutil.rmtree(a.out, ignore_errors=True)
         zip_name = f"{slug}-{version}-windows-x64.zip"
+        start = started_with(folder, card, lone_program(a.source))  # before prepare writes engine.name
         entry = prepare(folder, a.run, a.args, card, lone_program(a.source))
         if fork and fork[0]["slug"] == slug and not a.forked_from:
             raise SystemExit(f"{slug} is the name of the game this fork was made from: give your version its own (--name)")
         parent = fork[0] if fork else card.get("forked_from")
         forked_from = parse_forked_from(a.forked_from, slug) if a.forked_from else pick(parent if parent and parent["slug"] != slug else None, previous.get("forked_from"))
-        description = pick(a.description, card.get("description"), previous.get("description"))
+        # A description read only from version information is the weakest thing a game says: it never replaces the previous release's words, as the window
+        # keeps the site's (app.js applyGameSays).
+        weak = origin.get("description") == "program" and previous.get("description")
+        description = pick(a.description, None if weak else card.get("description"), previous.get("description"))
         presentation = pick(a.kind, card.get("presentation"), previous.get("presentation"), "3d")
         author = pick(a.author, card.get("author"), previous.get("author"), "human")
         if a.online and gm.looks_like_address(gm.clean(a.online, gm.LIMITS["online"])):
@@ -311,7 +335,7 @@ def main(argv: list[str] | None = None) -> int:
 
         # The card the published game carries: what was just decided, without the notes (they are for this release only).
         own = gm.fit(gm.check_card({"name": name, "description": description, "presentation": presentation, "author": author, "online": online, "entry": entry,
-                                    "args": a.args or card.get("args") or ([] if a.run else launch_args(folder)), "thumb": in_game, "forked_from": forked_from}))
+                                    "args": a.args or card_args(card, entry, start) or ([] if a.run else launch_args(folder)), "thumb": in_game, "forked_from": forked_from}))
         (folder / gm.CARD_FILE).write_bytes(gm.card_text(own).encode("utf-8"))
         zip_game(folder, a.out / zip_name, own)
         thumb = None

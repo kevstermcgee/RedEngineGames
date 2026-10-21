@@ -155,10 +155,10 @@ class Cards(unittest.TestCase):
         meta, out, _ = self.dry(DATA / "header-rem-crlf.bat")
         self.assertEqual((meta["name"], meta["slug"], meta["presentation"], meta["author"], meta["online"], meta["entry"]),
                          ("Text Quest", "text-quest", "2d", "ai", "Two players, same room.", "header-rem-crlf.bat"))
-        self.assertEqual(meta["notes"], ["First release.", "Added a second key."])
+        self.assertEqual(meta["notes"], ["First release."], "notes in a script are never a build's: the script ships unchanged in the next one")
         self.assertEqual(packed(out / meta["zip"]["name"])["launch.args"], b"--fast\nlevel 2\n")
         meta, _, _ = self.dry(DATA / "stamped.exe")
-        self.assertEqual((meta["name"], meta["description"], meta["author"], meta["notes"]), ("Stamped Quest", "A game with a record in its program.", "ai", ["Built with the tool."]))
+        self.assertEqual((meta["name"], meta["description"], meta["author"], meta["notes"]), ("Stamped Quest", "A game with a record in its program.", "ai", ["First release."]))
         meta, _, _ = self.dry(DATA / "versioned.exe")
         self.assertEqual((meta["name"], meta["description"]), ("Version Quest", "A game that only has version information."))
 
@@ -386,6 +386,66 @@ class Cards(unittest.TestCase):
         with contextlib.redirect_stderr(err):
             self.dry(DATA / "zip-top-folder.zip", "--name", "Star Miner", history={"star-miner": [self.PREVIOUS]})
         self.assertEqual(err.getvalue(), "", "a name that was typed is meant")
+
+    def test_a_scripts_notes_are_not_the_next_builds(self):
+        # The script ships unchanged inside the published ZIP: notes in its header would come back as the next build's "what changed".
+        script = self.tmp / "Quest.bat"
+        script.write_text("@echo off\r\nREM redengine-game\r\nREM name: Text Quest\r\nREM notes: First release.\r\nREM notes: Fixed the door.\r\necho hi\r\n", encoding="utf-8")
+        meta, out, _ = self.dry(script)
+        self.assertEqual((meta["version"], meta["notes"]), (1, ["First release."]))
+        first = self.tmp / "text-quest-1-windows-x64.zip"
+        shutil.copy2(out / meta["zip"]["name"], first)
+        self.assertIn(b"REM notes: Fixed the door.", packed(first)["Quest.bat"], "the script is published as it is")
+        with contextlib.redirect_stderr(io.StringIO()):
+            again, _, _ = self.dry(first, history={"text-quest": [meta]})
+        self.assertEqual((again["version"], again["notes"]), (2, ["A new build."]))
+
+    def test_a_cards_args_are_for_its_own_entry_only(self):
+        # GAME_METADATA.md: they are for the card's own entry, never for another program the poster picks (as `Staged::args_for` in the app).
+        card = json.dumps({"name": "Fast Game", "entry": "Game.exe", "args": ["--fast", "--level=9"]})
+        root = self.folder({"Game.exe": "MZ", "Editor.exe": "MZ", gm.CARD_FILE: card})
+        meta, out, _ = self.dry(root, "--run", "Editor.exe")
+        files = packed(out / meta["zip"]["name"])
+        self.assertEqual((meta["entry"], files["launch.args"]), ("Editor.exe", b""))
+        self.assertNotIn("args", json.loads(files[gm.CARD_FILE]), "the other program does not start with the card's arguments")
+        for flags in ((), ("--run", "Game.exe")):
+            meta, out, _ = self.dry(root, *flags)
+            files = packed(out / meta["zip"]["name"])
+            self.assertEqual((meta["entry"], files["launch.args"], json.loads(files[gm.CARD_FILE])["args"]), ("Game.exe", b"--fast\n--level=9\n", ["--fast", "--level=9"]), flags)
+        # engine.name starts another program than the card's entry: the card's arguments are not for it either.
+        card = json.dumps({"name": "Two Bats", "entry": "B.bat", "args": ["--for-b-only"]})
+        meta, out, _ = self.dry(self.folder({"A.bat": "@echo off\n", "B.bat": "@echo off\n", "engine.name": "A.bat\n", gm.CARD_FILE: card}))
+        files = packed(out / meta["zip"]["name"])
+        self.assertEqual((meta["entry"], files["launch.args"]), ("A.bat", b""))
+        self.assertNotIn("args", json.loads(files[gm.CARD_FILE]))
+        # A card that names no program speaks for the one the game starts with.
+        meta, out, _ = self.dry(self.folder({"Game.bat": "@echo off\n", gm.CARD_FILE: json.dumps({"name": "One Bat", "args": ["--x"]})}))
+        self.assertEqual(packed(out / meta["zip"]["name"])["launch.args"], b"--x\n")
+
+    def test_a_description_from_version_information_never_replaces_the_previous_releases(self):
+        # As the window keeps the site's words over the program's file information (app.js applyGameSays).
+        previous = {"kind": "upload", "slug": "version-quest", "name": "Version Quest", "version": 1, "description": "The site's own words."}
+        with contextlib.redirect_stderr(io.StringIO()):
+            meta, _, _ = self.dry(DATA / "versioned.exe", history={"version-quest": [previous]})
+            self.assertEqual((meta["version"], meta["description"]), (2, "The site's own words."))
+            meta, _, _ = self.dry(DATA / "versioned.exe", "--description", "Typed.", history={"version-quest": [previous]})
+            self.assertEqual(meta["description"], "Typed.")
+        meta, _, _ = self.dry(DATA / "versioned.exe")
+        self.assertEqual(meta["description"], "A game that only has version information.", "a new game takes it")
+        stamped = self.tmp / "Game.exe"  # words the creator put in the game itself still replace the site's
+        shutil.copy2(DATA / "versioned.exe", stamped)
+        with contextlib.redirect_stderr(io.StringIO()):
+            gm.stamp(stamped, {"description": "Stamped words."})
+            meta, _, _ = self.dry(stamped, history={"version-quest": [previous]})
+        self.assertEqual(meta["description"], "Stamped words.")
+
+    def test_the_name_an_engine_gives_its_own_program_does_not_name_the_game(self):
+        # Moonlit Quest/Game.exe is NW.js's own program, as RPG Maker MV ships it: "nwjs" is no game's name, and the tool asks for one.
+        with self.assertRaises(SystemExit) as e:
+            self.dry(DATA / "zip-runtime-program.zip")
+        self.assertIn("no name", str(e.exception))
+        meta, _, _ = self.dry(DATA / "zip-runtime-program.zip", "--name", "Moonlit Quest")
+        self.assertEqual((meta["slug"], meta["description"], meta["entry"]), ("moonlit-quest", "Moonlit Quest, a Windows game.", "Game.exe"))
 
     def test_a_name_that_makes_no_id_is_not_the_games(self):
         card = json.dumps({"name": "\u661f\u306e\u65c5", "description": "Words."}, ensure_ascii=False)

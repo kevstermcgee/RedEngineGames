@@ -4,7 +4,8 @@
 //! fork is from the game's source, in a RedEngine checkout (`scripts/games.py fork`), which the game's web page explains.
 //!
 //! The fork also gets its own game card (`crate::meta`): its name, where it came from and how the parent looks, and none of the parent's
-//! description, author, screenshot or notes, because the fork is somebody else's game.
+//! description, author, online note, screenshot, `entry`, `args` or notes, because the fork is somebody else's game (what starts it stays in
+//! `engine.name` and `launch.args`).
 
 use std::io::Read;
 use std::path::{Path, PathBuf};

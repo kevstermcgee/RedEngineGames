@@ -7,6 +7,7 @@ the files in this folder are not what this script writes. The case table is the 
 what a reader answered.
 
   python3 distribution/testdata/game_meta/build_fixtures.py        rewrites this folder (everything but this script)
+  python3 distribution/testdata/game_meta/build_fixtures.py DIR    writes them into DIR instead: a new or empty folder, or one it wrote before
 
 `expected.json`: {"fixtures": {path: {"card": {field: value}, "from": {field: source}}}, "stamp_refused": [paths]}. A path is a folder, a .zip or a single
 file, relative to this folder; `stamp_refused` lists the programs `game_meta.py stamp` must refuse to change.
@@ -241,9 +242,11 @@ FULL = {"schema": 1, "name": "Star Miner", "description": "Mine asteroids, dodge
 PLAIN_BAT = bat(["@echo off", "echo hi"])
 EXAMPLE = ["@echo off", "REM redengine-game", "REM name: Text Quest", "REM description: A tiny text adventure about a lost key.",
            "REM presentation: 2d", "REM author: ai", "REM notes: First release.", "echo Welcome..."]
-EXAMPLE_CARD = {"name": "Text Quest", "description": "A tiny text adventure about a lost key.", "presentation": "2d", "author": "ai", "notes": ["First release."]}
+# A script or a program ships unchanged in every later build, so a reader never takes notes from one: they would be read as the next build's.
+EXAMPLE_CARD = {"name": "Text Quest", "description": "A tiny text adventure about a lost key.", "presentation": "2d", "author": "ai"}
 STAMPED = {"schema": 1, "name": "Stamped Quest", "description": "A game with a record in its program.", "presentation": "3d", "author": "ai",
            "notes": ["Built with the tool."]}
+RUNTIME = [("CompanyName", "The NWJS Community"), ("FileDescription", "nwjs"), ("InternalName", "nw_exe"), ("OriginalFilename", "nw.exe"), ("ProductName", "nwjs")]
 VERSION = [("Comments", "A game that only has version information."), ("CompanyName", "Nobody Ltd"), ("FileDescription", "Version Quest Launcher"),
            ("FileVersion", "1.0.0.0"), ("InternalName", "vq"), ("ProductName", "Version Quest"), ("ProductVersion", "1.0")]
 
@@ -281,7 +284,7 @@ def build() -> Fixtures:
     x.folder("folder-depth-two", {"bin/Game.bat": header("Deep Game"), "readme.txt": b"x"}, {"name": "Deep Game"}, "bat")
     exe = pe(tail=record(STAMPED))
     program = pe(resources(version_info(VERSION)))
-    stamped = {k: v for k, v in STAMPED.items() if k != "schema"}
+    stamped = {k: v for k, v in STAMPED.items() if k not in ("schema", "notes")}  # a record's notes are not read
     x.folder("folder-stamped-exe", {"Game.exe": exe, "data/x.pak": b"x"}, stamped, "exe")
     x.folder("folder-version-info", {"Game.exe": program, "data/x.pak": b"x"},
              {"name": "Version Quest", "description": "A game that only has version information."}, "program")
@@ -384,7 +387,7 @@ def build() -> Fixtures:
                                          "REM author: ai", "REM online: Two players, same room.", "REM entry: header-rem-crlf.bat", "REM thumb: shot.png",
                                          "REM args: --fast", "REM args: level 2", "REM notes: First release.", "REM notes: Added a second key.", "echo Welcome..."]),
              {"name": "Text Quest", "description": "A tiny text adventure about a lost key.", "presentation": "2d", "author": "ai", "online": "Two players, same room.",
-              "entry": "header-rem-crlf.bat", "args": ["--fast", "level 2"], "notes": ["First release.", "Added a second key."]}, "bat")
+              "entry": "header-rem-crlf.bat", "args": ["--fast", "level 2"]}, "bat")  # its notes are not read
     x.single("header-atrem-lf.bat", bat(["@echo off", "@REM Some license text here", "@rEm   redengine-game   ", "@REM kind: 3d", "@REM name:Colonel   Mustard's  Quest",
                                          "rem author: human", "echo hi"], eol=b"\n"),
              {"name": "Colonel Mustard's Quest", "presentation": "3d", "author": "human"}, "bat")
@@ -412,7 +415,7 @@ def build() -> Fixtures:
                                                *[f"REM notes: n{i:02d}".encode() for i in range(1, 13)], b"REM args:", *[f"REM args: a{i:02d}".encode() for i in range(1, 21)],
                                                b"echo hi", b""]),
              {"name": "Caf\ufffd (latin-1 byte)", "description": "x" * 400, "author": "ai", "online": "bell here",
-              "args": [f"a{i:02d}" for i in range(1, 17)], "notes": [f"n{i:02d}" for i in range(1, 11)]}, "bat")
+              "args": [f"a{i:02d}" for i in range(1, 17)]}, "bat")
 
     # -- programs: a record, version information, both, and the ones a record cannot be added to
     x.single("plain.exe", pe())
@@ -532,10 +535,22 @@ def more(x: Fixtures) -> None:
     x.single("versioned-long-name-cut.exe", pe(resources(version_info([("FileDescription", "A" * 60), ("ProductName", "A" * 60 + " tail")]))),
              {"name": "A" * 60, "description": "A" * 60}, "program")
 
+    # -- what an engine calls the program it ships as every game's own (NW.js, which RPG Maker MV and MZ ship as Game.exe; Electron; LOVE; Godot) names no
+    # game, whatever its case and a version number after it; a value that says something keeps its version number
+    x.single("versioned-runtime-nwjs.exe", pe(resources(version_info(RUNTIME))))
+    x.single("versioned-runtime-electron.exe", pe(resources(version_info([("FileDescription", "Electron"), ("OriginalFilename", "electron.exe"), ("ProductName", "Electron")]))))
+    x.single("versioned-runtime-love.exe", pe(resources(version_info([("FileDescription", "LÖVE 11.5"), ("ProductName", "LÖVE")]))))
+    x.single("versioned-runtime-godot.exe", pe(resources(version_info([("FileDescription", "Godot Engine v3.5.1"), ("ProductName", "GODOT ENGINE")]))))
+    x.single("versioned-runtime-own-words.exe", pe(resources(version_info([("Comments", "A quest by moonlight."), ("FileDescription", "nwjs"), ("ProductName", "nwjs")]))),
+             {"description": "A quest by moonlight."}, "program")
+    x.single("versioned-version-number.exe", pe(resources(version_info([("FileDescription", "Electron 28.1"), ("ProductName", "Star Miner 2")]))), {"name": "Star Miner 2"}, "program")
+    x.zipped("zip-runtime-program.zip", [("Moonlit Quest/", b"", "stored"), ("Moonlit Quest/Game.exe", pe(resources(version_info(RUNTIME))), "deflated"),
+                                         ("Moonlit Quest/www/index.html", b"<title>Moonlit Quest</title>", "stored")])
+
     # -- a program built by gcc or mingw keeps its symbol table and strings after the last section, which are part of it; other data there is not
     symbols = (3, symbol_table(3))
     x.single("unstripped.exe", pe(symbols=symbols))
-    stamped = {k: v for k, v in STAMPED.items() if k != "schema"}
+    stamped = {k: v for k, v in STAMPED.items() if k not in ("schema", "notes")}  # a record's notes are not read
     x.single("unstripped-stamped.exe", pe(resources(version_info(VERSION)), symbols=symbols, tail=record(STAMPED)), stamped, "exe")
     x.single("unstripped-then-overlay.exe", pe(symbols=symbols, tail=b"INSTALLER PAYLOAD " * 8), refused=True)
     x.single("symbols-out-of-file.exe", patched(plain, 0x80 + 12, struct.pack("<II", 0x7FFFFFF0, 0xFFFFFFFF)))  # a claim that reaches nothing is no symbol table
@@ -574,6 +589,12 @@ def files() -> dict[str, bytes]:
 
 def main() -> int:
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE
+    # Everything in the folder is replaced: only a new or empty folder, or one this script wrote (it holds expected.json), is.
+    if out.exists() and not out.is_dir():
+        raise SystemExit(f"{out}: not a folder")
+    if out.is_dir() and not (out / "expected.json").is_file() and any(e.name not in ("build_fixtures.py", "__pycache__") for e in out.iterdir()):
+        raise SystemExit(f"{out} holds files but no expected.json, so it is not a fixtures folder: give a new or empty folder (everything in it is replaced)")
+    out.mkdir(parents=True, exist_ok=True)
     for entry in out.iterdir():
         if entry.name not in ("build_fixtures.py", "__pycache__"):
             shutil.rmtree(entry) if entry.is_dir() else entry.unlink()
